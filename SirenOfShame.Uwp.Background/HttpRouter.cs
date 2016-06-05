@@ -6,14 +6,23 @@ namespace SirenOfShame.Uwp.Background
     {
         public void ProcessRequest(HttpContext context)
         {
-            if (context.RequestPart == "/Index.html")
+            if (context.RequestPart == "/css/bootstrap.min.css")
             {
-                context.WriteString("<html><h1>Hello There!</h1></html>");
+                context.WriteResource("SirenOfShame.Uwp.Background.css.bootstrap.min.css", "text/css");
+                return;
             }
-            else
+            if (context.RequestPart == "/")
             {
-                context.WriteString("Hello There!");
+                context.WriteResource("SirenOfShame.Uwp.Background.html.index.html", "text/html");
+                return;
             }
+            if (context.RequestPart == "/js/bootstrap.min.js")
+            {
+                context.WriteResource("SirenOfShame.Uwp.Background.js.bootstrap.min.js", "text/javascript");
+                return;
+            }
+            
+            context.Write404("Unknown resource" + context.RequestPart);
         }
     }
 }

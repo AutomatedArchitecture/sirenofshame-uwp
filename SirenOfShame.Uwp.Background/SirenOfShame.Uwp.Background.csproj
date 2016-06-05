@@ -93,6 +93,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <None Include="css\bootstrap-theme.css.map" />
+    <None Include="css\bootstrap-theme.min.css.map" />
+    <None Include="css\bootstrap.css.map" />
+    <None Include="css\bootstrap.min.css.map" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -109,6 +113,14 @@
     <None Include="SirenOfShame.Uwp.Background_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="css\bootstrap-theme.css" />
+    <Content Include="css\bootstrap-theme.min.css" />
+    <Content Include="css\bootstrap.css" />
+    <EmbeddedResource Include="css\bootstrap.min.css" />
+    <EmbeddedResource Include="html\index.html" />
+    <Content Include="js\bootstrap.js" />
+    <EmbeddedResource Include="js\bootstrap.min.js" />
+    <Content Include="js\npm.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
       <InProject>false</InProject>
