@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ namespace SirenOfShame.Uwp.Background
         private readonly int _port;
         private readonly StreamSocketListener _listener;
         private const uint BufferSize = 8192;
+        readonly HttpRouter _httpRouter = new HttpRouter();
 
         public HttpServer(int port)
         {
@@ -66,34 +68,16 @@ namespace SirenOfShame.Uwp.Background
 
         private void WriteResponse(string requestPart, StreamSocket socket)
         {
+            var httpContext = new HttpContext(requestPart, socket);
             try
             {
-                WriteString(socket, "Hello There!");
+                _httpRouter.ProcessRequest(httpContext);
             }
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
                 // throwing an exceptin here will crash the whole service
-                WriteString(socket, ex.ToString());
-            }
-        }
-
-        private static void WriteString(StreamSocket socket, string str)
-        {
-            byte[] bodyArray = Encoding.UTF8.GetBytes(str);
-            // Show the html 
-            using (var outputStream = socket.OutputStream)
-            using (Stream resp = outputStream.AsStreamForWrite())
-            using (MemoryStream stream = new MemoryStream(bodyArray))
-            {
-                string header = String.Format("HTTP/1.1 200 OK\r\n" +
-                                              "Content-Length: {0}\r\n" +
-                                              "Connection: close\r\n\r\n",
-                    stream.Length);
-                byte[] headerArray = Encoding.UTF8.GetBytes(header);
-                resp.Write(headerArray, 0, headerArray.Length);
-                stream.CopyTo(resp);
-                resp.Flush();
+                httpContext.WriteString(ex.ToString());
             }
         }
 
