@@ -93,10 +93,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="css\bootstrap-theme.css.map" />
-    <None Include="css\bootstrap-theme.min.css.map" />
-    <None Include="css\bootstrap.css.map" />
-    <None Include="css\bootstrap.min.css.map" />
+    <None Include="wwwroot\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\css\bootstrap.css.map" />
+    <None Include="wwwroot\css\bootstrap.min.css.map" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -113,16 +113,15 @@
     <None Include="SirenOfShame.Uwp.Background_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="css\bootstrap-theme.css" />
-    <Content Include="css\bootstrap-theme.min.css" />
-    <Content Include="css\bootstrap.css" />
-    <EmbeddedResource Include="css\bootstrap.min.css" />
-    <EmbeddedResource Include="html\index.html" />
-    <EmbeddedResource Include="css\sos.css" />
-    <Content Include="js\bootstrap.js" />
-    <EmbeddedResource Include="js\bootstrap.min.js" />
-    <EmbeddedResource Include="js\jquery-1.12.4.min.js" />
-    <Content Include="js\npm.js" />
+    <Content Include="wwwroot\css\bootstrap-theme.css" />
+    <Content Include="wwwroot\css\bootstrap-theme.min.css" />
+    <Content Include="wwwroot\css\bootstrap.css" />
+    <EmbeddedResource Include="wwwroot\css\bootstrap.min.css" />
+    <EmbeddedResource Include="wwwroot\index.html" />
+    <EmbeddedResource Include="wwwroot\css\sos.css" />
+    <Content Include="wwwroot\js\bootstrap.js" />
+    <EmbeddedResource Include="wwwroot\js\bootstrap.min.js" />
+    <EmbeddedResource Include="wwwroot\js\jquery-1.12.4.min.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
       <InProject>false</InProject>

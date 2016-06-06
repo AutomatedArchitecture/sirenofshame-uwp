@@ -6,19 +6,20 @@ namespace SirenOfShame.Uwp.Background
     {
         public void ProcessRequest(HttpContext context)
         {
+            const string rootNs = "SirenOfShame.Uwp.Background.wwwroot";
             if (context.RequestPart.StartsWith("/css/"))
             {
-                context.WriteResource("SirenOfShame.Uwp.Background" + context.RequestPart.Replace("/", "."), "text/css");
+                context.WriteResource(rootNs + context.RequestPart.Replace("/", "."), "text/css");
                 return;
             }
             if (context.RequestPart.StartsWith("/js/"))
             {
-                context.WriteResource("SirenOfShame.Uwp.Background" + context.RequestPart.Replace("/", "."), "text/javascript");
+                context.WriteResource(rootNs + context.RequestPart.Replace("/", "."), "text/javascript");
                 return;
             }
             if (context.RequestPart == "/")
             {
-                context.WriteResource("SirenOfShame.Uwp.Background.html.index.html", "text/html");
+                context.WriteResource(rootNs + ".index.html", "text/html");
                 return;
             }
 
