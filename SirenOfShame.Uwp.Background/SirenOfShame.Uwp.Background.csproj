@@ -118,8 +118,10 @@
     <Content Include="css\bootstrap.css" />
     <EmbeddedResource Include="css\bootstrap.min.css" />
     <EmbeddedResource Include="html\index.html" />
+    <EmbeddedResource Include="css\sos.css" />
     <Content Include="js\bootstrap.js" />
     <EmbeddedResource Include="js\bootstrap.min.js" />
+    <EmbeddedResource Include="js\jquery-1.12.4.min.js" />
     <Content Include="js\npm.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">

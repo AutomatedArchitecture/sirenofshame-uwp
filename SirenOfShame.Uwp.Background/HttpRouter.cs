@@ -6,9 +6,14 @@ namespace SirenOfShame.Uwp.Background
     {
         public void ProcessRequest(HttpContext context)
         {
-            if (context.RequestPart == "/css/bootstrap.min.css")
+            if (context.RequestPart.StartsWith("/css/"))
             {
-                context.WriteResource("SirenOfShame.Uwp.Background.css.bootstrap.min.css", "text/css");
+                context.WriteResource("SirenOfShame.Uwp.Background" + context.RequestPart.Replace("/", "."), "text/css");
+                return;
+            }
+            if (context.RequestPart.StartsWith("/js/"))
+            {
+                context.WriteResource("SirenOfShame.Uwp.Background" + context.RequestPart.Replace("/", "."), "text/javascript");
                 return;
             }
             if (context.RequestPart == "/")
@@ -16,12 +21,7 @@ namespace SirenOfShame.Uwp.Background
                 context.WriteResource("SirenOfShame.Uwp.Background.html.index.html", "text/html");
                 return;
             }
-            if (context.RequestPart == "/js/bootstrap.min.js")
-            {
-                context.WriteResource("SirenOfShame.Uwp.Background.js.bootstrap.min.js", "text/javascript");
-                return;
-            }
-            
+
             context.Write404("Unknown resource" + context.RequestPart);
         }
     }
