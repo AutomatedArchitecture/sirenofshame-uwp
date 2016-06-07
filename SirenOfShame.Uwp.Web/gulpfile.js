@@ -42,4 +42,23 @@ gulp.task("min:css", function () {
         .pipe(gulp.dest("."));
 });
 
+gulp.task("picopy", function() {
+    var src = paths.webroot + '**/*';
+    var dst = '../SirenOfShame.Uwp.Background/wwwroot/';
+    console.log("Source: " + src);
+    console.log("Destination: " + dst);
+    return gulp.src([
+        paths.webroot + 'index.html',
+        paths.webroot + 'css/*',
+        paths.webroot + 'images/*',
+        paths.webroot + 'js/*',
+        paths.webroot + 'lib/bootstrap/dist/css/bootstrap.min.css',
+        paths.webroot + 'lib/bootstrap/dist/js/bootstrap.min.js',
+        paths.webroot + 'lib/jquery/dist/jquery.min.js'
+    ], { base: 'wwwroot' })
+        .pipe(gulp.dest(dst));
+});
+
 gulp.task("min", ["min:js", "min:css"]);
+
+gulp.task("pideploy", ["min","picopy"])

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Builder;
 using Microsoft.AspNet.Hosting;
+using Microsoft.AspNet.StaticFiles;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -63,6 +64,7 @@ namespace SirenOfShame.Uwp.Web
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             // To configure external authentication please see http://go.microsoft.com/fwlink/?LinkID=532715

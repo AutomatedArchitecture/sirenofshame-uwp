@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using Windows.Networking.Sockets;
@@ -83,6 +85,23 @@ namespace SirenOfShame.Uwp.Background
                 sourceStream.CopyTo(response);
                 response.Flush();
             }
+        }
+
+        private static readonly Dictionary<string, string> MimeTypes = new Dictionary<string, string>
+        {
+            { "css", "text/css" },
+            { "js", "application/javascript" },
+            { "gif", "image/gif" },
+            { "png", "image/png" },
+            { "jpg", "image/jpeg" },
+            { "html", "text/html" },
+        };
+
+        public string GetRequestContentType()
+        {
+            var extension = RequestPart.Split('.').Last();
+            string mimeType;
+            return MimeTypes.TryGetValue(extension, out mimeType) ? mimeType : "text/plain";
         }
     }
 }

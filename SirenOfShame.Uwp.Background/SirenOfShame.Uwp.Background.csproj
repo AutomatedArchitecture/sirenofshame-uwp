@@ -93,10 +93,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="wwwroot\css\bootstrap-theme.css.map" />
-    <None Include="wwwroot\css\bootstrap-theme.min.css.map" />
-    <None Include="wwwroot\css\bootstrap.css.map" />
-    <None Include="wwwroot\css\bootstrap.min.css.map" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -113,15 +109,12 @@
     <None Include="SirenOfShame.Uwp.Background_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="wwwroot\css\bootstrap-theme.css" />
-    <Content Include="wwwroot\css\bootstrap-theme.min.css" />
-    <Content Include="wwwroot\css\bootstrap.css" />
-    <EmbeddedResource Include="wwwroot\css\bootstrap.min.css" />
+    <EmbeddedResource Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
+    <EmbeddedResource Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
+    <EmbeddedResource Include="wwwroot\lib\jquery\dist\jquery.min.js" />
+    <EmbeddedResource Include="wwwroot\css\site.min.css" />
+    <EmbeddedResource Include="wwwroot\js\site.min.js" />
     <EmbeddedResource Include="wwwroot\index.html" />
-    <EmbeddedResource Include="wwwroot\css\sos.css" />
-    <Content Include="wwwroot\js\bootstrap.js" />
-    <EmbeddedResource Include="wwwroot\js\bootstrap.min.js" />
-    <EmbeddedResource Include="wwwroot\js\jquery-1.12.4.min.js" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png">
       <InProject>false</InProject>
@@ -145,6 +138,7 @@
       <InProject>false</InProject>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
