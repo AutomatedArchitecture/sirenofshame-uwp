@@ -42,6 +42,21 @@ gulp.task("min:css", function () {
         .pipe(gulp.dest("."));
 });
 
+gulp.task("scriptsNStyles", function() {
+    gulp.src([
+            'es6-shim/es6-shim.min.js',
+            'systemjs/dist/system-polyfills.js',
+            'systemjs/dist/system.src.js',
+            'reflect-metadata/Reflect.js',
+            'rxjs/**',
+            'zone.js/dist/**',
+            '@angular/**'
+    ], {
+        cwd: "node_modules/**"
+    })
+    .pipe(gulp.dest("./wwwroot/lib"));
+});
+
 gulp.task("picopy", function() {
     var src = paths.webroot + '**/*';
     var dst = '../SirenOfShame.Uwp.Background/wwwroot/';
