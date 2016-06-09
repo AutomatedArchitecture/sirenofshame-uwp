@@ -2,7 +2,6 @@
 /// <reference path="../gulpfile.js" />
 /// <reference path="appscripts/app.js" />
 /// <reference path="appscripts/boot.js" />
-/// <reference path="config.prod.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />
 /// <reference path="lib/jquery/dist/jquery.js" />
 /// <reference path="lib/jquery-validation/dist/jquery.validate.js" />
