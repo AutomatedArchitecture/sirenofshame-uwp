@@ -125,14 +125,12 @@ gulp.task('vendor-bundle', function () {
             'zone.js/dist/zone.js',
             'systemjs/dist/system.src.js',
             'rxjs/bundles/Rx.js',
-            'reflect-metadata/Reflect.js',
-            //'rxjs/**',
-            //'zone.js/dist/**'
+            'reflect-metadata/Reflect.js'
     ], {
         cwd: "node_modules/**"
     })
     .pipe(concat('vendors.min.js'))
-    //.pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('./wwwroot/dist'));
 });
 
@@ -145,9 +143,6 @@ gulp.task('ng2-bundle', function() {
       'node_modules/@angular/platform-browser/platform-browser.umd.js',
       'node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js',
       'node_modules/@angular/router/router.umd.js'
-      //'node_modules/@angular/router-deprecated/router-deprecated.umd.js',
-      //'node_modules/@angular/testing',
-      //'node_modules/@angular/upgrade'
     ], { base: 'node_modules' })
     .pipe(gulp.dest('./wwwroot/dist'));
 });
@@ -162,7 +157,7 @@ gulp.task('boot-bundle', function () {
 gulp.task('systemconfig-bundle', function () {
     gulp.src('./wwwroot/systemjs.config.prod.js')
       .pipe(concat('systemjs.config.js'))
-      //.pipe(uglify())
+      .pipe(uglify())
       .pipe(gulp.dest('./wwwroot/dist'));
 });
 
