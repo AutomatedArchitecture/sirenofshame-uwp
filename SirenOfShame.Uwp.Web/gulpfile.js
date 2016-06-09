@@ -6,13 +6,25 @@ var gulp = require("gulp"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify"),
-    ts = require('gulp-typescript');
-
-var htmlreplace = require('gulp-html-replace');
+    ts = require('gulp-typescript'),
+    htmlreplace = require('gulp-html-replace');
 
 var paths = {
     webroot: "./wwwroot/"
 };
+
+var tsProject = ts.createProject('Ts/tsconfig.json',
+{
+    typescript: require('typescript'),
+    outFile: '../wwwroot/appScripts/app.js',
+    inlineSourceMap: true,
+    declaration: false,
+    stripInternal: true,
+    module: 'system',
+    noEmitOnError: false,
+    rootDir: '.',
+    inlineSources: true
+});
 
 paths.js = paths.webroot + "js/**/*.js";
 paths.minJs = paths.webroot + "js/**/*.min.js";
@@ -29,14 +41,11 @@ gulp.task("clean:css", function (cb) {
     rimraf(paths.concatCssDest, cb);
 });
 
-gulp.task("clean", ["clean:js", "clean:css"]);
-
-gulp.task("min:js", function () {
-    return gulp.src([paths.js, "!" + paths.minJs], { base: "." })
-        .pipe(concat(paths.concatJsDest))
-        .pipe(uglify())
-        .pipe(gulp.dest("."));
+gulp.task("clean:dist", function(cb) {
+    rimraf('./wwwroot/dist', cb);
 });
+
+gulp.task("clean", ["clean:js", "clean:css", "clean:dist"]);
 
 gulp.task("min:css", function () {
     return gulp.src([paths.css, "!" + paths.minCss])
@@ -45,7 +54,9 @@ gulp.task("min:css", function () {
         .pipe(gulp.dest("."));
 });
 
-gulp.task("scriptsNStyles", function() {
+gulp.task("min", ["min:css"]);
+
+gulp.task("rebuild:vendorcopy", function () {
     gulp.src([
             'es6-shim/es6-shim.min.js',
             'systemjs/dist/system-polyfills.js',
@@ -60,7 +71,7 @@ gulp.task("scriptsNStyles", function() {
     .pipe(gulp.dest("./wwwroot/lib"));
 });
 
-gulp.task("picopy", function() {
+gulp.task("pideploy:copy", function() {
     var dst = '../SirenOfShame.Uwp.Background/wwwroot/';
     console.log("Destination: " + dst);
     return gulp.src([
@@ -83,34 +94,7 @@ gulp.task("picopy", function() {
         .pipe(gulp.dest(dst));
 });
 
-gulp.task("min", ["min:js", "min:css"]);
-
-gulp.task("pideploy", ["picopy"]);
-
-var tsProject = ts.createProject('Ts/tsconfig.json',
-{
-    typescript: require('typescript'),
-    outFile: '../wwwroot/appScripts/app.js',
-    inlineSourceMap: true,
-    declaration: false,
-    stripInternal: true,
-    module: 'system',
-    noEmitOnError: false,
-    rootDir: '.',
-    inlineSources: true
-});
-gulp.task('ts', function (done) {
-    //var tsResult = tsProject.src()
-    var tsResult = gulp.src([
-            "Ts/*.ts"
-    ])
-        .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
-
-    return tsResult.js
-        .pipe(concat('app.min.js'))
-        //.pipe(uglify())
-        .pipe(gulp.dest('./wwwroot/dist'));
-});
+gulp.task("pideploy", ["pideploy:copy"]);
 
 gulp.task('watch', ['watch.ts']);
 
@@ -118,7 +102,19 @@ gulp.task('watch.ts', ['ts'], function () {
     return gulp.watch('scripts/*.ts', ['ts']);
 });
 
-gulp.task('vendor-bundle', function () {
+gulp.task('deploy:ts', function (done) {
+    var tsResult = gulp.src([
+            "Ts/*.ts"
+    ])
+        .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+
+    return tsResult.js
+        .pipe(concat('app.min.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('./wwwroot/dist'));
+});
+
+gulp.task('deploy:vendor-bundle', function () {
     gulp.src([
             'es6-shim/es6-shim.min.js',
             'systemjs/dist/system-polyfills.js',
@@ -134,7 +130,7 @@ gulp.task('vendor-bundle', function () {
     .pipe(gulp.dest('./wwwroot/dist'));
 });
 
-gulp.task('ng2-bundle', function() {
+gulp.task('deploy:ng2-bundle', function () {
     gulp.src([
       'node_modules/@angular/common/common.umd.js',
       'node_modules/@angular/compiler/compiler.umd.js',
@@ -147,21 +143,21 @@ gulp.task('ng2-bundle', function() {
     .pipe(gulp.dest('./wwwroot/dist'));
 });
 
-gulp.task('boot-bundle', function () {
+gulp.task('deploy:boot-bundle', function () {
     gulp.src('./wwwroot/config.prod.js')
       .pipe(concat('boot.min.js'))
       .pipe(uglify())
       .pipe(gulp.dest('./wwwroot/dist'));
 });
 
-gulp.task('systemconfig-bundle', function () {
+gulp.task('deploy:systemconfig-bundle', function () {
     gulp.src('./wwwroot/systemjs.config.prod.js')
       .pipe(concat('systemjs.config.js'))
       .pipe(uglify())
       .pipe(gulp.dest('./wwwroot/dist'));
 });
 
-gulp.task('html', function () {
+gulp.task('deploy:html', function () {
     gulp.src('./wwwroot/index.html')
       .pipe(htmlreplace({
           'vendor': 'vendors.min.js',
@@ -171,4 +167,4 @@ gulp.task('html', function () {
       .pipe(gulp.dest('./wwwroot/dist'));
 });
 
-gulp.task('default', ['scriptsNStyles', 'watch']);
+gulp.task('deploy', ['deploy:ts', 'deploy:vendor-bundle', 'deploy:ng2-bundle', 'deploy:boot-bundle', 'deploy:systemconfig-bundle', 'deploy:html']);
