@@ -1,4 +1,7 @@
-﻿using Windows.Networking.Sockets;
+﻿using System;
+using System.IO;
+using System.Linq;
+using Windows.Networking.Sockets;
 
 namespace SirenOfShame.Uwp.Background
 {
@@ -13,7 +16,20 @@ namespace SirenOfShame.Uwp.Background
                 return;
             }
             var contentType = context.GetRequestContentType();
-            context.WriteResource(rootNs + context.RequestPart.Replace("/", "."), contentType);
+            var resourceNs = RequestToNamespace(context.RequestPart);
+
+            context.WriteResource(rootNs + resourceNs, contentType);
+        }
+
+        private static string RequestToNamespace(string request)
+        {
+            var urlParts = request.Split('/');
+            var fileName = urlParts.Last();
+            var location = string.Join(".", urlParts.Take(urlParts.Length - 1));
+            var locationNs = location.Replace("@", "_").Replace("-", "_");
+
+            var resourceNs = locationNs + "." + fileName;
+            return resourceNs;
         }
     }
 }

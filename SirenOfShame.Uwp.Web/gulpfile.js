@@ -73,24 +73,19 @@ gulp.task("rebuild:vendorcopy", function () {
 
 gulp.task("pideploy:copy", function() {
     var dst = '../SirenOfShame.Uwp.Background/wwwroot/';
-    console.log("Destination: " + dst);
-    return gulp.src([
-        paths.webroot + 'index.html',
-        paths.webroot + 'systemjs.config.js',
+    gulp.src([
         paths.webroot + 'css/*',
         paths.webroot + 'images/*',
-        paths.webroot + 'appScripts/*',
         paths.webroot + 'lib/bootstrap/dist/css/bootstrap.min.css',
         paths.webroot + 'lib/bootstrap/dist/js/bootstrap.min.js',
         paths.webroot + 'lib/jquery/dist/jquery.min.js',
-        paths.webroot + 'lib/es6-shim/es6-shim.min.js',
-        paths.webroot + 'lib/zone.js/dist/zone.js',
-        paths.webroot + 'lib/reflect-metadata/Reflect.js',
-        paths.webroot + 'lib/systemjs/dist/system.src.js',
-        paths.webroot + 'systemjs.config.js',
-        paths.webroot + 'lib/rxjs/**/*.js',
-        paths.webroot + 'lib/@angular/**/*.js'
     ], { base: 'wwwroot' })
+        .pipe(gulp.dest(dst));
+
+    gulp.src([
+        paths.webroot + 'dist/index.html',
+        paths.webroot + 'dist/**/*.js'
+    ], { base: paths.webroot + "dist" })
         .pipe(gulp.dest(dst));
 });
 
