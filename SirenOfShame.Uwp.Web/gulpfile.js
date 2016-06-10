@@ -91,10 +91,19 @@ gulp.task("pideploy:copy", function() {
 
 gulp.task("pideploy", ["pideploy:copy"]);
 
+gulp.task('ts', function (done) {
+    var tsProject = ts.createProject('./Ts/tsconfig.json');
+    var tsResult = gulp.src([
+            "Ts/*.ts"
+    ])
+    .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    return tsResult.js.pipe(gulp.dest('./wwwroot/appScripts'));
+});
+
 gulp.task('watch', ['watch.ts']);
 
 gulp.task('watch.ts', ['ts'], function () {
-    return gulp.watch('scripts/*.ts', ['ts']);
+    return gulp.watch('Ts/*.ts', ['ts']);
 });
 
 gulp.task('deploy:ts', function (done) {
