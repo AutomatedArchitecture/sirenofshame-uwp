@@ -1,5 +1,7 @@
 ﻿import {Component} from '@angular/core';
 import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
+import 'rxjs/add/operator/toPromise';
+import { Headers, Http } from '@angular/http';
 
 @Component({
     template: `
@@ -30,17 +32,13 @@ import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
 `
 })
 export class ShowOff {
-    constructor() {
-        this.ledPatterns = [
-            'Led 1',
-            'Led 2',
-            'Led 3'
-        ];
-        this.audioPatterns = [
-            'Audio 1',
-            'Audio 2',
-            'Audio 3'
-        ];
+    constructor(private http: Http) {
+        http.get('/api/ledPatterns')
+            .toPromise()
+            .then(result => this.ledPatterns = result.json());
+        http.get('/api/audioPatterns')
+            .toPromise()
+            .then(result => this.audioPatterns = result.json());
     }
 
     public ledPatterns:string[];
