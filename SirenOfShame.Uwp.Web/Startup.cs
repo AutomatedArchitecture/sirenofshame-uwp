@@ -78,6 +78,21 @@ namespace SirenOfShame.Uwp.Web
                     template: "showoff",
                     defaults: new { controller="Home", action="Index" }
                     );
+                routes.MapRoute(
+                    name: "vendorsmin",
+                    template: "vendors.min.js",
+                    defaults: new { controller="Home", action="Vendors" }
+                    );
+                routes.MapRoute(
+                    name: "bootmin",
+                    template: "boot.min.js",
+                    defaults: new { controller="Home", action="Boot" }
+                    );
+                routes.MapRoute(
+                    name: "appmin",
+                    template: "app.min.js",
+                    defaults: new { controller="Home", action="App" }
+                    );
             });
         }
 

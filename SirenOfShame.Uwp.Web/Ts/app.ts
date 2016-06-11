@@ -1,6 +1,7 @@
 ﻿import {Component} from '@angular/core';
 import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
 import {ShowOff} from './show-off.component'
+import {Home} from './home.component'
 
 @Component({
     selector: 'my-app',
@@ -8,7 +9,10 @@ import {ShowOff} from './show-off.component'
     directives: [ROUTER_DIRECTIVES]
 })
 @Routes([
-    new Route({ path: '/showoff', component: ShowOff })
+    new Route({ path: '/', component: Home }),
+    new Route({ path: '/dist', component: Home }),
+    new Route({ path: '/showoff', component: ShowOff }),
+    new Route({ path: '/dist/showoff', component: ShowOff }),
 ])
 export class AppComponent {
     constructor(private router: Router) {
@@ -31,7 +35,7 @@ export class AppComponent {
     }
 
     public gotoShowOff() {
-        this.router.navigate(['/showoff']);
+        this.router.navigate(['showoff']);
         this.setCurrentUrl();
     }
 }

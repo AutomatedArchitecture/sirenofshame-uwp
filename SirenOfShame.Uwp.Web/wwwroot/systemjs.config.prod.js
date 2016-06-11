@@ -1,28 +1,33 @@
-﻿System.config({
-    packages: {
+﻿/**
+ * PLUNKER VERSION (based on systemjs.config.js in angular.io)
+ * System configuration for Angular 2 samples
+ * Adjust as necessary for your application needs.
+ */
+(function(global) {
+    var ngPackageNames = [
+        'common',
+        'compiler',
+        'core',
+        'http',
+        'platform-browser',
+        'platform-browser-dynamic',
+        'router',
+        'upgrade'
+    ];
+
+    var packages = {
         app: {
             defaultExtension: 'js',
             format: 'register'
-        },
-        '@angular/core': {
-            main: 'core.umd.js',
-            defaultExtension: 'js'
-        },
-        '@angular/compiler': {
-            main: 'compiler.umd.js',
-            defaultExtension: 'js'
-        },
-        '@angular/common': {
-            main: 'common.umd.js',
-            defaultExtension: 'js'
-        },
-        '@angular/platform-browser-dynamic': {
-            main: 'platform-browser-dynamic.umd.js',
-            defaultExtension: 'js'
-        },
-        '@angular/platform-browser': {
-            main: 'platform-browser.umd.js',
-            defaultExtension: 'js'
         }
-    }
-});
+    };
+
+    ngPackageNames.forEach(function(pkgName) {
+        packages['@angular/' + pkgName] = { main: pkgName + '.umd.js', defaultExtension: 'js' };
+    });
+
+    var config = {
+        packages: packages
+    };
+    System.config(config);
+})(this);

@@ -79,6 +79,7 @@ gulp.task("pideploy:copy", function() {
         paths.webroot + 'lib/bootstrap/dist/css/bootstrap.min.css',
         paths.webroot + 'lib/bootstrap/dist/js/bootstrap.min.js',
         paths.webroot + 'lib/jquery/dist/jquery.min.js',
+        paths.webroot + 'components/*.html'
     ], { base: 'wwwroot' })
         .pipe(gulp.dest(dst));
 

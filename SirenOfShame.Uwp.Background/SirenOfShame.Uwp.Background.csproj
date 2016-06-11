@@ -109,6 +109,7 @@
     <None Include="SirenOfShame.Uwp.Background_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="wwwroot\components\app.html" />
     <EmbeddedResource Include="wwwroot\%40angular\common\common.umd.js" />
     <EmbeddedResource Include="wwwroot\%40angular\compiler\compiler.umd.js" />
     <EmbeddedResource Include="wwwroot\%40angular\core\core.umd.js" />
