@@ -12,9 +12,26 @@ import {ShowOff} from './show-off.component'
 ])
 export class AppComponent {
     constructor(private router: Router) {
+        this.setCurrentUrl();
     }
 
-    public onClick() {
+    public currentUrl: string;
+
+    private setCurrentUrl() {
+        let url = this.router.serializeUrl(this.router.urlTree);
+        if (url)
+            this.currentUrl = url;
+        else
+            this.currentUrl = '/';
+    }
+
+    public gotoHome() {
+        this.router.navigate(['/']);
+        this.setCurrentUrl();
+    }
+
+    public gotoShowOff() {
         this.router.navigate(['/showoff']);
+        this.setCurrentUrl();
     }
 }
