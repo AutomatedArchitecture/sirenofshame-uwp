@@ -245,3 +245,4 @@ ModelManifest.xml
 .fake/
 SirenOfShame.Uwp.Web/wwwroot/lib/
 SirenOfShame.Uwp.Web/wwwroot/dist/
+SirenOfShame.Uwp.Web/wwwroot/appScripts/
