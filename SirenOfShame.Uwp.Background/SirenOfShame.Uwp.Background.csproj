@@ -96,6 +96,9 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\AudioPatternsController.cs" />
+    <Compile Include="Controllers\LedPatternsController.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="HttpRouter.cs" />
     <Compile Include="HttpServer.cs" />

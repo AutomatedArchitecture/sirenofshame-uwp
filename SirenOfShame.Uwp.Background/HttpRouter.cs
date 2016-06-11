@@ -1,18 +1,38 @@
 ﻿using System;
-using System.IO;
+using System.Collections.Generic;
 using System.Linq;
-using Windows.Networking.Sockets;
+using SirenOfShame.Uwp.Background.Controllers;
 
 namespace SirenOfShame.Uwp.Background
 {
     public sealed class HttpRouter
     {
+        private Dictionary<string, Func<ApiController>> _controllers = new Dictionary<string, Func<ApiController>>
+        {
+            { "ledPatterns", () => new LedPatternsController() },
+            { "audioPatterns", () => new AudioPatternsController() }
+        };
+
         public void ProcessRequest(HttpContext context)
         {
             const string rootNs = "SirenOfShame.Uwp.Background.wwwroot";
             if (context.RequestPart == "/")
             {
                 context.WriteResource(rootNs + ".index.html", "text/html");
+                return;
+            }
+            if (context.RequestPart.StartsWith("/api/"))
+            {
+                var last = context.RequestPart.Split('/').Last();
+                Func<ApiController> func;
+                if (_controllers.TryGetValue(last, out func))
+                {
+                    var apiController = func();
+                    var result = apiController.Get(context);
+                    context.WriteString(result);
+                    return;
+                }
+                context.Write404("API not found: " + context.RequestPart);
                 return;
             }
             var contentType = context.GetRequestContentType();
