@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Background.Controllers;
 
 namespace SirenOfShame.Uwp.Background
@@ -24,13 +26,24 @@ namespace SirenOfShame.Uwp.Background
             }
             if (context.RequestPart.StartsWith("/api/"))
             {
-                var last = context.RequestPart.Split('/').Last();
+                var controller = context.RequestPart.Split('/', '?').ElementAtOrDefault(2);
                 Func<ApiController> func;
-                if (_controllers.TryGetValue(last, out func))
+                if (_controllers.TryGetValue(controller, out func))
                 {
                     var apiController = func();
-                    var result = await apiController.Get(context);
-                    context.WriteString(result);
+                    if (context.HttpVerb == "GET")
+                    {
+                        var unserializedResult = await apiController.Get(context);
+                        var result = JsonConvert.SerializeObject(
+                            unserializedResult, 
+                            Formatting.None,
+                            new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+                        context.WriteString(result);
+                    }
+                    else
+                    {
+                        await apiController.Post(context);
+                    }
                     return;
                 }
                 context.Write404("API not found: " + context.RequestPart);

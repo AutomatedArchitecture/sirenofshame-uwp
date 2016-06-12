@@ -10,11 +10,13 @@ namespace SirenOfShame.Uwp.Background
 {
     public sealed class HttpContext
     {
+        public string HttpVerb { get; }
         public string RequestPart { get; }
         private readonly StreamSocket _socket;
 
-        public HttpContext(string requestPart, StreamSocket socket)
+        public HttpContext(string httpVerb, string requestPart, StreamSocket socket)
         {
+            HttpVerb = httpVerb;
             RequestPart = requestPart;
             _socket = socket;
         }

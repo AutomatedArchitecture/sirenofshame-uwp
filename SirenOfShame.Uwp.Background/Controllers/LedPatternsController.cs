@@ -1,22 +1,28 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SirenOfShame.Device;
+using SirenOfShame.Uwp.Background.Services;
 
 namespace SirenOfShame.Uwp.Background.Controllers
 {
     internal class LedPatternsController : ApiController
     {
-        public override async Task<string> Get(HttpContext context)
+        public override async Task<object> Get(HttpContext context)
         {
-            SirenOfShameDevice device = new SirenOfShameDevice();
-            await device.TryConnect();
-            if (device.IsConnected)
+            if (SirenService.Instance.Device.IsConnected)
             {
-                var names = device.LedPatterns.Select(i => i.Name);
-                return JsonConvert.SerializeObject(names);
+                return SirenService.Instance.Device.LedPatterns;
             }
-            return JsonConvert.SerializeObject(new [] {"No Device Connected"});
+            return new [] {"No Device Connected"};
+        }
+
+        public override async Task Post(HttpContext context)
+        {
+            if (SirenService.Instance.Device.IsConnected)
+            {
+                await SirenService.Instance.Device.PlayLightPattern(new LedPattern { Id = 1 }, new TimeSpan(0, 0, 10));
+            }
         }
     }
 }

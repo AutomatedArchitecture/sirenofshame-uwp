@@ -38,11 +38,8 @@ namespace SirenOfShame.Uwp.Background
                 string[] requestParts = requestMethod.Split(' ');
                 if (requestParts.Length > 1)
                 {
-                    if (requestParts[0] == "GET")
-                        await WriteResponse(requestParts[1], socket);
-                    else
-                        throw new InvalidDataException("HTTP method not supported: "
-                                                       + requestParts[0]);
+                    var httpVerb = requestParts[0];
+                    await WriteResponse(httpVerb, requestParts[1], socket);
                 }
             }
         }
@@ -65,9 +62,9 @@ namespace SirenOfShame.Uwp.Background
             return request;
         }
 
-        private async Task WriteResponse(string requestPart, StreamSocket socket)
+        private async Task WriteResponse(string httpVerb, string requestPart, StreamSocket socket)
         {
-            var httpContext = new HttpContext(requestPart, socket);
+            var httpContext = new HttpContext(httpVerb, requestPart, socket);
             try
             {
                 await _httpRouter.ProcessRequest(httpContext);

@@ -24,7 +24,7 @@ import { Headers, Http } from '@angular/http';
         <label for="audioPattern" class="col-sm-2 control-label">Audio Pattern</label>
         <div class="col-sm-10">
             <select id="audioPattern" class="form-control">
-                <option *ngFor="let pattern of audioPatterns">{{pattern}}</option>
+                <option *ngFor="let pattern of audioPatterns" [value]="pattern.id">{{pattern.name}}</option>
             </select>
         </div>
     </div>
@@ -44,7 +44,7 @@ export class ShowOff {
     public ledPatterns:string[];
     public audioPatterns: string[];
 
-    public playLights(id:number) {
-        alert('Playing LED pattern #' + id);
+    public playLights(id: number) {
+        this.http.post('/api/ledPatterns?id=' + id, '').toPromise();
     }
 }

@@ -102,6 +102,7 @@
     <Compile Include="HttpContext.cs" />
     <Compile Include="HttpRouter.cs" />
     <Compile Include="HttpServer.cs" />
+    <Compile Include="Services\SirenService.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

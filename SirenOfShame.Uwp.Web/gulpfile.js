@@ -90,7 +90,7 @@ gulp.task("pideploy:copy", function() {
         .pipe(gulp.dest(dst));
 });
 
-gulp.task("pideploy", ["pideploy:copy"]);
+gulp.task("pideploy", ["deploy:ts", "pideploy:copy"]);
 
 gulp.task('ts', function (done) {
     var tsProject = ts.createProject('./Ts/tsconfig.json');

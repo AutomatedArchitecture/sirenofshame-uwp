@@ -1,20 +1,17 @@
 ﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
+using SirenOfShame.Uwp.Background.Services;
 
 namespace SirenOfShame.Uwp.Background.Controllers
 {
     internal sealed class AudioPatternsController : ApiController
     {
-        public override async Task<string> Get(HttpContext context)
+        public override async Task<object> Get(HttpContext context)
         {
-            await Task.Yield();
-            string[] audioPatterns = new[]
+            if (SirenService.Instance.Device.IsConnected)
             {
-                "Audio Pattern 1",
-                "Audio Pattern 2",
-                "Audio Pattern 3",
-            };
-            return JsonConvert.SerializeObject(audioPatterns);
+                return SirenService.Instance.Device.AudioPatterns;
+            }
+            return new[] { "No Device Connected" };
         }
     }
 }
