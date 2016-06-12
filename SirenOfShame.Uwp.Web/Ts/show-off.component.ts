@@ -10,9 +10,14 @@ import { Headers, Http } from '@angular/http';
     <div class="form-group">
         <label for="ledPattern" class="col-sm-2 control-label">LED Pattern</label>
         <div class="col-sm-10">
-            <select id="ledPattern" class="form-control">
-                <option *ngFor="let pattern of ledPatterns">{{pattern}}</option>
+            <select id="ledPattern" class="form-control" #selectedLedPattern>
+                <option *ngFor="let pattern of ledPatterns" [value]="pattern.id">{{pattern.name}}</option>
             </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary" (click)="playLights(selectedLedPattern.value)">Play Lights</button>
         </div>
     </div>
     <div class="form-group">
@@ -21,11 +26,6 @@ import { Headers, Http } from '@angular/http';
             <select id="audioPattern" class="form-control">
                 <option *ngFor="let pattern of audioPatterns">{{pattern}}</option>
             </select>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button type="submit" class="btn btn-primary">Play</button>
         </div>
     </div>
 </form>
@@ -42,5 +42,9 @@ export class ShowOff {
     }
 
     public ledPatterns:string[];
-    public audioPatterns:string[];
+    public audioPatterns: string[];
+
+    public playLights(id:number) {
+        alert('Playing LED pattern #' + id);
+    }
 }
