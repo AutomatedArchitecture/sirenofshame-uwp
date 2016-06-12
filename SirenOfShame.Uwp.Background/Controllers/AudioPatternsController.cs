@@ -1,11 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace SirenOfShame.Uwp.Background.Controllers
 {
     internal sealed class AudioPatternsController : ApiController
     {
-        public override string Get(HttpContext context)
+        public override async Task<string> Get(HttpContext context)
         {
+            await Task.Yield();
             string[] audioPatterns = new[]
             {
                 "Audio Pattern 1",

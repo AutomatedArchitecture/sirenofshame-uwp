@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace SirenOfShame.Uwp.Background
                 if (requestParts.Length > 1)
                 {
                     if (requestParts[0] == "GET")
-                        WriteResponse(requestParts[1], socket);
+                        await WriteResponse(requestParts[1], socket);
                     else
                         throw new InvalidDataException("HTTP method not supported: "
                                                        + requestParts[0]);
@@ -66,12 +65,12 @@ namespace SirenOfShame.Uwp.Background
             return request;
         }
 
-        private void WriteResponse(string requestPart, StreamSocket socket)
+        private async Task WriteResponse(string requestPart, StreamSocket socket)
         {
             var httpContext = new HttpContext(requestPart, socket);
             try
             {
-                _httpRouter.ProcessRequest(httpContext);
+                await _httpRouter.ProcessRequest(httpContext);
             }
             catch (Exception ex)
             {

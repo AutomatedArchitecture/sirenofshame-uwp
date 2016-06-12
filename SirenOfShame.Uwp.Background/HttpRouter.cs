@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using SirenOfShame.Uwp.Background.Controllers;
 
 namespace SirenOfShame.Uwp.Background
 {
-    public sealed class HttpRouter
+    internal sealed class HttpRouter
     {
         private Dictionary<string, Func<ApiController>> _controllers = new Dictionary<string, Func<ApiController>>
         {
@@ -13,7 +14,7 @@ namespace SirenOfShame.Uwp.Background
             { "audioPatterns", () => new AudioPatternsController() }
         };
 
-        public void ProcessRequest(HttpContext context)
+        public async Task ProcessRequest(HttpContext context)
         {
             const string rootNs = "SirenOfShame.Uwp.Background.wwwroot";
             if (context.RequestPart == "/")
@@ -28,7 +29,7 @@ namespace SirenOfShame.Uwp.Background
                 if (_controllers.TryGetValue(last, out func))
                 {
                     var apiController = func();
-                    var result = apiController.Get(context);
+                    var result = await apiController.Get(context);
                     context.WriteString(result);
                     return;
                 }
