@@ -18,6 +18,7 @@ import { Headers, Http } from '@angular/http';
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-primary" (click)="playLights(selectedLedPattern.value)">Play Lights</button>
+            <button type="submit" class="btn btn-primary" (click)="stopLights()">Stop Lights</button>
         </div>
     </div>
     <div class="form-group">
@@ -46,5 +47,9 @@ export class ShowOff {
 
     public playLights(id: number) {
         this.http.post('/api/ledPatterns?id=' + id, '').toPromise();
+    }
+
+    public stopLights() {
+        this.http.post('/api/ledPatterns?duration=0', '').toPromise();
     }
 }

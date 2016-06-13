@@ -71,7 +71,7 @@ gulp.task("rebuild:vendorcopy", function () {
     .pipe(gulp.dest("./wwwroot/lib"));
 });
 
-gulp.task("pideploy:copy", function() {
+gulp.task("pideploy:copy", ["deploy:ts"], function() {
     var dst = '../SirenOfShame.Uwp.Background/wwwroot/';
     gulp.src([
         paths.webroot + 'css/*',

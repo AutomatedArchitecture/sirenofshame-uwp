@@ -22,9 +22,18 @@ namespace SirenOfShame.Uwp.Background.Controllers
             if (SirenService.Instance.Device.IsConnected)
             {
                 var id = context.GetQuerystringParam("id");
+                var durationStr = context.GetQuerystringParam("duration");
                 var ledPattern = ToLedPattern(id);
-                await SirenService.Instance.Device.PlayLightPattern(ledPattern, null);
+                var duration = ToDuration(durationStr);
+                await SirenService.Instance.Device.PlayLightPattern(ledPattern, duration);
             }
+        }
+
+        private TimeSpan? ToDuration(string durationStr)
+        {
+            if (string.IsNullOrEmpty(durationStr)) return null;
+            var seconds = int.Parse(durationStr);
+            return new TimeSpan(0, 0, seconds);
         }
 
         private LedPattern ToLedPattern(string id)
