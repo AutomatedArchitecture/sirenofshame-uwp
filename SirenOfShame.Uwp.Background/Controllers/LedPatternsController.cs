@@ -21,8 +21,16 @@ namespace SirenOfShame.Uwp.Background.Controllers
         {
             if (SirenService.Instance.Device.IsConnected)
             {
-                await SirenService.Instance.Device.PlayLightPattern(new LedPattern { Id = 1 }, new TimeSpan(0, 0, 10));
+                var id = context.GetQuerystringParam("id");
+                var ledPattern = ToLedPattern(id);
+                await SirenService.Instance.Device.PlayLightPattern(ledPattern, null);
             }
+        }
+
+        private LedPattern ToLedPattern(string id)
+        {
+            if (string.IsNullOrEmpty(id)) return new LedPattern();
+            return new LedPattern {Id = int.Parse(id)};
         }
     }
 }

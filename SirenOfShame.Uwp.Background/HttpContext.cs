@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Windows.Networking.Sockets;
+using SirenOfShame.Uwp.Watcher.Helpers;
 
 namespace SirenOfShame.Uwp.Background
 {
@@ -104,6 +105,14 @@ namespace SirenOfShame.Uwp.Background
             var extension = RequestPart.Split('.').Last();
             string mimeType;
             return MimeTypes.TryGetValue(extension, out mimeType) ? mimeType : "text/plain";
+        }
+
+        public string GetQuerystringParam(string id)
+        {
+            var queryStringParams = HttpHelper.ParseQueryStringParams(RequestPart);
+            string result;
+            queryStringParams.TryGetValue(id, out result);
+            return result;
         }
     }
 }
