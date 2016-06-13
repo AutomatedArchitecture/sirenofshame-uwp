@@ -1,5 +1,6 @@
 ﻿using System;
 using Windows.ApplicationModel.Background;
+using SirenOfShame.Uwp.Background.Services;
 
 namespace SirenOfShame.Uwp.Background
 {
@@ -14,6 +15,7 @@ namespace SirenOfShame.Uwp.Background
             _backgroundTaskDeferral = taskInstance.GetDeferral();
             _httpServer = new HttpServer(8001);
             await _httpServer.StartServerAction();
+            SirenService.Instance.StartWatching();
         }
     }
 }

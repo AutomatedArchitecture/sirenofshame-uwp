@@ -7,9 +7,10 @@ namespace SirenOfShame.Uwp.Background.Controllers
     {
         public override async Task<object> Get(HttpContext context)
         {
-            if (SirenService.Instance.Device.IsConnected)
+            await Task.Yield();
+            if (SirenService.Instance.IsConnected)
             {
-                return SirenService.Instance.Device.AudioPatterns;
+                return SirenService.Instance.AudioPatterns;
             }
             return new[] { "No Device Connected" };
         }

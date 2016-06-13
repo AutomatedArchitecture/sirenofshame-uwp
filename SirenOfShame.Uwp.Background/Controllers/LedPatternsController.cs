@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SirenOfShame.Device;
 using SirenOfShame.Uwp.Background.Services;
 
@@ -10,22 +9,23 @@ namespace SirenOfShame.Uwp.Background.Controllers
     {
         public override async Task<object> Get(HttpContext context)
         {
-            if (SirenService.Instance.Device.IsConnected)
+            await Task.Yield();
+            if (SirenService.Instance.IsConnected)
             {
-                return SirenService.Instance.Device.LedPatterns;
+                return SirenService.Instance.LedPatterns;
             }
             return new [] {"No Device Connected"};
         }
 
         public override async Task Post(HttpContext context)
         {
-            if (SirenService.Instance.Device.IsConnected)
+            if (SirenService.Instance.IsConnected)
             {
                 var id = context.GetQuerystringParam("id");
                 var durationStr = context.GetQuerystringParam("duration");
                 var ledPattern = ToLedPattern(id);
                 var duration = ToDuration(durationStr);
-                await SirenService.Instance.Device.PlayLightPattern(ledPattern, duration);
+                await SirenService.Instance.PlayLightPattern(ledPattern, duration);
             }
         }
 

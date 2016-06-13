@@ -16,43 +16,56 @@ namespace SirenOfShame.Uwp.Background
             { "audioPatterns", () => new AudioPatternsController() }
         };
 
+        private static readonly string[] IndexHtmlSynonyms = 
+        {
+            "",
+            "showoff"
+        };
+
         public async Task ProcessRequest(HttpContext context)
         {
             const string rootNs = "SirenOfShame.Uwp.Background.wwwroot";
-            if (context.RequestPart == "/")
+            if (IndexHtmlSynonyms.Contains(context.RequestPart.Trim('/')))
             {
                 context.WriteResource(rootNs + ".index.html", "text/html");
                 return;
             }
             if (context.RequestPart.StartsWith("/api/"))
             {
-                var controller = context.RequestPart.Split('/', '?').ElementAtOrDefault(2);
-                Func<ApiController> func;
-                if (_controllers.TryGetValue(controller, out func))
-                {
-                    var apiController = func();
-                    if (context.HttpVerb == "GET")
-                    {
-                        var unserializedResult = await apiController.Get(context);
-                        var result = JsonConvert.SerializeObject(
-                            unserializedResult, 
-                            Formatting.None,
-                            new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
-                        context.WriteString(result);
-                    }
-                    else
-                    {
-                        await apiController.Post(context);
-                    }
-                    return;
-                }
-                context.Write404("API not found: " + context.RequestPart);
+                await ProcessApiRequest(context);
                 return;
             }
             var contentType = context.GetRequestContentType();
             var resourceNs = RequestToNamespace(context.RequestPart);
 
             context.WriteResource(rootNs + resourceNs, contentType);
+        }
+
+        private async Task ProcessApiRequest(HttpContext context)
+        {
+            var controller = context.RequestPart.Split('/', '?').ElementAtOrDefault(2);
+            Func<ApiController> func;
+            if (_controllers.TryGetValue(controller, out func))
+            {
+                var apiController = func();
+                if (context.HttpVerb == "GET")
+                {
+                    var unserializedResult = await apiController.Get(context);
+                    var result = JsonConvert.SerializeObject(
+                        unserializedResult,
+                        Formatting.None,
+                        new JsonSerializerSettings {ContractResolver = new CamelCasePropertyNamesContractResolver()});
+                    context.WriteString(result);
+                }
+                else
+                {
+                    await apiController.Post(context);
+                    context.WriteString("");
+                }
+                return;
+            }
+            context.Write404("API not found: " + context.RequestPart);
+            return;
         }
 
         private static string RequestToNamespace(string request)
