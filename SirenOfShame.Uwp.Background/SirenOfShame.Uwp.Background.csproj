@@ -154,6 +154,14 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\iotweb\IotWeb Portable\IotWeb Portable.csproj">
+      <Project>{e788ca1a-9838-48a1-a961-1137e74eaf70}</Project>
+      <Name>IotWeb Portable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\iotweb\IotWeb UWP\IotWeb UWP.csproj">
+      <Project>{ee7a0ed2-5249-4d5a-a030-e4d15a72e24e}</Project>
+      <Name>IotWeb UWP</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj">
       <Project>{36c7fc2f-c4d9-4fc3-9f47-981704d74b8c}</Project>
       <Name>SirenOfShame.Uwp.Watcher</Name>

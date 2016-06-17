@@ -57,19 +57,19 @@ namespace SirenOfShame.Uwp.Background
 
         public void WriteResource(string resource, string contentType)
         {
-            var assembly = typeof(HttpServer).GetTypeInfo().Assembly;
+            //var assembly = typeof(HttpServer).GetTypeInfo().Assembly;
 
-            using (Stream stream = assembly.GetManifestResourceStream(resource))
-            {
-                if (stream == null)
-                {
-                    Write404("Resource not found: " + resource);
-                }
-                else
-                {
-                    WriteStream(_socket, stream, contentType);
-                }
-            }
+            //using (Stream stream = assembly.GetManifestResourceStream(resource))
+            //{
+            //    if (stream == null)
+            //    {
+            //        Write404("Resource not found: " + resource);
+            //    }
+            //    else
+            //    {
+            //        WriteStream(_socket, stream, contentType);
+            //    }
+            //}
         }
 
         private static void WriteStream(StreamSocket socket, Stream sourceStream, string contentType)
