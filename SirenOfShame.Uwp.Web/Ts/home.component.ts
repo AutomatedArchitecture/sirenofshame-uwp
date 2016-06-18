@@ -19,13 +19,12 @@ export class Home implements OnInit {
     public errors: string;
 
     constructor(private serverService: ServerService) {
-        serverService.onMessage = (message) => {
-            this.messages += message;
-        }
     }
 
     public onButtonClick() {
-        this.serverService.send(this.message);
+        this.serverService
+            .send(this.message)
+            .then(message => this.messages += message);
     }
 
     public ngOnInit() {

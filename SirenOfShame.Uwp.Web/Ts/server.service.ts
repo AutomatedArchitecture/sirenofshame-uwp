@@ -31,10 +31,14 @@ export class ServerService {
         return "ws://LeesRasPi3:8001/sockets/";
     }
 
-    public send(message: string) {
-        this.ws.send(message);
+    public send(message: string): Promise<string> {
+        return new Promise<string>((resolve) => {
+                this.onMessage = (message) => resolve(message);
+                this.ws.send(message);
+            }
+        );
     }
 
-    public onMessage;
-    public connectionStatus:string;
+    private onMessage;
+    public connectionStatus: string;
 }
