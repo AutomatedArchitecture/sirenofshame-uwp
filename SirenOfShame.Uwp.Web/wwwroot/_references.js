@@ -3,6 +3,7 @@
 /// <reference path="appscripts/app.js" />
 /// <reference path="appscripts/boot.js" />
 /// <reference path="appscripts/home.component.js" />
+/// <reference path="appscripts/server.service.js" />
 /// <reference path="appscripts/show-off.component.js" />
 /// <reference path="config.prod.js" />
 /// <reference path="lib/bootstrap/dist/js/bootstrap.js" />

@@ -2,10 +2,12 @@
 import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
 import {ShowOff} from './show-off.component'
 import {Home} from './home.component'
+import { ServerService } from './server.service';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'components/app.html',
+    providers: [ServerService],
     directives: [ROUTER_DIRECTIVES]
 })
 @Routes([

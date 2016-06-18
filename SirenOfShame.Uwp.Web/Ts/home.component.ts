@@ -1,4 +1,5 @@
 ﻿import {Component, OnInit} from '@angular/core';
+import { ServerService } from './server.service';
 
 @Component({
     template: `
@@ -13,34 +14,22 @@
 `
 })
 export class Home implements OnInit {
-    private ws;
     public message: string;
     public messages: string;
     public errors: string;
 
+    constructor(private serverService: ServerService) {
+        serverService.onMessage = (message) => {
+            this.messages += message;
+        }
+    }
+
     public onButtonClick() {
-        this.ws.send(this.message);
+        this.serverService.send(this.message);
     }
 
     public ngOnInit() {
         this.messages = '';
-        if ("WebSocket" in window) {
-            var wsUrl = "ws://" + location.hostname + (location.port ? ':' + location.port : '') + "/sockets/";
-            var connection = new WebSocket(wsUrl, ['echo']);
-            connection.onopen = () => {
-                this.ws = connection;
-                this.ws.onmessage = (e) => {
-                    this.messages += e.data;
-                };
-                this.errors = "Connection established";
-                this.ws.send("Hello world!");
-            };
-            connection.onerror = (error) => {
-                this.errors = "Could not connect to websocket. " + error;
-            };
-        }
-        else {
-            this.errors = "This browser does not support websockets!";
-        }
+
     }
 }
