@@ -1,7 +1,7 @@
-﻿import {Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
 import 'rxjs/add/operator/toPromise';
-import { Headers, Http } from '@angular/http';
+import { ServerService } from './server.service';
 
 @Component({
     template: `
@@ -33,23 +33,23 @@ import { Headers, Http } from '@angular/http';
 `
 })
 export class ShowOff {
-    constructor(private http: Http) {
-        http.get('/api/ledPatterns')
-            .toPromise()
-            .then(result => this.ledPatterns = result.json());
-        http.get('/api/audioPatterns')
-            .toPromise()
-            .then(result => this.audioPatterns = result.json());
+    constructor(private serverService: ServerService) {
+        serverService
+            .getSirenInfo()
+            .then(result => {
+                this.ledPatterns = result.ledPatterns;
+                this.audioPatterns = result.audioPatterns;
+            });
     }
 
     public ledPatterns:string[];
     public audioPatterns: string[];
 
     public playLights(id: number) {
-        this.http.post('/api/ledPatterns?id=' + id, '').toPromise();
+        //this.http.post('/api/ledPatterns?id=' + id, '').toPromise();
     }
 
     public stopLights() {
-        this.http.post('/api/ledPatterns?duration=0', '').toPromise();
+        //this.http.post('/api/ledPatterns?duration=0', '').toPromise();
     }
 }

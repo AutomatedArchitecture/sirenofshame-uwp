@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Reflection;
 using Windows.ApplicationModel.Background;
-using Windows.Web.Http.Filters;
 using IotWeb.Common.Http;
-using IotWeb.Common.Util;
 using SirenOfShame.Uwp.Background.Services;
 using IotWeb.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace SirenOfShame.Uwp.Background
 {
@@ -27,10 +27,63 @@ namespace SirenOfShame.Uwp.Background
 
         void OnDataReceived(WebSocket socket, string frame)
         {
-            socket.Send(frame);
+            try
+            {
+                if (string.IsNullOrEmpty(frame)) return;
+                var request = JsonConvert.DeserializeAnonymousType(frame, new {type = ""});
+                if (request.type == "echo")
+                {
+                    var echoRequest = JsonConvert.DeserializeAnonymousType(frame, new {type = "", message = ""});
+                    var echoResult = new
+                    {
+                        responseCode = 200,
+                        response = "OK",
+                        type = "echoResult",
+                        result = echoRequest.message
+                    };
+                    SendObject(socket, echoResult);
+                }
+                else
+                {
+                    var sirenInfo = new
+                    {
+                        responseCode = 200,
+                        response = "OK",
+                        type = "getSirenInfoResult",
+                        result = new
+                        {
+                            ledPatterns = SirenService.Instance.LedPatterns,
+                            audioPatterns = SirenService.Instance.AudioPatterns
+                        }
+                    };
+                    SendObject(socket, sirenInfo);
+                }
+            }
+            catch (Exception ex)
+            {
+                var errorInfo = new
+                {
+                    responseCode = 500,
+                    response = ex.Message,
+                    type = "error"
+                };
+                var result = JsonConvert.SerializeObject(errorInfo);
+                socket.Send(result);
+            }
+        }
+
+        private static void SendObject(WebSocket socket, object echoResult)
+        {
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            var result = JsonConvert.SerializeObject(echoResult, jsonSerializerSettings);
+            socket.Send(result);
         }
     }
 
+    // ReSharper disable once UnusedMember.Global
     public sealed class StartupTask : IBackgroundTask
     {
         // ReSharper disable once NotAccessedField.Local
@@ -45,7 +98,6 @@ namespace SirenOfShame.Uwp.Background
                 "/sockets/",
                 new WebSocketHandler()
                 );
-            ;
             _httpServer.AddHttpRequestHandler(
                 "/",
                 new HttpResourceHandler(typeof(StartupTask).GetTypeInfo().Assembly,

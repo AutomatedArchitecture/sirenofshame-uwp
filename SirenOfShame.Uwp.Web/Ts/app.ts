@@ -1,4 +1,4 @@
-﻿import {Component} from '@angular/core';
+import {Component} from '@angular/core';
 import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
 import {ShowOff} from './show-off.component'
 import {Home} from './home.component'

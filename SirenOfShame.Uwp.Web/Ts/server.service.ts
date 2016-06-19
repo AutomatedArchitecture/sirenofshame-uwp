@@ -1,5 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
 
+interface ISirenInfo {
+    ledPatterns;
+    audioPatterns;
+}
+
 @Injectable()
 export class ServerService {
     private ws;
@@ -12,7 +17,14 @@ export class ServerService {
             connection.onopen = () => {
                 this.ws = connection;
                 this.ws.onmessage = (e) => {
-                    this.onMessage(e.data);
+                    let data = JSON.parse(e.data);
+                    if (data.type === 'echoResult') {
+                        this.onMessage(data.result);
+                        return;
+                    } 
+                    if (data.type === 'getSirenInfoResult') {
+                        this.onGetSirenInfo(data.result);
+                    }
                 };
 
                 this.connectionStatus = "Connection established";
@@ -34,11 +46,27 @@ export class ServerService {
     public send(message: string): Promise<string> {
         return new Promise<string>((resolve) => {
                 this.onMessage = (message) => resolve(message);
-                this.ws.send(message);
+                var sendRequest = {
+                    type: 'echo',
+                    message: message
+                };
+                this.ws.send(JSON.stringify(sendRequest));
             }
         );
     }
 
+    public getSirenInfo(): Promise<ISirenInfo> {
+        return new Promise<ISirenInfo>((resolve) => {
+            this.onGetSirenInfo = (sirenInfo) => resolve(sirenInfo);
+            var sendRequest = {
+                type: 'getSirenInfo'
+            }
+            this.ws.send(JSON.stringify(sendRequest));
+        }
+        );
+    }
+
     private onMessage;
+    private onGetSirenInfo;
     public connectionStatus: string;
 }
