@@ -46,11 +46,13 @@ export class ServerService {
         return "ws://LeesRasPi3:8001/sockets/";
     }
 
-    private send(sendRequest, err) {
+    private send(sendRequest, err?: any) {
         if (this.ws) {
             this.ws.send(JSON.stringify(sendRequest));
         } else {
-            err('not initialized yet');
+            if (err) {
+                err('not initialized yet');
+            }
         }
     }
 
@@ -79,4 +81,12 @@ export class ServerService {
 
     private onMessage;
     private onGetSirenInfo;
+
+    playLedPattern(id: number) {
+        var sendRequest = {
+            type: 'playLedPattern',
+            id: id
+        }
+        this.send(sendRequest);
+    }
 }

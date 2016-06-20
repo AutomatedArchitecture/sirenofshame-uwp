@@ -101,9 +101,11 @@
     <Compile Include="Controllers\AudioPatternsController.cs" />
     <Compile Include="Controllers\LedPatternsController.cs" />
     <Compile Include="Controllers\EchoController.cs" />
+    <Compile Include="Controllers\PlayLedPatternController.cs" />
     <Compile Include="HttpContext.cs" />
     <Compile Include="Models\EchoResult.cs" />
     <Compile Include="Models\ErrorResult.cs" />
+    <Compile Include="Models\OkSocketResult.cs" />
     <Compile Include="Models\SirenInfo.cs" />
     <Compile Include="Models\SirenInfoResult.cs" />
     <Compile Include="Models\SocketResult.cs" />

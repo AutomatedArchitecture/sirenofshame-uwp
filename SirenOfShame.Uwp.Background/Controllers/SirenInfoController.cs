@@ -1,4 +1,5 @@
-﻿using SirenOfShame.Uwp.Background.Models;
+﻿using System.Threading.Tasks;
+using SirenOfShame.Uwp.Background.Models;
 using SirenOfShame.Uwp.Background.Services;
 
 namespace SirenOfShame.Uwp.Background.Controllers
@@ -7,8 +8,9 @@ namespace SirenOfShame.Uwp.Background.Controllers
     {
         public override string CommandName => "getSirenInfo";
 
-        public override SocketResult Invoke(string frame)
+        public override async Task<SocketResult> Invoke(string frame)
         {
+            await Task.Yield();
             var sirenInfo = new SirenInfo
             {
                 LedPatterns = SirenService.Instance.LedPatterns,

@@ -26,9 +26,10 @@ namespace SirenOfShame.Uwp.Background
         private static readonly ControllerBase[] Controllers = {
             new EchoController(),
             new SirenInfoController(),
+            new PlayLedPatternController()
         };
 
-        void OnDataReceived(WebSocket socket, string frame)
+        async void OnDataReceived(WebSocket socket, string frame)
         {
             try
             {
@@ -40,7 +41,7 @@ namespace SirenOfShame.Uwp.Background
                     SendObject(socket, new ErrorResult(404, "No controller associated with type: " + request.type));
                     return;
                 }
-                var result = controller.Invoke(frame);
+                var result = await controller.Invoke(frame);
                 SendObject(socket, result);
             }
             catch (Exception ex)

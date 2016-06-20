@@ -46,10 +46,10 @@ export class ShowOff {
     public audioPatterns: string[];
 
     public playLights(id: number) {
-        //this.http.post('/api/ledPatterns?id=' + id, '').toPromise();
+        this.serverService.playLedPattern(id);
     }
 
     public stopLights() {
-        //this.http.post('/api/ledPatterns?duration=0', '').toPromise();
+        this.serverService.playLedPattern(null);
     }
 }
