@@ -1,4 +1,4 @@
-﻿import { Injectable } from '@angular/core';
+﻿import { Injectable, Output, EventEmitter } from '@angular/core';
 
 interface ISirenInfo {
     ledPatterns;
@@ -27,46 +27,56 @@ export class ServerService {
                     }
                 };
 
-                this.connectionStatus = "Connection established";
+                this.connected.emit(null);
             };
-            connection.onerror = (error) => {
-                this.connectionStatus = "Could not connect to websocket. " + error;
+            connection.onerror = () => {
+                this.connectionError.emit("Error connecting via websockets.");
             };
         }
         else {
-            this.connectionStatus = "This browser does not support websockets";
+            this.connectionError.emit("This browser does not support websockets");
         }
     }
+
+    @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
+    @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
 
     private getUrl() {
         //return "ws://" + location.hostname + (location.port ? ':' + location.port : '') + "/sockets/"
         return "ws://LeesRasPi3:8001/sockets/";
     }
 
-    public send(message: string): Promise<string> {
-        return new Promise<string>((resolve) => {
+    private send(sendRequest, err) {
+        if (this.ws) {
+            this.ws.send(JSON.stringify(sendRequest));
+        } else {
+            err('not initialized yet');
+        }
+    }
+
+    public echo(message: string): Promise<string> {
+        return new Promise<string>((resolve, err) => {
                 this.onMessage = (message) => resolve(message);
                 var sendRequest = {
                     type: 'echo',
                     message: message
                 };
-                this.ws.send(JSON.stringify(sendRequest));
+                this.send(sendRequest, err);
             }
         );
     }
 
     public getSirenInfo(): Promise<ISirenInfo> {
-        return new Promise<ISirenInfo>((resolve) => {
+        return new Promise<ISirenInfo>((resolve, err) => {
             this.onGetSirenInfo = (sirenInfo) => resolve(sirenInfo);
             var sendRequest = {
                 type: 'getSirenInfo'
             }
-            this.ws.send(JSON.stringify(sendRequest));
+            this.send(sendRequest, err);
         }
         );
     }
 
     private onMessage;
     private onGetSirenInfo;
-    public connectionStatus: string;
 }
