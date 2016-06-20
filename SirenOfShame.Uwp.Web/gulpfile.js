@@ -13,19 +13,6 @@ var paths = {
     webroot: "./wwwroot/"
 };
 
-var tsProject = ts.createProject('Ts/tsconfig.json',
-{
-    typescript: require('typescript'),
-    outFile: '../wwwroot/appScripts/app.js',
-    inlineSourceMap: true,
-    declaration: false,
-    stripInternal: true,
-    module: 'system',
-    noEmitOnError: false,
-    rootDir: '.',
-    inlineSources: true
-});
-
 paths.js = paths.webroot + "js/**/*.js";
 paths.minJs = paths.webroot + "js/**/*.min.js";
 paths.css = paths.webroot + "css/**/*.css";
@@ -108,6 +95,19 @@ gulp.task('watch.ts', ['ts'], function () {
 });
 
 gulp.task('deploy:ts', function (done) {
+    var tsProject = ts.createProject('Ts/tsconfig.json',
+    {
+        typescript: require('typescript'),
+        outFile: '../wwwroot/appScripts/app.js',
+        inlineSourceMap: true,
+        declaration: false,
+        stripInternal: true,
+        module: 'system',
+        noEmitOnError: false,
+        rootDir: '.',
+        inlineSources: true
+    });
+
     var tsResult = gulp.src([
             "Ts/*.ts"
     ])
