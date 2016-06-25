@@ -88,7 +88,13 @@ gulp.task('ts', function (done) {
     return tsResult.js.pipe(gulp.dest('./wwwroot/appScripts'));
 });
 
-gulp.task('watch', ['watch.ts']);
+gulp.task('debug:copyts',
+    function(done) {
+        return gulp.src(["Ts/*.ts"])
+            .pipe(gulp.dest("./wwwroot/Ts"));
+    });
+
+gulp.task('watch', ['watch.ts', 'debug:copyts']);
 
 gulp.task('watch.ts', ['ts'], function () {
     return gulp.watch('Ts/*.ts', ['ts']);
