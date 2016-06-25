@@ -53,9 +53,10 @@ export class ServerService {
         if (this.ws) {
             this.ws.send(JSON.stringify(sendRequest));
         } else {
-            if (err) {
-                err('not initialized yet');
-            }
+            var subscription = this.connected.subscribe(() => {
+                this.ws.send(JSON.stringify(sendRequest));
+                subscription.unsubscribe();
+            });
         }
     }
 
