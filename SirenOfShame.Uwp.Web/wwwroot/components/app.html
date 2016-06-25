@@ -14,6 +14,10 @@
                 <li [routerLinkActive]="['active']"><a [routerLink]="['/']">Home</a></li>
                 <li [routerLinkActive]="['active']"><a [routerLink]="['showoff']">Show Off</a></li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li *ngIf="isDeviceConnected"><i class="glyphicon glyphicon-ok-sign navbar-text" title="Siren is connected"></i></li>
+                <li *ngIf="!isDeviceConnected"><i class="glyphicon glyphicon-remove-sign navbar-text" title="Siren is disconnected"></i></li>
+            </ul>
         </div>
     </div>
 </nav>

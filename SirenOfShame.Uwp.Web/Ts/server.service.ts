@@ -34,6 +34,12 @@ export class ServerService {
                 if (data.type === 'getSirenInfoResult') {
                     this.onGetSirenInfo(data.result);
                 }
+                if (data.type === 'deviceConnected') {
+                    this.deviceConnected.emit(true);
+                }
+                if (data.type === 'deviceDisconnected') {
+                    this.deviceDisconnected.emit(true);
+                }
             };
 
             this.connected.emit(null);
@@ -51,6 +57,10 @@ export class ServerService {
 
     @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
     @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
+
+    @Output() public deviceConnected: EventEmitter<any> = new EventEmitter<any>(true);
+    @Output() public deviceDisconnected: EventEmitter<any> = new EventEmitter<any>(true);
+
     public isConnected: boolean;
 
     private getUrl() {

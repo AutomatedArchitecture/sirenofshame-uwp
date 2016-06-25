@@ -11,6 +11,10 @@ import { ServerService } from './server.service';
     directives: [ROUTER_DIRECTIVES]
 })
 export class AppComponent {
-    constructor() {
+    constructor(private serverService: ServerService) {
+        serverService.deviceConnected.subscribe(() => this.isDeviceConnected = true);
+        serverService.deviceDisconnected.subscribe(() => this.isDeviceConnected = false);
     }
+
+    public isDeviceConnected: boolean;
 }

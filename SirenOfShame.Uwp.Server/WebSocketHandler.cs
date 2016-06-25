@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Server.Commands;
 using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Server.Services;
 
 namespace SirenOfShame.Uwp.Server
 {
@@ -13,6 +14,12 @@ namespace SirenOfShame.Uwp.Server
     /// </summary>
     public class WebSocketHandler : IWebSocketRequestHandler
     {
+        public WebSocketHandler()
+        {
+            SirenService.Instance.Device.Connected += DeviceOnConnected;
+            SirenService.Instance.Device.Disconnected += DeviceOnDisconnected;
+        }
+
         public bool WillAcceptRequest(string uri, string protocol)
         {
             return (uri.Length == 0) && (protocol == "echo");
@@ -20,7 +27,31 @@ namespace SirenOfShame.Uwp.Server
 
         public void Connected(WebSocket socket)
         {
+            _socket = socket;
             socket.DataReceived += OnDataReceived;
+            socket.ConnectionClosed += SocketOnConnectionClosed;
+            SendType(SirenService.Instance.IsConnected ? "deviceConnected" : "deviceDisconnected");
+        }
+
+        private void SocketOnConnectionClosed(WebSocket socket)
+        {
+            _socket = null;
+        }
+
+        private void DeviceOnDisconnected(object sender, EventArgs e)
+        {
+            SendType("deviceDisconnected");
+        }
+
+        private void SendType(string type)
+        {
+            if (_socket == null) return;
+            SendObject(_socket, new OkSocketResult { Type = type });
+        }
+
+        private void DeviceOnConnected(object sender, EventArgs eventArgs)
+        {
+            SendType("deviceConnected");
         }
 
         private static readonly CommandBase[] Commands = {
@@ -29,6 +60,8 @@ namespace SirenOfShame.Uwp.Server
             new PlayLedPatternCommand(),
             new PlayAudioPatternCommand(), 
         };
+
+        private WebSocket _socket;
 
         async void OnDataReceived(WebSocket socket, string frame)
         {
