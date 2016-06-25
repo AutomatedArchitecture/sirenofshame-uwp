@@ -85,9 +85,17 @@ export class ServerService {
     private onMessage;
     private onGetSirenInfo;
 
-    playLedPattern(id: number) {
+    public playLedPattern(id: number) {
         var sendRequest = {
             type: 'playLedPattern',
+            id: id
+        }
+        this.send(sendRequest);
+    }
+
+    public playAudioPattern(id: number) {
+        var sendRequest = {
+            type: 'playAudioPattern',
             id: id
         }
         this.send(sendRequest);

@@ -7,20 +7,20 @@ using SirenOfShame.Uwp.Server.Services;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class PlayLedPatternCommand : CommandBase
+    internal class PlayAudioPatternCommand : CommandBase
     {
-        public override string CommandName => "playLedPattern";
+        public override string CommandName => "playAudioPattern";
         public override async Task<SocketResult> Invoke(string frame)
         {
-            var playLedRequest = JsonConvert.DeserializeObject<PlayLedRequest>(frame);
+            var playAudioRequest = JsonConvert.DeserializeObject<PlayAudioRequest>(frame);
 
             if (SirenService.Instance.IsConnected)
             {
-                var id = playLedRequest.Id;
-                var durationStr = playLedRequest.Duration;
-                var ledPattern = ToLedPattern(id);
+                var id = playAudioRequest.Id;
+                var durationStr = playAudioRequest.Duration;
+                var audioPattern = ToAudioPattern(id);
                 var duration = ToDuration(durationStr);
-                await SirenService.Instance.PlayLightPattern(ledPattern, duration);
+                await SirenService.Instance.PlayAudioPattern(audioPattern, duration);
             }
 
             return new OkSocketResult();
@@ -32,10 +32,10 @@ namespace SirenOfShame.Uwp.Server.Commands
             return new TimeSpan(0, 0, duration.Value);
         }
 
-        private LedPattern ToLedPattern(int? id)
+        private AudioPattern ToAudioPattern(int? id)
         {
-            if (id == null) return new LedPattern();
-            return new LedPattern { Id = id.Value };
+            if (id == null) return new AudioPattern();
+            return new AudioPattern { Id = id.Value };
         }
     }
 }

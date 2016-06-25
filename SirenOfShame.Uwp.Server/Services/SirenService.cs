@@ -42,5 +42,10 @@ namespace SirenOfShame.Uwp.Server.Services
         {
             await _device.PlayLightPattern(ledPattern, duration);
         }
+
+        public async Task PlayAudioPattern(AudioPattern audioPattern, TimeSpan? duration)
+        {
+            await _device.PlayAudioPattern(audioPattern, duration);
+        }
     }
 }

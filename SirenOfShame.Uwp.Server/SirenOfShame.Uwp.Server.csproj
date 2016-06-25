@@ -110,10 +110,13 @@
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EchoCommand.cs" />
     <Compile Include="Commands\PlayLedPatternCommand.cs" />
+    <Compile Include="Commands\PlayAudioPatternCommand.cs" />
     <Compile Include="Commands\SirenInfoCommand.cs" />
     <Compile Include="Models\EchoResult.cs" />
     <Compile Include="Models\ErrorResult.cs" />
     <Compile Include="Models\OkSocketResult.cs" />
+    <Compile Include="Models\PlayAudioRequest.cs" />
+    <Compile Include="Models\PlayLedRequest.cs" />
     <Compile Include="Models\SirenInfo.cs" />
     <Compile Include="Models\SirenInfoResult.cs" />
     <Compile Include="Models\SocketResult.cs" />

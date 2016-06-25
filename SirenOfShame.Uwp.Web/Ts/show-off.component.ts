@@ -29,6 +29,12 @@ import { ServerService } from './server.service';
             </select>
         </div>
     </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary" (click)="playAudio(selectedLedPattern.value)">Play Audio</button>
+            <button type="submit" class="btn btn-primary" (click)="stopAudio()">Stop Audio</button>
+        </div>
+    </div>
 </form>
 `
 })
@@ -51,5 +57,13 @@ export class ShowOff {
 
     public stopLights() {
         this.serverService.playLedPattern(null);
+    }
+
+    public playAudio(id: number) {
+        this.serverService.playAudioPattern(id);
+    }
+
+    public stopAudio() {
+        this.serverService.playAudioPattern(null);
     }
 }

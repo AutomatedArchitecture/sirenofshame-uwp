@@ -26,7 +26,8 @@ namespace SirenOfShame.Uwp.Server
         private static readonly CommandBase[] Commands = {
             new EchoCommand(),
             new SirenInfoCommand(),
-            new PlayLedPatternCommand()
+            new PlayLedPatternCommand(),
+            new PlayAudioPatternCommand(), 
         };
 
         async void OnDataReceived(WebSocket socket, string frame)
