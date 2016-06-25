@@ -107,10 +107,10 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ControllerBase.cs" />
-    <Compile Include="Controllers\EchoController.cs" />
-    <Compile Include="Controllers\PlayLedPatternController.cs" />
-    <Compile Include="Controllers\SirenInfoController.cs" />
+    <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\EchoCommand.cs" />
+    <Compile Include="Commands\PlayLedPatternCommand.cs" />
+    <Compile Include="Commands\SirenInfoCommand.cs" />
     <Compile Include="Models\EchoResult.cs" />
     <Compile Include="Models\ErrorResult.cs" />
     <Compile Include="Models\OkSocketResult.cs" />

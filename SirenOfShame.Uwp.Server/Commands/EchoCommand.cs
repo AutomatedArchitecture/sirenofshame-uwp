@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using SirenOfShame.Uwp.Background.Models;
+using SirenOfShame.Uwp.Server.Models;
 
-namespace SirenOfShame.Uwp.Background.Controllers
+namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class EchoController : ControllerBase
+    internal class EchoCommand : CommandBase
     {
         public override string CommandName => "echo";
 

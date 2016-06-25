@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using SirenOfShame.Device;
 
-namespace SirenOfShame.Uwp.Background.Models
+namespace SirenOfShame.Uwp.Server.Models
 {
     internal class SirenInfo
     {

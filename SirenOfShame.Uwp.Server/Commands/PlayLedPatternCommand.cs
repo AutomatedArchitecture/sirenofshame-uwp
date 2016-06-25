@@ -2,12 +2,12 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SirenOfShame.Device;
-using SirenOfShame.Uwp.Background.Models;
-using SirenOfShame.Uwp.Background.Services;
+using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Server.Services;
 
-namespace SirenOfShame.Uwp.Background.Controllers
+namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class PlayLedPatternController : ControllerBase
+    internal class PlayLedPatternCommand : CommandBase
     {
         public override string CommandName => "playLedPattern";
         public override async Task<SocketResult> Invoke(string frame)

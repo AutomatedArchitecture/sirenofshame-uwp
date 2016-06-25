@@ -1,4 +1,5 @@
-namespace SirenOfShame.Uwp.Background.Models
+// ReSharper disable MemberCanBeProtected.Global
+namespace SirenOfShame.Uwp.Server.Models
 {
     internal abstract class SocketResult
     {

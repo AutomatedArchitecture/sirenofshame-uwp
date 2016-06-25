@@ -3,8 +3,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using IotWeb.Common.Http;
 using IotWeb.Server;
-using SirenOfShame.Uwp.Background;
-using SirenOfShame.Uwp.Background.Services;
+using SirenOfShame.Uwp.Server;
+using SirenOfShame.Uwp.Server.Services;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 

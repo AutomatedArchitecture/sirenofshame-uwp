@@ -1,4 +1,4 @@
-namespace SirenOfShame.Uwp.Background.Models
+namespace SirenOfShame.Uwp.Server.Models
 {
     internal sealed class ErrorResult : SocketResult
     {

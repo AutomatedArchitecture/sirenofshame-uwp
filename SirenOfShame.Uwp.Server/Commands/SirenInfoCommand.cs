@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using SirenOfShame.Uwp.Background.Models;
-using SirenOfShame.Uwp.Background.Services;
+using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Server.Services;
 
-namespace SirenOfShame.Uwp.Background.Controllers
+namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class SirenInfoController : ControllerBase
+    internal class SirenInfoCommand : CommandBase
     {
         public override string CommandName => "getSirenInfo";
 

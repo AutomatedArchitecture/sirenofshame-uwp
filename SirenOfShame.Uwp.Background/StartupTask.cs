@@ -1,8 +1,9 @@
 ﻿using System.Reflection;
 using Windows.ApplicationModel.Background;
 using IotWeb.Common.Http;
-using SirenOfShame.Uwp.Background.Services;
 using IotWeb.Server;
+using SirenOfShame.Uwp.Server;
+using SirenOfShame.Uwp.Server.Services;
 
 namespace SirenOfShame.Uwp.Background
 {

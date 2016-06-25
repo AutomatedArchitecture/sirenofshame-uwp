@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using SirenOfShame.Device;
 
-namespace SirenOfShame.Uwp.Background.Services
+namespace SirenOfShame.Uwp.Server.Services
 {
     public class SirenService
     {

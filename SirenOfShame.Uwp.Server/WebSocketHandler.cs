@@ -3,10 +3,10 @@ using System.Linq;
 using IotWeb.Common.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using SirenOfShame.Uwp.Background.Controllers;
-using SirenOfShame.Uwp.Background.Models;
+using SirenOfShame.Uwp.Server.Commands;
+using SirenOfShame.Uwp.Server.Models;
 
-namespace SirenOfShame.Uwp.Background
+namespace SirenOfShame.Uwp.Server
 {
     /// <summary>
     /// Simple 'echo' web socket server
@@ -23,10 +23,10 @@ namespace SirenOfShame.Uwp.Background
             socket.DataReceived += OnDataReceived;
         }
 
-        private static readonly ControllerBase[] Controllers = {
-            new EchoController(),
-            new SirenInfoController(),
-            new PlayLedPatternController()
+        private static readonly CommandBase[] Commands = {
+            new EchoCommand(),
+            new SirenInfoCommand(),
+            new PlayLedPatternCommand()
         };
 
         async void OnDataReceived(WebSocket socket, string frame)
@@ -35,7 +35,7 @@ namespace SirenOfShame.Uwp.Background
             {
                 if (string.IsNullOrEmpty(frame)) return;
                 var request = JsonConvert.DeserializeAnonymousType(frame, new {type = ""});
-                var controller = Controllers.FirstOrDefault(i => i.CommandName == request.type);
+                var controller = Commands.FirstOrDefault(i => i.CommandName == request.type);
                 if (controller == null)
                 {
                     SendObject(socket, new ErrorResult(404, "No controller associated with type: " + request.type));
