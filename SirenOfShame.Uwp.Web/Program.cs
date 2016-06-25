@@ -13,7 +13,6 @@ namespace SirenOfShame.Uwp.Web
                 .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
-
             host.Run();
         }
     }

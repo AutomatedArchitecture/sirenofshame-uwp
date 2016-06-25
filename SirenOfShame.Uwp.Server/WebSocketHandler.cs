@@ -11,7 +11,7 @@ namespace SirenOfShame.Uwp.Background
     /// <summary>
     /// Simple 'echo' web socket server
     /// </summary>
-    internal class WebSocketHandler : IWebSocketRequestHandler
+    public class WebSocketHandler : IWebSocketRequestHandler
     {
         public bool WillAcceptRequest(string uri, string protocol)
         {

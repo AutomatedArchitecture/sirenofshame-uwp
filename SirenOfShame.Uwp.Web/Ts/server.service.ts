@@ -42,8 +42,11 @@ export class ServerService {
     @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
 
     private getUrl() {
-        //return "ws://" + location.hostname + (location.port ? ':' + location.port : '') + "/sockets/"
-        return "ws://LeesRasPi3:8001/sockets/";
+        //let port = (location.port ? ':' + location.port : '');
+        let port = ':8001';
+        let hostname = location.hostname;
+
+        return "ws://" + hostname + port + "/sockets/";
     }
 
     private send(sendRequest, err?: any) {

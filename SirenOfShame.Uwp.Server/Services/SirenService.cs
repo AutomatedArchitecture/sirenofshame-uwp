@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using SirenOfShame.Device;
 
 namespace SirenOfShame.Uwp.Background.Services
 {
-    internal class SirenService
+    public class SirenService
     {
         public static readonly SirenService Instance = new SirenService();
         private readonly SirenOfShameDevice _device;
@@ -14,6 +15,18 @@ namespace SirenOfShame.Uwp.Background.Services
         private SirenService()
         {
             _device = new SirenOfShameDevice();
+            _device.Connected += DeviceOnConnected;
+            _device.Disconnected += DeviceOnDisconnected;
+        }
+
+        private void DeviceOnDisconnected(object sender, EventArgs eventArgs)
+        {
+            Debug.WriteLine("Device Disconnected");
+        }
+
+        private void DeviceOnConnected(object sender, EventArgs eventArgs)
+        {
+            Debug.WriteLine("Device Connected");
         }
 
         [Deprecated("Violoation of law of demeter", DeprecationType.Deprecate, UInt32.MaxValue)]
