@@ -7,12 +7,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Siren of Shame</a>
+            <a class="navbar-brand" [routerLink]="['/']">Siren of Shame</a>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li [class.active]="currentUrl == '/'"><a href="javascript:" (click)="gotoHome()">Home</a></li>
-                <li [class.active]="currentUrl == '/showoff'"><a href="javascript:" (click)="gotoShowOff()">Show Off</a></li>
+                <li [routerLinkActive]="['active']"><a [routerLink]="['/']">Home</a></li>
+                <li [routerLinkActive]="['active']"><a [routerLink]="['showoff']">Show Off</a></li>
             </ul>
         </div>
     </div>

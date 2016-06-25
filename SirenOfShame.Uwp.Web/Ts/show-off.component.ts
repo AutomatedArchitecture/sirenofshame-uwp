@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Routes, Router, Route, ROUTER_DIRECTIVES} from '@angular/router';
+import {ROUTER_DIRECTIVES} from '@angular/router';
 import 'rxjs/add/operator/toPromise';
 import { ServerService } from './server.service';
 
