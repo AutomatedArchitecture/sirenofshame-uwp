@@ -19,11 +19,12 @@ export class Home implements OnInit {
     public errors: string;
 
     constructor(private serverService: ServerService) {
+        this.connectionStatus = serverService.isConnected ? null : 'Connecting to server ...';
         serverService.connected.subscribe(() => this.connectionStatus = null);
         serverService.connectionError.subscribe(error => this.connectionStatus = error);
     }
 
-    public connectionStatus: string = 'Connecting to server ...';
+    public connectionStatus: string;
 
     public onButtonClick() {
         this.serverService

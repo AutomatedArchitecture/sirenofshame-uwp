@@ -10,36 +10,48 @@ export class ServerService {
     private ws;
 
     constructor() {
+        this.isConnected = false;
         if ("WebSocket" in window) {
-            var wsUrl = this.getUrl();
-
-            var connection = new WebSocket(wsUrl, ['echo']);
-            connection.onopen = () => {
-                this.ws = connection;
-                this.ws.onmessage = (e) => {
-                    let data = JSON.parse(e.data);
-                    if (data.type === 'echoResult') {
-                        this.onMessage(data.result);
-                        return;
-                    } 
-                    if (data.type === 'getSirenInfoResult') {
-                        this.onGetSirenInfo(data.result);
-                    }
-                };
-
-                this.connected.emit(null);
-            };
-            connection.onerror = () => {
-                this.connectionError.emit("Error connecting via websockets.");
-            };
+            this.connectToServer();
         }
         else {
             this.connectionError.emit("This browser does not support websockets");
         }
     }
 
+    private connectToServer() {
+        var wsUrl = this.getUrl();
+        var connection = new WebSocket(wsUrl, ['echo']);
+        connection.onopen = () => {
+            this.isConnected = true;
+            this.ws = connection;
+            this.ws.onmessage = (e) => {
+                let data = JSON.parse(e.data);
+                if (data.type === 'echoResult') {
+                    this.onMessage(data.result);
+                    return;
+                }
+                if (data.type === 'getSirenInfoResult') {
+                    this.onGetSirenInfo(data.result);
+                }
+            };
+
+            this.connected.emit(null);
+        };
+        connection.onerror = () => {
+            this.isConnected = false;
+            this.connectionError.emit("Error connecting via websockets.");
+        };
+        connection.onclose = () => {
+            this.isConnected = false;
+            this.connectionError.emit("Lost connection to server, attempting to reconnect.");
+            this.connectToServer();
+        }
+    }
+
     @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
     @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
+    public isConnected: boolean;
 
     private getUrl() {
         //let port = (location.port ? ':' + location.port : '');
@@ -50,7 +62,7 @@ export class ServerService {
     }
 
     private send(sendRequest, err?: any) {
-        if (this.ws) {
+        if (this.ws && this.isConnected) {
             this.ws.send(JSON.stringify(sendRequest));
         } else {
             var subscription = this.connected.subscribe(() => {
