@@ -12,8 +12,7 @@ import { ServerService } from './server.service';
 })
 export class AppComponent {
     constructor(private serverService: ServerService) {
-        serverService.deviceConnected.subscribe(() => this.isDeviceConnected = true);
-        serverService.deviceDisconnected.subscribe(() => this.isDeviceConnected = false);
+        serverService.deviceConnectionChanged.subscribe(connected => this.isDeviceConnected = connected);
     }
 
     public isDeviceConnected: boolean;

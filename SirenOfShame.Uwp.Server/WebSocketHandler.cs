@@ -30,7 +30,7 @@ namespace SirenOfShame.Uwp.Server
             _socket = socket;
             socket.DataReceived += OnDataReceived;
             socket.ConnectionClosed += SocketOnConnectionClosed;
-            SendType(SirenService.Instance.IsConnected ? "deviceConnected" : "deviceDisconnected");
+            SendConnectionChanged(SirenService.Instance.IsConnected);
         }
 
         private void SocketOnConnectionClosed(WebSocket socket)
@@ -40,18 +40,18 @@ namespace SirenOfShame.Uwp.Server
 
         private void DeviceOnDisconnected(object sender, EventArgs e)
         {
-            SendType("deviceDisconnected");
-        }
-
-        private void SendType(string type)
-        {
-            if (_socket == null) return;
-            SendObject(_socket, new OkSocketResult { Type = type });
+            SendConnectionChanged(false);
         }
 
         private void DeviceOnConnected(object sender, EventArgs eventArgs)
         {
-            SendType("deviceConnected");
+            SendConnectionChanged(true);
+        }
+
+        private void SendConnectionChanged(bool isConnected)
+        {
+            if (_socket == null) return;
+            SendObject(_socket, new DeviceConnectionChangedResult(isConnected));
         }
 
         private static readonly CommandBase[] Commands = {
