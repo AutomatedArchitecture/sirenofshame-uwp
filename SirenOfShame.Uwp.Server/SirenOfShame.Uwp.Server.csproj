@@ -112,6 +112,7 @@
     <Compile Include="Commands\PlayLedPatternCommand.cs" />
     <Compile Include="Commands\PlayAudioPatternCommand.cs" />
     <Compile Include="Commands\SirenInfoCommand.cs" />
+    <Compile Include="Models\DeviceConnectionChangedResult.cs" />
     <Compile Include="Models\EchoResult.cs" />
     <Compile Include="Models\ErrorResult.cs" />
     <Compile Include="Models\OkSocketResult.cs" />

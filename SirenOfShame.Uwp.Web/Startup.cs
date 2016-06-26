@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,16 +61,21 @@ namespace SirenOfShame.Uwp.Web
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            var pages = new List<string> {"showoff", "server"};
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                routes.MapRoute(
-                    name: "showoff",
-                    template: "showoff",
-                    defaults: new { controller = "Home", action = "Index" }
-                    );
+                pages.ForEach(page =>
+                {
+                    routes.MapRoute(
+                        name: page,
+                        template: page,
+                        defaults: new {controller = "Home", action = "Index"}
+                        );
+                });
                 routes.MapRoute(
                     name: "vendorsmin",
                     template: "vendors.min.js",
