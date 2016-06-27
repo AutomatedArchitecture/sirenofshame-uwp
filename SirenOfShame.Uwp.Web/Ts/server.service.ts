@@ -1,4 +1,6 @@
 ﻿import { Injectable, Output, EventEmitter } from '@angular/core';
+import { MyBuildDefinition } from './models/myBuildDefinition';
+import { CiServer } from './models/ciServer';
 
 interface ISirenInfo {
     ledPatterns;
@@ -34,6 +36,9 @@ export class ServerService {
                 if (data.type === 'getSirenInfoResult') {
                     this.onGetSirenInfo(data.result);
                 }
+                if (data.type === 'getProjectsResult') {
+                    this.onGetProjects(data.result);
+                }
                 if (data.type === 'deviceConnectionChanged') {
                     this.deviceConnectionChanged.emit(data.result);
                 }
@@ -58,6 +63,10 @@ export class ServerService {
     @Output() public deviceConnectionChanged: EventEmitter<boolean> = new EventEmitter<any>(true);
 
     public isConnected: boolean;
+
+    private onMessage;
+    private onGetSirenInfo;
+    private onGetProjects;
 
     private getUrl() {
         //let port = (location.port ? ':' + location.port : '');
@@ -101,8 +110,16 @@ export class ServerService {
         );
     }
 
-    private onMessage;
-    private onGetSirenInfo;
+    public getProjects(ciServer: CiServer): Promise<MyBuildDefinition[]> {
+        return new Promise<MyBuildDefinition[]>((XPathNSResolver, err) => {
+            this.onGetProjects = (projects) => XPathNSResolver(projects);
+            var sendRequest = {
+                type: 'getProjects',
+                ciServer: ciServer
+            }
+            this.send(sendRequest, err);
+        });
+    }
 
     public playLedPattern(id: number) {
         var sendRequest = {

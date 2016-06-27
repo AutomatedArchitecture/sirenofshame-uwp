@@ -90,7 +90,7 @@ gulp.task('ts', function (done) {
 
 gulp.task('debug:copyts',
     function(done) {
-        return gulp.src(["Ts/*.ts"])
+        return gulp.src(["Ts/**/*.ts"])
             .pipe(gulp.dest("./wwwroot/Ts"));
     });
 
