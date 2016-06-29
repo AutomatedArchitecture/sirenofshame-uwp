@@ -1,6 +1,7 @@
 ﻿import {Component } from '@angular/core';
 import {CiServer} from './models/ciServer';
 import { ServerService } from './server.service';
+import { MyBuildDefinition } from './models/myBuildDefinition';
 
 @Component({
     templateUrl: './components/server.html'
@@ -12,9 +13,19 @@ export class Server {
 
     public ciServer = new CiServer();
 
+    public projects: MyBuildDefinition[];
+
     public onSubmit() {
         this.serverService.getProjects(this.ciServer).then(projects => {
-            alert('got ' + projects.length + 'projects');
+            this.projects = projects;
+        });
+    }
+
+    public onSave() {
+        this.projects.forEach(project => {
+            if (project.selected) {
+                alert('you selected ' + project.name);
+            }
         });
     }
 }
