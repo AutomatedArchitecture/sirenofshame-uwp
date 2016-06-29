@@ -5,6 +5,7 @@
 /// <reference path="appScripts/boot.js" />
 /// <reference path="appScripts/home.component.js" />
 /// <reference path="appscripts/models/ciServer.js" />
+/// <reference path="appscripts/models/mybuilddefinition.js" />
 /// <reference path="appscripts/server.component.js" />
 /// <reference path="appScripts/server.service.js" />
 /// <reference path="appScripts/show-off.component.js" />
