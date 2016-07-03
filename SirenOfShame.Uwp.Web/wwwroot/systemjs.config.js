@@ -16,21 +16,21 @@
     };
 
     var packageNames = [
-      '@angular/common',
-      '@angular/compiler',
-      '@angular/core',
-      '@angular/forms',
-      '@angular/http',
-      '@angular/platform-browser',
-      '@angular/platform-browser-dynamic',
-      '@angular/router',
-      '@angular/testing',
-      '@angular/upgrade'
+      'common',
+      'compiler',
+      'core',
+      'forms',
+      'http',
+      'platform-browser',
+      'platform-browser-dynamic',
+      'router',
+      'testing',
+      'upgrade'
     ];
 
     // add package entries for angular packages in the form '@angular/common': { main: 'index.js', defaultExtension: 'js' }
     packageNames.forEach(function (pkgName) {
-        packages[pkgName] = { main: 'index.js', defaultExtension: 'js' };
+        packages['@angular/' + pkgName] = { main: 'bundles/' + pkgName + '.umd.js', defaultExtension: 'js' };
     });
 
     var config = {
