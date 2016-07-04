@@ -12,8 +12,15 @@ import { ServerService } from './server.service';
 })
 export class AppComponent {
     constructor(private serverService: ServerService) {
+        serverService.connected.subscribe(() => {
+            this.webSocketsConnecting = false;
+            this.webSocketsError = null;
+        });
+        serverService.connectionError.subscribe(err => this.webSocketsError = err);
         serverService.deviceConnectionChanged.subscribe(connected => this.isDeviceConnected = connected);
     }
 
-    public isDeviceConnected: boolean;
+    public webSocketsConnecting: boolean = true;
+    public webSocketsError: string = null;
+    public isDeviceConnected: boolean = null;
 }
