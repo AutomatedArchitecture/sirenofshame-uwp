@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using IotWeb.Common.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -66,22 +67,29 @@ namespace SirenOfShame.Uwp.Server
 
         async void OnDataReceived(WebSocket socket, string frame)
         {
+            if (string.IsNullOrEmpty(frame)) return;
+            var request = JsonConvert.DeserializeAnonymousType(frame, new {type = ""});
+            var requestType = request.type;
+            var socketResult = await GetResponse(requestType, frame);
+            socketResult.Type = requestType;
+            SendObject(socket, socketResult);
+        }
+
+        private async Task<SocketResult> GetResponse(string requestType, string frame)
+        {
             try
             {
-                if (string.IsNullOrEmpty(frame)) return;
-                var request = JsonConvert.DeserializeAnonymousType(frame, new {type = ""});
-                var controller = Commands.FirstOrDefault(i => i.CommandName == request.type);
+                var controller = Commands.FirstOrDefault(i => i.CommandName == requestType);
                 if (controller == null)
                 {
-                    SendObject(socket, new ErrorResult(404, "No controller associated with type: " + request.type));
-                    return;
+                    return new ErrorResult(404, "No controller associated with type: " + requestType);
                 }
                 var result = await controller.Invoke(frame);
-                SendObject(socket, result);
+                return result;
             }
             catch (Exception ex)
             {
-                SendObject(socket, new ErrorResult(500, ex.ToString()));
+                return new ErrorResult(500, ex.ToString());
             }
         }
 

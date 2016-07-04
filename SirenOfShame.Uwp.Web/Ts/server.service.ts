@@ -29,18 +29,22 @@ export class ServerService {
             this.ws = connection;
             this.ws.onmessage = (e) => {
                 let data = JSON.parse(e.data);
-                if (data.type === 'echoResult') {
+                if (data.type === 'echo') {
                     this.onMessage(data.result);
                     return;
                 }
-                if (data.type === 'getSirenInfoResult') {
-                    this.onGetSirenInfo(data.result);
+                if (data.type === 'getSirenInfo') {
+                    this.onGetSirenInfo(data);
                 }
-                if (data.type === 'getProjectsResult') {
-                    this.onGetProjects(data.result);
+                if (data.type === 'getProjects') {
+                    this.onGetProjects(data);
                 }
                 if (data.type === 'deviceConnectionChanged') {
-                    this.deviceConnectionChanged.emit(data.result);
+                    if (data.responseCode === 200) {
+                        this.deviceConnectionChanged.emit(data.result);
+                    } else {
+                        console.error(data.result);
+                    }
                 }
             };
 
@@ -101,7 +105,7 @@ export class ServerService {
 
     public getSirenInfo(): Promise<ISirenInfo> {
         return new Promise<ISirenInfo>((resolve, err) => {
-            this.onGetSirenInfo = (sirenInfo) => resolve(sirenInfo);
+            this.onGetSirenInfo = (sirenInfo) => resolve(sirenInfo.result);
             var sendRequest = {
                 type: 'getSirenInfo'
             }
@@ -111,8 +115,14 @@ export class ServerService {
     }
 
     public getProjects(ciServer: CiServer): Promise<MyBuildDefinition[]> {
-        return new Promise<MyBuildDefinition[]>((XPathNSResolver, err) => {
-            this.onGetProjects = (projects) => XPathNSResolver(projects);
+        return new Promise<MyBuildDefinition[]>((resolve, err) => {
+            this.onGetProjects = (result) => {
+                if (result.responseCode === 200) {
+                    resolve(result.result);
+                } else {
+                    err(result.result);
+                }
+            };
             var sendRequest = {
                 type: 'getProjects',
                 ciServer: ciServer

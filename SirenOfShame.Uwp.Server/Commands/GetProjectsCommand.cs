@@ -28,29 +28,34 @@ namespace SirenOfShame.Uwp.Server.Commands
 
         public override async Task<SocketResult> Invoke(string frame)
         {
-            if (_taskCompletionSource != null) await _taskCompletionSource.Task;
+            if (_taskCompletionSource?.Task?.IsCompleted == false) await _taskCompletionSource.Task;
             _taskCompletionSource = new TaskCompletionSource<SocketResult>();
 
-            var getProjectsRequest = JsonConvert.DeserializeObject<GetProjectsRequest>(frame);
+            try
+            {
+                var getProjectsRequest = JsonConvert.DeserializeObject<GetProjectsRequest>(frame);
 
-            var service = new HudsonService();
-            var ciServer = getProjectsRequest.CiServer;
-            service.GetProjects(ciServer.Url, ciServer.UserName, ciServer.Password, GetProjectsComplete, GetProjectsError);
-            var socketResult = await _taskCompletionSource.Task;
-            return socketResult;
+                var service = new HudsonService();
+                var ciServer = getProjectsRequest.CiServer;
+                service.GetProjects(ciServer.Url, ciServer.UserName, ciServer.Password, GetProjectsComplete,
+                    GetProjectsError);
+            }
+            catch (Exception ex)
+            {
+                _taskCompletionSource.TrySetException(ex);
+            }
+            return await _taskCompletionSource.Task;
         }
 
         private void GetProjectsError(Exception obj)
         {
             _taskCompletionSource.TrySetException(obj);
-            _taskCompletionSource = null;
         }
 
         private void GetProjectsComplete(HudsonBuildDefinition[] builddefinitions)
         {
             var getProjectsResult = new GetProjectsResult(builddefinitions);
             _taskCompletionSource.TrySetResult(getProjectsResult);
-            _taskCompletionSource = null;
         }
     }
 }

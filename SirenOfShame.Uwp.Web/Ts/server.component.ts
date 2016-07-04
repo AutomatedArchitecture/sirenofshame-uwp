@@ -15,10 +15,21 @@ export class Server {
 
     public projects: MyBuildDefinition[];
 
-    public onSubmit() {
-        this.serverService.getProjects(this.ciServer).then(projects => {
-            this.projects = projects;
-        });
+    public loadingProjects: boolean = false;
+
+    public errorMessage: string = null;
+
+    public getProjects() {
+        this.loadingProjects = true;
+        this.serverService.getProjects(this.ciServer)
+            .then(projects => {
+                this.projects = projects;
+            }, ex => {
+                this.errorMessage = ex;
+            })
+            .then(something => {
+                this.loadingProjects = false;
+            });
     }
 
     public onSave() {
