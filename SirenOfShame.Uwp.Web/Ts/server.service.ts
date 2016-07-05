@@ -1,6 +1,7 @@
 ﻿import { Injectable, Output, EventEmitter } from '@angular/core';
 import { MyBuildDefinition } from './models/myBuildDefinition';
 import { CiServer } from './models/ciServer';
+import { BaseCommand } from './commands/base.command';
 
 interface ISirenInfo {
     ledPatterns;
@@ -10,6 +11,7 @@ interface ISirenInfo {
 @Injectable()
 export class ServerService {
     private ws;
+    private commands: BaseCommand[] = [];
 
     constructor() {
         this.isConnected = false;
@@ -21,6 +23,10 @@ export class ServerService {
         }
     }
 
+    registerCommand(command: BaseCommand) {
+        this.commands.push(command);
+    }
+
     private connectToServer() {
         var wsUrl = this.getUrl();
         var connection = new WebSocket(wsUrl, ['echo']);
@@ -29,10 +35,13 @@ export class ServerService {
             this.ws = connection;
             this.ws.onmessage = (e) => {
                 let data = JSON.parse(e.data);
-                if (data.type === 'echo') {
-                    this.onMessage(data.result);
-                    return;
-                }
+
+                this.commands.forEach(command => {
+                    if (command.type === data.type) {
+                        command.response(data);
+                    }
+                });
+
                 if (data.type === 'getSirenInfo') {
                     this.onGetSirenInfo(data);
                 }
@@ -68,7 +77,6 @@ export class ServerService {
 
     public isConnected: boolean;
 
-    private onMessage;
     private onGetSirenInfo;
     private onGetProjects;
 
@@ -80,7 +88,7 @@ export class ServerService {
         return "ws://" + hostname + port + "/sockets/";
     }
 
-    private send(sendRequest, err?: any) {
+    public send(sendRequest, err?: any) {
         if (this.ws && this.isConnected) {
             this.ws.send(JSON.stringify(sendRequest));
         } else {
@@ -89,18 +97,6 @@ export class ServerService {
                 subscription.unsubscribe();
             });
         }
-    }
-
-    public echo(message: string): Promise<string> {
-        return new Promise<string>((resolve, err) => {
-                this.onMessage = (message) => resolve(message);
-                var sendRequest = {
-                    type: 'echo',
-                    message: message
-                };
-                this.send(sendRequest, err);
-            }
-        );
     }
 
     public getSirenInfo(): Promise<ISirenInfo> {

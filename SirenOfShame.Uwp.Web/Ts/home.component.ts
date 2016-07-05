@@ -1,13 +1,11 @@
 ﻿import {Component, OnInit } from '@angular/core';
-import { ServerService } from './server.service';
+import { EchoCommand } from './commands/echo.command'
 
 @Component({
     template: `
     <h1>Siren of Shame</h1>
     <h2>Messages</h2>
     <div>{{messages}}</div>
-    <h2 *ngIf="connectionStatus">Status</h2>
-    <div *ngIf="connectionStatus">{{connectionStatus}}</div>
     <h2>Send</h2>
     <input type="text" [(ngModel)]="message" />
     <button type="submit" (click)="onButtonClick()">Send</button>
@@ -18,16 +16,13 @@ export class Home implements OnInit {
     public messages: string;
     public errors: string;
 
-    constructor(private serverService: ServerService) {
-        this.connectionStatus = serverService.isConnected ? null : 'Connecting to server ...';
-        serverService.connected.subscribe(() => this.connectionStatus = null);
-        serverService.connectionError.subscribe(error => this.connectionStatus = error);
+    constructor(private echoCommand: EchoCommand) {
     }
 
     public connectionStatus: string;
 
     public onButtonClick() {
-        this.serverService
+        this.echoCommand
             .echo(this.message)
             .then(message => this.messages += message, err => alert(err));
     }

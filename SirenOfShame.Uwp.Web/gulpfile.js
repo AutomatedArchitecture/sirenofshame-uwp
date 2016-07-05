@@ -82,7 +82,7 @@ gulp.task("pideploy", ["deploy:ts", "pideploy:copy"]);
 gulp.task('ts', function (done) {
     var tsProject = ts.createProject('./Ts/tsconfig.json');
     var tsResult = gulp.src([
-            "Ts/*.ts"
+            "Ts/**/*.ts"
     ])
     .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
     return tsResult.js.pipe(gulp.dest('./wwwroot/appScripts'));
