@@ -1,11 +1,6 @@
 ﻿import { Injectable, Output, EventEmitter } from '@angular/core';
 import { BaseCommand } from './commands/base.command';
 
-interface ISirenInfo {
-    ledPatterns;
-    audioPatterns;
-}
-
 @Injectable()
 export class ServerService {
     private ws;
@@ -37,12 +32,10 @@ export class ServerService {
                 this.commands.forEach(command => {
                     if (command.type === data.type) {
                         command.response(data);
+                        return;
                     }
                 });
 
-                if (data.type === 'getSirenInfo') {
-                    this.onGetSirenInfo(data);
-                }
                 if (data.type === 'deviceConnectionChanged') {
                     if (data.responseCode === 200) {
                         this.deviceConnectionChanged.emit(data.result);
@@ -67,13 +60,9 @@ export class ServerService {
 
     @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
     @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
-
     @Output() public deviceConnectionChanged: EventEmitter<boolean> = new EventEmitter<any>(true);
 
     public isConnected: boolean;
-
-    private onGetSirenInfo;
-    private onGetProjects;
 
     private getUrl() {
         //let port = (location.port ? ':' + location.port : '');
@@ -92,32 +81,5 @@ export class ServerService {
                 subscription.unsubscribe();
             });
         }
-    }
-
-    public getSirenInfo(): Promise<ISirenInfo> {
-        return new Promise<ISirenInfo>((resolve, err) => {
-            this.onGetSirenInfo = (sirenInfo) => resolve(sirenInfo.result);
-            var sendRequest = {
-                type: 'getSirenInfo'
-            }
-            this.send(sendRequest, err);
-        }
-        );
-    }
-
-    public playLedPattern(id: number) {
-        var sendRequest = {
-            type: 'playLedPattern',
-            id: id
-        }
-        this.send(sendRequest);
-    }
-
-    public playAudioPattern(id: number) {
-        var sendRequest = {
-            type: 'playAudioPattern',
-            id: id
-        }
-        this.send(sendRequest);
     }
 }

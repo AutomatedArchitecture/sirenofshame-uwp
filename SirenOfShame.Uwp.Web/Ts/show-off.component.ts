@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {ROUTER_DIRECTIVES} from '@angular/router';
 import 'rxjs/add/operator/toPromise';
-import { ServerService } from './server.service';
+import { GetSirenInfoCommand } from './commands/get-siren-info.command';
 
 @Component({
     template: `
@@ -39,8 +39,8 @@ import { ServerService } from './server.service';
 `
 })
 export class ShowOff {
-    constructor(private serverService: ServerService) {
-        serverService
+    constructor(private getSirenInfoCommand: GetSirenInfoCommand) {
+        getSirenInfoCommand
             .getSirenInfo()
             .then(result => {
                 this.ledPatterns = result.ledPatterns;
@@ -52,18 +52,18 @@ export class ShowOff {
     public audioPatterns: string[];
 
     public playLights(id: number) {
-        this.serverService.playLedPattern(id);
+        this.getSirenInfoCommand.playLedPattern(id);
     }
 
     public stopLights() {
-        this.serverService.playLedPattern(null);
+        this.getSirenInfoCommand.playLedPattern(null);
     }
 
     public playAudio(id: number) {
-        this.serverService.playAudioPattern(id);
+        this.getSirenInfoCommand.playAudioPattern(id);
     }
 
     public stopAudio() {
-        this.serverService.playAudioPattern(null);
+        this.getSirenInfoCommand.playAudioPattern(null);
     }
 }
