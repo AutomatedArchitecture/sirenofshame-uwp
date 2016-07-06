@@ -4,7 +4,8 @@ import {Home} from './home.component'
 import {Server} from './server.component'
 
 export const routes: RouterConfig = [
-    { path: '', component: Home },
+    { path: '', redirectTo: 'home', pathMatch: 'full' },
+    { path: 'home', component: Home },
     { path: 'showoff', component: ShowOff },
     { path: 'server', component: Server }
 ];

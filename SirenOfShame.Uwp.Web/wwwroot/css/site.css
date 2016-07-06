@@ -56,3 +56,10 @@ input + .alert.alert-danger {
     -webkit-transform: rotate(360deg);
   }
 }
+li.disabled {
+  cursor: not-allowed;
+}
+a.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+}
