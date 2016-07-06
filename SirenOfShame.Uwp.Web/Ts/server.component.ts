@@ -1,13 +1,13 @@
 ﻿import {Component } from '@angular/core';
 import {CiServer} from './models/ciServer';
-import { ServerService } from './server.service';
+import { GetProjectsCommand } from './commands/get-projects.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
 
 @Component({
     templateUrl: './components/server.html'
 })
 export class Server {
-    constructor(private serverService: ServerService) {
+    constructor(private getProjectsCommand: GetProjectsCommand) {
         
     }
 
@@ -21,13 +21,13 @@ export class Server {
 
     public getProjects() {
         this.loadingProjects = true;
-        this.serverService.getProjects(this.ciServer)
+        this.getProjectsCommand.getProjects(this.ciServer)
             .then(projects => {
                 this.projects = projects;
             }, ex => {
                 this.errorMessage = ex;
             })
-            .then(something => {
+            .then(() => {
                 this.loadingProjects = false;
             });
     }

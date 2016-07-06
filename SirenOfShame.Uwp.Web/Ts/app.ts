@@ -3,12 +3,13 @@ import {ROUTER_DIRECTIVES} from '@angular/router';
 import {ShowOff} from './show-off.component'
 import {Home} from './home.component'
 import { ServerService } from './server.service';
-import { EchoCommand } from './commands/echo.command'
+import { EchoCommand } from './commands/echo.command';
+import { GetProjectsCommand } from './commands/get-projects.command';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'components/app.html',
-    providers: [ServerService, EchoCommand],
+    providers: [ServerService, EchoCommand, GetProjectsCommand ],
     directives: [ROUTER_DIRECTIVES]
 })
 export class AppComponent {

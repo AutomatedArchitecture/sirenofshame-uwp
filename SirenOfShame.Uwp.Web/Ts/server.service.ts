@@ -1,6 +1,4 @@
 ﻿import { Injectable, Output, EventEmitter } from '@angular/core';
-import { MyBuildDefinition } from './models/myBuildDefinition';
-import { CiServer } from './models/ciServer';
 import { BaseCommand } from './commands/base.command';
 
 interface ISirenInfo {
@@ -44,9 +42,6 @@ export class ServerService {
 
                 if (data.type === 'getSirenInfo') {
                     this.onGetSirenInfo(data);
-                }
-                if (data.type === 'getProjects') {
-                    this.onGetProjects(data);
                 }
                 if (data.type === 'deviceConnectionChanged') {
                     if (data.responseCode === 200) {
@@ -108,23 +103,6 @@ export class ServerService {
             this.send(sendRequest, err);
         }
         );
-    }
-
-    public getProjects(ciServer: CiServer): Promise<MyBuildDefinition[]> {
-        return new Promise<MyBuildDefinition[]>((resolve, err) => {
-            this.onGetProjects = (result) => {
-                if (result.responseCode === 200) {
-                    resolve(result.result);
-                } else {
-                    err(result.result);
-                }
-            };
-            var sendRequest = {
-                type: 'getProjects',
-                ciServer: ciServer
-            }
-            this.send(sendRequest, err);
-        });
     }
 
     public playLedPattern(id: number) {
