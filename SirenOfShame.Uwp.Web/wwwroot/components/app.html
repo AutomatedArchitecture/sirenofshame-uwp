@@ -15,8 +15,9 @@
                 <li class="dropdown" [routerLinkActive]="['active']">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">CI Servers <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">Server #1</a></li>
-                        <li><a href="#">Server #2</a></li>
+                        <li *ngFor="let ciEntryPoint of ciEntryPointSettings">
+                            <a href="#">{{ciEntryPoint.name}}</a>
+                        </li>
                         <li role="separator" class="divider"></li>
                         <li><a [routerLink]="['server']">Add CI Server</a></li>
                     </ul>
