@@ -5,15 +5,14 @@ using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class GetCiEntryPointSettings : CommandBase
+    internal class GetCiEntryPointSettingsCommand : CommandBase
     {
         public override string CommandName => "getCiEntryPointSettings";
         public override async Task<SocketResult> Invoke(string frame)
         {
             IEnumerable<CiEntryPointSetting> ciEntryPoints = new []
             {
-                new CiEntryPointSetting { Name = "Server Bob" },
-                new CiEntryPointSetting { Name = "Server Sam" },
+                new CiEntryPointSetting { Name = "Jenkins", Url = "http://win7ci3:8081"},
             };
             await Task.Yield();
             return new GetCiEntryPointSettingsResult(ciEntryPoints);

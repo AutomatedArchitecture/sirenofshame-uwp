@@ -1,4 +1,5 @@
 ﻿import {Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {CiServer} from './models/ciServer';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
@@ -7,8 +8,25 @@ import { MyBuildDefinition } from './models/myBuildDefinition';
     templateUrl: './components/server.html'
 })
 export class Server {
-    constructor(private getBuildDefinitionsCommand: GetBuildDefinitionsCommand) {
+    constructor(
+        private getBuildDefinitionsCommand: GetBuildDefinitionsCommand,
+        private route: ActivatedRoute,
+        private router: Router
+    ) {
         
+    }
+
+    private sub: any;
+
+    ngOnInit() {
+        this.sub = this.router.routerState.queryParams.subscribe(params => {
+            let url = params['url'];
+            this.ciServer.url = url;
+        });
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
     public ciServer = new CiServer();

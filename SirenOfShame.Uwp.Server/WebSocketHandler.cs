@@ -61,7 +61,7 @@ namespace SirenOfShame.Uwp.Server
             new PlayLedPatternCommand(),
             new PlayAudioPatternCommand(), 
             new GetBuildDefinitionsCommand(), 
-            new GetCiEntryPointSettings(),
+            new GetCiEntryPointSettingsCommand(),
         };
 
         private WebSocket _socket;
