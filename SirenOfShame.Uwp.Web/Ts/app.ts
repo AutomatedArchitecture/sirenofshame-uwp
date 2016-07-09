@@ -19,7 +19,10 @@ export class AppComponent {
             this.webSocketsConnecting = false;
             this.webSocketsError = null;
         });
-        serverService.connectionError.subscribe(err => this.webSocketsError = err);
+        serverService.connectionError.subscribe(err => {
+            this.webSocketsConnecting = false;
+            this.webSocketsError = err;
+        });
         serverService.deviceConnectionChanged.subscribe(connected => this.isDeviceConnected = connected);
     }
 
