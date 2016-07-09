@@ -1,13 +1,13 @@
 ﻿import {Component } from '@angular/core';
 import {CiServer} from './models/ciServer';
-import { GetProjectsCommand } from './commands/get-projects.command';
+import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
 
 @Component({
     templateUrl: './components/server.html'
 })
 export class Server {
-    constructor(private getProjectsCommand: GetProjectsCommand) {
+    constructor(private getBuildDefinitionsCommand: GetBuildDefinitionsCommand) {
         
     }
 
@@ -21,7 +21,7 @@ export class Server {
 
     public getProjects() {
         this.loadingProjects = true;
-        this.getProjectsCommand.getProjects(this.ciServer)
+        this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciServer)
             .then(projects => {
                 this.projects = projects;
             }, ex => {

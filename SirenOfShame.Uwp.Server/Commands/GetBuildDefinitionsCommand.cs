@@ -21,9 +21,9 @@ namespace SirenOfShame.Uwp.Server.Commands
         public string Password { get; set; }
     }
 
-    internal class GetProjectsCommand : CommandBase
+    internal class GetBuildDefinitionsCommand : CommandBase
     {
-        public override string CommandName => "getProjects";
+        public override string CommandName => "getBuildDefinitions";
         private TaskCompletionSource<SocketResult> _taskCompletionSource;
 
         public override async Task<SocketResult> Invoke(string frame)

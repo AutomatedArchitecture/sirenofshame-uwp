@@ -5,7 +5,7 @@ import { CiServer } from '../models/ciServer';
 import { MyBuildDefinition } from '../models/myBuildDefinition';
 
 @Injectable()
-export class GetProjectsCommand extends BaseCommand {
+export class GetBuildDefinitionsCommand extends BaseCommand {
     constructor(protected serverService: ServerService) {
         super(serverService);
 
@@ -13,12 +13,12 @@ export class GetProjectsCommand extends BaseCommand {
     }
 
     get type() {
-        return "getProjects";
+        return "getBuildDefinitions";
     }
 
     public response(data) { }
 
-    public getProjects(ciServer: CiServer): Promise<MyBuildDefinition[]> {
+    public getBuildDefinitions(ciServer: CiServer): Promise<MyBuildDefinition[]> {
         return new Promise<MyBuildDefinition[]>((resolve, err) => {
             this.response = (result) => {
                 if (result.responseCode === 200) {
@@ -28,7 +28,7 @@ export class GetProjectsCommand extends BaseCommand {
                 }
             };
             var sendRequest = {
-                type: 'getProjects',
+                type: 'getBuildDefinitions',
                 ciServer: ciServer
             }
             this.serverService.send(sendRequest, err);

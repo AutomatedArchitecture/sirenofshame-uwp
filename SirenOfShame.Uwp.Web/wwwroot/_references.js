@@ -5,6 +5,7 @@
 /// <reference path="appScripts/boot.js" />
 /// <reference path="appscripts/commands/base.command.js" />
 /// <reference path="appscripts/commands/echo.command.js" />
+/// <reference path="appscripts/commands/get-builddefinitions.command.js" />
 /// <reference path="appscripts/commands/get-projects.command.js" />
 /// <reference path="appscripts/commands/get-siren-info.command.js" />
 /// <reference path="appScripts/home.component.js" />

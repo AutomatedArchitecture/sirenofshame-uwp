@@ -4,13 +4,13 @@ import {ShowOff} from './show-off.component'
 import {Home} from './home.component'
 import { ServerService } from './server.service';
 import { EchoCommand } from './commands/echo.command';
-import { GetProjectsCommand } from './commands/get-projects.command';
+import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
 import { GetSirenInfoCommand } from './commands/get-siren-info.command';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'components/app.html',
-    providers: [ServerService, EchoCommand, GetProjectsCommand, GetSirenInfoCommand ],
+    providers: [ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand ],
     directives: [ROUTER_DIRECTIVES]
 })
 export class AppComponent {

@@ -109,7 +109,7 @@
   <ItemGroup>
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\EchoCommand.cs" />
-    <Compile Include="Commands\GetProjectsCommand.cs" />
+    <Compile Include="Commands\GetBuildDefinitionsCommand.cs" />
     <Compile Include="Commands\PlayLedPatternCommand.cs" />
     <Compile Include="Commands\PlayAudioPatternCommand.cs" />
     <Compile Include="Commands\SirenInfoCommand.cs" />

@@ -60,7 +60,7 @@ namespace SirenOfShame.Uwp.Server
             new SirenInfoCommand(),
             new PlayLedPatternCommand(),
             new PlayAudioPatternCommand(), 
-            new GetProjectsCommand(), 
+            new GetBuildDefinitionsCommand(), 
         };
 
         private WebSocket _socket;
