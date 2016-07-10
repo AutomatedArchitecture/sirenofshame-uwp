@@ -7,7 +7,8 @@ export const routes: RouterConfig = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: Home },
     { path: 'showoff', component: ShowOff },
-    { path: 'server', component: Server }
+    { path: 'server', component: Server },
+    { path: 'server/:id', component: Server }
 ];
 
 export const APP_ROUTER_PROVIDERS = [

@@ -2,6 +2,7 @@
 import { ActivatedRoute, Router } from '@angular/router';
 import {CiServer} from './models/ciServer';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
+import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
 
 @Component({
@@ -10,6 +11,7 @@ import { MyBuildDefinition } from './models/myBuildDefinition';
 export class Server {
     constructor(
         private getBuildDefinitionsCommand: GetBuildDefinitionsCommand,
+        private getCiEntryPointSettingCommand: GetCiEntryPointSettingCommand,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -19,9 +21,14 @@ export class Server {
     private sub: any;
 
     ngOnInit() {
-        this.sub = this.router.routerState.queryParams.subscribe(params => {
-            let url = params['url'];
-            this.ciServer.url = url;
+        this.sub = this.route.params.subscribe(params => {
+            let id = +params['id'];
+            if (id) {
+                this.getCiEntryPointSettingCommand.invoke(id)
+                    .then(ciEntryPointSetting => {
+                        this.ciServer.url = ciEntryPointSetting.url;
+                    });
+            }
         });
     }
 

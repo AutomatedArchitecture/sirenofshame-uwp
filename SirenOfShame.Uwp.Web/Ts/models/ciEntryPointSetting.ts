@@ -1,4 +1,5 @@
 ﻿export class CiEntryPointSetting {
+    id: number;
     name: string;
-    url: boolean;
+    url: string;
 }

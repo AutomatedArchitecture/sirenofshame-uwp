@@ -6,6 +6,7 @@
 /// <reference path="appscripts/commands/base.command.js" />
 /// <reference path="appscripts/commands/echo.command.js" />
 /// <reference path="appscripts/commands/get-builddefinitions.command.js" />
+/// <reference path="appscripts/commands/get-cientrypointsetting.command.js" />
 /// <reference path="appscripts/commands/get-cientrypointsettings.command.js" />
 /// <reference path="appscripts/commands/get-projects.command.js" />
 /// <reference path="appscripts/commands/get-siren-info.command.js" />

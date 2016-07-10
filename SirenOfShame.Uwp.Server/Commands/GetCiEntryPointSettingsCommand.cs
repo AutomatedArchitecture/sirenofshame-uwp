@@ -12,7 +12,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         {
             IEnumerable<CiEntryPointSetting> ciEntryPoints = new []
             {
-                new CiEntryPointSetting { Name = "Jenkins", Url = "http://win7ci3:8081"},
+                new CiEntryPointSetting { Id = 1, Name = "Jenkins", Url = "http://win7ci3:8081"},
             };
             await Task.Yield();
             return new GetCiEntryPointSettingsResult(ciEntryPoints);
@@ -23,7 +23,6 @@ namespace SirenOfShame.Uwp.Server.Commands
     {
         public GetCiEntryPointSettingsResult(IEnumerable<CiEntryPointSetting> projects)
         {
-            Type = "getProjectsResult";
             ResponseCode = 200;
             Result = projects;
         }
