@@ -77,7 +77,7 @@ gulp.task("pideploy:copy", ["deploy:ts"], function() {
         .pipe(gulp.dest(dst));
 });
 
-gulp.task("pideploy", ["deploy:ts", "pideploy:copy"]);
+gulp.task("pideploy", ["deploy", "pideploy:copy"]);
 
 gulp.task('ts', function (done) {
     var tsProject = ts.createProject('./Ts/tsconfig.json');
@@ -143,13 +143,14 @@ gulp.task('deploy:vendor-bundle', function () {
 
 gulp.task('deploy:ng2-bundle', function () {
     gulp.src([
-      'node_modules/@angular/common/common.umd.js',
-      'node_modules/@angular/compiler/compiler.umd.js',
-      'node_modules/@angular/core/core.umd.js',
-      'node_modules/@angular/http/http.umd.js',
-      'node_modules/@angular/platform-browser/platform-browser.umd.js',
-      'node_modules/@angular/platform-browser-dynamic/platform-browser-dynamic.umd.js',
-      'node_modules/@angular/router/router.umd.js'
+      'node_modules/@angular/common/bundles/common.umd.min.js',
+      'node_modules/@angular/compiler/bundles/compiler.umd.min.js',
+      'node_modules/@angular/core/bundles/core.umd.min.js',
+      'node_modules/@angular/forms/bundles/forms.umd.min.js',
+      'node_modules/@angular/http/bundles/http.umd.min.js',
+      'node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js',
+      'node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js',
+      'node_modules/@angular/router/bundles/router.umd.min.js'
     ], { base: 'node_modules' })
     .pipe(gulp.dest('./wwwroot/dist'));
 });
