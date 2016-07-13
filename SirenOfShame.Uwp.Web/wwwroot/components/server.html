@@ -1,5 +1,5 @@
 ﻿<h1>Add CI Server</h1>
-<form class="form-horizontal" (ngSubmit)="getProjects()" #serverForm="ngForm" novalidate *ngIf="!projects">
+<form class="form-horizontal" (ngSubmit)="getProjects()" #serverForm="ngForm" novalidate *ngIf="!ciEntryPointSetting.projects">
     <div *ngIf="errorMessage && !loadingProjects" class="alert alert-danger">{{errorMessage}}</div>
     <div class="form-group">
         <label for="serverType" class="col-sm-2 control-label">Server Type</label>
@@ -49,9 +49,9 @@
         </div>
     </div>
 </form>
-<form class="form-horizontal" (ngSubmit)="onSave()" #serverForm="ngForm" novalidate *ngIf="projects">
+<form class="form-horizontal" (ngSubmit)="onSave()" #serverForm="ngForm" novalidate *ngIf="ciEntryPointSetting.projects">
     <p>Select projects to watch</p>
-    <div class="checkbox" *ngFor="let project of projects">
+    <div class="checkbox" *ngFor="let project of ciEntryPointSetting.projects">
         <label>
             <input type="checkbox" [(ngModel)]="project.selected" name="{{project.id}}"> {{project.name}}
         </label>

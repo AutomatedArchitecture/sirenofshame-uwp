@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
 import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
+import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
 
 @Component({
@@ -38,8 +39,6 @@ export class Server {
 
     public ciEntryPointSetting = new CiEntryPointSetting();
 
-    public projects: MyBuildDefinition[];
-
     public loadingProjects: boolean = false;
 
     public errorMessage: string = null;
@@ -48,7 +47,7 @@ export class Server {
         this.loadingProjects = true;
         this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciEntryPointSetting)
             .then(projects => {
-                this.projects = projects;
+                this.ciEntryPointSetting.projects = projects;
             }, ex => {
                 this.errorMessage = ex;
             })
@@ -58,7 +57,7 @@ export class Server {
     }
 
     public onSave() {
-        this.projects.filter(i => i.selected).forEach(project => {
+        this.ciEntryPointSetting.projects.filter(i => i.selected).forEach(project => {
             alert('you selected ' + project.name);
         });
     }
