@@ -127,6 +127,7 @@
     <Compile Include="Models\SirenInfoResult.cs" />
     <Compile Include="Models\SocketResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SirenOfShameSettingsService.cs" />
     <Compile Include="Services\SirenService.cs" />
     <Compile Include="WebSocketHandler.cs" />
     <EmbeddedResource Include="Properties\SirenOfShame.Uwp.Server.rd.xml" />

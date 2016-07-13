@@ -39,6 +39,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculator.cs" />
+    <Compile Include="Device\AudioPattern.cs" />
+    <Compile Include="Device\LedPattern.cs" />
     <Compile Include="Exceptions\BuildDefinitionNotFoundException.cs" />
     <Compile Include="Exceptions\ExceptionMessageBox.cs" />
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
@@ -52,9 +54,11 @@
     <Compile Include="ICiEntryPoint.cs" />
     <Compile Include="MyLogManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\SoundService.cs" />
     <Compile Include="Settings\BuildDefinitionSetting.cs" />
     <Compile Include="Settings\CiEntryPointSetting.cs" />
     <Compile Include="Settings\MyBuildDefinition.cs" />
+    <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />
     <Compile Include="Settings\TripleDesStringEncryptor.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
