@@ -7,9 +7,8 @@ using SirenOfShame.Uwp.Watcher.HudsonServices;
 namespace SirenOfShame.Uwp.Server.Commands
 {
 
-    public class GetProjectsRequest
+    public class GetProjectsRequest : RequestBase
     {
-        public string Type { get; set; }
         public CiServer CiServer { get; set; }
     }
 

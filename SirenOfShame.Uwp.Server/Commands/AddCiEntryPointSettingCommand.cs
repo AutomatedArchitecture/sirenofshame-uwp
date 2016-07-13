@@ -1,21 +1,38 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
+    public class AddCiEntryPointSettingRequest : RequestBase
+    {
+        public string Type { get; set; }
+        public CiEntryPointSetting CiEntryPointSetting { get; set; }
+    }
+
     internal class AddCiEntryPointSettingCommand : CommandBase
     {
         public override string CommandName => "addCiEntryPointSetting";
         public override async Task<SocketResult> Invoke(string frame)
         {
             var sosService = SirenOfShameSettingsService.Instance;
-            var ciEntryPointSetting = JsonConvert.DeserializeObject<CiEntryPointSetting>(frame);
+            var jsonSerializerSettings = new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
+            var request = JsonConvert.DeserializeObject<AddCiEntryPointSettingRequest>(frame, jsonSerializerSettings);
+
             var appSettings = await sosService.GetAppSettings();
-            appSettings.CiEntryPointSettings.Add(ciEntryPointSetting);
-            await sosService.Save(ciEntryPointSetting);
+
+            request.CiEntryPointSetting.Id = appSettings.CiEntryPointSettings.Max(i => (int?)i.Id) ?? 0 + 1;
+
+            appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
+            await sosService.Save(appSettings);
             return new OkSocketResult();
         }
     }

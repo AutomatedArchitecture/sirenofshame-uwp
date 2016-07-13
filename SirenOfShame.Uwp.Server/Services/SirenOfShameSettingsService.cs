@@ -24,19 +24,26 @@ namespace SirenOfShame.Uwp.Server.Services
             var configFile = await sosFolder.TryGetItemAsync(SirenOfShameSettings.SIRENOFSHAME_CONFIG);
             if (configFile != null)
             {
-                var fileStream = new FileStream(configFile.Path, FileMode.Open);
-                var streamReader = new StreamReader(fileStream);
-                var contents = await streamReader.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<SirenOfShameSettings>(contents);
+                using (var fileStream = new FileStream(configFile.Path, FileMode.Open))
+                using (var streamReader = new StreamReader(fileStream))
+                {
+                    var contents = await streamReader.ReadToEndAsync();
+                    return JsonConvert.DeserializeObject<SirenOfShameSettings>(contents);
+                }
             }
 
             return SirenOfShameSettings.GetDefaultSettings();
         }
 
-        public async Task Save(CiEntryPointSetting ciEntryPointSetting)
+        public async Task Save(SirenOfShameSettings settings)
         {
-            // todo: implement save
-            await Task.Yield();
+            var sosFolder = await GetSosAppDataFolder();
+            using (var fileStream = new FileStream(Path.Combine(sosFolder.Path, SirenOfShameSettings.SIRENOFSHAME_CONFIG), FileMode.OpenOrCreate))
+            using (var streamWriter = new StreamWriter(fileStream))
+            {
+                var contents = JsonConvert.SerializeObject(settings);
+                await streamWriter.WriteAsync(contents);
+            }
         }
     }
 }
