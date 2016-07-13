@@ -13,6 +13,7 @@ export class Server {
     constructor(
         private getBuildDefinitionsCommand: GetBuildDefinitionsCommand,
         private getCiEntryPointSettingCommand: GetCiEntryPointSettingCommand,
+        private addCiEntryPointSettingCommand: AddCiEntryPointSettingCommand,
         private route: ActivatedRoute,
         private router: Router
     ) {
@@ -57,8 +58,7 @@ export class Server {
     }
 
     public onSave() {
-        this.ciEntryPointSetting.projects.filter(i => i.selected).forEach(project => {
-            alert('you selected ' + project.name);
-        });
+        this.addCiEntryPointSettingCommand.invoke(this.ciEntryPointSetting)
+            .then(() => this.router.navigate(['home']));
     }
 }
