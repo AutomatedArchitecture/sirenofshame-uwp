@@ -1,5 +1,6 @@
 ﻿export class CiEntryPointSetting {
-    id: number;
-    name: string;
-    url: string;
+    public id: number;
+    public name: string;
+    public url: string;
+    public serverType: string;
 }

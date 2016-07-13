@@ -4,7 +4,7 @@ import { ServerService } from '../server.service';
 import { CiEntryPointSetting } from '../models/ciEntryPointSetting';
 
 @Injectable()
-export class GetCiEntryPointSettingsCommand extends BaseCommand {
+export class AddCiEntryPointSettingCommand extends BaseCommand {
     constructor(protected serverService: ServerService) {
         super(serverService);
 
@@ -12,13 +12,13 @@ export class GetCiEntryPointSettingsCommand extends BaseCommand {
     }
 
     get type() {
-        return "getCiEntryPointSettings";
+        return "addCiEntryPointSetting";
     }
 
     public response(data) { }
 
-    public execute(): Promise<CiEntryPointSetting[]> {
-        return new Promise<CiEntryPointSetting[]>((resolve, err) => {
+    public invoke(ciEntryPointSetting: CiEntryPointSetting): Promise<CiEntryPointSetting> {
+        return new Promise<CiEntryPointSetting>((resolve, err) => {
             this.response = (result) => {
                 if (result.responseCode === 200) {
                     resolve(result.result);
@@ -27,7 +27,8 @@ export class GetCiEntryPointSettingsCommand extends BaseCommand {
                 }
             };
             var sendRequest = {
-                type: 'getCiEntryPointSettings'
+                type: 'addCiEntryPointSetting',
+                ciEntryPointSetting: ciEntryPointSetting
             }
             this.serverService.send(sendRequest, err);
         });

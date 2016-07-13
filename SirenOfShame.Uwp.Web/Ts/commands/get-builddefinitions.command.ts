@@ -1,8 +1,8 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseCommand } from './base.command';
 import { ServerService } from '../server.service';
-import { CiServer } from '../models/ciServer';
 import { MyBuildDefinition } from '../models/myBuildDefinition';
+import { CiEntryPointSetting } from '../models/ciEntryPointSetting';
 
 @Injectable()
 export class GetBuildDefinitionsCommand extends BaseCommand {
@@ -18,7 +18,7 @@ export class GetBuildDefinitionsCommand extends BaseCommand {
 
     public response(data) { }
 
-    public getBuildDefinitions(ciServer: CiServer): Promise<MyBuildDefinition[]> {
+    public getBuildDefinitions(ciEntryPointSetting: CiEntryPointSetting): Promise<MyBuildDefinition[]> {
         return new Promise<MyBuildDefinition[]>((resolve, err) => {
             this.response = (result) => {
                 if (result.responseCode === 200) {
@@ -29,7 +29,7 @@ export class GetBuildDefinitionsCommand extends BaseCommand {
             };
             var sendRequest = {
                 type: 'getBuildDefinitions',
-                ciServer: ciServer
+                ciServer: ciEntryPointSetting
             }
             this.serverService.send(sendRequest, err);
         });

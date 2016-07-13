@@ -8,12 +8,16 @@ import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.comm
 import { GetSirenInfoCommand } from './commands/get-siren-info.command';
 import { GetCiEntryPointSettingsCommand } from './commands/get-cientrypointsettings.command';
 import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
+import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
 import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'components/app.html',
-    providers: [ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand, GetCiEntryPointSettingCommand ],
+    providers: [
+        ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
+        GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand
+    ],
     directives: [ROUTER_DIRECTIVES]
 })
 export class AppComponent {

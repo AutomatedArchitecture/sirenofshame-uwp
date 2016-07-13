@@ -1,6 +1,6 @@
-﻿import {Component } from '@angular/core';
+﻿import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {CiServer} from './models/ciServer';
+import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
 import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
@@ -26,7 +26,7 @@ export class Server {
             if (id) {
                 this.getCiEntryPointSettingCommand.invoke(id)
                     .then(ciEntryPointSetting => {
-                        this.ciServer.url = ciEntryPointSetting.url;
+                        this.ciEntryPointSetting.url = ciEntryPointSetting.url;
                     });
             }
         });
@@ -36,7 +36,7 @@ export class Server {
         this.sub.unsubscribe();
     }
 
-    public ciServer = new CiServer();
+    public ciEntryPointSetting = new CiEntryPointSetting();
 
     public projects: MyBuildDefinition[];
 
@@ -46,7 +46,7 @@ export class Server {
 
     public getProjects() {
         this.loadingProjects = true;
-        this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciServer)
+        this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciEntryPointSetting)
             .then(projects => {
                 this.projects = projects;
             }, ex => {
@@ -58,10 +58,8 @@ export class Server {
     }
 
     public onSave() {
-        this.projects.forEach(project => {
-            if (project.selected) {
-                alert('you selected ' + project.name);
-            }
+        this.projects.filter(i => i.selected).forEach(project => {
+            alert('you selected ' + project.name);
         });
     }
 }

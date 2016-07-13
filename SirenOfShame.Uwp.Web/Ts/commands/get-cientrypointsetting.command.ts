@@ -1,7 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseCommand } from './base.command';
 import { ServerService } from '../server.service';
-import { CiServer } from '../models/ciServer';
 import { CiEntryPointSetting } from '../models/ciEntryPointSetting';
 
 @Injectable()
