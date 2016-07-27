@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SirenOfShame.Uwp.Watcher.Device;
+using SirenOfShame.Uwp.Watcher.Services;
 //using SirenOfShame.Device;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
@@ -180,83 +181,83 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             return false;
         }
 
-        //public void FireAnyUntilBuildPassesEvents(RulesEngine rulesEngine, BuildStatus buildStatus,
-        //    BuildStatusEnum? previousStatus)
-        //{
-        //    bool newlyFixed = buildStatus.BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null &&
-        //                      previousStatus != BuildStatusEnum.Working;
+        public void FireAnyUntilBuildPassesEvents(RulesEngine rulesEngine, BuildStatus buildStatus,
+            BuildStatusEnum? previousStatus)
+        {
+            bool newlyFixed = buildStatus.BuildStatusEnum == BuildStatusEnum.Working && previousStatus != null &&
+                              previousStatus != BuildStatusEnum.Working;
 
-        //    if (PlayAudio && PlayAudioUntilBuildPasses && newlyFixed)
-        //    {
-        //        rulesEngine.InvokeSetAudio(null, null);
-        //    }
-        //    if (PlayLights && PlayLightsUntilBuildPasses && newlyFixed)
-        //    {
-        //        rulesEngine.InvokeSetLights(null, null);
-        //    }
-        //}
+            if (PlayAudio && PlayAudioUntilBuildPasses && newlyFixed)
+            {
+                rulesEngine.InvokeSetAudio(null, null);
+            }
+            if (PlayLights && PlayLightsUntilBuildPasses && newlyFixed)
+            {
+                rulesEngine.InvokeSetLights(null, null);
+            }
+        }
 
-        //public void FireEvent(RulesEngine rulesEngine, BuildStatusEnum? previousStatus, BuildStatus buildStatus)
-        //{
-        //    var newlyBroken = buildStatus.IsNewlyBroken(previousStatus);
-        //    var newlyFixed = buildStatus.IsNewlyFixed(previousStatus);
+        public void FireEvent(RulesEngine rulesEngine, BuildStatusEnum? previousStatus, BuildStatus buildStatus)
+        {
+            var newlyBroken = buildStatus.IsNewlyBroken(previousStatus);
+            var newlyFixed = buildStatus.IsNewlyFixed(previousStatus);
 
-        //    string message = null;
-        //    string okText = null;
-        //    if (newlyBroken)
-        //    {
-        //        message = "Build newly broken by " + buildStatus.RequestedBy;
-        //        okText = "Rats";
-        //    }
-        //    if (newlyFixed)
-        //    {
-        //        message = "Build is passing again";
-        //        okText = "Yayy!";
-        //    }
-        //    if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress)
-        //    {
-        //        message = "Build triggered by " + buildStatus.RequestedBy;
-        //        okText = "Ok, whatever";
-        //    }
-        //    if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken)
-        //    {
-        //        message = "Build still broken";
-        //        okText = "Rats";
-        //    }
-        //    if (buildStatus.BuildStatusEnum == BuildStatusEnum.Working && !newlyFixed)
-        //    {
-        //        message = "Build passed";
-        //        okText = "Yayy!";
-        //    }
-        //    message += " for " + buildStatus.Name;
-        //    if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress && !string.IsNullOrEmpty(buildStatus.Comment))
-        //    {
-        //        message += "\r\n" + buildStatus.Comment;
-        //    }
+            string message = null;
+            string okText = null;
+            if (newlyBroken)
+            {
+                message = "Build newly broken by " + buildStatus.RequestedBy;
+                okText = "Rats";
+            }
+            if (newlyFixed)
+            {
+                message = "Build is passing again";
+                okText = "Yayy!";
+            }
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress)
+            {
+                message = "Build triggered by " + buildStatus.RequestedBy;
+                okText = "Ok, whatever";
+            }
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Broken && !newlyBroken)
+            {
+                message = "Build still broken";
+                okText = "Rats";
+            }
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.Working && !newlyFixed)
+            {
+                message = "Build passed";
+                okText = "Yayy!";
+            }
+            message += " for " + buildStatus.Name;
+            if (buildStatus.BuildStatusEnum == BuildStatusEnum.InProgress && !string.IsNullOrEmpty(buildStatus.Comment))
+            {
+                message += "\r\n" + buildStatus.Comment;
+            }
 
-        //    if (AlertType == AlertType.TrayAlert && !(previousStatus == null && buildStatus.BuildStatusEnum == BuildStatusEnum.Working))
-        //    {
-        //        rulesEngine.InvokeTrayNotify(buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? ToolTipIcon.Error : ToolTipIcon.Info, string.Format("Build {0}", buildStatus.BuildStatusDescription), message);
-        //    }
+            if (AlertType == AlertType.TrayAlert && !(previousStatus == null && buildStatus.BuildStatusEnum == BuildStatusEnum.Working))
+            {
+                rulesEngine.InvokeTrayNotify(buildStatus.BuildStatusEnum == BuildStatusEnum.Broken ? SosToolTipIcon.Error : SosToolTipIcon.Info, string.Format("Build {0}", buildStatus.BuildStatusDescription), message);
+            }
 
-        //    if (LedPattern != null)
-        //    {
-        //        rulesEngine.InvokeSetLights(LedPattern, LightsDuration);
-        //    }
+            if (LedPattern != null)
+            {
+                rulesEngine.InvokeSetLights(LedPattern, LightsDuration);
+            }
 
-        //    if (AudioPattern != null)
-        //    {
-        //        rulesEngine.InvokeSetAudio(AudioPattern, AudioDuration);
-        //    }
-        //    if (AlertType == AlertType.ModalDialog)
-        //    {
-        //        rulesEngine.InvokeModalDialog(message, okText);
-        //    }
+            if (AudioPattern != null)
+            {
+                rulesEngine.InvokeSetAudio(AudioPattern, AudioDuration);
+            }
+            if (AlertType == AlertType.ModalDialog)
+            {
+                rulesEngine.InvokeModalDialog(message, okText);
+            }
 
-        //    if (!string.IsNullOrEmpty(WindowsAudioLocation) && previousStatus != null)
-        //    {
-        //        rulesEngine.InvokePlayWindowsAudio(WindowsAudioLocation);
-        //    }
-        //}
+            if (!string.IsNullOrEmpty(WindowsAudioLocation) && previousStatus != null)
+            {
+                rulesEngine.InvokePlayWindowsAudio(WindowsAudioLocation);
+            }
+        }
     }
 }

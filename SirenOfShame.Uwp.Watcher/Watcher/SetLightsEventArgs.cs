@@ -1,7 +1,7 @@
 ﻿using System;
-using SirenOfShame.Lib.Device;
+using SirenOfShame.Uwp.Watcher.Device;
 
-namespace SirenOfShame.Lib.Watcher {
+namespace SirenOfShame.Uwp.Watcher.Watcher {
     public class SetLightsEventArgs {
         public int? Duration { get; set; }
         public LedPattern LedPattern { get; set; }

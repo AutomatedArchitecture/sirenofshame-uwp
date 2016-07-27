@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using IotWeb.Common.Http;
 using IotWeb.Server;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Background
 {
@@ -13,10 +15,24 @@ namespace SirenOfShame.Uwp.Background
         // ReSharper disable once NotAccessedField.Local
         private BackgroundTaskDeferral _backgroundTaskDeferral;
         private HttpServer _httpServer;
+        private RulesEngine _rulesEngine;
 
-        public void Run(IBackgroundTaskInstance taskInstance)
+        public async void Run(IBackgroundTaskInstance taskInstance)
         {
             _backgroundTaskDeferral = taskInstance.GetDeferral();
+            StartWebServer();
+            await StartCiWatcher();
+        }
+
+        private async Task StartCiWatcher()
+        {
+            var sosSettings = await SirenOfShameSettingsService.Instance.GetAppSettings();
+            _rulesEngine = new RulesEngine(sosSettings);
+            _rulesEngine.Start(true);
+        }
+
+        private void StartWebServer()
+        {
             _httpServer = new HttpServer(8001);
             _httpServer.AddWebSocketRequestHandler(
                 "/sockets/",

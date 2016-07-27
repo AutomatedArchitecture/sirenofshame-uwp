@@ -139,6 +139,10 @@
       <Project>{e58a4ffb-db5f-4989-ae8c-e8eba394f0fd}</Project>
       <Name>SirenOfShame.Uwp.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj">
+      <Project>{36C7FC2F-C4D9-4FC3-9F47-981704D74B8C}</Project>
+      <Name>SirenOfShame.Uwp.Watcher</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

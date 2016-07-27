@@ -4,6 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Watcher.Helpers;
+using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Watcher.Watcher
 {
@@ -109,69 +111,69 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        //public BuildStatusDto AsBuildStatusDto(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
-        //{
-        //    BuildStatus previousStatus;
-        //    bool previousStatusExists = previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
+        public BuildStatusDto AsBuildStatusDto(DateTime now, IDictionary<string, BuildStatus> previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        {
+            BuildStatus previousStatus;
+            bool previousStatusExists = previousWorkingOrBrokenBuildStatus.TryGetValue(BuildDefinitionId, out previousStatus);
 
-        //    string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
+            string duration = GetDurationAsString(FinishedTime, StartedTime, now, previousStatus);
 
-        //    var buildDisplayName = GetBuildDisplayName(settings, Name);
+            var buildDisplayName = GetBuildDisplayName(settings, Name);
 
-        //    var result = new BuildStatusDto
-        //    {
-        //        BuildStatusEnum = BuildStatusEnum,
-        //        BuildStatusMessage = BuildStatusMessage,
-        //        ImageIndex = (int)BallIndex,
-        //        StartTimeShort = FormatAsDayMonthTime(StartedTime),
-        //        LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
-        //        Duration = duration,
-        //        RequestedByRawName = RequestedBy,
-        //        Comment = Comment,
-        //        BuildId = BuildId ?? "",
-        //        BuildDefinitionId = BuildDefinitionId,
-        //        BuildDefinitionDisplayName = buildDisplayName,
-        //        Url = Url,
-        //    };
-        //    result.SetDisplayName(settings);
-        //    return result;
-        //}
+            var result = new BuildStatusDto
+            {
+                BuildStatusEnum = BuildStatusEnum,
+                BuildStatusMessage = BuildStatusMessage,
+                ImageIndex = (int)BallIndex,
+                StartTimeShort = FormatAsDayMonthTime(StartedTime),
+                LocalStartTime = !previousStatusExists && StartedTime.HasValue ? StartedTime.Value : LocalStartTime,
+                Duration = duration,
+                RequestedByRawName = RequestedBy,
+                Comment = Comment,
+                BuildId = BuildId ?? "",
+                BuildDefinitionId = BuildDefinitionId,
+                BuildDefinitionDisplayName = buildDisplayName,
+                Url = Url,
+            };
+            result.SetDisplayName(settings);
+            return result;
+        }
 
-        //private string GetBuildDisplayName(SirenOfShameSettings settings, string buildDefinitionName)
-        //{
-        //    if (!settings.AnyDuplicateBuildNames) return buildDefinitionName;
+        private string GetBuildDisplayName(SirenOfShameSettings settings, string buildDefinitionName)
+        {
+            if (!settings.AnyDuplicateBuildNames) return buildDefinitionName;
 
-        //    var buildDisplayName = buildDefinitionName;
+            var buildDisplayName = buildDefinitionName;
 
-        //    var buildDefinitionSetting = settings
-        //            .CiEntryPointSettings
-        //            .FirstOrDefault(i => i.BuildDefinitionSettings.Any(j => j.Id == BuildDefinitionId));
+            var buildDefinitionSetting = settings
+                    .CiEntryPointSettings
+                    .FirstOrDefault(i => i.BuildDefinitionSettings.Any(j => j.Id == BuildDefinitionId));
 
-        //    if (buildDefinitionSetting != null)
-        //    {
-        //        var buildDefUrlWithoutHttpPrefix = StringHelpers.RemoveUrlPrefix(buildDefinitionSetting.Url);
-        //        buildDisplayName += " (" + buildDefUrlWithoutHttpPrefix + ")";
-        //    }
-        //    return buildDisplayName;
-        //}
+            if (buildDefinitionSetting != null)
+            {
+                var buildDefUrlWithoutHttpPrefix = StringHelpers.RemoveUrlPrefix(buildDefinitionSetting.Url);
+                buildDisplayName += " (" + buildDefUrlWithoutHttpPrefix + ")";
+            }
+            return buildDisplayName;
+        }
 
-        //internal static string FormatAsDayMonthTime(DateTime? nullableDate)
-        //{
-        //    if (nullableDate == null) return null;
-        //    DateTime date = nullableDate.Value;
-        //    var dayMonthPattern = GetDayMonthPattern();
-        //    return date.ToString(dayMonthPattern + " h:mm tt");
-        //}
+        internal static string FormatAsDayMonthTime(DateTime? nullableDate)
+        {
+            if (nullableDate == null) return null;
+            DateTime date = nullableDate.Value;
+            var dayMonthPattern = GetDayMonthPattern();
+            return date.ToString(dayMonthPattern + " h:mm tt");
+        }
 
-        //private static string GetDayMonthPattern()
-        //{
-        //    DateTimeFormatInfo dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
-        //    if (dateTimeFormatInfo == null) return "M/d";
-        //    var shortDatePattern = dateTimeFormatInfo.ShortDatePattern;
-        //    var dateSeparator = dateTimeFormatInfo.DateSeparator;
-        //    string dayMonthPattern = shortDatePattern.TrimEnd(new[] { 'y', 'Y', dateSeparator[0] });
-        //    return dayMonthPattern;
-        //}
+        private static string GetDayMonthPattern()
+        {
+            DateTimeFormatInfo dateTimeFormatInfo = DateTimeFormatInfo.CurrentInfo;
+            if (dateTimeFormatInfo == null) return "M/d";
+            var shortDatePattern = dateTimeFormatInfo.ShortDatePattern;
+            // todo: test date missing dateTimeFormatInfo.DateSeparator i.e. is '/' sufficient below?
+            string dayMonthPattern = shortDatePattern.TrimEnd(new[] { 'y', 'Y', '/' });
+            return dayMonthPattern;
+        }
 
         private string GetDurationAsString(DateTime? finishedTime, DateTime? startedTime, DateTime now, BuildStatus previousStatus)
         {
@@ -211,18 +213,18 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             return previousDuration - currentDuration;
         }
 
-        //public void FireApplicableRulesEngineEvents(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
-        //{
-        //    var rule = rules
-        //        .Where(r => r.IsMatch(this, previousWorkingOrBrokenStatus))
-        //        .OrderByDescending(r => r.PriorityId)
-        //        .FirstOrDefault();
+        public void FireApplicableRulesEngineEvents(BuildStatusEnum? previousWorkingOrBrokenStatus, BuildStatusEnum? previousStatus, RulesEngine rulesEngine, List<Rule> rules)
+        {
+            var rule = rules
+                .Where(r => r.IsMatch(this, previousWorkingOrBrokenStatus))
+                .OrderByDescending(r => r.PriorityId)
+                .FirstOrDefault();
 
-        //    if (rule != null)
-        //        rule.FireEvent(rulesEngine, previousWorkingOrBrokenStatus, this);
+            if (rule != null)
+                rule.FireEvent(rulesEngine, previousWorkingOrBrokenStatus, this);
 
-        //    rules.ForEach(r => r.FireAnyUntilBuildPassesEvents(rulesEngine, this, previousStatus));
-        //}
+            rules.ForEach(r => r.FireAnyUntilBuildPassesEvents(rulesEngine, this, previousStatus));
+        }
 
         public bool IsNewlyBroken(BuildStatusEnum? previousStatus)
         {
@@ -273,20 +275,20 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             return string.Format("{0}-{1}-{2}", BuildDefinitionId, BuildId, RequestedBy);
         }
 
-        //public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
-        //{
-        //    var person = settings.FindAddPerson(RequestedBy);
-        //    return new NewNewsItemEventArgs
-        //    {
-        //        Person = person,
-        //        EventDate = DateTime.Now,
-        //        Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
-        //        BuildDefinitionId = BuildDefinitionId,
-        //        NewsItemType = GetNewsItemType(),
-        //        ReputationChange = GetReputationChange(),
-        //        BuildId = BuildId
-        //    };
-        //}
+        public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        {
+            var person = settings.FindAddPerson(RequestedBy);
+            return new NewNewsItemEventArgs
+            {
+                Person = person,
+                EventDate = DateTime.Now,
+                Title = GetNewsItemTitle(previousWorkingOrBrokenBuildStatus),
+                BuildDefinitionId = BuildDefinitionId,
+                NewsItemType = GetNewsItemType(),
+                ReputationChange = GetReputationChange(),
+                BuildId = BuildId
+            };
+        }
 
         private int? GetReputationChange()
         {
@@ -295,13 +297,13 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             return null;
         }
 
-        //private NewsItemTypeEnum GetNewsItemType()
-        //{
-        //    if (BuildStatusEnum == BuildStatusEnum.Working) return NewsItemTypeEnum.BuildSuccess;
-        //    if (BuildStatusEnum == BuildStatusEnum.Broken) return NewsItemTypeEnum.BuildFailed;
-        //    if (BuildStatusEnum == BuildStatusEnum.InProgress) return NewsItemTypeEnum.BuildStarted;
-        //    return NewsItemTypeEnum.BuildUnknown;
-        //}
+        private NewsItemTypeEnum GetNewsItemType()
+        {
+            if (BuildStatusEnum == BuildStatusEnum.Working) return NewsItemTypeEnum.BuildSuccess;
+            if (BuildStatusEnum == BuildStatusEnum.Broken) return NewsItemTypeEnum.BuildFailed;
+            if (BuildStatusEnum == BuildStatusEnum.InProgress) return NewsItemTypeEnum.BuildStarted;
+            return NewsItemTypeEnum.BuildUnknown;
+        }
 
         private string GetNewsItemTitle(BuildStatusEnum previousWorkingOrBrokenBuildStatus)
         {

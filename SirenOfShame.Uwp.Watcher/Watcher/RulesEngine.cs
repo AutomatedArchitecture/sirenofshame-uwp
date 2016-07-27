@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Windows.Forms;
-using log4net;
-using SirenOfShame.Lib.Device;
-using SirenOfShame.Lib.Dto;
-using SirenOfShame.Lib.Services;
-using SirenOfShame.Lib.Settings;
-using SirenOfShame.Lib.Util;
-using Timer = System.Windows.Forms.Timer;
+using System.Threading.Tasks;
+using SirenOfShame.Uwp.Watcher.Device;
+using SirenOfShame.Uwp.Watcher.Dto;
+using SirenOfShame.Uwp.Watcher.Helpers;
+using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Watcher.Util;
 
-namespace SirenOfShame.Lib.Watcher
+namespace SirenOfShame.Uwp.Watcher.Watcher
 {
     public class RulesEngine
     {
@@ -27,9 +26,10 @@ namespace SirenOfShame.Lib.Watcher
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
         private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
         private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
-        
-        private Thread _watcherThread;
-        readonly Timer _timer = new Timer();
+
+        private Task _watcherThread;
+        private CancellationTokenSource _watcherCancellationToken;
+        readonly Timer _timer;
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
 
         private readonly SirenOfShameSettings _settings;
@@ -96,7 +96,7 @@ namespace SirenOfShame.Lib.Watcher
             if (newAlert != null) newAlert(this, args);
         }
 
-        public void InvokeTrayNotify(ToolTipIcon tipIcon, string title, string tipText)
+        public void InvokeTrayNotify(SosToolTipIcon tipIcon, string title, string tipText)
         {
             TrayNotifyEvent handler = TrayNotify;
             if (handler != null) handler(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title });
@@ -108,8 +108,7 @@ namespace SirenOfShame.Lib.Watcher
             DisableWritingToSosDb = false;
             ResetPreviousWorkingOrBrokenStatuses();
             _settings = settings;
-            _timer.Interval = 1000;
-            _timer.Tick += TimerTick;
+            _timer = new Timer(TimerTick, null, 0, 1000);
         }
 
         private bool _serverPreviouslyUnavailable;
@@ -124,7 +123,7 @@ namespace SirenOfShame.Lib.Watcher
                 return;
             }
 
-            InvokeTrayNotify(ToolTipIcon.Error, "Build Server Unavailable", "The connection will be restored when possible.");
+            InvokeTrayNotify(SosToolTipIcon.Error, "Build Server Unavailable", "The connection will be restored when possible.");
             ResetPreviousWorkingOrBrokenStatuses();
             _serverPreviouslyUnavailable = true;
         }
@@ -279,7 +278,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             if (_serverPreviouslyUnavailable)
             {
-                InvokeTrayNotify(ToolTipIcon.Info, "Reconnected", "Reconnected to server.");
+                InvokeTrayNotify(SosToolTipIcon.Info, "Reconnected", "Reconnected to server.");
             }
             _serverPreviouslyUnavailable = false;
             InvokeUpdateStatusBar("Connected");
@@ -360,7 +359,7 @@ namespace SirenOfShame.Lib.Watcher
             refreshStatus(this, new RefreshStatusEventArgs { BuildStatusDtos = buildStatusListViewItems });
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void TimerTick(object sender)
         {
             if (_previousBuildStatuses.Any(bs => bs.BuildStatusEnum == BuildStatusEnum.InProgress))
             {
@@ -475,7 +474,10 @@ namespace SirenOfShame.Lib.Watcher
             }
             catch (IndexOutOfRangeException)
             {
-                _log.Error("Tried to update the cache from the thread '" + Thread.CurrentThread.Name + "' but failed because the cache was previously accessed from a different thread. This could cause errors in determining whether a build changed.");
+                // todo: migrage "var name = Thread.CurrentThread.Name;"
+                var name = "???";
+
+                _log.Error("Tried to update the cache from the thread '" + name + "' but failed because the cache was previously accessed from a different thread. This could cause errors in determining whether a build changed.");
             }
         }
 
@@ -553,7 +555,8 @@ namespace SirenOfShame.Lib.Watcher
                 watcher.Settings = _settings;
                 watcher.CiEntryPointSetting = ciEntryPointSetting;
                 // todo: It looks like we are overwriting preceding watcher threads with subsequent ones which will cause problems when we try to Stop() them
-                _watcherThread = new Thread(watcher.StartWatching) { IsBackground = true, Name = "CiWatcher" };
+                _watcherCancellationToken = new CancellationTokenSource();
+                _watcherThread = new Task(async () => await watcher.StartWatching(_watcherCancellationToken.Token), _watcherCancellationToken.Token);
                 _watcherThread.Start();
             }
 
@@ -565,7 +568,7 @@ namespace SirenOfShame.Lib.Watcher
                     SetStatusUnknown();
                 }
 
-                _timer.Start();
+                _timer.Change(0, 1000);
             }
             else
             {
@@ -583,7 +586,7 @@ namespace SirenOfShame.Lib.Watcher
             }
             args.BuildDefinitionSetting.Active = false;
             _settings.Save();
-            InvokeTrayNotify(ToolTipIcon.Error, "Can't Find " + args.BuildDefinitionSetting.Name, "This build will be removed from the list of watched builds.\nYou may add it back from the 'Configure CI Server' button.");
+            InvokeTrayNotify(SosToolTipIcon.Error, "Can't Find " + args.BuildDefinitionSetting.Name, "This build will be removed from the list of watched builds.\nYou may add it back from the 'Configure CI Server' button.");
         }
 
         private void SetStatusUnknown()
@@ -604,8 +607,8 @@ namespace SirenOfShame.Lib.Watcher
 
         public void Stop()
         {
-            _timer.Stop();
-            _watcherThread?.Abort();
+            _timer.Change(TimeSpan.MaxValue, TimeSpan.MaxValue);
+            _watcherCancellationToken.Cancel();
         }
 
         public void SyncAllBuildStatuses()

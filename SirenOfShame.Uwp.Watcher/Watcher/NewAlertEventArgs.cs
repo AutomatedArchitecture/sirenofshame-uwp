@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using log4net;
 
-namespace SirenOfShame.Lib.Watcher
+namespace SirenOfShame.Uwp.Watcher.Watcher
 {
     public class NewAlertEventArgs
     {

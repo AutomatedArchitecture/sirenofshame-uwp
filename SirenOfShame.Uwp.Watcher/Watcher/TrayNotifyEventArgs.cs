@@ -1,11 +1,12 @@
-﻿using System.Windows.Forms;
+﻿using SirenOfShame.Uwp.Watcher.Services;
 
-namespace SirenOfShame.Lib.Watcher {
+namespace SirenOfShame.Uwp.Watcher.Watcher
+{
     public class TrayNotifyEventArgs {
         public string Title { get; set; }
 
         public string TipText { get; set; }
 
-        public ToolTipIcon TipIcon { get; set; }
+        public SosToolTipIcon TipIcon { get; set; }
     }
 }

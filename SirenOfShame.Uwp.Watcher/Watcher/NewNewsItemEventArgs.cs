@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows.Forms;
-using SirenOfShame.Lib.Settings;
-using log4net;
+using SirenOfShame.Uwp.Watcher.Settings;
 
-namespace SirenOfShame.Lib.Watcher
+namespace SirenOfShame.Uwp.Watcher.Watcher
 {
     public enum NewsItemTypeEnum
     {
@@ -24,16 +22,16 @@ namespace SirenOfShame.Lib.Watcher
     public class NewNewsItemEventArgs
     {
         private static readonly ILog _log = MyLogManager.GetLogger(typeof(NewNewsItemEventArgs));
-        
+
         public string BuildDefinitionId { get; set; }
         public DateTime EventDate { get; set; }
         public PersonBase Person { get; set; }
         public string Title { get; set; }
-        public ImageList AvatarImageList { get; set; }
+        //public ImageList AvatarImageList { get; set; }
         public NewsItemTypeEnum NewsItemType { get; set; }
         public int? ReputationChange { get; set; }
         public string BuildId { get; set; }
-        
+
         public bool IsSosOnlineEvent
         {
             get { return NewsItemType < NewsItemTypeEnum.BuildStarted; }
@@ -68,12 +66,12 @@ namespace SirenOfShame.Lib.Watcher
                 return string.Format("{0},{1},{2},{3},{4},{5},{6}",
                                      EventDate.Ticks,
                                      MakeCsvSafe(Person.RawName),
-                                     (int) NewsItemType,
+                                     (int)NewsItemType,
                                      ReputationChange,
                                      MakeCsvSafe(BuildDefinitionId),
                                      MakeCsvSafe(BuildId),
                                      RemoveNewlines(Title));
-            } 
+            }
             catch (Exception ex)
             {
                 _log.Error("Failed to serialize news item", ex);
@@ -113,7 +111,7 @@ namespace SirenOfShame.Lib.Watcher
                     BuildId = buildId,
                     BuildDefinitionId = buildDefinitionId
                 };
-            } 
+            }
             catch (Exception ex)
             {
                 _log.Error("Error parsing news item: " + commaSeparated, ex);
@@ -138,7 +136,7 @@ namespace SirenOfShame.Lib.Watcher
         {
             var newsItemTypeRaw = element;
             var newsItemTypeInt = int.Parse(newsItemTypeRaw);
-            return (NewsItemTypeEnum) newsItemTypeInt;
+            return (NewsItemTypeEnum)newsItemTypeInt;
         }
 
         private static string GetTitle(IEnumerable<string> elements, int commentStart)

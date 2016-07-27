@@ -1,6 +1,4 @@
-using System.Windows.Forms;
-
-namespace SirenOfShame.Lib.Watcher
+namespace SirenOfShame.Uwp.Watcher.Watcher
 {
     public abstract class PersonBase
     {
@@ -12,6 +10,6 @@ namespace SirenOfShame.Lib.Watcher
             get { return RawName != null; }
         }
 
-        public abstract int GetAvatarId(ImageList avatarImageList);
+        //public abstract int GetAvatarId(ImageList avatarImageList);
     }
 }

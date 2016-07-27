@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Xml.Serialization;
+using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.HudsonServices;
 using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Watcher.Settings
 {
@@ -58,10 +62,10 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             CiEntryPointSettings = new List<CiEntryPointSetting>();
             //AudioPatterns = new List<AudioPatternSetting>();
             //LedPatterns = new List<LedPatternSetting>();
-            //People = new List<PersonSetting>();
-            //UserMappings = new List<UserMapping>();
+            People = new List<PersonSetting>();
+            UserMappings = new List<UserMapping>();
             //Sounds = new List<Sound>();
-            //SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
+            SosOnlineWhatToSync = WhatToSyncEnum.BuildStatuses;
             //FontSize = DEFAULT_FONT_SIZE;
         }
 
@@ -90,9 +94,9 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         public List<CiEntryPointSetting> CiEntryPointSettings { get; set; }
 
-        //public List<PersonSetting> People { get; set; }
+        public List<PersonSetting> People { get; set; }
 
-        //public List<UserMapping> UserMappings { get; set; }
+        public List<UserMapping> UserMappings { get; set; }
 
         //public List<Sound> Sounds { get; set; }
 
@@ -100,13 +104,13 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         public bool NeverShowGettingStarted { get; set; }
 
-        //public UpdateLocation UpdateLocation { get; set; }
+        public UpdateLocation UpdateLocation { get; set; }
 
         public int? SortColumn { get; set; }
 
         public bool SortDescending { get; set; }
 
-        //public WhatToSyncEnum SosOnlineWhatToSync { get; set; }
+        public WhatToSyncEnum SosOnlineWhatToSync { get; set; }
 
         public string SosOnlineUsername { get; set; }
 
@@ -207,11 +211,12 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         [XmlIgnore]
         public bool ShowUpgradeWindowAtNextOpportunity { get; set; }
 
-        //public virtual void Save()
-        //{
-        //    string fileName = GetConfigFileName();
-        //    Save(fileName);
-        //}
+        public virtual void Save()
+        {
+            // todo: How to Save()?
+            //string fileName = GetConfigFileName();
+            //Save(fileName);
+        }
 
         private readonly object _lock = new object();
 
@@ -238,10 +243,10 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    }
         //}
 
-        //public static string GetSosAppDataFolder()
-        //{
-        //    return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Automated Architecture\\SirenOfShame");
-        //}
+        public static string GetSosAppDataFolder()
+        {
+            return GetSosAppDataFolder();
+        }
 
         //private static string GetConfigFileName()
         //{
@@ -345,15 +350,15 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             }
         }
 
-        //public IEnumerable<PersonSetting> VisiblePeople
-        //{
-        //    get { return People.Where(i => !i.Hidden); }
-        //}
+        public IEnumerable<PersonSetting> VisiblePeople
+        {
+            get { return People.Where(i => !i.Hidden); }
+        }
 
-        //public static int GenericSosOnlineAvatarId
-        //{
-        //    get { return AVATAR_COUNT; }
-        //}
+        public static int GenericSosOnlineAvatarId
+        {
+            get { return AVATAR_COUNT; }
+        }
 
         //private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
         //{
@@ -377,116 +382,116 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
         //}
 
-        //public PersonSetting FindAddPerson(string requestedBy, int avatarCount = AVATAR_COUNT)
-        //{
-        //    if (string.IsNullOrEmpty(requestedBy))
-        //    {
-        //        _log.Warn("Tried to add a person with a null RawName");
-        //        return null;
-        //    }
-        //    var person = FindPersonByRawName(requestedBy);
-        //    if (person != null) return person;
-        //    person = new PersonSetting
-        //    {
-        //        DisplayName = requestedBy,
-        //        RawName = requestedBy,
-        //        FailedBuilds = 0,
-        //        TotalBuilds = 0,
-        //        AvatarId = People.Count % avatarCount
-        //    };
-        //    People.Add(person);
-        //    Save();
-        //    return person;
-        //}
+        public PersonSetting FindAddPerson(string requestedBy, int avatarCount = AVATAR_COUNT)
+        {
+            if (string.IsNullOrEmpty(requestedBy))
+            {
+                _log.Warn("Tried to add a person with a null RawName");
+                return null;
+            }
+            var person = FindPersonByRawName(requestedBy);
+            if (person != null) return person;
+            person = new PersonSetting
+            {
+                DisplayName = requestedBy,
+                RawName = requestedBy,
+                FailedBuilds = 0,
+                TotalBuilds = 0,
+                AvatarId = People.Count % avatarCount
+            };
+            People.Add(person);
+            Save();
+            return person;
+        }
 
-        //public PersonSetting FindPersonByRawName(string rawName)
-        //{
-        //    if (People == null) People = new List<PersonSetting>();
-        //    var person = People.FirstOrDefault(i => NewNewsItemEventArgs.MakeCsvSafe(i.RawName) == NewNewsItemEventArgs.MakeCsvSafe(rawName));
-        //    return person;
-        //}
+        public PersonSetting FindPersonByRawName(string rawName)
+        {
+            if (People == null) People = new List<PersonSetting>();
+            var person = People.FirstOrDefault(i => NewNewsItemEventArgs.MakeCsvSafe(i.RawName) == NewNewsItemEventArgs.MakeCsvSafe(rawName));
+            return person;
+        }
 
-        //public string TryGetDisplayName(string userName)
-        //{
-        //    if (string.IsNullOrEmpty(userName)) return userName;
-        //    var person = People.FirstOrDefault(i => i.RawName != null && i.RawName.EndsWith(userName));
-        //    return person == null ? userName : person.DisplayName;
-        //}
+        public string TryGetDisplayName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName)) return userName;
+            var person = People.FirstOrDefault(i => i.RawName != null && i.RawName.EndsWith(userName));
+            return person == null ? userName : person.DisplayName;
+        }
 
-        //public void UpdateNameIfChanged(BuildStatus changedBuildStatus)
-        //{
-        //    var changedName = CiEntryPointSettings
-        //        .SelectMany(i => i.BuildDefinitionSettings)
-        //        .FirstOrDefault(i => i.Id == changedBuildStatus.BuildDefinitionId && i.Name != changedBuildStatus.Name);
-        //    if (changedName == null) return;
-        //    changedName.Name = changedBuildStatus.Name;
-        //    Save();
-        //}
+        public void UpdateNameIfChanged(BuildStatus changedBuildStatus)
+        {
+            var changedName = CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .FirstOrDefault(i => i.Id == changedBuildStatus.BuildDefinitionId && i.Name != changedBuildStatus.Name);
+            if (changedName == null) return;
+            changedName.Name = changedBuildStatus.Name;
+            Save();
+        }
 
-        //public bool BuildExistsAndIsActive(string ciEntryPointName, string buildName)
-        //{
-        //    var ciEntryPoint = CiEntryPointSettings.FirstOrDefault(i => i.Name == ciEntryPointName);
-        //    if (ciEntryPoint != null)
-        //    {
-        //        return ciEntryPoint.BuildDefinitionSettings.Any(i => i.Name == buildName && i.Active);
-        //    }
-        //    return false;
-        //}
+        public bool BuildExistsAndIsActive(string ciEntryPointName, string buildName)
+        {
+            var ciEntryPoint = CiEntryPointSettings.FirstOrDefault(i => i.Name == ciEntryPointName);
+            if (ciEntryPoint != null)
+            {
+                return ciEntryPoint.BuildDefinitionSettings.Any(i => i.Name == buildName && i.Active);
+            }
+            return false;
+        }
 
-        //public bool IsMeOrDefault(PersonSetting person, bool defaultValue)
-        //{
-        //    if (string.IsNullOrEmpty(MyRawName)) return defaultValue;
-        //    return person.RawName == MyRawName;
-        //}
+        public bool IsMeOrDefault(PersonSetting person, bool defaultValue)
+        {
+            if (string.IsNullOrEmpty(MyRawName)) return defaultValue;
+            return person.RawName == MyRawName;
+        }
 
-        //public IEnumerable<BuildDefinitionSetting> GetAllActiveBuildDefinitions()
-        //{
-        //    return CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).Where(i => i.Active);
-        //}
+        public IEnumerable<BuildDefinitionSetting> GetAllActiveBuildDefinitions()
+        {
+            return CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).Where(i => i.Active);
+        }
 
-        //public void SetSosOnlineProxyPassword(string rawPassword)
-        //{
-        //    SosOnlineProxyPasswordEncrypted = new TripleDesStringEncryptor().EncryptString(rawPassword);
-        //}
+        public void SetSosOnlineProxyPassword(string rawPassword)
+        {
+            SosOnlineProxyPasswordEncrypted = new TripleDesStringEncryptor().EncryptString(rawPassword);
+        }
 
-        //public string GetSosOnlineProxyPassword()
-        //{
-        //    return new TripleDesStringEncryptor().DecryptString(SosOnlineProxyPasswordEncrypted);
-        //}
+        public string GetSosOnlineProxyPassword()
+        {
+            return new TripleDesStringEncryptor().DecryptString(SosOnlineProxyPasswordEncrypted);
+        }
 
-        //public void SetSosOnlinePassword(string rawPassword)
-        //{
-        //    SosOnlinePassword = new TripleDesStringEncryptor().EncryptString(rawPassword);
-        //}
+        public void SetSosOnlinePassword(string rawPassword)
+        {
+            SosOnlinePassword = new TripleDesStringEncryptor().EncryptString(rawPassword);
+        }
 
-        //public string GetSosOnlinePassword()
-        //{
-        //    return new TripleDesStringEncryptor().DecryptString(SosOnlinePassword);
-        //}
+        public string GetSosOnlinePassword()
+        {
+            return new TripleDesStringEncryptor().DecryptString(SosOnlinePassword);
+        }
 
-        //public string ExportNewAchievements()
-        //{
-        //    if (string.IsNullOrEmpty(MyRawName)) return null;
-        //    DateTime? highWaterMark = GetHighWaterMark();
-        //    var initialExport = highWaterMark == null;
-        //    var currentUser = GetCurrentUser();
-        //    if (currentUser == null) return null;
-        //    var currentUsersAchievements = currentUser.Achievements;
-        //    var achievementsAfterHighWaterMark = initialExport ? currentUsersAchievements : currentUsersAchievements.Where(i => i.DateAchieved > highWaterMark);
-        //    var buildsAsExport = achievementsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
-        //    var result = string.Join("\r\n", buildsAsExport);
-        //    return string.IsNullOrEmpty(result) ? null : result;
-        //}
+        public string ExportNewAchievements()
+        {
+            if (string.IsNullOrEmpty(MyRawName)) return null;
+            DateTime? highWaterMark = GetHighWaterMark();
+            var initialExport = highWaterMark == null;
+            var currentUser = GetCurrentUser();
+            if (currentUser == null) return null;
+            var currentUsersAchievements = currentUser.Achievements;
+            var achievementsAfterHighWaterMark = initialExport ? currentUsersAchievements : currentUsersAchievements.Where(i => i.DateAchieved > highWaterMark);
+            var buildsAsExport = achievementsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
+            var result = string.Join("\r\n", buildsAsExport);
+            return string.IsNullOrEmpty(result) ? null : result;
+        }
 
-        //private PersonSetting GetCurrentUser()
-        //{
-        //    return People.FirstOrDefault(i => i.RawName == MyRawName);
-        //}
+        private PersonSetting GetCurrentUser()
+        {
+            return People.FirstOrDefault(i => i.RawName == MyRawName);
+        }
 
-        //public DateTime? GetHighWaterMark()
-        //{
-        //    return SosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(SosOnlineHighWaterMark.Value);
-        //}
+        public DateTime? GetHighWaterMark()
+        {
+            return SosOnlineHighWaterMark == null ? (DateTime?)null : new DateTime(SosOnlineHighWaterMark.Value);
+        }
 
         //public void SaveUserIAm(ComboBox userIAm)
         //{
@@ -521,13 +526,13 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    }
         //}
 
-        //public bool GetSosOnlineContent()
-        //{
-        //    if (SosOnlineAlwaysOffline) return false;
-        //    // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want random connections to SoS Online
-        //    if (UpdateLocation != UpdateLocation.Auto) return false;
-        //    return true;
-        //}
+        public bool GetSosOnlineContent()
+        {
+            if (SosOnlineAlwaysOffline) return false;
+            // if someone doesn't want to check for the lastest software, they probably are on a private network and don't want random connections to SoS Online
+            if (UpdateLocation != UpdateLocation.Auto) return false;
+            return true;
+        }
 
         //public IWebProxy GetSosOnlineProxy()
         //{
@@ -544,39 +549,39 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //        );
         //}
 
-        //public BuildDefinitionSetting FindBuildDefinitionById(string buildId)
-        //{
-        //    return CiEntryPointSettings
-        //        .SelectMany(i => i.BuildDefinitionSettings)
-        //        .FirstOrDefault(bds => bds.Id == buildId);
-        //}
+        public BuildDefinitionSetting FindBuildDefinitionById(string buildId)
+        {
+            return CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .FirstOrDefault(bds => bds.Id == buildId);
+        }
 
-        //public bool IsGettingStarted()
-        //{
-        //    if (NeverShowGettingStarted) return false;
-        //    bool anyServers = CiEntryPointSettings.Any();
-        //    if (!anyServers) return true;
-        //    bool connected = !string.IsNullOrEmpty(SosOnlineUsername);
-        //    bool alwaysOffline = SosOnlineAlwaysOffline;
-        //    return !connected && !alwaysOffline;
-        //}
+        public bool IsGettingStarted()
+        {
+            if (NeverShowGettingStarted) return false;
+            bool anyServers = CiEntryPointSettings.Any();
+            if (!anyServers) return true;
+            bool connected = !string.IsNullOrEmpty(SosOnlineUsername);
+            bool alwaysOffline = SosOnlineAlwaysOffline;
+            return !connected && !alwaysOffline;
+        }
 
-        //public IList<string> AllUsersMinusMappedOnes()
-        //{
-        //    return CiEntryPointSettings
-        //        .SelectMany(i => i.BuildDefinitionSettings)
-        //        .SelectMany(bds => bds.PeopleMinusUserMappings(this))
-        //        .Distinct()
-        //        .ToList();
-        //}
+        public IList<string> AllUsersMinusMappedOnes()
+        {
+            return CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .SelectMany(bds => bds.PeopleMinusUserMappings(this))
+                .Distinct()
+                .ToList();
+        }
 
-        //public List<InstanceUserDto> GetUsersContainedInBuildsAsDto(IList<BuildStatus> changedBuildStatuses)
-        //{
-        //    return People
-        //        .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
-        //        .Select(i => new InstanceUserDto(i))
-        //        .ToList();
-        //}
+        public List<InstanceUserDto> GetUsersContainedInBuildsAsDto(IList<BuildStatus> changedBuildStatuses)
+        {
+            return People
+                .Where(person => changedBuildStatuses.Any(build => build.RequestedBy == person.RawName))
+                .Select(i => new InstanceUserDto(i))
+                .ToList();
+        }
 
         //public void Backup()
         //{

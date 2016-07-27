@@ -38,32 +38,32 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         /// </summary>
         public string Parent { get; set; }
 
-        //public BuildStatus AsUnknownBuildStatus(SosDb sosDb)
-        //{
-        //    var lastKnownBuild = sosDb.ReadAll(this).LastOrDefault();
-        //    var comment = lastKnownBuild == null ? null : lastKnownBuild.Comment;
-        //    var startedTime = lastKnownBuild == null ? null : lastKnownBuild.StartedTime;
-        //    // SosDb doesn't store local start time, so use the server's start time
-        //    var localStartTime = lastKnownBuild == null ? DateTime.MinValue : lastKnownBuild.StartedTime ?? DateTime.MinValue;
-        //    var buildId = lastKnownBuild == null ? null : lastKnownBuild.BuildId;
-        //    var requestedBy = lastKnownBuild == null ? null : lastKnownBuild.RequestedBy;
-        //    var finishedTime = lastKnownBuild == null ? null : lastKnownBuild.FinishedTime;
-        //    var url = lastKnownBuild == null ? null : lastKnownBuild.Url;
+        public BuildStatus AsUnknownBuildStatus(SosDb sosDb)
+        {
+            var lastKnownBuild = sosDb.ReadAll(this).LastOrDefault();
+            var comment = lastKnownBuild == null ? null : lastKnownBuild.Comment;
+            var startedTime = lastKnownBuild == null ? null : lastKnownBuild.StartedTime;
+            // SosDb doesn't store local start time, so use the server's start time
+            var localStartTime = lastKnownBuild == null ? DateTime.MinValue : lastKnownBuild.StartedTime ?? DateTime.MinValue;
+            var buildId = lastKnownBuild == null ? null : lastKnownBuild.BuildId;
+            var requestedBy = lastKnownBuild == null ? null : lastKnownBuild.RequestedBy;
+            var finishedTime = lastKnownBuild == null ? null : lastKnownBuild.FinishedTime;
+            var url = lastKnownBuild == null ? null : lastKnownBuild.Url;
 
-        //    return new BuildStatus
-        //    {
-        //        BuildStatusEnum = BuildStatusEnum.Unknown,
-        //        BuildDefinitionId = Id,
-        //        Name = Name,
-        //        StartedTime = startedTime,
-        //        Comment = comment,
-        //        LocalStartTime = localStartTime,
-        //        BuildId = buildId,
-        //        RequestedBy = requestedBy,
-        //        FinishedTime = finishedTime,
-        //        Url = url
-        //    };
-        //}
+            return new BuildStatus
+            {
+                BuildStatusEnum = BuildStatusEnum.Unknown,
+                BuildDefinitionId = Id,
+                Name = Name,
+                StartedTime = startedTime,
+                Comment = comment,
+                LocalStartTime = localStartTime,
+                BuildId = buildId,
+                RequestedBy = requestedBy,
+                FinishedTime = finishedTime,
+                Url = url
+            };
+        }
 
         public bool ContainsPerson(BuildStatus buildStatus)
         {
@@ -71,14 +71,14 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             return People.Any(p => p == buildStatus.RequestedBy);
         }
 
-        //public IEnumerable<string> PeopleMinusUserMappings(SirenOfShameSettings settings)
-        //{
-        //    return People.Where(person => UserMappingsDoNotContain(settings, person));
-        //}
+        public IEnumerable<string> PeopleMinusUserMappings(SirenOfShameSettings settings)
+        {
+            return People.Where(person => UserMappingsDoNotContain(settings, person));
+        }
 
-        //private static bool UserMappingsDoNotContain(SirenOfShameSettings settings, string person)
-        //{
-        //    return settings.UserMappings.All(um => um.WhenISee != person);
-        //}
+        private static bool UserMappingsDoNotContain(SirenOfShameSettings settings, string person)
+        {
+            return settings.UserMappings.All(um => um.WhenISee != person);
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Settings;
@@ -56,24 +57,22 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         protected abstract IList<BuildStatus> GetBuildStatus();
 
-        public virtual async Task StartWatching()
+        public virtual async Task StartWatching(CancellationToken token)
         {
             try
             {
                 _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds", Settings.PollInterval));
                 while (true)
                 {
+                    if (token.IsCancellationRequested) break;
                     GetBuildStatusAndFireEvents();
+                    if (token.IsCancellationRequested) break;
                     await Task.Delay(Settings.PollInterval*1000);
                 }
+                _log.Debug("Stopped watching build status");
+                StopWatching();
+                OnStoppedWatching();
             }
-            // todo: figure out watching cancellation
-            //catch (ThreadAbortException)
-            //{
-            //    _log.Debug("Stopped watching build status (ThreadAbortException)");
-            //    StopWatching();
-            //    OnStoppedWatching();
-            //}
             catch (Exception ex)
             {
                 _log.Error("uncaught exception in watcher", ex);
