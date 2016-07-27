@@ -10,13 +10,14 @@ import { GetCiEntryPointSettingsCommand } from './commands/get-cientrypointsetti
 import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
 import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
 import { CiEntryPointSetting } from './models/ciEntryPointSetting';
+import { DeleteSettingsCommand } from './commands/delete-settings.command';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'components/app.html',
     providers: [
         ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
-        GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand
+        GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand
     ],
     directives: [ROUTER_DIRECTIVES]
 })

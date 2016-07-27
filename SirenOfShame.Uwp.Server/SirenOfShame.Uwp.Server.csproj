@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\DeleteSettingsCommand.cs" />
     <Compile Include="Commands\EchoCommand.cs" />
     <Compile Include="Commands\GetBuildDefinitionsCommand.cs" />
     <Compile Include="Commands\AddCiEntryPointSettingCommand.cs" />

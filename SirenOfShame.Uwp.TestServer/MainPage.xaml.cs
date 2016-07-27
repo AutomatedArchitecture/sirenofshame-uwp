@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -6,6 +7,7 @@ using IotWeb.Common.Http;
 using IotWeb.Server;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -19,6 +21,7 @@ namespace SirenOfShame.Uwp.TestServer
     {
         private HttpServer _httpServer;
         private RulesEngine _rulesEngine;
+        private readonly ILog _log = MyLogManager.GetLogger(typeof(MainPage));
 
         public MainPage()
         {
@@ -29,7 +32,14 @@ namespace SirenOfShame.Uwp.TestServer
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             StartWebServer();
-            await StartCiWatcher();
+            try
+            {
+                await StartCiWatcher();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error starting CI watcher", ex);
+            }
         }
 
         private async Task StartCiWatcher()
