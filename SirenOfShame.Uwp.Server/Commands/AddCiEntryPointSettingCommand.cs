@@ -16,22 +16,28 @@ namespace SirenOfShame.Uwp.Server.Commands
 
     internal class AddCiEntryPointSettingCommand : CommandBase
     {
+        private SirenOfShameSettingsService _sosService;
+
+        public AddCiEntryPointSettingCommand()
+        {
+            _sosService = SirenOfShameSettingsService.Instance;
+        }
+
         public override string CommandName => "addCiEntryPointSetting";
         public override async Task<SocketResult> Invoke(string frame)
         {
-            var sosService = SirenOfShameSettingsService.Instance;
             var jsonSerializerSettings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
             var request = JsonConvert.DeserializeObject<AddCiEntryPointSettingRequest>(frame, jsonSerializerSettings);
 
-            var appSettings = await sosService.GetAppSettings();
+            var appSettings = await _sosService.GetAppSettings();
 
             request.CiEntryPointSetting.Id = appSettings.CiEntryPointSettings.Max(i => (int?)i.Id) ?? 0 + 1;
 
             appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
-            await sosService.Save(appSettings);
+            await _sosService.Save(appSettings);
             return new OkSocketResult();
         }
     }
