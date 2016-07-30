@@ -45,5 +45,12 @@ namespace SirenOfShame.Uwp.Server.Services
                 await streamWriter.WriteAsync(contents);
             }
         }
+
+        public async Task DeleteSettings()
+        {
+            var sosFolder = await GetSosAppDataFolder();
+            var configFile = await sosFolder.GetFileAsync(SirenOfShameSettings.SIRENOFSHAME_CONFIG);
+            await configFile.DeleteAsync();
+        }
     }
 }
