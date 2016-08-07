@@ -58,6 +58,9 @@ export class Server {
     }
 
     public onSave() {
+        this.ciEntryPointSetting.buildDefinitionSettings = this.ciEntryPointSetting.projects
+            .filter(project => project.selected);
+
         this.addCiEntryPointSettingCommand.invoke(this.ciEntryPointSetting)
             .then(() => this.router.navigate(['home']));
     }

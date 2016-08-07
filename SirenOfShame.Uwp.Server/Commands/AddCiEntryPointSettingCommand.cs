@@ -16,7 +16,7 @@ namespace SirenOfShame.Uwp.Server.Commands
 
     internal class AddCiEntryPointSettingCommand : CommandBase
     {
-        private SirenOfShameSettingsService _sosService;
+        private readonly SirenOfShameSettingsService _sosService;
 
         public AddCiEntryPointSettingCommand()
         {
@@ -35,6 +35,12 @@ namespace SirenOfShame.Uwp.Server.Commands
             var appSettings = await _sosService.GetAppSettings();
 
             request.CiEntryPointSetting.Id = appSettings.CiEntryPointSettings.Max(i => (int?)i.Id) ?? 0 + 1;
+
+            foreach (var buildDefinitionSetting in request.CiEntryPointSetting.BuildDefinitionSettings)
+            {
+                buildDefinitionSetting.Active = true;
+                buildDefinitionSetting.BuildServer = request.CiEntryPointSetting.Name;
+            }
 
             appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
             await _sosService.Save(appSettings);

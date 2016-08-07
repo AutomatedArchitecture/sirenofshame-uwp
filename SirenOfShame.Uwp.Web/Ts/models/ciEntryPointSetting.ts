@@ -5,4 +5,5 @@ export class CiEntryPointSetting {
     public name: string;
     public url: string;
     public projects: MyBuildDefinition[];
+    public buildDefinitionSettings: MyBuildDefinition[];
 }
