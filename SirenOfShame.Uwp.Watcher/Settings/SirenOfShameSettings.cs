@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Xml.Serialization;
+using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.HudsonServices;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -360,27 +361,27 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             get { return AVATAR_COUNT; }
         }
 
-        //private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed)
-        //{
-        //    Rule rule = Rules.FirstOrDefault(r => r.TriggerType == triggerType && r.BuildDefinitionId == null && r.TriggerPerson == null);
-        //    if (rule != null)
-        //    {
-        //        rule.InheritAudioSettings = false;
-        //        rule.AudioPattern = SirenOfShameDevice.AudioPatterns.First();
-        //        rule.AudioDuration = audioDuration;
-        //        rule.InheritLedSettings = !setLed;
-        //        rule.LedPattern = setLed ? SirenOfShameDevice.LedPatterns.First() : null;
-        //        rule.LightsDuration = null;
-        //    }
-        //}
+        private void TrySetDefaultRule(TriggerType triggerType, int audioDuration, bool setLed, AudioPattern firstAudioPattern, LedPattern firstLedPattern)
+        {
+            Rule rule = Rules.FirstOrDefault(r => r.TriggerType == triggerType && r.BuildDefinitionId == null && r.TriggerPerson == null);
+            if (rule != null)
+            {
+                rule.InheritAudioSettings = false;
+                rule.AudioPattern = firstAudioPattern;
+                rule.AudioDuration = audioDuration;
+                rule.InheritLedSettings = !setLed;
+                rule.LedPattern = setLed ? firstLedPattern : null;
+                rule.LightsDuration = null;
+            }
+        }
 
-        //public void InitializeRulesForConnectedSiren()
-        //{
-        //    if (!SirenOfShameDevice.IsConnected) return;
-        //    TrySetDefaultRule(TriggerType.BuildTriggered, 1, false);
-        //    TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true);
-        //    TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true);
-        //}
+        public void InitializeRulesForConnectedSiren(AudioPattern firstAudioPattern, LedPattern firstLedPattern)
+        {
+            //if (!SirenOfShameDevice.IsConnected) return;
+            TrySetDefaultRule(TriggerType.BuildTriggered, 1, false, firstAudioPattern, firstLedPattern);
+            TrySetDefaultRule(TriggerType.InitialFailedBuild, 10, true, firstAudioPattern, firstLedPattern);
+            TrySetDefaultRule(TriggerType.SubsequentFailedBuild, 10, true, firstAudioPattern, firstLedPattern);
+        }
 
         public PersonSetting FindAddPerson(string requestedBy, int avatarCount = AVATAR_COUNT)
         {

@@ -13,8 +13,8 @@ namespace SirenOfShame.Uwp.Server.Commands
             await Task.Yield();
             var sirenInfo = new SirenInfo
             {
-                LedPatterns = SirenService.Instance.LedPatterns,
-                AudioPatterns = SirenService.Instance.AudioPatterns
+                LedPatterns = SirenDeviceService.Instance.LedPatterns,
+                AudioPatterns = SirenDeviceService.Instance.AudioPatterns
             };
 
             return new SirenInfoResult(sirenInfo);

@@ -17,8 +17,8 @@ namespace SirenOfShame.Uwp.Server
     {
         public WebSocketHandler()
         {
-            SirenService.Instance.Device.Connected += DeviceOnConnected;
-            SirenService.Instance.Device.Disconnected += DeviceOnDisconnected;
+            SirenDeviceService.Instance.Device.Connected += DeviceOnConnected;
+            SirenDeviceService.Instance.Device.Disconnected += DeviceOnDisconnected;
         }
 
         public bool WillAcceptRequest(string uri, string protocol)
@@ -31,7 +31,7 @@ namespace SirenOfShame.Uwp.Server
             _socket = socket;
             socket.DataReceived += OnDataReceived;
             socket.ConnectionClosed += SocketOnConnectionClosed;
-            SendConnectionChanged(SirenService.Instance.IsConnected);
+            SendConnectionChanged(SirenDeviceService.Instance.IsConnected);
         }
 
         private void SocketOnConnectionClosed(WebSocket socket)

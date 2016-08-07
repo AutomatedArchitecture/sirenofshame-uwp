@@ -43,7 +43,7 @@ namespace SirenOfShame.Uwp.Background
                 new HttpResourceHandler(typeof(StartupTask).GetTypeInfo().Assembly,
                     "wwwroot", "index.html"));
             _httpServer.Start();
-            SirenService.Instance.StartWatching();
+            SirenDeviceService.Instance.StartWatching();
         }
     }
 }

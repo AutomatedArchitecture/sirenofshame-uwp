@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Newtonsoft.Json;
@@ -10,6 +11,8 @@ namespace SirenOfShame.Uwp.Server.Services
     public class SirenOfShameSettingsService
     {
         public static SirenOfShameSettingsService Instance = new SirenOfShameSettingsService();
+        private SirenOfShameSettings _settingsCache;
+        readonly Mutex _retrievingSettings = new Mutex(false);
 
         public async Task<StorageFolder> GetSosAppDataFolder()
         {
@@ -19,6 +22,24 @@ namespace SirenOfShame.Uwp.Server.Services
         }
 
         public async Task<SirenOfShameSettings> GetAppSettings()
+        {
+            if (_settingsCache != null) return _settingsCache;
+            // don't allow more than one thread into the following block
+            _retrievingSettings.WaitOne();
+            try
+            {
+                // if multiple threads were waiting _settingsCache is probably now not-null
+                if (_settingsCache != null) return _settingsCache;
+                _settingsCache = await GetAppSettingsFromDiskOrDefault();
+                return _settingsCache;
+            }
+            finally
+            {
+                _retrievingSettings.ReleaseMutex();
+            }
+        }
+
+        private async Task<SirenOfShameSettings> GetAppSettingsFromDiskOrDefault()
         {
             var sosFolder = await GetSosAppDataFolder();
             var configFile = await sosFolder.TryGetItemAsync(SirenOfShameSettings.SIRENOFSHAME_CONFIG);

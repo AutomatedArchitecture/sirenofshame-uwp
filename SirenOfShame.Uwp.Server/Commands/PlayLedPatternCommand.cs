@@ -14,13 +14,13 @@ namespace SirenOfShame.Uwp.Server.Commands
         {
             var playLedRequest = JsonConvert.DeserializeObject<PlayLedRequest>(frame);
 
-            if (SirenService.Instance.IsConnected)
+            if (SirenDeviceService.Instance.IsConnected)
             {
                 var id = playLedRequest.Id;
                 var durationStr = playLedRequest.Duration;
                 var ledPattern = ToLedPattern(id);
                 var duration = ToDuration(durationStr);
-                await SirenService.Instance.PlayLightPattern(ledPattern, duration);
+                await SirenDeviceService.Instance.PlayLightPattern(ledPattern, duration);
             }
 
             return new OkSocketResult();

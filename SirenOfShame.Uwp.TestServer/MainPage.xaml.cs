@@ -2,7 +2,6 @@
 using System.Reflection;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using IotWeb.Common.Http;
 using IotWeb.Server;
 using SirenOfShame.Uwp.Server;
@@ -17,7 +16,7 @@ namespace SirenOfShame.Uwp.TestServer
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage
     {
         private HttpServer _httpServer;
         private RulesEngine _rulesEngine;
@@ -25,8 +24,8 @@ namespace SirenOfShame.Uwp.TestServer
 
         public MainPage()
         {
-            this.InitializeComponent();
-            this.Loaded += OnLoaded;
+            InitializeComponent();
+            Loaded += OnLoaded;
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -47,6 +46,15 @@ namespace SirenOfShame.Uwp.TestServer
             var sosSettings = await SirenOfShameSettingsService.Instance.GetAppSettings();
             _rulesEngine = new RulesEngine(sosSettings);
             _rulesEngine.Start(true);
+            _rulesEngine.SetLights += RulesEngineOnSetLights;
+        }
+
+        private async void RulesEngineOnSetLights(object sender, SetLightsEventArgs args)
+        {
+            if (SirenDeviceService.Instance.IsConnected)
+            {
+                await SirenDeviceService.Instance.PlayLightPattern(args.LedPattern, args.TimeSpan);
+            }
         }
 
         private void StartWebServer()
@@ -61,7 +69,7 @@ namespace SirenOfShame.Uwp.TestServer
                 new WebSocketHandler()
                 );
             _httpServer.Start();
-            SirenService.Instance.StartWatching();
+            SirenDeviceService.Instance.StartWatching();
         }
     }
 }

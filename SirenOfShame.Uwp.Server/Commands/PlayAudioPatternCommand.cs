@@ -14,13 +14,13 @@ namespace SirenOfShame.Uwp.Server.Commands
         {
             var playAudioRequest = JsonConvert.DeserializeObject<PlayAudioRequest>(frame);
 
-            if (SirenService.Instance.IsConnected)
+            if (SirenDeviceService.Instance.IsConnected)
             {
                 var id = playAudioRequest.Id;
                 var durationStr = playAudioRequest.Duration;
                 var audioPattern = ToAudioPattern(id);
                 var duration = ToDuration(durationStr);
-                await SirenService.Instance.PlayAudioPattern(audioPattern, duration);
+                await SirenDeviceService.Instance.PlayAudioPattern(audioPattern, duration);
             }
 
             return new OkSocketResult();
