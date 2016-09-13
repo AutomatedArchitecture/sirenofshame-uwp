@@ -24,6 +24,7 @@ import { DeleteSettingsCommand } from './commands/delete-settings.command';
 export class AppComponent {
     constructor(private serverService: ServerService, private getCiEntryPointSettingsCommand: GetCiEntryPointSettingsCommand) {
         serverService.connected.subscribe(() => this.onServerConnected());
+        serverService.serverAdded.subscribe(ciEntryPointSetting => this.onServerAdded(ciEntryPointSetting));
         serverService.connectionError.subscribe(err => {
             this.webSocketsConnecting = false;
             this.webSocketsError = err;
@@ -36,6 +37,10 @@ export class AppComponent {
         this.webSocketsError = null;
         this.getCiEntryPointSettingsCommand.execute()
             .then(ciEntryPoints => this.ciEntryPointSettings = ciEntryPoints);
+    }
+
+    private onServerAdded(ciEntryPointSetting: CiEntryPointSetting) {
+        alert(ciEntryPointSetting.name);
     }
 
     public webSocketsConnecting: boolean = true;

@@ -1,5 +1,6 @@
 ﻿import { Injectable, Output, EventEmitter } from '@angular/core';
 import { BaseCommand } from './commands/base.command';
+import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 
 @Injectable()
 export class ServerService {
@@ -61,6 +62,7 @@ export class ServerService {
     @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
     @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
     @Output() public deviceConnectionChanged: EventEmitter<boolean> = new EventEmitter<any>(true);
+    @Output() public serverAdded: EventEmitter<CiEntryPointSetting> = new EventEmitter<CiEntryPointSetting>(true);
 
     public isConnected: boolean;
 
