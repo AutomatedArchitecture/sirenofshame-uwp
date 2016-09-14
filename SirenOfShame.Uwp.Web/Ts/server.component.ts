@@ -30,6 +30,8 @@ export class Server {
             if (id) {
                 this.getCiEntryPointSettingCommand.invoke(id)
                     .then(ciEntryPointSetting => {
+                        this.ciEntryPointSetting.id = ciEntryPointSetting.id;
+                        this.ciEntryPointSetting.name = ciEntryPointSetting.name;
                         this.ciEntryPointSetting.url = ciEntryPointSetting.url;
                     });
             }
