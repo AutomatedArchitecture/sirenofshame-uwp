@@ -34,21 +34,30 @@ namespace SirenOfShame.Uwp.Server.Commands
 
             var appSettings = await _sosService.GetAppSettings();
 
-            var maxId = appSettings.CiEntryPointSettings.Max(i => (int?) i.Id) ?? 0;
-            var newId = maxId + 1;
-            request.CiEntryPointSetting.Id = newId;
-
             foreach (var buildDefinitionSetting in request.CiEntryPointSetting.BuildDefinitionSettings)
             {
                 buildDefinitionSetting.Active = true;
                 buildDefinitionSetting.BuildServer = request.CiEntryPointSetting.Name;
             }
 
-            appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
+            var incommingId = request.CiEntryPointSetting.Id;
+            if (incommingId == 0)
+            {
+                var maxId = appSettings.CiEntryPointSettings.Max(i => (int?)i.Id) ?? 0;
+                var newId = maxId + 1;
+                request.CiEntryPointSetting.Id = newId;
+                appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
+            }
+            else
+            {
+                var existingRecord = appSettings.CiEntryPointSettings.First(i => i.Id == incommingId);
+                existingRecord.Url = request.CiEntryPointSetting.Url;
+                existingRecord.BuildDefinitionSettings = request.CiEntryPointSetting.BuildDefinitionSettings;
+            }
             await _sosService.Save(appSettings);
             return new OkSocketResult
             {
-                Result = newId
+                Result = request.CiEntryPointSetting.Id
             };
         }
     }

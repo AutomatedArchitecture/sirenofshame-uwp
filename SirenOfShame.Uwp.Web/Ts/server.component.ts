@@ -66,9 +66,12 @@ export class Server {
             .filter(project => project.selected);
 
         this.addCiEntryPointSettingCommand.invoke(this.ciEntryPointSetting)
-            .then((ciEntryPointSettingId:number) => {
-                this.ciEntryPointSetting.id = ciEntryPointSettingId;
-                this.serverService.serverAdded.emit((this.ciEntryPointSetting));
+            .then((ciEntryPointSettingId: number) => {
+                let adding = this.ciEntryPointSetting.id === 0;
+                if (adding) {
+                    this.ciEntryPointSetting.id = ciEntryPointSettingId;
+                    this.serverService.serverAdded.emit((this.ciEntryPointSetting));
+                }
                 this.router.navigate(['home']);
             });
     }
