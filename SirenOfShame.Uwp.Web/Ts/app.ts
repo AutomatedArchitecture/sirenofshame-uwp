@@ -22,7 +22,10 @@ import { DeleteSettingsCommand } from './commands/delete-settings.command';
     directives: [ROUTER_DIRECTIVES]
 })
 export class AppComponent {
-    constructor(private serverService: ServerService, private getCiEntryPointSettingsCommand: GetCiEntryPointSettingsCommand) {
+    constructor(
+        private serverService: ServerService,
+        private getCiEntryPointSettingsCommand: GetCiEntryPointSettingsCommand
+    ) {
         serverService.connected.subscribe(() => this.onServerConnected());
         serverService.serverAdded.subscribe(ciEntryPointSetting => this.onServerAdded(ciEntryPointSetting));
         serverService.connectionError.subscribe(err => {
@@ -40,7 +43,7 @@ export class AppComponent {
     }
 
     private onServerAdded(ciEntryPointSetting: CiEntryPointSetting) {
-        alert(ciEntryPointSetting.name);
+        this.ciEntryPointSettings.push(ciEntryPointSetting);
     }
 
     public webSocketsConnecting: boolean = true;

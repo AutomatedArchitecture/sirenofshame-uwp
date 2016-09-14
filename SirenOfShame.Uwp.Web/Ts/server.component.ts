@@ -5,6 +5,7 @@ import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.comm
 import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
 import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
+import { ServerService } from './server.service';
 
 @Component({
     templateUrl: './components/server.html'
@@ -15,7 +16,8 @@ export class Server {
         private getCiEntryPointSettingCommand: GetCiEntryPointSettingCommand,
         private addCiEntryPointSettingCommand: AddCiEntryPointSettingCommand,
         private route: ActivatedRoute,
-        private router: Router
+        private router: Router,
+        private serverService: ServerService
     ) {
         
     }
@@ -62,6 +64,10 @@ export class Server {
             .filter(project => project.selected);
 
         this.addCiEntryPointSettingCommand.invoke(this.ciEntryPointSetting)
-            .then(() => this.router.navigate(['home']));
+            .then((ciEntryPointSettingId:number) => {
+                this.ciEntryPointSetting.id = ciEntryPointSettingId;
+                this.serverService.serverAdded.emit((this.ciEntryPointSetting));
+                this.router.navigate(['home']);
+            });
     }
 }

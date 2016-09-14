@@ -17,8 +17,8 @@ export class AddCiEntryPointSettingCommand extends BaseCommand {
 
     public response(data) { }
 
-    public invoke(ciEntryPointSetting: CiEntryPointSetting): Promise<CiEntryPointSetting> {
-        return new Promise<CiEntryPointSetting>((resolve, err) => {
+    public invoke(ciEntryPointSetting: CiEntryPointSetting): Promise<number> {
+        return new Promise<number>((resolve, err) => {
             this.response = (result) => {
                 if (result.responseCode === 200) {
                     resolve(result.result);

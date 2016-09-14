@@ -34,7 +34,9 @@ namespace SirenOfShame.Uwp.Server.Commands
 
             var appSettings = await _sosService.GetAppSettings();
 
-            request.CiEntryPointSetting.Id = appSettings.CiEntryPointSettings.Max(i => (int?)i.Id) ?? 0 + 1;
+            var maxId = appSettings.CiEntryPointSettings.Max(i => (int?) i.Id) ?? 0;
+            var newId = maxId + 1;
+            request.CiEntryPointSetting.Id = newId;
 
             foreach (var buildDefinitionSetting in request.CiEntryPointSetting.BuildDefinitionSettings)
             {
@@ -44,7 +46,10 @@ namespace SirenOfShame.Uwp.Server.Commands
 
             appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
             await _sosService.Save(appSettings);
-            return new OkSocketResult();
+            return new OkSocketResult
+            {
+                Result = newId
+            };
         }
     }
 }
