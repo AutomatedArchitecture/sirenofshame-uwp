@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Background", "SirenOfShame.Uwp.Background\SirenOfShame.Uwp.Background.csproj", "{5D1E671D-7542-4CCD-99EE-1BA040DD48A8}"
 EndProject
@@ -17,9 +17,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotWeb Portable", "iotweb\I
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.TestServer", "SirenOfShame.Uwp.TestServer\SirenOfShame.Uwp.TestServer.csproj", "{8F1A39B5-108C-4C5B-ABBE-8885DC314AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IotWeb NET45", "iotweb\IotWeb NET45\IotWeb NET45.csproj", "{33F56077-18E3-414D-BCC1-496790AAEA93}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Server", "SirenOfShame.Uwp.Server\SirenOfShame.Uwp.Server.csproj", "{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADD77C91-0B56-41C3-9438-C45A61117EC6}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,22 +158,6 @@ Global
 		{8F1A39B5-108C-4C5B-ABBE-8885DC314AA1}.Release|x86.ActiveCfg = Release|x86
 		{8F1A39B5-108C-4C5B-ABBE-8885DC314AA1}.Release|x86.Build.0 = Release|x86
 		{8F1A39B5-108C-4C5B-ABBE-8885DC314AA1}.Release|x86.Deploy.0 = Release|x86
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|ARM.Build.0 = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|x64.Build.0 = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Debug|x86.Build.0 = Debug|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|ARM.ActiveCfg = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|ARM.Build.0 = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|x64.ActiveCfg = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|x64.Build.0 = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|x86.ActiveCfg = Release|Any CPU
-		{33F56077-18E3-414D-BCC1-496790AAEA93}.Release|x86.Build.0 = Release|Any CPU
 		{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}.Debug|ARM.ActiveCfg = Debug|ARM
