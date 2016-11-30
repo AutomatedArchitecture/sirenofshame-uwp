@@ -8,6 +8,9 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50">Siren of Shame!</TextBlock>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="MyText" FontSize="50">Siren of Shame!</TextBlock>
+            <Button Click="ButtonBase_OnClick">Click Me</Button>
+        </StackPanel>
     </Grid>
 </Page>
