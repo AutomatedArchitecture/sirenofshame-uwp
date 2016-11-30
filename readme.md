@@ -41,14 +41,15 @@ web site serves as the admin portal for the app.  It
 allows users to, for example, add/delete/change CI servers.  It 
 serves up static files from `\wwwroot`, 
 and uses web sockets to communicate in realtime with 
-browsers.  The html and javascript content originats from the SirenOfShame.Uwp.Web 
+browsers.  The html and javascript content originates from the SirenOfShame.Uwp.Web 
 project.  The SirenOfShame.Uwp.Server project contains all of
 the server-side logic for the web server.
 
 The second purpose of the SirenOfShame.Uwp.Background 
 project is to monitor CI servers and process the results.  It
 tracks achievements and reputation, tells the siren device when to
-turn on or off, and notifies the UI to update itself.
+turn on or off, and notifies the UI to update itself.  All of this
+logic lives in SirenOfShame.Uwp.Watcher.
 
 #### SirenOfShame.Uwp.Server
 
@@ -66,6 +67,11 @@ A UWP App that duplicates the functionality in SirenOfShame.Uwp.Background
 on a PC rather than a Raspberry Pi.  This project can be used in conjunction
 with SirenOfShame.Uwp.Web for testing the admin portal without deploying to
 a Raspberry Pi.
+
+#### SirenOfShame.Uwp.Ui
+
+Displays build information for a projector or touch display. Receives
+data from SirenOfShame.Uwp.Background.
 
 #### SirenOfShame.Uwp.Watcher
 
