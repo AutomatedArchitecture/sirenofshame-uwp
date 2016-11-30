@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		readme.md = readme.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Ui", "SirenOfShame.Uwp.Ui\SirenOfShame.Uwp.Ui.csproj", "{A6303547-22A0-4CD1-902D-5AC054D33C54}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -174,6 +176,26 @@ Global
 		{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}.Release|x64.Build.0 = Release|x64
 		{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}.Release|x86.ActiveCfg = Release|x86
 		{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}.Release|x86.Build.0 = Release|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|ARM.ActiveCfg = Debug|ARM
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|ARM.Build.0 = Debug|ARM
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|ARM.Deploy.0 = Debug|ARM
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|x64.ActiveCfg = Debug|x64
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|x64.Build.0 = Debug|x64
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|x64.Deploy.0 = Debug|x64
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|x86.ActiveCfg = Debug|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|x86.Build.0 = Debug|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Debug|x86.Deploy.0 = Debug|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|Any CPU.ActiveCfg = Release|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|ARM.ActiveCfg = Release|ARM
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|ARM.Build.0 = Release|ARM
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|ARM.Deploy.0 = Release|ARM
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x64.ActiveCfg = Release|x64
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x64.Build.0 = Release|x64
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x64.Deploy.0 = Release|x64
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x86.ActiveCfg = Release|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x86.Build.0 = Release|x86
+		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
