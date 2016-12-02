@@ -21,10 +21,11 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <uap:Extension Category="windows.appService"
-            EntryPoint="SirenOfShame.Uwp.Background.StartupTask">
-          <uap:AppService Name="BackgroundWebService" />
-        </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="SirenOfShame.Uwp.Background.StartupTask">
+          <BackgroundTasks>
+            <iot:Task Type="startup" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>

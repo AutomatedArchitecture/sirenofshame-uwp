@@ -16,7 +16,7 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private AppServiceConnection _WebService;
+        private AppServiceConnection _connection;
 
         public MainPage()
         {
@@ -38,7 +38,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private async Task SetupAppService()
         {
-            var appServiceName = "BackgroundWebService";
+            var appServiceName = "SirenOfShameMessageRelay";
             var listing = await AppServiceCatalog.FindAppServiceProvidersAsync(appServiceName);
 
             if (listing.Count == 0)
@@ -47,13 +47,13 @@ namespace SirenOfShame.Uwp.Ui
             }
             var packageName = listing[0].PackageFamilyName;
 
-            _WebService = new AppServiceConnection
+            _connection = new AppServiceConnection
             {
                 AppServiceName = appServiceName,
                 PackageFamilyName = packageName
             };
 
-            var status = await _WebService.OpenAsync();
+            var status = await _connection.OpenAsync();
 
             if (status != AppServiceConnectionStatus.Success)
             {
@@ -63,11 +63,11 @@ namespace SirenOfShame.Uwp.Ui
             else
             {
                 MyText.Text = "Connected: " + status;
-                _WebService.RequestReceived += WebService_RequestReceived;
+                _connection.RequestReceived += ConnectionRequestReceived;
             }
         }
 
-        private async void WebService_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        private async void ConnectionRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
               {
@@ -79,7 +79,7 @@ namespace SirenOfShame.Uwp.Ui
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             MyText.Text = "Sending Message";
-            await _WebService.SendMessageAsync(
+            await _connection.SendMessageAsync(
               new ValueSet {
                 new KeyValuePair<string, object>("Value", "Hello From UI") });
         }

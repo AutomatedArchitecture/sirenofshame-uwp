@@ -41,11 +41,10 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="SirenOfShame.Uwp.MessageRelay.StartupTask">
-          <BackgroundTasks>
-            <iot:Task Type="startup" />
-          </BackgroundTasks>
-        </Extension>
+        <uap:Extension Category="windows.appService"
+          EntryPoint="SirenOfShame.Uwp.MessageRelay.StartupTask">
+          <uap:AppService Name="SirenOfShameMessageRelay" />
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
