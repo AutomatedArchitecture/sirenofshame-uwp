@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -20,21 +21,37 @@ namespace SirenOfShame.Uwp.Ui
         public MainPage()
         {
             InitializeComponent();
-            SetupAppService();
+            Loaded += OnLoaded;
         }
 
-        private async void SetupAppService()
+        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            var listing = await AppServiceCatalog.
-                  FindAppServiceProvidersAsync("BackgroundWebService");
+            try
+            {
+                await SetupAppService();
+            }
+            catch (Exception ex)
+            {
+                MyText.Text = "AppService Error: " + ex.Message;
+            }
+        }
 
-            var packageName = (listing.Count == 1)
-                                ? listing[0].PackageFamilyName
-                                : string.Empty;
+        private async Task SetupAppService()
+        {
+            var appServiceName = "BackgroundWebService";
+            var listing = await AppServiceCatalog.FindAppServiceProvidersAsync(appServiceName);
 
-            _WebService = new AppServiceConnection();
-            _WebService.AppServiceName = "BackgroundWebService";
-            _WebService.PackageFamilyName = packageName;
+            if (listing.Count == 0)
+            {
+                throw new Exception("Unable to find app service '" + appServiceName + "'");
+            }
+            var packageName = listing[0].PackageFamilyName;
+
+            _WebService = new AppServiceConnection
+            {
+                AppServiceName = appServiceName,
+                PackageFamilyName = packageName
+            };
 
             var status = await _WebService.OpenAsync();
 
