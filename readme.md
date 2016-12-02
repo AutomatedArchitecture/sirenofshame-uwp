@@ -51,6 +51,12 @@ tracks achievements and reputation, tells the siren device when to
 turn on or off, and notifies the UI to update itself.  All of this
 logic lives in SirenOfShame.Uwp.Watcher.
 
+#### SirenOfShame.Uwp.MessageRelay
+
+MessageRelay will theoretically receive messages from either
+SirenOfShame.Uwp.Background or SirenOfShame.Uwp.Ui and then
+relay the messages back out to other listeners.
+
 #### SirenOfShame.Uwp.Server
 
 Since SirenOfShame.Uwp.Background can only run on a Raspberry Pi, 

@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Ui", "SirenOfShame.Uwp.Ui\SirenOfShame.Uwp.Ui.csproj", "{A6303547-22A0-4CD1-902D-5AC054D33C54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.MessageRelay", "SirenOfShame.Uwp.MessageRelay\SirenOfShame.Uwp.MessageRelay.csproj", "{39BFF082-C8D2-4F75-A397-F325E5CB880C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -196,6 +198,26 @@ Global
 		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x86.ActiveCfg = Release|x86
 		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x86.Build.0 = Release|x86
 		{A6303547-22A0-4CD1-902D-5AC054D33C54}.Release|x86.Deploy.0 = Release|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|ARM.Build.0 = Debug|ARM
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|ARM.Deploy.0 = Debug|ARM
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|x64.ActiveCfg = Debug|x64
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|x64.Build.0 = Debug|x64
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|x64.Deploy.0 = Debug|x64
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|x86.ActiveCfg = Debug|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|x86.Build.0 = Debug|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Debug|x86.Deploy.0 = Debug|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|Any CPU.ActiveCfg = Release|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|ARM.ActiveCfg = Release|ARM
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|ARM.Build.0 = Release|ARM
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|ARM.Deploy.0 = Release|ARM
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|x64.ActiveCfg = Release|x64
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|x64.Build.0 = Release|x64
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|x64.Deploy.0 = Release|x64
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|x86.ActiveCfg = Release|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|x86.Build.0 = Release|x86
+		{39BFF082-C8D2-4F75-A397-F325E5CB880C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
