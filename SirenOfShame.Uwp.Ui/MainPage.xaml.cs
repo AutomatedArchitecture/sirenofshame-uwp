@@ -33,12 +33,14 @@ namespace SirenOfShame.Uwp.Ui
               });
         }
 
+        private int _messageNumber = 0;
+
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             MyText.Text = "Sending Message";
             try
             {
-                await App._connection.SendMessageAsync("Value", "Hello From UI");
+                await App._connection.SendMessageAsync("Value", "Msg #" + _messageNumber++);
             }
             catch (Exception ex)
             {
