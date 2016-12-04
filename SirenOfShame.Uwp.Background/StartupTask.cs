@@ -20,6 +20,7 @@ namespace SirenOfShame.Uwp.Background
         private readonly StartManager _startManager = new StartManager();
         private MessageRelayService _messageRelayService;
         private readonly ILog _log = MyLogManager.GetLogger(typeof(StartupTask));
+        private SirenDeviceService _sirenDeviceService;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -27,9 +28,12 @@ namespace SirenOfShame.Uwp.Background
 
             taskInstance.Canceled += TaskInstanceOnCanceled;
             _startManager.Configure();
+
             _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
             StartWebServer();
+            _sirenDeviceService.StartWatching();
             await StartMessageRelayService();
             await StartCiWatcher();
         }
@@ -72,7 +76,6 @@ namespace SirenOfShame.Uwp.Background
                 new HttpResourceHandler(typeof(StartupTask).GetTypeInfo().Assembly,
                     "wwwroot", "index.html"));
             _httpServer.Start();
-            SirenDeviceService.Instance.StartWatching();
         }
     }
 }

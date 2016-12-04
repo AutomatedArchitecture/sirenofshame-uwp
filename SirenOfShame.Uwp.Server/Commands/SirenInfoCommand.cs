@@ -7,14 +7,20 @@ namespace SirenOfShame.Uwp.Server.Commands
     internal class SirenInfoCommand : CommandBase
     {
         public override string CommandName => "getSirenInfo";
+        private readonly SirenDeviceService _sirenDeviceService;
+
+        public SirenInfoCommand()
+        {
+            _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
+        }
 
         public override async Task<SocketResult> Invoke(string frame)
         {
             await Task.Yield();
             var sirenInfo = new SirenInfo
             {
-                LedPatterns = SirenDeviceService.Instance.LedPatterns,
-                AudioPatterns = SirenDeviceService.Instance.AudioPatterns
+                LedPatterns = _sirenDeviceService.LedPatterns,
+                AudioPatterns = _sirenDeviceService.AudioPatterns
             };
 
             return new SirenInfoResult(sirenInfo);

@@ -20,6 +20,8 @@ namespace SirenOfShame.Uwp.TestServer
     {
         private HttpServer _httpServer;
         private RulesEngine _rulesEngine;
+        private SirenDeviceService _sirenDeviceService;
+        private readonly StartManager _startManager = new StartManager();
         private readonly ILog _log = MyLogManager.GetLogger(typeof(MainPage));
 
         public MainPage()
@@ -30,6 +32,10 @@ namespace SirenOfShame.Uwp.TestServer
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            _startManager.Configure();
+
+            _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
+
             StartWebServer();
             try
             {
@@ -51,9 +57,9 @@ namespace SirenOfShame.Uwp.TestServer
 
         private async void RulesEngineOnSetLights(object sender, SetLightsEventArgs args)
         {
-            if (SirenDeviceService.Instance.IsConnected)
+            if (_sirenDeviceService.IsConnected)
             {
-                await SirenDeviceService.Instance.PlayLightPattern(args.LedPattern, args.TimeSpan);
+                await _sirenDeviceService.PlayLightPattern(args.LedPattern, args.TimeSpan);
             }
         }
 
@@ -69,7 +75,7 @@ namespace SirenOfShame.Uwp.TestServer
                 new WebSocketHandler()
                 );
             _httpServer.Start();
-            SirenDeviceService.Instance.StartWatching();
+            _sirenDeviceService.StartWatching();
         }
     }
 }

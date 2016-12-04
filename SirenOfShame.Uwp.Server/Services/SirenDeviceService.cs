@@ -10,10 +10,9 @@ namespace SirenOfShame.Uwp.Server.Services
 {
     public class SirenDeviceService
     {
-        public static readonly SirenDeviceService Instance = new SirenDeviceService();
         private readonly SirenOfShameDevice _device;
 
-        private SirenDeviceService()
+        public SirenDeviceService()
         {
             _device = new SirenOfShameDevice();
             _device.Connected += DeviceOnConnected;

@@ -10,17 +10,24 @@ namespace SirenOfShame.Uwp.Server.Commands
     internal class PlayLedPatternCommand : CommandBase
     {
         public override string CommandName => "playLedPattern";
+        private readonly SirenDeviceService _sirenDeviceService;
+
+        public PlayLedPatternCommand()
+        {
+            _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
+        }
+
         public override async Task<SocketResult> Invoke(string frame)
         {
             var playLedRequest = JsonConvert.DeserializeObject<PlayLedRequest>(frame);
 
-            if (SirenDeviceService.Instance.IsConnected)
+            if (_sirenDeviceService.IsConnected)
             {
                 var id = playLedRequest.Id;
                 var durationStr = playLedRequest.Duration;
                 var ledPattern = ToLedPattern(id);
                 var duration = ToDuration(durationStr);
-                await SirenDeviceService.Instance.PlayLightPattern(ledPattern, duration);
+                await _sirenDeviceService.PlayLightPattern(ledPattern, duration);
             }
 
             return new OkSocketResult();

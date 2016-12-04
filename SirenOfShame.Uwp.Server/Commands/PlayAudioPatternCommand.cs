@@ -10,17 +10,24 @@ namespace SirenOfShame.Uwp.Server.Commands
     internal class PlayAudioPatternCommand : CommandBase
     {
         public override string CommandName => "playAudioPattern";
+        private readonly SirenDeviceService _sirenDeviceService;
+
+        public PlayAudioPatternCommand()
+        {
+            _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
+        }
+
         public override async Task<SocketResult> Invoke(string frame)
         {
             var playAudioRequest = JsonConvert.DeserializeObject<PlayAudioRequest>(frame);
 
-            if (SirenDeviceService.Instance.IsConnected)
+            if (_sirenDeviceService.IsConnected)
             {
                 var id = playAudioRequest.Id;
                 var durationStr = playAudioRequest.Duration;
                 var audioPattern = ToAudioPattern(id);
                 var duration = ToDuration(durationStr);
-                await SirenDeviceService.Instance.PlayAudioPattern(audioPattern, duration);
+                await _sirenDeviceService.PlayAudioPattern(audioPattern, duration);
             }
 
             return new OkSocketResult();

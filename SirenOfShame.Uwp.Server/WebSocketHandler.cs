@@ -15,14 +15,16 @@ namespace SirenOfShame.Uwp.Server
     /// </summary>
     public class WebSocketHandler : IWebSocketRequestHandler
     {
-        private MessageRelayService _messageRelayService;
+        private readonly MessageRelayService _messageRelayService;
+        private readonly SirenDeviceService _sirenDeviceService;
 
         public WebSocketHandler()
         {
             _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
-            SirenDeviceService.Instance.Device.Connected += DeviceOnConnected;
-            SirenDeviceService.Instance.Device.Disconnected += DeviceOnDisconnected;
+            _sirenDeviceService.Device.Connected += DeviceOnConnected;
+            _sirenDeviceService.Device.Disconnected += DeviceOnDisconnected;
             _messageRelayService.MessageReceived += MessageRelayServiceMessageReceived;
         }
 
@@ -36,7 +38,7 @@ namespace SirenOfShame.Uwp.Server
             _socket = socket;
             socket.DataReceived += OnDataReceived;
             socket.ConnectionClosed += SocketOnConnectionClosed;
-            SendConnectionChanged(SirenDeviceService.Instance.IsConnected);
+            SendConnectionChanged(_sirenDeviceService.IsConnected);
         }
 
         private void SocketOnConnectionClosed(WebSocket socket)
