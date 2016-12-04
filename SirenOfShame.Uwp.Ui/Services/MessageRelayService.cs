@@ -10,10 +10,12 @@ namespace SirenOfShame.Uwp.Ui.Services
     {
         private AppServiceConnection _connection;
         public event Action<ValueSet> OnMessageReceived;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
 
         private async Task<AppServiceConnection> CachedConnection()
         {
             if (_connection != null) return _connection;
+            _log.Debug("Opening connection to MessageRelay");
             _connection = await MakeConnection();
             _connection.RequestReceived += ConnectionOnRequestReceived;
             _connection.ServiceClosed += ConnectionOnServiceClosed;
@@ -73,6 +75,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             try
             {
                 ValueSet valueSet = args.Request.Message;
+                _log.Debug("Received message from MessageRelay: " + valueSet);
                 OnMessageReceived?.Invoke(valueSet);
             }
             finally
@@ -86,7 +89,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             DisposeConnection();
         }
 
-        public async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
+        private async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
         {
             var connection = await CachedConnection();
             var result = await connection.SendMessageAsync(new ValueSet {keyValuePair});

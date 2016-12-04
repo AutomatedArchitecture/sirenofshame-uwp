@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using SirenOfShame.Device;
+using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
     public class SirenDeviceService
     {
         private readonly SirenOfShameDevice _device;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(SirenDeviceService));
 
         public SirenDeviceService()
         {
@@ -21,12 +22,12 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private void DeviceOnDisconnected(object sender, EventArgs eventArgs)
         {
-            Debug.WriteLine("Device Disconnected");
+            _log.Debug("Device Disconnected");
         }
 
         private async void DeviceOnConnected(object sender, EventArgs eventArgs)
         {
-            Debug.WriteLine("Device Connected");
+            _log.Debug("Device Connected");
 
             var settings = await SirenOfShameSettingsService.Instance.GetAppSettings();
             bool firstTimeSirenHasEverBeenConnected = !settings.SirenEverConnected;

@@ -15,6 +15,7 @@ namespace SirenOfShame.Uwp.Ui
     sealed partial class App
     {
         private readonly MessageRelayService _connection;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(App));
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -43,16 +44,16 @@ namespace SirenOfShame.Uwp.Ui
                 // failing quietly is probably ok for now since the connection will
                 //  attempt to re-open itself again on next send.  It just means
                 //  we won't be able to receive messages
-                Debug.WriteLine("Error opening connection on startup " + ex);
+                _log.Error("Error opening connection on startup", ex);
             }
-}
+        }
 
-/// <summary>
-/// Invoked when the application is launched normally by the end user.  Other entry points
-/// will be used such as when the application is launched to open a specific file.
-/// </summary>
-/// <param name="e">Details about the launch request and process.</param>
-protected override void OnLaunched(LaunchActivatedEventArgs e)
+        /// <summary>
+        /// Invoked when the application is launched normally by the end user.  Other entry points
+        /// will be used such as when the application is launched to open a specific file.
+        /// </summary>
+        /// <param name="e">Details about the launch request and process.</param>
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (Debugger.IsAttached)
