@@ -16,17 +16,27 @@ namespace SirenOfShame.Uwp.MessageRelay
         private Guid _thisConnectionGuid;
         private static readonly Dictionary<Guid, AppServiceConnection> Connections = new Dictionary<Guid, AppServiceConnection>();
 
+        /// <summary>
+        /// When an AppServiceConnection of type 'SirenOfShameMessageRelay' (as
+        /// defined in Package.appxmanifest) is instantiated and OpenAsync() is called 
+        /// on it, then one of these StartupTask's in instantiated and Run() is called.
+        /// </summary>
+        /// <param name="taskInstance"></param>
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             try
             {
+                // get a service deferral so the service isn't terminated upon completion of Run()
                 _backgroundTaskDeferral = taskInstance.GetDeferral();
+                // save a unique identifier for each connection
                 _thisConnectionGuid = Guid.NewGuid();
                 var triggerDetails = (AppServiceTriggerDetails) taskInstance.TriggerDetails;
                 var connection = triggerDetails.AppServiceConnection;
+                // save the guid and connection in a *static* list of all connections
                 Connections.Add(_thisConnectionGuid, connection);
                 await Debug("Connection opened: " + _thisConnectionGuid);
                 taskInstance.Canceled += OnTaskCancelled;
+                // listen for incoming app service requests
                 connection.RequestReceived += ConnectionRequestReceived;
                 connection.ServiceClosed += ConnectionOnServiceClosed;
             }
@@ -65,14 +75,11 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         private async void ConnectionRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
+            // take out a deferral since we use await
             var appServiceDeferral = args.GetDeferral();
             try
             {
-                // if the app is closed and re-opened it won't hit Run() a 2nd time
-                //   but it will hit ConnectionRequestReceived() again with a new
-                //   connection
-                await Debug("Request received on " + _thisConnectionGuid);
-                Connections[_thisConnectionGuid] = sender;
+                await Debug("Request initiated by " + _thisConnectionGuid);
 
                 // .ToList() required since connections may get removed during SendMessage()
                 var otherConnections = Connections
