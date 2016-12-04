@@ -10,7 +10,7 @@ namespace SirenOfShame.Uwp.Watcher.HudsonServices
 {
     public class HudsonBuildStatus : BuildStatus
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(HudsonService));
 
         public HudsonBuildStatus(XDocument doc, BuildDefinitionSetting buildDefinitionSetting, string defaultBuildStatusMessage, bool treatUnstableAsSuccess)
         {

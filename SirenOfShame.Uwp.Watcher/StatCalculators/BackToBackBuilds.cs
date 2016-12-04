@@ -7,7 +7,7 @@ namespace SirenOfShame.Uwp.Watcher.StatCalculators
 {
     public class BackToBackBuilds : StatCalculatorBase
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(BackToBackBuilds));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(BackToBackBuilds));
 
         public override void SetStats(PersonSetting activePerson, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
         {

@@ -13,7 +13,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
     public class SosDb
     {
         //private readonly string _folder = SirenOfShameSettings.GetSosAppDataFolder();
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosDb));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(SosDb));
 
         protected void Write(string location, string contents)
         {

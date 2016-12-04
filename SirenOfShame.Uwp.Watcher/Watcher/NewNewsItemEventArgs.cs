@@ -21,7 +21,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
     
     public class NewNewsItemEventArgs
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(NewNewsItemEventArgs));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(NewNewsItemEventArgs));
 
         public string BuildDefinitionId { get; set; }
         public DateTime EventDate { get; set; }

@@ -7,7 +7,7 @@ namespace SirenOfShame.Uwp.Watcher.Achievements
 {
     public class ReputationRebound : AchievementBase
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(ReputationRebound));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(ReputationRebound));
         
         private readonly List<BuildStatus> _allActiveBuildDefinitionsOrderedChronoligically;
 

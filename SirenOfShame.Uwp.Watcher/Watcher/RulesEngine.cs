@@ -23,7 +23,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         }
 
         public const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(RulesEngine));
         private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
         private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
 

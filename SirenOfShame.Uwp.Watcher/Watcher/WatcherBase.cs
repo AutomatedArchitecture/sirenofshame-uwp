@@ -9,7 +9,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 {
     public abstract class WatcherBase : IDisposable
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(WatcherBase));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(WatcherBase));
 
         protected WatcherBase(SirenOfShameSettings settings)
         {

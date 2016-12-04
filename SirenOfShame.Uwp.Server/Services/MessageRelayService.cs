@@ -10,7 +10,7 @@ namespace SirenOfShame.Uwp.Server.Services
 {
     public class MessageRelayService
     {
-        private readonly ILog _log = MyLogManager.GetLogger(typeof(MessageRelayService));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
 
         private AppServiceConnection _connection;
 

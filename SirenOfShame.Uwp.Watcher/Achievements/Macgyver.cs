@@ -8,7 +8,7 @@ namespace SirenOfShame.Uwp.Watcher.Achievements
     public class Macgyver : AchievementBase
     {
         private readonly List<BuildStatus> _currentBuildDefinitionOrderedChronoligically;
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(Macgyver));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(Macgyver));
 
         public Macgyver(PersonSetting personSetting, List<BuildStatus> currentBuildDefinitionOrderedChronoligically) : base(personSetting)
         {

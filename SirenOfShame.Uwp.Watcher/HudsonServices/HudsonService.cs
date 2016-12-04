@@ -24,7 +24,7 @@ namespace SirenOfShame.Uwp.Watcher.HudsonServices
             return downloadXml;
         }
 
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(HudsonService));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(HudsonService));
 
         public delegate void GetProjectsCompleteDelegate(HudsonBuildDefinition[] buildDefinitions);
 

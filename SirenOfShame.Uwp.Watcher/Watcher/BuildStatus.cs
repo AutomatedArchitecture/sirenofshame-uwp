@@ -55,7 +55,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildStatus));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(BuildStatus));
 
         private static string BuildStatusToString(BuildStatusEnum buildStatus)
         {

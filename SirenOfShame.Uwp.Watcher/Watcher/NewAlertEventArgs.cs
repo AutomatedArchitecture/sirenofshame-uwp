@@ -11,7 +11,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         public int SoftwareInstanceId { get; set; }
         public DateTime AlertDate { get; set; }
 
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(RulesEngine));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(RulesEngine));
 
         public bool Instantiate(string result)
         {

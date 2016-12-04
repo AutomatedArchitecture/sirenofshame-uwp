@@ -8,7 +8,7 @@ namespace SirenOfShame.Uwp.Watcher.StatCalculators
 {
     public class BuildRatio : StatCalculatorBase
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(BuildRatio));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(BuildRatio));
 
         public override void SetStats(PersonSetting personSetting, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
         {

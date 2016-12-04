@@ -2,7 +2,7 @@
 {
     public class SoundService
     {
-    //    private readonly ILog _log = MyLogManager.GetLogger(typeof(SoundService));
+    //    private readonly ILog _log = MyLogManager.GetLog(typeof(SoundService));
     //    readonly AudioFileService _audioFileService = new AudioFileService();
     //    const string OLD_RESOURCE_PREFIX = "SirenOfShame.Resources.Audio-";
         public const string NEW_RESOURCE_PREFIX = "SirenOfShame.Lib.Resources.Audio-";

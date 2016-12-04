@@ -19,7 +19,7 @@ namespace SirenOfShame.Uwp.Background
         private RulesEngine _rulesEngine;
         private readonly StartManager _startManager = new StartManager();
         private MessageRelayService _messageRelayService;
-        private readonly ILog _log = MyLogManager.GetLogger(typeof(StartupTask));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(StartupTask));
         private SirenDeviceService _sirenDeviceService;
 
         public async void Run(IBackgroundTaskInstance taskInstance)

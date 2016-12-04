@@ -21,7 +21,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         // todo: figure out DI
         //[Import(typeof(ISirenOfShameDevice))]
         //private ISirenOfShameDevice SirenOfShameDevice { get; set; }
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(SirenOfShameSettings));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(SirenOfShameSettings));
         private string _updateLocationOther;
         private bool? _anyDuplicateSettingsCached;
         private static int? _currentVersion;

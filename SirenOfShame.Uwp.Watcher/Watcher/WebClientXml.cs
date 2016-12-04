@@ -24,7 +24,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             AuthenticationType = AuthenticationTypeEnum.BasicAuth;
         }
 
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(WebClientXml));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(WebClientXml));
         //private readonly NameValueCollection _data = new NameValueCollection();
 
         private static readonly string[] _serverUnavailableTriggers =

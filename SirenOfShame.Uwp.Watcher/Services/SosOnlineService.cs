@@ -19,7 +19,7 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
     public partial class SosOnlineService
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(SosOnlineService));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(SosOnlineService));
         public static readonly string SOS_URL = "http://sirenofshame.com";
         public event NewSosOnlineNotification OnNewSosOnlineNotification;
         public event SosOnlineStatusChange OnSosOnlineStatusChange;

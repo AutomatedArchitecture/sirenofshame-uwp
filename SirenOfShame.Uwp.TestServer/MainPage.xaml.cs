@@ -22,7 +22,7 @@ namespace SirenOfShame.Uwp.TestServer
         private RulesEngine _rulesEngine;
         private SirenDeviceService _sirenDeviceService;
         private readonly StartManager _startManager = new StartManager();
-        private readonly ILog _log = MyLogManager.GetLogger(typeof(MainPage));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MainPage));
 
         public MainPage()
         {

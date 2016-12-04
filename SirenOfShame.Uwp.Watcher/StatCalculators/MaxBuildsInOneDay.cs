@@ -8,7 +8,7 @@ namespace SirenOfShame.Uwp.Watcher.StatCalculators
 {
     public class MaxBuildsInOneDay : StatCalculatorBase
     {
-        private static readonly ILog _log = MyLogManager.GetLogger(typeof(MaxBuildsInOneDay));
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(MaxBuildsInOneDay));
 
         public override void SetStats(PersonSetting personSetting, List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically)
         {

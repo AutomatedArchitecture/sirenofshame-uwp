@@ -4,7 +4,7 @@ namespace SirenOfShame.Uwp.Watcher
 {
     public class MyLogManager
     {
-        public static ILog GetLogger(Type type)
+        public static ILog GetLog(Type type)
         {
             return new ConsoleLogger(type);
         }
