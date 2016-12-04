@@ -16,7 +16,11 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private async Task<AppServiceConnection> CachedConnection()
         {
-            return _connection ?? (_connection = await MakeConnection());
+            if (_connection != null) return _connection;
+            _connection = await MakeConnection();
+            _connection.RequestReceived += ConnectionOnRequestReceived;
+            _connection.ServiceClosed += ConnectionOnServiceClosed;
+            return _connection;
         }
 
         public async Task Open()
@@ -43,8 +47,6 @@ namespace SirenOfShame.Uwp.Server.Services
             {
                 throw new Exception("Could not connect to app service, error: " + status);
             }
-            connection.RequestReceived += ConnectionOnRequestReceived;
-            connection.ServiceClosed += ConnectionOnServiceClosed;
             return connection;
         }
 

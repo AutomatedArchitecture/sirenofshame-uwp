@@ -9,24 +9,20 @@ namespace SirenOfShame.Uwp.Ui.Services
     public class MessageRelayService
     {
         private AppServiceConnection _connection;
-        public string Status { get; set; }
         public event Action<ValueSet> OnMessageReceived;
 
         private async Task<AppServiceConnection> CachedConnection()
         {
-            return _connection ?? (_connection = await MakeConnection());
+            if (_connection != null) return _connection;
+            _connection = await MakeConnection();
+            _connection.RequestReceived += ConnectionOnRequestReceived;
+            _connection.ServiceClosed += ConnectionOnServiceClosed;
+            return _connection;
         }
 
         public async Task Open()
         {
-            try
-            {
-                await CachedConnection();
-            }
-            catch (Exception ex)
-            {
-                Status = "AppService Error: " + ex.Message;
-            }
+            await CachedConnection();
         }
 
         private async Task<AppServiceConnection> MakeConnection()
@@ -50,13 +46,9 @@ namespace SirenOfShame.Uwp.Ui.Services
 
             if (status != AppServiceConnectionStatus.Success)
             {
-                Status = "Could not connect: " + status;
-                return null;
+                throw new Exception("Could not connect to MessageRelay, status: " + status);
             }
 
-            Status = "Connected: " + status;
-            connection.RequestReceived += ConnectionOnRequestReceived;
-            connection.ServiceClosed += ConnectionOnServiceClosed;
             return connection;
         }
 

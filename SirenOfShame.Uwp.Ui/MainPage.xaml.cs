@@ -41,6 +41,7 @@ namespace SirenOfShame.Uwp.Ui
             try
             {
                 await App._connection.SendMessageAsync("Value", "Msg #" + _messageNumber++);
+                MyText.Text = "Message Sent Successfully";
             }
             catch (Exception ex)
             {
