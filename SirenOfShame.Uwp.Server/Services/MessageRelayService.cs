@@ -96,11 +96,15 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 var connection = await CachedConnection();
-                await connection.SendMessageAsync(
+                var result = await connection.SendMessageAsync(
                     new ValueSet
                     {
                         new KeyValuePair<string, object>("ToUi", message)
                     });
+                if (result.Status != AppServiceResponseStatus.Success)
+                {
+                    _log.Error("Error sending message " + message + " because " + result.Status);
+                }
             }
             catch (Exception ex)
             {

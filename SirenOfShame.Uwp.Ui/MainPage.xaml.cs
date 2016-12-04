@@ -36,7 +36,14 @@ namespace SirenOfShame.Uwp.Ui
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             MyText.Text = "Sending Message";
-            await App._connection.SendMessageAsync("Value", "Hello From UI");
+            try
+            {
+                await App._connection.SendMessageAsync("Value", "Hello From UI");
+            }
+            catch (Exception ex)
+            {
+                MyText.Text = "Send error: " + ex.Message;
+            }
         }
     }
 }

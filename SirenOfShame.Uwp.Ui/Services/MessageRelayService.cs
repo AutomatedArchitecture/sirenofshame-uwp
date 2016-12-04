@@ -106,7 +106,12 @@ namespace SirenOfShame.Uwp.Ui.Services
         public async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
         {
             var connection = await CachedConnection();
-            await connection.SendMessageAsync(new ValueSet {keyValuePair});
+            var result = await connection.SendMessageAsync(new ValueSet {keyValuePair});
+            if (result.Status == AppServiceResponseStatus.Success)
+            {
+                return;
+            }
+            throw new Exception("Error sending " + result.Status);
         }
 
         public async Task SendMessageAsync(string key, string value)
