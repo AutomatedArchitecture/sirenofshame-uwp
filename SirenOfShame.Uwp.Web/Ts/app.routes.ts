@@ -1,10 +1,11 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import { NgModule }             from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import {ShowOff} from './show-off.component'
 import {Home} from './home.component'
 import {Server} from './server.component'
 import {Settings} from './settings.component'
 
-export const routes: RouterConfig = [
+const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
     { path: 'home', component: Home },
     { path: 'showoff', component: ShowOff },
@@ -13,6 +14,8 @@ export const routes: RouterConfig = [
     { path: 'settings', component: Settings }
 ];
 
-export const APP_ROUTER_PROVIDERS = [
-    provideRouter(routes)
-];
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+})
+export class AppRoutingModule { }

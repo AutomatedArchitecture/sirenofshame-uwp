@@ -1,4 +1,4 @@
-﻿interface ISirenInfo {
+﻿export interface ISirenInfo {
     ledPatterns;
     audioPatterns;
 }

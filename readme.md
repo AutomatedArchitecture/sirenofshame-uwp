@@ -53,9 +53,9 @@ logic lives in SirenOfShame.Uwp.Watcher.
 
 #### SirenOfShame.Uwp.MessageRelay
 
-MessageRelay will theoretically receive messages from either
+MessageRelay receives messages from either
 SirenOfShame.Uwp.Background or SirenOfShame.Uwp.Ui and then
-relay the messages back out to other listeners.
+relays the messages back out to other listeners.
 
 #### SirenOfShame.Uwp.Server
 
@@ -90,6 +90,11 @@ achievements, build events, and processing rules via the rules engine.
 An ASP.Net Core web project that that is the origin
 of the administrative web portal of the siren of 
 shame raspberry pi project.
+
+To deploy initially run `gulp deploy` (generally only required 
+once).  Then run without debugging in Visual Studio.  After 
+that `gulp watch` will continually monitor
+and compile all typescript files.
 
 To deploy to the pi run `gulp pideploy` which
 will copy the Angular 2 based web app into SirenOfShame.Uwp.Background/wwwroot/

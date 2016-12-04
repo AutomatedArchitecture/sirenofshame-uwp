@@ -1,7 +1,4 @@
 import {Component} from '@angular/core';
-import {ROUTER_DIRECTIVES} from '@angular/router';
-import {ShowOff} from './show-off.component'
-import {Home} from './home.component'
 import { ServerService } from './server.service';
 import { EchoCommand } from './commands/echo.command';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
@@ -18,8 +15,7 @@ import { DeleteSettingsCommand } from './commands/delete-settings.command';
     providers: [
         ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
         GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand
-    ],
-    directives: [ROUTER_DIRECTIVES]
+    ]
 })
 export class AppComponent {
     constructor(

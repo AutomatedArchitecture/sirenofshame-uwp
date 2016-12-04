@@ -1,6 +1,7 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseCommand } from './base.command';
 import { ServerService } from '../server.service';
+import { ISirenInfo } from '../models/sirenInfo';
 
 @Injectable()
 export class GetSirenInfoCommand extends BaseCommand {
