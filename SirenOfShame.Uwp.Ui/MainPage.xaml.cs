@@ -2,7 +2,7 @@
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using SirenOfShame.Uwp.Ui.Services;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -11,20 +11,19 @@ namespace SirenOfShame.Uwp.Ui
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage
     {
+        private readonly MessageRelayService _connection;
+        private int _messageNumber = 0;
+
         public MainPage()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
+            _connection = ServiceContainer.Resolve<MessageRelayService>();
+            _connection.OnMessageReceived += ConnectionOnMessageReceived;
         }
 
-        private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
-        {
-            App._connection.OnMessageReceived += ConnectionOnOnMessageReceived;
-        }
-
-        private async void ConnectionOnOnMessageReceived(ValueSet valueSet)
+        private async void ConnectionOnMessageReceived(ValueSet valueSet)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
               {
@@ -33,14 +32,12 @@ namespace SirenOfShame.Uwp.Ui
               });
         }
 
-        private int _messageNumber = 0;
-
         private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             MyText.Text = "Sending Message";
             try
             {
-                await App._connection.SendMessageAsync("Value", "Msg #" + _messageNumber++);
+                await _connection.SendMessageAsync("Value", "Msg #" + _messageNumber++);
                 MyText.Text = "Message Sent Successfully";
             }
             catch (Exception ex)

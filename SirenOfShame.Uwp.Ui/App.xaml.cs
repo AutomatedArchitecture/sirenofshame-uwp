@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -13,9 +12,9 @@ namespace SirenOfShame.Uwp.Ui
     /// <summary>
     /// Provides application-specific behavior to supplement the default Application class.
     /// </summary>
-    sealed partial class App : Application
+    sealed partial class App
     {
-        public static MessageRelayService _connection = new MessageRelayService();
+        private readonly MessageRelayService _connection;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -23,9 +22,14 @@ namespace SirenOfShame.Uwp.Ui
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            this.LeavingBackground += OnLeavingBackground;
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+
+            var startManager = new StartManager();
+            startManager.Configure();
+            _connection = ServiceContainer.Resolve<MessageRelayService>();
+
+            LeavingBackground += OnLeavingBackground;
+            Suspending += OnSuspending;
         }
 
         private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
@@ -51,9 +55,9 @@ namespace SirenOfShame.Uwp.Ui
 protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = true;
             }
 #endif
             Frame rootFrame = Window.Current.Content as Frame;
