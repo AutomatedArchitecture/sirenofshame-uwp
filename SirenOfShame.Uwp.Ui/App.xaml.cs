@@ -1,9 +1,11 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.AppService;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SirenOfShame.Uwp.Ui.Services;
 
 namespace SirenOfShame.Uwp.Ui
 {
@@ -12,6 +14,8 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     sealed partial class App : Application
     {
+        public static MessageRelayService _connection = new MessageRelayService();
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -19,7 +23,13 @@ namespace SirenOfShame.Uwp.Ui
         public App()
         {
             this.InitializeComponent();
+            this.LeavingBackground += OnLeavingBackground;
             this.Suspending += OnSuspending;
+        }
+
+        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
+        {
+            await _connection.Open();
         }
 
         /// <summary>
@@ -89,7 +99,10 @@ namespace SirenOfShame.Uwp.Ui
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
+
             //TODO: Save application state and stop any background activity
+            _connection.CloseConnection();
+
             deferral.Complete();
         }
     }

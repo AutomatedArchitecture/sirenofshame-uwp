@@ -15,10 +15,15 @@ namespace SirenOfShame.Uwp.Server
     /// </summary>
     public class WebSocketHandler : IWebSocketRequestHandler
     {
+        private MessageRelayService _messageRelayService;
+
         public WebSocketHandler()
         {
+            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+
             SirenDeviceService.Instance.Device.Connected += DeviceOnConnected;
             SirenDeviceService.Instance.Device.Disconnected += DeviceOnDisconnected;
+            _messageRelayService.MessageReceived += MessageRelayServiceMessageReceived;
         }
 
         public bool WillAcceptRequest(string uri, string protocol)
@@ -37,6 +42,13 @@ namespace SirenOfShame.Uwp.Server
         private void SocketOnConnectionClosed(WebSocket socket)
         {
             _socket = null;
+        }
+
+        private void MessageRelayServiceMessageReceived(string message)
+        {
+            if (_socket == null) return;
+            var echoResult = new EchoResult(message);
+            SendObject(_socket, echoResult);
         }
 
         private void DeviceOnDisconnected(object sender, EventArgs e)

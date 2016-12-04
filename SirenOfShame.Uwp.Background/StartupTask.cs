@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using IotWeb.Common.Http;
 using IotWeb.Server;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Background
@@ -12,19 +14,43 @@ namespace SirenOfShame.Uwp.Background
     // ReSharper disable once UnusedMember.Global
     public sealed class StartupTask : IBackgroundTask
     {
-        // ReSharper disable once NotAccessedField.Local
         private BackgroundTaskDeferral _backgroundTaskDeferral;
         private HttpServer _httpServer;
         private RulesEngine _rulesEngine;
         private readonly StartManager _startManager = new StartManager();
+        private MessageRelayService _messageRelayService;
+        private readonly ILog _log = MyLogManager.GetLogger(typeof(StartupTask));
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
             _backgroundTaskDeferral = taskInstance.GetDeferral();
 
+            taskInstance.Canceled += TaskInstanceOnCanceled;
             _startManager.Configure();
+            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+
             StartWebServer();
+            await StartMessageRelayService();
             await StartCiWatcher();
+        }
+
+        private async Task StartMessageRelayService()
+        {
+            try
+            {
+                await _messageRelayService.Open();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Unable to start message rleay service", ex);
+            }
+        }
+
+        private void TaskInstanceOnCanceled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
+        {
+            _messageRelayService.CloseConnection();
+            _backgroundTaskDeferral?.Complete();
+            _backgroundTaskDeferral = null;
         }
 
         private async Task StartCiWatcher()
