@@ -11,7 +11,6 @@ namespace SirenOfShame.Uwp.Ui.Services
         private AppServiceConnection _connection;
         public string Status { get; set; }
         public event Action<ValueSet> OnMessageReceived;
-        bool _keepConnectionOpen = true;
 
         private async Task<AppServiceConnection> CachedConnection()
         {
@@ -61,16 +60,9 @@ namespace SirenOfShame.Uwp.Ui.Services
             return connection;
         }
 
-        private async void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        private void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
             DisposeConnection();
-            // If the connection closed, it's probably because the Server was shut down.
-            //      However, we want our connection to stay up so we can receive new
-            //      notifications if the server re-connects.
-            if (_keepConnectionOpen)
-            {
-                await CachedConnection();
-            }
         }
 
         private void DisposeConnection()
@@ -99,7 +91,6 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         public void CloseConnection()
         {
-            _keepConnectionOpen = false;
             DisposeConnection();
         }
 

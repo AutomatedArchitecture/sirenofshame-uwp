@@ -13,7 +13,6 @@ namespace SirenOfShame.Uwp.Server.Services
         private readonly ILog _log = MyLogManager.GetLogger(typeof(MessageRelayService));
 
         private AppServiceConnection _connection;
-        private bool _keepConnectionOpen = true;
 
         private async Task<AppServiceConnection> CachedConnection()
         {
@@ -49,16 +48,9 @@ namespace SirenOfShame.Uwp.Server.Services
             return connection;
         }
 
-        private async void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        private void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
             DisposeConnection();
-            // If the connection closed, it's probably because the UI was shut down.
-            //      However, we want our connection to stay up so we can receive new
-            //      notifications if the client re-connects.
-            if (_keepConnectionOpen)
-            {
-                await CachedConnection();
-            }
         }
 
         private void DisposeConnection()
@@ -73,7 +65,6 @@ namespace SirenOfShame.Uwp.Server.Services
 
         public void CloseConnection()
         {
-            _keepConnectionOpen = false;
             DisposeConnection();
         }
 
