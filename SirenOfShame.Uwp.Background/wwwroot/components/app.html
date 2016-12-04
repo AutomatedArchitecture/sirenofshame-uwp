@@ -23,6 +23,7 @@
                     </ul>
                 </li>
                 <li [routerLinkActive]="['active']" [class.disabled]="!isDeviceConnected"><a [routerLink]="['showoff']" [class.disabled]="!isDeviceConnected">Show Off</a></li>
+                <li [routerLinkActive]="['active']"><a [routerLink]="['settings']">Settings</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li *ngIf="webSocketsConnecting"><i class="glyphicon glyphicon-refresh spinning navbar-text" title="Connecting to server"></i></li>

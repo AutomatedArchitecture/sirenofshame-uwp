@@ -4,6 +4,11 @@
  * Adjust as necessary for your application needs.
  */
 (function(global) {
+    // map tells the System loader where to look for things
+    var map = {
+        'rxjs': 'https://npmcdn.com/rxjs@5.0.0-beta.12', // <- BAD, should be 'lib/rxjs' so we can support 100% offline mode, but stupid ng2 won't support single rxjs umd file at present, see http://stackoverflow.com/questions/38793349/angular2-systemjs-failed-to-use-rx-umd-js
+    };
+
     var ngPackageNames = [
         'common',
         'compiler',
@@ -28,6 +33,7 @@
     });
 
     var config = {
+        map: map,
         packages: packages
     };
     System.config(config);
