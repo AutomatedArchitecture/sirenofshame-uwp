@@ -5,12 +5,31 @@
     xmlns:local="using:SirenOfShame.Uwp.Ui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    mc:Ignorable="d"
+    >
 
+    <Page.Resources>
+        <CollectionViewSource x:Name="BuildDefinitionsSource" IsSourceGrouped="False">
+            
+        </CollectionViewSource>
+        <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="models:BuildDefinition">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{x:Bind Title}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock x:Name="MyText" FontSize="50">Siren of Shame!</TextBlock>
             <Button Click="ButtonBase_OnClick">Click Me</Button>
+            <GridView x:Name="buildDefinitionsGridView" SelectionMode="None" 
+                  IsItemClickEnabled="True"
+                  ItemsSource="{x:Bind BuildDefinitionsSource.View}"
+                  ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
+                  >
+            </GridView>
         </StackPanel>
     </Grid>
 </Page>
