@@ -70,9 +70,19 @@ Unit tests for all of the various UWP projects.
 #### SirenOfShame.Uwp.TestServer
 
 A UWP App that duplicates the functionality in SirenOfShame.Uwp.Background 
-on a PC rather than a Raspberry Pi.  This project can be used in conjunction
-with SirenOfShame.Uwp.Web for testing the admin portal without deploying to
-a Raspberry Pi.
+on an x86 PC rather than a Raspberry Pi.  This project can be 
+used in conjunction
+with SirenOfShame.Uwp.Web for testing the admin portal without 
+deploying to a Raspberry Pi thereby avoiding time consuming
+deploys and speeding up development.
+
+_However_, there is a limitation of UWP that must be overcome to 
+get the web app to successfully connect with the
+back end via WebSockets.  On UWP projects, it is disallowed
+to hit a UWP endpoint with "localhost", "127.0.0.1" or anything
+related.  To avoid that you can spin up a VM and browse to the
+web project from the VM.  Then hit the web browser is using 
+http://computername:8080 (or whatever) thus avoiding the limitation.
 
 #### SirenOfShame.Uwp.Ui
 

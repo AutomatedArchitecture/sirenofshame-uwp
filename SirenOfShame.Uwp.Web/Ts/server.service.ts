@@ -44,6 +44,14 @@ export class ServerService {
                         console.error(data.result);
                     }
                 }
+
+                if (data.type === 'alertResult') {
+                    if (data.responseCode === 200) {
+                        alert(data.result);
+                    } else {
+                        console.error(data.result);
+                    }
+                }
             };
 
             this.connected.emit(null);

@@ -49,7 +49,7 @@ namespace SirenOfShame.Uwp.Server
         private void MessageRelayServiceMessageReceived(string message)
         {
             if (_socket == null) return;
-            var echoResult = new EchoResult(message);
+            var echoResult = new AlertResult(message);
             SendObject(_socket, echoResult);
         }
 

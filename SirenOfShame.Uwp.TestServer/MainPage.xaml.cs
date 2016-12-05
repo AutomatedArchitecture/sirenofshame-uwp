@@ -23,6 +23,7 @@ namespace SirenOfShame.Uwp.TestServer
         private SirenDeviceService _sirenDeviceService;
         private readonly StartManager _startManager = new StartManager();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainPage));
+        private MessageRelayService _messageRelayService;
 
         public MainPage()
         {
@@ -34,9 +35,12 @@ namespace SirenOfShame.Uwp.TestServer
         {
             _startManager.Configure();
 
+            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
             StartWebServer();
+            _sirenDeviceService.StartWatching();
+            await StartMessageRelayService();
             try
             {
                 await StartCiWatcher();
@@ -44,6 +48,18 @@ namespace SirenOfShame.Uwp.TestServer
             catch (Exception ex)
             {
                 _log.Error("Error starting CI watcher", ex);
+            }
+        }
+
+        private async Task StartMessageRelayService()
+        {
+            try
+            {
+                await _messageRelayService.Open();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Unable to start message rleay service", ex);
             }
         }
 
@@ -75,7 +91,6 @@ namespace SirenOfShame.Uwp.TestServer
                 new WebSocketHandler()
                 );
             _httpServer.Start();
-            _sirenDeviceService.StartWatching();
         }
     }
 }
