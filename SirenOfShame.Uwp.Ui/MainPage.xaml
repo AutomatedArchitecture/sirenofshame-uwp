@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    xmlns:interop="using:Windows.UI.Xaml.Interop"
     mc:Ignorable="d"
     >
 
@@ -14,17 +15,48 @@
             
         </CollectionViewSource>
         <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="models:BuildDefinition">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Text="{x:Bind Title}"></TextBlock>
+            <StackPanel Orientation="Vertical" Background="White" Height="200" Width="300" Margin="5">
+                <Grid Background="#51A351" Padding="10 2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind Title}" Foreground="White"></TextBlock>
+                    <TextBlock Grid.Column="1" Text="*" Foreground="White" />
+                </Grid>
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold">Lee Richardson</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333">8 months</TextBlock>
+                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</TextBlock>
+                    <TextBlock Grid.Row="2" Grid.Column="0">1:13</TextBlock>
+                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>
+                </Grid>
             </StackPanel>
         </DataTemplate>
+        <Style x:Key="PageTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="50"></Setter>
+        </Style>
+        <Style x:Key="SosButton" TargetType="Button">
+            <Setter Property="Foreground" Value="#fff" />
+        </Style>
     </Page.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="#191919">
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <TextBlock x:Name="MyText" FontSize="50">Siren of Shame!</TextBlock>
-            <Button Click="ButtonBase_OnClick">Click Me</Button>
-            <GridView x:Name="buildDefinitionsGridView" SelectionMode="None" 
+            <TextBlock x:Name="MyText" Foreground="#fff" HorizontalAlignment="Center" FontSize="50">Siren of Shame!</TextBlock>
+            <Button Click="ButtonBase_OnClick" Style="{StaticResource SosButton}">Click Me</Button>
+            <GridView x:Name="buildDefinitionsGridView" Foreground="#fff" SelectionMode="None" 
                   IsItemClickEnabled="True"
                   ItemsSource="{x:Bind BuildDefinitionsSource.View}"
                   ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
