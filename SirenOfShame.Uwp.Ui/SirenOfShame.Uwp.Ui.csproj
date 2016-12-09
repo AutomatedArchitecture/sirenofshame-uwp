@@ -117,6 +117,9 @@
     <Content Include="Assets\error.scale-180.png" />
     <Content Include="Assets\error.scale-240.png" />
     <Content Include="Assets\loadingBlue.scale-100.gif" />
+    <Content Include="Assets\loadingBlue.scale-140.gif" />
+    <Content Include="Assets\loadingBlue.scale-180.gif" />
+    <Content Include="Assets\loadingBlue.scale-240.gif" />
     <Content Include="Assets\ok.scale-100.png" />
     <Content Include="Assets\ok.scale-140.png" />
     <Content Include="Assets\ok.scale-180.png" />
