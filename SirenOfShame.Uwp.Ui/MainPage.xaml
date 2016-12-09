@@ -2,11 +2,9 @@
     x:Class="SirenOfShame.Uwp.Ui.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SirenOfShame.Uwp.Ui"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
-    xmlns:interop="using:Windows.UI.Xaml.Interop"
+    xmlns:watcher="using:SirenOfShame.Uwp.Watcher.Watcher"
     mc:Ignorable="d"
     >
 
@@ -14,14 +12,14 @@
         <CollectionViewSource x:Name="BuildDefinitionsSource" IsSourceGrouped="False">
             
         </CollectionViewSource>
-        <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="models:BuildDefinition">
+        <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="watcher:BuildStatusDto">
             <StackPanel Orientation="Vertical" Background="White" Height="200" Width="300" Margin="5">
                 <Grid Background="#51A351" Padding="10 2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind Title}" Foreground="White"></TextBlock>
+                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName}" Foreground="White" />
                     <TextBlock Grid.Column="1" Text="*" Foreground="White" />
                 </Grid>
                 <Grid Padding="10">
@@ -34,10 +32,10 @@
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold">Lee Richardson</TextBlock>
-                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333">8 months</TextBlock>
-                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</TextBlock>
-                    <TextBlock Grid.Row="2" Grid.Column="0">1:13</TextBlock>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Bind RequestedByDisplayName}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind LocalStartTime}" />
+                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Bind Comment}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Bind Duration}" />
                     <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>
                 </Grid>
             </StackPanel>

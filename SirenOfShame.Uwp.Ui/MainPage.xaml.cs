@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
-using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -28,7 +28,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private void LoadInitialData()
         {
-            BuildDefinitionsSource.Source = new List<BuildDefinition>
+            BuildDefinitionsSource.Source = new List<BuildStatusDto>
             {
                 MakeBuildDefinition(1, "Build Def #1"),
                 MakeBuildDefinition(2, "Build Def #2"),
@@ -39,9 +39,18 @@ namespace SirenOfShame.Uwp.Ui
             };
         }
 
-        private static BuildDefinition MakeBuildDefinition(int id, string title)
+        private static BuildStatusDto MakeBuildDefinition(int id, string title)
         {
-            return new BuildDefinition { BuildDefinitionId = id, Title = title };
+            return new BuildStatusDto
+            {
+                BuildDefinitionId = id.ToString(),
+                BuildDefinitionDisplayName = title,
+                BuildStatusEnum = BuildStatusEnum.Working,
+                RequestedByDisplayName = "Lee Richardson",
+                LocalStartTime = DateTime.Now,
+                Comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+                Duration = "1:15"
+            };
         }
 
         private async void ConnectionOnMessageReceived(ValueSet valueSet)
