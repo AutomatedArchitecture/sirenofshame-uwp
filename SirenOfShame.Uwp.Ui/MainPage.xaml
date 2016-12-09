@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:watcher="using:SirenOfShame.Uwp.Watcher.Watcher"
+    xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     mc:Ignorable="d"
     >
 
@@ -12,6 +13,7 @@
         <CollectionViewSource x:Name="BuildDefinitionsSource" IsSourceGrouped="False">
             
         </CollectionViewSource>
+        <converters:BuildStatusToImageConverter x:Key="BuildStatusToImageConverter" />
         <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="watcher:BuildStatusDto">
             <StackPanel Orientation="Vertical" Background="White" Height="200" Width="300" Margin="5">
                 <Grid Background="#51A351" Padding="10 2">
@@ -19,8 +21,8 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName}" Foreground="White" />
-                    <TextBlock Grid.Column="1" Text="*" Foreground="White" />
+                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName}" FontSize="18" Foreground="White" />
+                    <Image Grid.Column="1" Source="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToImageConverter}}" />
                 </Grid>
                 <Grid Padding="10">
                     <Grid.ColumnDefinitions>

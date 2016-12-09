@@ -95,6 +95,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BuildStatusToImageConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -111,6 +112,19 @@
     <None Include="SirenOfShame.Uwp.Ui_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\error.scale-100.png" />
+    <Content Include="Assets\error.scale-140.png" />
+    <Content Include="Assets\error.scale-180.png" />
+    <Content Include="Assets\error.scale-240.png" />
+    <Content Include="Assets\loadingBlue.scale-100.gif" />
+    <Content Include="Assets\ok.scale-100.png" />
+    <Content Include="Assets\ok.scale-140.png" />
+    <Content Include="Assets\ok.scale-180.png" />
+    <Content Include="Assets\ok.scale-240.png" />
+    <Content Include="Assets\unknown.scale-100.png" />
+    <Content Include="Assets\unknown.scale-140.png" />
+    <Content Include="Assets\unknown.scale-180.png" />
+    <Content Include="Assets\unknown.scale-240.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
