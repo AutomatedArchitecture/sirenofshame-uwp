@@ -1,12 +1,35 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using SirenOfShame.Uwp.Ui.Annotations;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Models
 {
-    public class RootViewModel
+    public class RootViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<BuildStatusDto> BuildDefinitions { get; set; }
+        private List<BuildStatusDto> _buildDefinitions = new List<BuildStatusDto>();
+
+        public List<BuildStatusDto> BuildDefinitions
+        {
+            get { return _buildDefinitions; }
+            set
+            {
+                if (Equals(value, _buildDefinitions)) return;
+                _buildDefinitions = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ObservableCollection<NewsItemDto> News { get; set; }
         public ObservableCollection<PersonDto> Leaders { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

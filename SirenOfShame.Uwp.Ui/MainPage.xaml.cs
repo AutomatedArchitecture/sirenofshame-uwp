@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Ui.Models;
@@ -16,17 +18,19 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     public sealed partial class MainPage
     {
-        private readonly MessageAggregatorService _messageAggregatorService = ServiceContainer.Resolve<MessageAggregatorService>();
+        private readonly MessageDistributorService _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
         private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
         private RootViewModel ViewModel { get; set; }
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainPage));
+        private List<BuildStatusDto> _lastBuildStatusDtos;
 
         public MainPage()
         {
             InitializeComponent();
             Loaded += OnLoaded;
-            _messageAggregatorService.NewNewsItem += MessageAggregatorServiceOnNewNewsItem;
-            _messageAggregatorService.NewPerson += MessageAggregatorServiceOnNewPerson;
+            _messageDistributorService.NewNewsItem += MessageDistributorServiceOnNewNewsItem;
+            _messageDistributorService.NewPerson += MessageDistributorServiceOnNewPerson;
+            _messageDistributorService.RefreshStatus += MessageDistributorServiceOnRefreshStatus;
             LoadInitialData();
         }
 
@@ -54,7 +58,59 @@ namespace SirenOfShame.Uwp.Ui
             }
         }
 
-        private async void MessageAggregatorServiceOnNewPerson(object sender, PersonSetting personSetting)
+        private async void MessageDistributorServiceOnRefreshStatus(object sender, RefreshStatusEventArgs args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                _lastBuildStatusDtos = args.BuildStatusDtos
+                    .OrderByDescending(i => i.LocalStartTime)
+                    .Take(50)
+                    .ToList();
+                RefreshBuildStatuses(_lastBuildStatusDtos);
+            });
+        }
+
+        private void RefreshBuildStatuses(List<BuildStatusDto> lastBuildStatusDtos)
+        {
+            RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(lastBuildStatusDtos);
+            if (ViewModel.BuildDefinitions.Count == 0)
+            {
+                ViewModel.BuildDefinitions = _lastBuildStatusDtos;
+            }
+            else
+            {
+                UpdateExistingControls(_lastBuildStatusDtos);
+            }
+        }
+
+        private void UpdateExistingControls(List<BuildStatusDto> lastBuildStatusDtos)
+        {
+            UpdateDetailsInExistingControls(lastBuildStatusDtos);
+            SortExistingControls();
+        }
+
+        private void UpdateDetailsInExistingControls(List<BuildStatusDto> lastBuildStatusDtos)
+        {
+            // todo: update build when they change
+        }
+
+        private void SortExistingControls()
+        {
+            // todo: handle build sorting
+        }
+
+        private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
+        {
+            bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count();
+            // todo: remove all if build names change
+            _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
+            if (numberOfBuildsChanged)
+            {
+                ViewModel.BuildDefinitions.Clear();
+            }
+        }
+
+        private async void MessageDistributorServiceOnNewPerson(object sender, PersonSetting personSetting)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
@@ -63,7 +119,7 @@ namespace SirenOfShame.Uwp.Ui
             });
         }
 
-        private async void MessageAggregatorServiceOnNewNewsItem(object sender, NewNewsItemEventArgs newNewsItemEventArgs)
+        private async void MessageDistributorServiceOnNewNewsItem(object sender, NewNewsItemEventArgs newNewsItemEventArgs)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
@@ -79,15 +135,6 @@ namespace SirenOfShame.Uwp.Ui
             var frodo = MakePerson("Frodo Baggins");
             ViewModel = new RootViewModel
             {
-                BuildDefinitions = new ObservableCollection<BuildStatusDto>
-                {
-                    MakeBuildDefinition(1, "Build Def #1", BuildStatusEnum.InProgress),
-                    MakeBuildDefinition(2, "Build Def #2", BuildStatusEnum.Broken),
-                    MakeBuildDefinition(3, "Build Def #3", BuildStatusEnum.Unknown),
-                    MakeBuildDefinition(4, "Build Def #4"),
-                    MakeBuildDefinition(5, "Build Def #5"),
-                    MakeBuildDefinition(6, "Build Def #6"),
-                },
                 Leaders = new ObservableCollection<PersonDto>
                 {
                     new PersonDto(shimpty),
@@ -127,20 +174,6 @@ namespace SirenOfShame.Uwp.Ui
                 CurrentBuildRatio = 2,
                 CurrentSuccessInARow = 2,
                 NumberOfTimesFixedSomeoneElsesBuild = 1
-            };
-        }
-
-        private static BuildStatusDto MakeBuildDefinition(int id, string title, BuildStatusEnum buildStatusEnum = BuildStatusEnum.Working)
-        {
-            return new BuildStatusDto
-            {
-                BuildDefinitionId = id.ToString(),
-                BuildDefinitionDisplayName = title,
-                BuildStatusEnum = buildStatusEnum,
-                RequestedByDisplayName = "Lee Richardson",
-                LocalStartTime = DateTime.Now,
-                Comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-                Duration = "1:15"
             };
         }
     }

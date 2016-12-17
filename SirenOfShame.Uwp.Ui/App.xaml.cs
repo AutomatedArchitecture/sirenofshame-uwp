@@ -15,7 +15,7 @@ namespace SirenOfShame.Uwp.Ui
     sealed partial class App
     {
         private readonly MessageRelayService _connection;
-        private readonly MessageAggregatorService _messageAggregatorService;
+        private readonly MessageDistributorService _messageDistributorService;
         private readonly ILog _log = MyLogManager.GetLog(typeof(App));
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace SirenOfShame.Uwp.Ui
             var startManager = new StartManager();
             startManager.Configure();
             _connection = ServiceContainer.Resolve<MessageRelayService>();
-            _messageAggregatorService = ServiceContainer.Resolve<MessageAggregatorService>();
+            _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
 
             LeavingBackground += OnLeavingBackground;
             Suspending += OnSuspending;
@@ -37,7 +37,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
-            _messageAggregatorService.StartWatching();
+            _messageDistributorService.StartWatching();
             try
             {
                 await _connection.Open();

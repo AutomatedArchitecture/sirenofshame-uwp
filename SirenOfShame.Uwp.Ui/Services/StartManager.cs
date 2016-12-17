@@ -10,7 +10,7 @@
         private void RegisterServices()
         {
             ServiceContainer.Register(() => new MessageRelayService());
-            ServiceContainer.Register(() => new MessageAggregatorService());
+            ServiceContainer.Register(() => new MessageDistributorService());
         }
     }
 }

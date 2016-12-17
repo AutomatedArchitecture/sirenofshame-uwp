@@ -114,5 +114,11 @@ namespace SirenOfShame.Uwp.TestServer
             Title.Text = "NewUser";
             Body.Text = FakeData.NewUserItem;
         }
+
+        private void BuildStatusOnClick(object sender, RoutedEventArgs e)
+        {
+            Title.Text = "RefreshStatus";
+            Body.Text = FakeData.GetFakeBuilds();
+        }
     }
 }
