@@ -25,7 +25,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         public string BuildDefinitionId { get; set; }
         public DateTime EventDate { get; set; }
-        public PersonBase Person { get; set; }
+        public PersonSetting Person { get; set; }
         public string Title { get; set; }
         //public ImageList AvatarImageList { get; set; }
         public NewsItemTypeEnum NewsItemType { get; set; }

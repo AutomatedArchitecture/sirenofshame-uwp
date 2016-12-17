@@ -18,7 +18,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         public override async Task<SocketResult> Invoke(string frame)
         {
             var echoRequest = JsonConvert.DeserializeAnonymousType(frame, new { type = "", message = "" });
-            await _messageRelayService.Send(echoRequest.message);
+            await _messageRelayService.Send("ToUi", echoRequest.message);
             return new EchoResult(echoRequest.message);
         }
     }

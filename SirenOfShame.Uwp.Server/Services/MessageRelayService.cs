@@ -84,7 +84,7 @@ namespace SirenOfShame.Uwp.Server.Services
             }
         }
 
-        public async Task Send(string message)
+        public async Task Send(string key, string message)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace SirenOfShame.Uwp.Server.Services
                 var result = await connection.SendMessageAsync(
                     new ValueSet
                     {
-                        new KeyValuePair<string, object>("ToUi", message)
+                        new KeyValuePair<string, object>(key, message)
                     });
                 if (result.Status != AppServiceResponseStatus.Success)
                 {

@@ -14,15 +14,11 @@
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="50"></Setter>
         </Style>
-        <Style x:Key="SosButton" TargetType="Button">
-            <Setter Property="Foreground" Value="#fff" />
-        </Style>
     </Page.Resources>
 
     <Grid Background="#191919">
-        <Button Click="ButtonBase_OnClick" Style="{StaticResource SosButton}" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10">Click Me</Button>
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-            <TextBlock x:Name="MyText" Style="{StaticResource SosPageTitle}">Siren of Shame</TextBlock>
+            <TextBlock Style="{StaticResource SosPageTitle}">Siren of Shame</TextBlock>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />

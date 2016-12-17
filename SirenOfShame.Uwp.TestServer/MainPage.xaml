@@ -8,6 +8,17 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
+        <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBox x:Name="Title"></TextBox>
+            <ScrollViewer>
+                <TextBox x:Name="Body" 
+                         VerticalAlignment="Stretch" 
+                         Height="400" 
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         />
+            </ScrollViewer>
+            <Button Click="SendOnClick">Send</Button>
+        </StackPanel>
     </Grid>
 </Page>

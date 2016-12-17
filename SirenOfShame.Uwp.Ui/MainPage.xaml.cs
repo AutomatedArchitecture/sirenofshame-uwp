@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Windows.Foundation.Collections;
+using System.Collections.ObjectModel;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
@@ -17,15 +16,24 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     public sealed partial class MainPage
     {
-        private readonly MessageRelayService _connection;
-        private int _messageNumber = 0;
+        private readonly MessageAggregatorService _messageAggregatorService;
+        private RootViewModel ViewModel { get; set; }
 
         public MainPage()
         {
             InitializeComponent();
-            _connection = ServiceContainer.Resolve<MessageRelayService>();
-            _connection.OnMessageReceived += ConnectionOnMessageReceived;
+            _messageAggregatorService = ServiceContainer.Resolve<MessageAggregatorService>();
+            _messageAggregatorService.NewNewsItem += MessageAggregatorServiceOnNewNewsItem;
             LoadInitialData();
+        }
+
+        private async void MessageAggregatorServiceOnNewNewsItem(object sender, NewNewsItemEventArgs newNewsItemEventArgs)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                NewsItemDto newsItemDto = new NewsItemDto(newNewsItemEventArgs);
+                ViewModel.News.Add(newsItemDto);
+            });
         }
 
         private void LoadInitialData()
@@ -33,7 +41,7 @@ namespace SirenOfShame.Uwp.Ui
             var shimpty = MakePerson("Bob Shimpty");
             var gamgee = MakePerson("Sam Gamgee");
             var frodo = MakePerson("Frodo Baggins");
-            var rootViewModel = new RootViewModel
+            ViewModel = new RootViewModel
             {
                 BuildDefinitions = new List<BuildStatusDto>
                 {
@@ -50,14 +58,14 @@ namespace SirenOfShame.Uwp.Ui
                     new PersonDto(gamgee),
                     new PersonDto(frodo)
                 },
-                News = new List<NewsItemDto>
+                News = new ObservableCollection<NewsItemDto>
                 {
                     MakeNewsItem(shimpty),
                     MakeNewsItem(gamgee),
                     MakeNewsItem(frodo),
                 }
             };
-            DataContext = rootViewModel;
+            DataContext = ViewModel;
         }
 
         private NewsItemDto MakeNewsItem(PersonSetting person)
@@ -98,29 +106,6 @@ namespace SirenOfShame.Uwp.Ui
                 Comment = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
                 Duration = "1:15"
             };
-        }
-
-        private async void ConnectionOnMessageReceived(ValueSet valueSet)
-        {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-              {
-                  var message = valueSet.First();
-                  MyText.Text = $"{message.Key}={message.Value}";
-              });
-        }
-
-        private async void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            MyText.Text = "Sending Message";
-            try
-            {
-                await _connection.SendMessageAsync("Value", "Msg #" + _messageNumber++);
-                MyText.Text = "Message Sent Successfully";
-            }
-            catch (Exception ex)
-            {
-                MyText.Text = "Send error: " + ex.Message;
-            }
         }
     }
 }
