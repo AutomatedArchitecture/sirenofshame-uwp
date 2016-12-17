@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="SirenOfShame.Uwp.TestServer.MainPage"
+    x:Class="SirenOfShame.Uwp.TestServer.MainTestPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SirenOfShame.Uwp.TestServer"

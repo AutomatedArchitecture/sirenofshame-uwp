@@ -16,15 +16,15 @@ namespace SirenOfShame.Uwp.Ui
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage
+    public sealed partial class MainUiPage
     {
         private readonly MessageDistributorService _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
         private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
         private RootViewModel ViewModel { get; set; }
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MainPage));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MainUiPage));
         private List<BuildStatusDto> _lastBuildStatusDtos;
 
-        public MainPage()
+        public MainUiPage()
         {
             InitializeComponent();
             Loaded += OnLoaded;

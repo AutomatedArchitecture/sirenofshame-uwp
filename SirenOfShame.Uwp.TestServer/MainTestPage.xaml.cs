@@ -16,16 +16,16 @@ namespace SirenOfShame.Uwp.TestServer
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage
+    public sealed partial class MainTestPage
     {
         private HttpServer _httpServer;
         private RulesEngine _rulesEngine;
         private SirenDeviceService _sirenDeviceService;
         private readonly StartManager _startManager = new StartManager();
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MainPage));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MainTestPage));
         private MessageRelayService _messageRelayService;
 
-        public MainPage()
+        public MainTestPage()
         {
             InitializeComponent();
             Loaded += OnLoaded;
@@ -89,7 +89,7 @@ namespace SirenOfShame.Uwp.TestServer
             _httpServer = new HttpServer(8001);
             _httpServer.AddHttpRequestHandler(
                 "/",
-                new HttpResourceHandler(typeof(MainPage).GetTypeInfo().Assembly,
+                new HttpResourceHandler(typeof(MainTestPage).GetTypeInfo().Assembly,
                     "wwwroot", "index.html"));
             _httpServer.AddWebSocketRequestHandler(
                 "/sockets/",
