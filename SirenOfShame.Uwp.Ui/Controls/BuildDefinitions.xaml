@@ -45,6 +45,7 @@
     </UserControl.Resources>
 
     <StackPanel>
+        <TextBlock Style="{StaticResource SosSubheading}" Text="Builds"></TextBlock>
         <GridView Foreground="#fff" SelectionMode="None" 
                   IsItemClickEnabled="True"
                   ItemsSource="{Binding}"

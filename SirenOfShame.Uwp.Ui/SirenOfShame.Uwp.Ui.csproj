@@ -98,6 +98,12 @@
     <Compile Include="Controls\BuildDefinitions.xaml.cs">
       <DependentUpon>BuildDefinitions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Leaders.xaml.cs">
+      <DependentUpon>Leaders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\News.xaml.cs">
+      <DependentUpon>News.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\BuildStatusToColorConverter.cs" />
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
@@ -148,6 +154,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\BuildDefinitions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Leaders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\News.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
