@@ -8,6 +8,6 @@ namespace SirenOfShame.Uwp.Ui.Models
     {
         public List<BuildStatusDto> BuildDefinitions { get; set; }
         public List<NewNewsItemEventArgs> News { get; set; }
-        public List<PersonSetting> Leaders { get; set; }
+        public List<PersonDto> Leaders { get; set; }
     }
 }

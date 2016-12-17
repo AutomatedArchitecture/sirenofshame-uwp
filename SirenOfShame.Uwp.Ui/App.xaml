@@ -6,14 +6,16 @@
     RequestedTheme="Light">
 
     <Application.Resources>
-        <Style x:Key="SosCard" TargetType="StackPanel">
-            <Setter Property="Orientation" Value="Vertical" />
+        <Style x:Key="SosCardBase" TargetType="Panel">
             <Setter Property="Background" Value="White" />
             <Setter Property="Height" Value="200" />
             <Setter Property="Width" Value="300" />
             <Setter Property="Margin" Value="5" />
         </Style>
-        <Style x:Key="SosHalfCard" BasedOn="{StaticResource SosCard}" TargetType="StackPanel">
+        <Style x:Key="SosCard" TargetType="StackPanel" BasedOn="{StaticResource SosCardBase}">
+            <Setter Property="Orientation" Value="Vertical" />
+        </Style>
+        <Style x:Key="SosHalfCard" BasedOn="{StaticResource SosCardBase}" TargetType="Grid">
             <Setter Property="Height" Value="90"></Setter>
         </Style>
         <Style x:Key="SosSubheading" TargetType="TextBlock">

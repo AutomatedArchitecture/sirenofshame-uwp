@@ -11,29 +11,51 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <Style x:Name="SosAttributeTitle" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"></Setter>
+            <Setter Property="Padding" Value="0 0 5 0"></Setter>
+        </Style>
         <DataTemplate x:Name="UserTemplate" x:DataType="models:PersonDto">
-            <StackPanel Style="{StaticResource SosHalfCard}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                        <ColumnDefinition Width="1*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="1*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    
-                    <StackPanel Background="Gray" Grid.Row="2" Grid.ColumnSpan="4">
-                        <TextBlock Text="{Binding DisplayName}" Foreground="White"></TextBlock>
-                    </StackPanel>
-                </Grid>
-            </StackPanel>
+            <Grid Style="{StaticResource SosHalfCard}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="20" />
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="22" Grid.Column="1" Grid.Row="0" Text="{Binding Reputation}" />
+                <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="A:" Style="{StaticResource SosAttributeTitle}" />
+                    <TextBlock Text="{Binding Achievements}"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
+                    <TextBlock Text="F:" Style="{StaticResource SosAttributeTitle}" />
+                    <TextBlock Text="{Binding FailPercent}"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="FSB:" Style="{StaticResource SosAttributeTitle}" />
+                    <TextBlock Text="{Binding SuccessfulBuildsInARow}"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="T:" Style="{StaticResource SosAttributeTitle}" />
+                    <TextBlock Text="{Binding TotalBuilds}"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
+                    <TextBlock Text="FSB:" Style="{StaticResource SosAttributeTitle}" />
+                    <TextBlock Text="{Binding FixedSomeoneElsesBuild}"></TextBlock>
+                </StackPanel>
+                <StackPanel Background="Gray" Grid.Row="2" Grid.ColumnSpan="4">
+                    <TextBlock Text="{Binding DisplayName}" Foreground="White"></TextBlock>
+                </StackPanel>
+            </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    
+
     <StackPanel>
         <TextBlock Style="{StaticResource SosSubheading}" Text="Leaders"></TextBlock>
         <GridView Foreground="#fff" SelectionMode="None" 

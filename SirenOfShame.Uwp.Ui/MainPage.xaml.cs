@@ -30,7 +30,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private void LoadInitialData()
         {
-            DataContext = new RootViewModel
+            var rootViewModel = new RootViewModel
             {
                 BuildDefinitions = new List<BuildStatusDto>
                 {
@@ -41,18 +41,19 @@ namespace SirenOfShame.Uwp.Ui
                     MakeBuildDefinition(5, "Build Def #5"),
                     MakeBuildDefinition(6, "Build Def #6"),
                 },
-                Leaders = new List<PersonSetting>
+                Leaders = new List<PersonDto>
                 {
                     MakePerson("Bob Shimpty"),
                     MakePerson("Sam Gamgee"),
                     MakePerson("Frodo Baggins")
                 }
             };
+            DataContext = rootViewModel;
         }
 
-        private PersonSetting MakePerson(string displayName)
+        private PersonDto MakePerson(string displayName)
         {
-            return new PersonSetting
+            var personSetting = new PersonSetting
             {
                 RawName = displayName,
                 DisplayName = displayName,
@@ -62,6 +63,7 @@ namespace SirenOfShame.Uwp.Ui
                 CurrentSuccessInARow = 2,
                 NumberOfTimesFixedSomeoneElsesBuild = 1
             };
+            return new PersonDto(personSetting);
         }
 
         private static BuildStatusDto MakeBuildDefinition(int id, string title, BuildStatusEnum buildStatusEnum = BuildStatusEnum.Working)
