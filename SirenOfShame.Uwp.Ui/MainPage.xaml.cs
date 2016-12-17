@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
+using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
@@ -28,14 +29,17 @@ namespace SirenOfShame.Uwp.Ui
 
         private void LoadInitialData()
         {
-            BuildDefinitionsSource.Source = new List<BuildStatusDto>
+            DataContext = new RootViewModel
             {
-                MakeBuildDefinition(1, "Build Def #1", BuildStatusEnum.InProgress),
-                MakeBuildDefinition(2, "Build Def #2", BuildStatusEnum.Broken),
-                MakeBuildDefinition(3, "Build Def #3", BuildStatusEnum.Unknown),
-                MakeBuildDefinition(4, "Build Def #4"),
-                MakeBuildDefinition(5, "Build Def #5"),
-                MakeBuildDefinition(6, "Build Def #6"),
+                BuildDefinitions = new List<BuildStatusDto>
+                {
+                    MakeBuildDefinition(1, "Build Def #1", BuildStatusEnum.InProgress),
+                    MakeBuildDefinition(2, "Build Def #2", BuildStatusEnum.Broken),
+                    MakeBuildDefinition(3, "Build Def #3", BuildStatusEnum.Unknown),
+                    MakeBuildDefinition(4, "Build Def #4"),
+                    MakeBuildDefinition(5, "Build Def #5"),
+                    MakeBuildDefinition(6, "Build Def #6"),
+                }
             };
         }
 

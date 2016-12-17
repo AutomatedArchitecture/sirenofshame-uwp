@@ -4,45 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:watcher="using:SirenOfShame.Uwp.Watcher.Watcher"
-    xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
+    xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
     mc:Ignorable="d"
     >
 
     <Page.Resources>
-        <CollectionViewSource x:Name="BuildDefinitionsSource" IsSourceGrouped="False">
-            
-        </CollectionViewSource>
-        <converters:BuildStatusToImageConverter x:Key="BuildStatusToImageConverter" />
-        <converters:BuildStatusToColorConverter x:Key="BuildStatusToColorConverter" />
-        <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="watcher:BuildStatusDto">
-            <StackPanel Orientation="Vertical" Background="White" Height="200" Width="300" Margin="5">
-                <Grid Background="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToColorConverter}}" Padding="10 2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName}" FontSize="18" Foreground="White" />
-                    <Image Grid.Column="1" Source="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToImageConverter}}" />
-                </Grid>
-                <Grid Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="Auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Bind RequestedByDisplayName}" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind LocalStartTime}" />
-                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Bind Comment}" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Bind Duration}" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>
-                </Grid>
-            </StackPanel>
-        </DataTemplate>
         <Style x:Key="PageTitle" TargetType="TextBlock">
             <Setter Property="Foreground" Value="White" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -57,12 +23,7 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock x:Name="MyText" Foreground="#fff" HorizontalAlignment="Center" FontSize="50">Siren of Shame!</TextBlock>
             <Button Click="ButtonBase_OnClick" Style="{StaticResource SosButton}">Click Me</Button>
-            <GridView x:Name="buildDefinitionsGridView" Foreground="#fff" SelectionMode="None" 
-                  IsItemClickEnabled="True"
-                  ItemsSource="{x:Bind BuildDefinitionsSource.View}"
-                  ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
-                  >
-            </GridView>
+            <controls:BuildDefinition DataContext="{Binding BuildDefinitions}" />
         </StackPanel>
     </Grid>
 </Page>
