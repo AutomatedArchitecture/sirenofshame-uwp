@@ -106,9 +106,11 @@
     </Compile>
     <Compile Include="Converters\BuildStatusToColorConverter.cs" />
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
+    <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\NewsItemDto.cs" />
     <Compile Include="Models\PersonDto.cs" />
     <Compile Include="Models\RootViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -30,6 +30,9 @@ namespace SirenOfShame.Uwp.Ui
 
         private void LoadInitialData()
         {
+            var shimpty = MakePerson("Bob Shimpty");
+            var gamgee = MakePerson("Sam Gamgee");
+            var frodo = MakePerson("Frodo Baggins");
             var rootViewModel = new RootViewModel
             {
                 BuildDefinitions = new List<BuildStatusDto>
@@ -43,17 +46,35 @@ namespace SirenOfShame.Uwp.Ui
                 },
                 Leaders = new List<PersonDto>
                 {
-                    MakePerson("Bob Shimpty"),
-                    MakePerson("Sam Gamgee"),
-                    MakePerson("Frodo Baggins")
+                    new PersonDto(shimpty),
+                    new PersonDto(gamgee),
+                    new PersonDto(frodo)
+                },
+                News = new List<NewsItemDto>
+                {
+                    MakeNewsItem(shimpty),
+                    MakeNewsItem(gamgee),
+                    MakeNewsItem(frodo),
                 }
             };
             DataContext = rootViewModel;
         }
 
-        private PersonDto MakePerson(string displayName)
+        private NewsItemDto MakeNewsItem(PersonSetting person)
         {
-            var personSetting = new PersonSetting
+            var newNewsItemEventArgs = new NewNewsItemEventArgs
+            {
+                Title = "Achieved Shame Pusher",
+                EventDate = DateTime.Now.AddHours(-1),
+                Person = person,
+                ReputationChange = 1
+            };
+            return new NewsItemDto(newNewsItemEventArgs);
+        }
+
+        private PersonSetting MakePerson(string displayName)
+        {
+            return new PersonSetting
             {
                 RawName = displayName,
                 DisplayName = displayName,
@@ -63,7 +84,6 @@ namespace SirenOfShame.Uwp.Ui
                 CurrentSuccessInARow = 2,
                 NumberOfTimesFixedSomeoneElsesBuild = 1
             };
-            return new PersonDto(personSetting);
         }
 
         private static BuildStatusDto MakeBuildDefinition(int id, string title, BuildStatusEnum buildStatusEnum = BuildStatusEnum.Working)

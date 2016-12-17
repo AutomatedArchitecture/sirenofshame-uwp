@@ -7,7 +7,7 @@ namespace SirenOfShame.Uwp.Ui.Models
     public class RootViewModel
     {
         public List<BuildStatusDto> BuildDefinitions { get; set; }
-        public List<NewNewsItemEventArgs> News { get; set; }
+        public List<NewsItemDto> News { get; set; }
         public List<PersonDto> Leaders { get; set; }
     }
 }
