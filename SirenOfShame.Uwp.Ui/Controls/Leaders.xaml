@@ -12,31 +12,24 @@
 
     <UserControl.Resources>
         <DataTemplate x:Name="UserTemplate" x:DataType="models:PersonDto">
-            <StackPanel Style="{StaticResource SosCard}">
-                <!--<Grid Background="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToColorConverter}}" Padding="10 2">
+            <StackPanel Style="{StaticResource SosHalfCard}">
+                <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName}" FontSize="18" Foreground="White" />
-                    <Image Grid.Column="1" Source="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToImageConverter}}" />
-                </Grid>
-                <Grid Padding="10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
+                        <ColumnDefinition Width="48" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Bind RequestedByDisplayName}" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind LocalStartTime}" />
-                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Bind Comment}" />
-                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Bind Duration}" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>
-                </Grid>-->
+                    
+                    <StackPanel Background="Gray" Grid.Row="2" Grid.ColumnSpan="4">
+                        <TextBlock Text="{Binding DisplayName}" Foreground="White"></TextBlock>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
