@@ -5,6 +5,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
+using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -39,7 +40,27 @@ namespace SirenOfShame.Uwp.Ui
                     MakeBuildDefinition(4, "Build Def #4"),
                     MakeBuildDefinition(5, "Build Def #5"),
                     MakeBuildDefinition(6, "Build Def #6"),
+                },
+                Leaders = new List<PersonSetting>
+                {
+                    MakePerson("Bob Shimpty"),
+                    MakePerson("Sam Gamgee"),
+                    MakePerson("Frodo Baggins")
                 }
+            };
+        }
+
+        private PersonSetting MakePerson(string displayName)
+        {
+            return new PersonSetting
+            {
+                RawName = displayName,
+                DisplayName = displayName,
+                TotalBuilds = 200,
+                FailedBuilds = 20,
+                CurrentBuildRatio = 2,
+                CurrentSuccessInARow = 2,
+                NumberOfTimesFixedSomeoneElsesBuild = 1
             };
         }
 

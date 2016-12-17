@@ -31,8 +31,8 @@
                 </Grid.ColumnDefinitions>
 
                 <controls:BuildDefinition Grid.Column="0" DataContext="{Binding BuildDefinitions}" />
-                <controls:News Grid.Column="1" DataContext="{Binding BuildDefinitions}" />
-                <controls:Leaders Grid.Column="2" DataContext="{Binding BuildDefinitions}" />
+                <controls:News Grid.Column="1" DataContext="{Binding News}" />
+                <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
             </Grid>
         </StackPanel>
     </Grid>

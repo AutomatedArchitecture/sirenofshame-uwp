@@ -5,11 +5,49 @@
     xmlns:local="using:SirenOfShame.Uwp.Ui.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
+    <UserControl.Resources>
+        <DataTemplate x:Name="UserTemplate" x:DataType="models:PersonDto">
+            <StackPanel Style="{StaticResource SosCard}">
+                <!--<Grid Background="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToColorConverter}}" Padding="10 2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName}" FontSize="18" Foreground="White" />
+                    <Image Grid.Column="1" Source="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToImageConverter}}" />
+                </Grid>
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Bind RequestedByDisplayName}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind LocalStartTime}" />
+                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Bind Comment}" />
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Bind Duration}" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>
+                </Grid>-->
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    
     <StackPanel>
         <TextBlock Style="{StaticResource SosSubheading}" Text="Leaders"></TextBlock>
+        <GridView Foreground="#fff" SelectionMode="None" 
+                  IsItemClickEnabled="True"
+                  ItemsSource="{Binding}"
+                  ItemTemplate="{StaticResource UserTemplate}"
+                  >
+        </GridView>
     </StackPanel>
 </UserControl>

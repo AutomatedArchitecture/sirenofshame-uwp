@@ -15,7 +15,7 @@
         <converters:BuildStatusToImageConverter x:Key="BuildStatusToImageConverter" />
         <converters:BuildStatusToColorConverter x:Key="BuildStatusToColorConverter" />
         <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="watcher:BuildStatusDto">
-            <StackPanel Orientation="Vertical" Background="White" Height="200" Width="300" Margin="5">
+            <StackPanel Style="{StaticResource SosCard}">
                 <Grid Background="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToColorConverter}}" Padding="10 2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
