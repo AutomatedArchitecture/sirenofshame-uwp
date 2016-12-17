@@ -37,10 +37,10 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
+            _messageAggregatorService.StartWatching();
             try
             {
                 await _connection.Open();
-                _messageAggregatorService.StartWatching();
             }
             catch (Exception ex)
             {

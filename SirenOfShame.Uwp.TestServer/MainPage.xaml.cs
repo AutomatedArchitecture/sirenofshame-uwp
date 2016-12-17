@@ -54,38 +54,6 @@ namespace SirenOfShame.Uwp.TestServer
 
         private void InitializeMockCiServer()
         {
-            Title.Text = "NewNewsItem";
-            Body.Text = @"{
-    ""BuildDefinitionId"": null,
-    ""EventDate"": ""2016-12-17T09:45:17.2015184-05:00"",
-    ""Person"": {
-        ""RawName"": ""Bob Shimpty"",
-        ""DisplayName"": ""Bob Shimpty"",
-        ""TotalBuilds"": 200,
-        ""FailedBuilds"": 20,
-        ""Hidden"": false,
-        ""Achievements"": [],
-        ""CumulativeBuildTime"": null,
-        ""AvatarId"": null,
-        ""NumberOfTimesFixedSomeoneElsesBuild"": 1,
-        ""NumberOfTimesPerformedBackToBackBuilds"": 0,
-        ""MaxBuildsInOneDay"": 0,
-        ""CurrentBuildRatio"": 2.0,
-        ""LowestBuildRatioAfter50Builds"": null,
-        ""CurrentSuccessInARow"": 2,
-        ""Email"": null,
-        ""AvatarImageName"": null,
-        ""AvatarImageUploaded"": false,
-        ""Clickable"": true
-    },
-    ""Title"": ""Achieved Shame Pusher"",
-    ""AvatarImageList"": null,
-    ""NewsItemType"": 0,
-    ""ReputationChange"": 1,
-    ""BuildId"": null,
-    ""IsSosOnlineEvent"": true,
-    ""ShouldUpdateOldInProgressNewsItem"": false
-}";
         }
 
         private async Task StartMessageRelayService()
@@ -133,6 +101,18 @@ namespace SirenOfShame.Uwp.TestServer
         private async void SendOnClick(object sender, RoutedEventArgs e)
         {
             await _messageRelayService.Send(Title.Text, Body.Text);
+        }
+
+        private void NewNewsOnClick(object sender, RoutedEventArgs e)
+        {
+            Title.Text = "NewNewsItem";
+            Body.Text = FakeData.NewNewsItem;
+        }
+
+        private void NewUserOnClick(object sender, RoutedEventArgs e)
+        {
+            Title.Text = "NewUser";
+            Body.Text = FakeData.NewUserItem;
         }
     }
 }

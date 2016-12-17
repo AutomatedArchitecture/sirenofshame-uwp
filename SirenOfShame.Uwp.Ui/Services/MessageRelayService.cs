@@ -12,6 +12,8 @@ namespace SirenOfShame.Uwp.Ui.Services
         public event Action<ValueSet> OnMessageReceived;
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
 
+        public bool IsConnected => _connection != null;
+
         private async Task<AppServiceConnection> CachedConnection()
         {
             if (_connection != null) return _connection;

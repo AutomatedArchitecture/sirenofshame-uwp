@@ -9,6 +9,10 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <Button Click="NewNewsOnClick">New News</Button>
+                <Button Click="NewUserOnClick">New User</Button>
+            </StackPanel>
             <TextBox x:Name="Title"></TextBox>
             <ScrollViewer>
                 <TextBox x:Name="Body" 

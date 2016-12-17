@@ -17,6 +17,7 @@
     </Page.Resources>
 
     <Grid Background="#191919">
+        <TextBlock x:Name="ErrorMessage" Text="" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"></TextBlock>
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
             <TextBlock Style="{StaticResource SosPageTitle}">Siren of Shame</TextBlock>
             <Grid>
