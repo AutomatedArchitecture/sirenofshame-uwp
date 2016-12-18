@@ -82,6 +82,7 @@
     <Compile Include="ICiEntryPoint.cs" />
     <Compile Include="MyLogManager.cs" />
     <Compile Include="Network\SosWebClient.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApiResultBase.cs" />
     <Compile Include="Services\NewSosOnlineNotification.cs" />

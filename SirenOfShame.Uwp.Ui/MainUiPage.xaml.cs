@@ -91,7 +91,14 @@ namespace SirenOfShame.Uwp.Ui
 
         private void UpdateDetailsInExistingControls(List<BuildStatusDto> lastBuildStatusDtos)
         {
-            // todo: update build when they change
+            var buildsJoined = from existingBd in ViewModel.BuildDefinitions
+                join newBd in lastBuildStatusDtos on existingBd.BuildDefinitionId equals newBd.BuildDefinitionId
+                select new {existingBd, newBd};
+
+            foreach (var builds in buildsJoined)
+            {
+                builds.existingBd.Update(builds.newBd);
+            }
         }
 
         private void SortExistingControls()
@@ -130,51 +137,12 @@ namespace SirenOfShame.Uwp.Ui
 
         private void LoadInitialData()
         {
-            var shimpty = MakePerson("Bob Shimpty");
-            var gamgee = MakePerson("Sam Gamgee");
-            var frodo = MakePerson("Frodo Baggins");
             ViewModel = new RootViewModel
             {
-                Leaders = new ObservableCollection<PersonDto>
-                {
-                    new PersonDto(shimpty),
-                    new PersonDto(gamgee),
-                    new PersonDto(frodo)
-                },
-                News = new ObservableCollection<NewsItemDto>
-                {
-                    MakeNewsItem(shimpty),
-                    MakeNewsItem(gamgee),
-                    MakeNewsItem(frodo),
-                }
+                Leaders = new ObservableCollection<PersonDto>(),
+                News = new ObservableCollection<NewsItemDto>()
             };
             DataContext = ViewModel;
-        }
-
-        private NewsItemDto MakeNewsItem(PersonSetting person)
-        {
-            var newNewsItemEventArgs = new NewNewsItemEventArgs
-            {
-                Title = "Achieved Shame Pusher",
-                EventDate = DateTime.Now.AddHours(-1),
-                Person = person,
-                ReputationChange = 1
-            };
-            return new NewsItemDto(newNewsItemEventArgs);
-        }
-
-        private PersonSetting MakePerson(string displayName)
-        {
-            return new PersonSetting
-            {
-                RawName = displayName,
-                DisplayName = displayName,
-                TotalBuilds = 200,
-                FailedBuilds = 20,
-                CurrentBuildRatio = 2,
-                CurrentSuccessInARow = 2,
-                NumberOfTimesFixedSomeoneElsesBuild = 1
-            };
         }
     }
 }
