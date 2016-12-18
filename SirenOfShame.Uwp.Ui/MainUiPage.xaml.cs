@@ -132,7 +132,7 @@ namespace SirenOfShame.Uwp.Ui
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 NewsItemDto newsItemDto = new NewsItemDto(newNewsItemEventArgs);
-                ViewModel.News.Add(newsItemDto);
+                ViewModel.News.Insert(0, newsItemDto);
             });
         }
 
