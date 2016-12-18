@@ -120,5 +120,11 @@ namespace SirenOfShame.Uwp.TestServer
             Title.Text = "RefreshStatus";
             Body.Text = FakeData.GetFakeBuilds();
         }
+
+        private void StatsChangedOnClick(object sender, RoutedEventArgs e)
+        {
+            Title.Text = "StatsChanged";
+            Body.Text = FakeData.StatsChanged;
+        }
     }
 }

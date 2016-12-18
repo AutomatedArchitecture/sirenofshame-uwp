@@ -8,11 +8,12 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel Orientation="Vertical" Width="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Horizontal">
                 <Button Click="NewNewsOnClick" Margin="5">New News</Button>
                 <Button Click="NewUserOnClick" Margin="5">New User</Button>
                 <Button Click="BuildStatusOnClick" Margin="5">Build Status</Button>
+                <Button Click="StatsChangedOnClick" Margin="5">Stats Changed</Button>
             </StackPanel>
             <TextBox x:Name="Title"></TextBox>
             <ScrollViewer>

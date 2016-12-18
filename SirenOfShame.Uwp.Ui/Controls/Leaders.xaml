@@ -28,29 +28,29 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
-                <TextBlock FontSize="22" Grid.Column="1" Grid.Row="0" Text="{Binding Reputation}" />
+                <TextBlock FontSize="22" Grid.Column="1" Grid.Row="0" Text="{Binding Reputation, Mode=OneWay}" />
                 <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="A:" Style="{StaticResource SosAttributeTitle}" />
-                    <TextBlock Text="{Binding Achievements}"></TextBlock>
+                    <TextBlock Text="{Binding Achievements, Mode=OneWay}"></TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="F:" Style="{StaticResource SosAttributeTitle}" />
-                    <TextBlock Text="{Binding FailPercent}"></TextBlock>
+                    <TextBlock Text="{Binding FailPercent, Mode=OneWay}"></TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Text="FSB:" Style="{StaticResource SosAttributeTitle}" />
-                    <TextBlock Text="{Binding SuccessfulBuildsInARow}"></TextBlock>
+                    <TextBlock Text="{Binding SuccessfulBuildsInARow, Mode=OneWay}"></TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Text="T:" Style="{StaticResource SosAttributeTitle}" />
-                    <TextBlock Text="{Binding TotalBuilds}"></TextBlock>
+                    <TextBlock Text="{Binding TotalBuilds, Mode=OneWay}"></TextBlock>
                 </StackPanel>
                 <StackPanel Grid.Column="3" Grid.Row="1" Orientation="Horizontal">
                     <TextBlock Text="FSB:" Style="{StaticResource SosAttributeTitle}" />
-                    <TextBlock Text="{Binding FixedSomeoneElsesBuild}"></TextBlock>
+                    <TextBlock Text="{Binding FixedSomeoneElsesBuild, Mode=OneWay}"></TextBlock>
                 </StackPanel>
                 <StackPanel Background="Gray" Grid.Row="2" Grid.ColumnSpan="4">
-                    <TextBlock Text="{Binding DisplayName}" Foreground="White"></TextBlock>
+                    <TextBlock Text="{Binding DisplayName, Mode=OneWay}" Foreground="White"></TextBlock>
                 </StackPanel>
             </Grid>
         </DataTemplate>

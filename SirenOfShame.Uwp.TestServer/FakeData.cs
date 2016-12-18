@@ -60,6 +60,27 @@ namespace SirenOfShame.Uwp.TestServer
         ""Clickable"": true
     }";
 
+        public static string StatsChanged { get; } = @"[{
+        ""RawName"": ""Bob Shimpty"",
+        ""DisplayName"": ""Bob Shimpty"",
+        ""TotalBuilds"": 201,
+        ""FailedBuilds"": 21,
+        ""Hidden"": false,
+        ""Achievements"": [],
+        ""CumulativeBuildTime"": null,
+        ""AvatarId"": null,
+        ""NumberOfTimesFixedSomeoneElsesBuild"": 2,
+        ""NumberOfTimesPerformedBackToBackBuilds"": 1,
+        ""MaxBuildsInOneDay"": 1,
+        ""CurrentBuildRatio"": 3.0,
+        ""LowestBuildRatioAfter50Builds"": null,
+        ""CurrentSuccessInARow"": 3,
+        ""Email"": null,
+        ""AvatarImageName"": null,
+        ""AvatarImageUploaded"": false,
+        ""Clickable"": true
+    }]";
+
         public static string GetFakeBuilds()
         {
             var buildStatuses = new RefreshStatusEventArgs()

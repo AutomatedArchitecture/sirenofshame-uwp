@@ -31,6 +31,7 @@ namespace SirenOfShame.Uwp.Ui
             _messageDistributorService.NewNewsItem += MessageDistributorServiceOnNewNewsItem;
             _messageDistributorService.NewPerson += MessageDistributorServiceOnNewPerson;
             _messageDistributorService.RefreshStatus += MessageDistributorServiceOnRefreshStatus;
+            _messageDistributorService.StatsChanged += MessageDistributorServiceOnStatsChanged;
             LoadInitialData();
         }
 
@@ -56,6 +57,20 @@ namespace SirenOfShame.Uwp.Ui
                     await Task.Delay(retryDelay);
                 }
             }
+        }
+
+        private async void MessageDistributorServiceOnStatsChanged(object sender, PersonSetting[] args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                var leaderPairs = from oldLeader in ViewModel.Leaders
+                    join newLeader in args on oldLeader.RawName equals newLeader.RawName
+                    select new {oldLeader, newLeader};
+                foreach (var leaderPair in leaderPairs)
+                {
+                    leaderPair.oldLeader.Update(leaderPair.newLeader);
+                }
+            });
         }
 
         private async void MessageDistributorServiceOnRefreshStatus(object sender, RefreshStatusEventArgs args)
