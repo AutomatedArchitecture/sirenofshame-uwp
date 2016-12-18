@@ -109,9 +109,10 @@ namespace SirenOfShame.Uwp.Ui
         private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
         {
             bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count();
-            // todo: remove all if build names change
+            bool anyNewBuildDefIds = buildStatusDtos
+                .Any(newBd => ViewModel.BuildDefinitions.All(oldBd => newBd.BuildDefinitionId != oldBd.BuildDefinitionId));
             _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
-            if (numberOfBuildsChanged)
+            if (numberOfBuildsChanged || anyNewBuildDefIds)
             {
                 ViewModel.BuildDefinitions.Clear();
             }
