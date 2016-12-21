@@ -9,9 +9,9 @@ namespace SirenOfShame.Uwp.Ui.Models
 {
     public class RootViewModel : INotifyPropertyChanged
     {
-        private List<BuildStatusDto> _buildDefinitions = new List<BuildStatusDto>();
+        private ObservableCollection<BuildStatusDto> _buildDefinitions = new ObservableCollection<BuildStatusDto>();
 
-        public List<BuildStatusDto> BuildDefinitions
+        public ObservableCollection<BuildStatusDto> BuildDefinitions
         {
             get { return _buildDefinitions; }
             set

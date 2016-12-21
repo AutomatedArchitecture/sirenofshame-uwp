@@ -4,9 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using SirenOfShame.Uwp.Ui.Helpers;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Watcher.Util;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
@@ -90,7 +92,7 @@ namespace SirenOfShame.Uwp.Ui
             RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(lastBuildStatusDtos);
             if (ViewModel.BuildDefinitions.Count == 0)
             {
-                ViewModel.BuildDefinitions = _lastBuildStatusDtos;
+                ViewModel.BuildDefinitions = new ObservableCollection<BuildStatusDto>(_lastBuildStatusDtos);
             }
             else
             {
@@ -118,7 +120,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private void SortExistingControls()
         {
-            // todo: handle build sorting
+            ViewModel.BuildDefinitions.Sort();
         }
 
         private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)

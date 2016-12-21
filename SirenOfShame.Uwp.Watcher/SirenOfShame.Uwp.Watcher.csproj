@@ -110,6 +110,7 @@
     <Compile Include="StatCalculators\StatCalculatorBase.cs" />
     <Compile Include="StatCalculators\SuccessInARow.cs" />
     <Compile Include="Util\BuildStatusUtil.cs" />
+    <Compile Include="Util\ObservableCollectionUtil.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusDto.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
