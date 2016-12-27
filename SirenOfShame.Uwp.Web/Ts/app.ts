@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { ServerService } from './server.service';
 import { EchoCommand } from './commands/echo.command';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
@@ -8,13 +8,15 @@ import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsettin
 import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
 import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 import { DeleteSettingsCommand } from './commands/delete-settings.command';
+import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'components/app.html',
     providers: [
         ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
-        GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand
+        GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand,
+        GetCiEntryPointsCommand
     ]
 })
 export class AppComponent {

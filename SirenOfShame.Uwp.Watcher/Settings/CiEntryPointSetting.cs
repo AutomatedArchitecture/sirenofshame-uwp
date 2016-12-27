@@ -47,7 +47,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         public ICiEntryPoint GetCiEntryPoint(SirenOfShameSettings settings)
         {
-            var ciEntryPoint = settings.CiEntryPoints.FirstOrDefault(s => s.Name == Name);
+            var ciEntryPoint = SirenOfShameSettings.CiEntryPoints.FirstOrDefault(s => s.Name == Name);
             if (ciEntryPoint == null) throw new SosException("Unable to find plugin: " + Name);
             return ciEntryPoint;
         }

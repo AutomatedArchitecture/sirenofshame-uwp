@@ -6,6 +6,8 @@ import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsettin
 import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
 import { MyBuildDefinition } from './models/myBuildDefinition';
 import { ServerService } from './server.service';
+import { CiEntryPoint } from './models/ciEntryPoint.ts'
+import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command'
 
 @Component({
     templateUrl: './components/server.html'
@@ -17,16 +19,14 @@ export class Server {
         private addCiEntryPointSettingCommand: AddCiEntryPointSettingCommand,
         private route: ActivatedRoute,
         private router: Router,
-        private serverService: ServerService
+        private serverService: ServerService,
+        private getCiEntryPointsCommand: GetCiEntryPointsCommand
     ) {
-        this.serverTypes = [
-            { Name: 'Hudson', Value: 'Jenkins' },
-            { Name: 'Mock', Value: 'Mock' }
-        ];
+
     }
 
     private sub: any;
-    public serverTypes: any[];
+    public serverTypes: CiEntryPoint[];
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
@@ -40,6 +40,11 @@ export class Server {
                     });
             }
         });
+
+        this.getCiEntryPointsCommand.execute()
+            .then(ciEntryPoints => {
+                this.serverTypes = ciEntryPoints;
+            });
     }
 
     ngOnDestroy() {

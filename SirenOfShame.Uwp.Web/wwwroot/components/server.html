@@ -7,7 +7,7 @@
             <select [(ngModel)]="ciEntryPointSetting.name"
                     class="form-control" id="name" name="name" required>
                 <option></option>
-                <option *ngFor="let serverType of serverTypes" [value]="serverType.Id">{{serverType.Name}}</option>
+                <option *ngFor="let serverType of serverTypes" [value]="serverType.name">{{serverType.displayName}}</option>
             </select>
         </div>
     </div>

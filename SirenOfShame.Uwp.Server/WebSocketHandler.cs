@@ -79,6 +79,7 @@ namespace SirenOfShame.Uwp.Server
             new GetCiEntryPointSettingsCommand(),
             new AddCiEntryPointSettingCommand(),
             new DeleteSettingsCommand(), 
+            new GetCiEntryPointsCommand()
         };
 
         private WebSocket _socket;

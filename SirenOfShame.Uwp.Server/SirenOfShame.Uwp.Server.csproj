@@ -112,6 +112,7 @@
     <Compile Include="Commands\EchoCommand.cs" />
     <Compile Include="Commands\GetBuildDefinitionsCommand.cs" />
     <Compile Include="Commands\AddCiEntryPointSettingCommand.cs" />
+    <Compile Include="Commands\GetCiEntryPointsCommand.cs" />
     <Compile Include="Commands\GetCiEntryPointSettingsCommand.cs" />
     <Compile Include="Commands\GetCiEntryPointSettingCommand.cs" />
     <Compile Include="Commands\PlayLedPatternCommand.cs" />

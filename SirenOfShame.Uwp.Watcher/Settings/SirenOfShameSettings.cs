@@ -343,7 +343,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //}
 
         // todo: Hard-coding the CiEntryPoints for now, but maybe use Reflection eventually?
-        public IEnumerable<ICiEntryPoint> CiEntryPoints => new[]
+        public static IEnumerable<ICiEntryPoint> CiEntryPoints => new[]
         {
             (ICiEntryPoint)new HudsonCIEntryPoint(),
             new MockCiEntryPoint()
