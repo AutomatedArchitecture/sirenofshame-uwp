@@ -9,6 +9,7 @@ using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.HudsonServices;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
+using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
 
 namespace SirenOfShame.Uwp.Watcher.Settings
 {
@@ -341,15 +342,12 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //        .FirstOrDefault();
         //}
 
-        public IEnumerable<ICiEntryPoint> CiEntryPoints
+        // todo: Hard-coding the CiEntryPoints for now, but maybe use Reflection eventually?
+        public IEnumerable<ICiEntryPoint> CiEntryPoints => new[]
         {
-            get
-            {
-                // todo: Hard-code the CiEntryPoints for now, but maybe use Reflection eventually?
-                return new[] {new HudsonCIEntryPoint()};
-                //return IocContainer.Instance.GetExports<ICiEntryPoint>();
-            }
-        }
+            (ICiEntryPoint)new HudsonCIEntryPoint(),
+            new MockCiEntryPoint()
+        };
 
         public IEnumerable<PersonSetting> VisiblePeople
         {
