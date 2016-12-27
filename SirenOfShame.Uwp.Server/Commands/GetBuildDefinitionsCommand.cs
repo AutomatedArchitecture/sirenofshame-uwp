@@ -13,11 +13,12 @@ namespace SirenOfShame.Uwp.Server.Commands
         public CiServer CiServer { get; set; }
     }
 
-    public class CiServer
+    /// <summary>
+    /// Technically this is a CiEntryPointSetting, except we need an unencrypted 
+    /// Password field
+    /// </summary>
+    public class CiServer : CiEntryPointSetting
     {
-        public string Url { get; set; }
-        public string ServerType { get; set; }
-        public string UserName { get; set; }
         public string Password { get; set; }
     }
 
@@ -30,7 +31,7 @@ namespace SirenOfShame.Uwp.Server.Commands
             var getProjectsRequest = JsonConvert.DeserializeObject<GetProjectsRequest>(frame);
 
             var ciServer = getProjectsRequest.CiServer;
-            var ciEntryPoint = SirenOfShameSettings.CiEntryPoints.First(i => i.Name == ciServer.ServerType);
+            var ciEntryPoint = SirenOfShameSettings.CiEntryPoints.First(i => i.Name == ciServer.Name);
 
             var getProjectsArgs = new GetProjectsArgs
             {
