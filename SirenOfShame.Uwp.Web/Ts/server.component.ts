@@ -19,10 +19,14 @@ export class Server {
         private router: Router,
         private serverService: ServerService
     ) {
-        
+        this.serverTypes = [
+            { Name: 'Hudson', Value: 'Jenkins' },
+            { Name: 'Mock', Value: 'Mock' }
+        ];
     }
 
     private sub: any;
+    public serverTypes: any[];
 
     ngOnInit() {
         this.sub = this.route.params.subscribe(params => {

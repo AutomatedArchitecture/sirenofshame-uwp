@@ -74,11 +74,11 @@
     <Compile Include="Helpers\ListHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Helpers\XElementHelpers.cs" />
-    <Compile Include="HudsonServices\HudsonBuildDefinition.cs" />
-    <Compile Include="HudsonServices\HudsonBuildStatus.cs" />
-    <Compile Include="HudsonServices\HudsonCIEntryPoint.cs" />
-    <Compile Include="HudsonServices\HudsonService.cs" />
-    <Compile Include="HudsonServices\HudsonWatcher.cs" />
+    <Compile Include="Watchers\HudsonServices\HudsonBuildDefinition.cs" />
+    <Compile Include="Watchers\HudsonServices\HudsonBuildStatus.cs" />
+    <Compile Include="Watchers\HudsonServices\HudsonCIEntryPoint.cs" />
+    <Compile Include="Watchers\HudsonServices\HudsonService.cs" />
+    <Compile Include="Watchers\HudsonServices\HudsonWatcher.cs" />
     <Compile Include="ICiEntryPoint.cs" />
     <Compile Include="MyLogManager.cs" />
     <Compile Include="Network\SosWebClient.cs" />
