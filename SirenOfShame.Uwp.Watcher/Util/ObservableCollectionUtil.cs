@@ -8,11 +8,11 @@ namespace SirenOfShame.Uwp.Watcher.Util
         // todo: make this generic
         public static void Sort(this ObservableCollection<BuildStatusDto> list)
         {
-            bool sortPerformed = true;
+            bool sortPerformed;
             do
             {
                 sortPerformed = SortOnce(list);
-            } while (sortPerformed == true);
+            } while (sortPerformed);
         }
 
         public static bool SortOnce(ObservableCollection<BuildStatusDto> list)
@@ -25,8 +25,8 @@ namespace SirenOfShame.Uwp.Watcher.Util
                 {
                     var currentTime = currentItem.LocalStartTime;
                     var lastTime = lastItem.LocalStartTime;
-                    var currentTimeIsInTheWrongOrder = currentTime > lastTime;
-                    if (currentTimeIsInTheWrongOrder)
+                    var isInTheWrongOrder = currentTime > lastTime;
+                    if (isInTheWrongOrder)
                     {
                         list.Remove(currentItem);
                         for (int j = 0; j < i; j++)
