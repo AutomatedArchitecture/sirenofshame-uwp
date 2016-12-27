@@ -1,4 +1,5 @@
-﻿using SirenOfShame.Uwp.Watcher.Settings;
+﻿using System.Threading.Tasks;
+using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Watcher.HudsonServices
@@ -7,20 +8,14 @@ namespace SirenOfShame.Uwp.Watcher.HudsonServices
     //[Export(typeof(ICiEntryPoint))]
     public class HudsonCIEntryPoint : ICiEntryPoint
     {
-        //public ConfigureServerBase CreateConfigurationWindow(SirenOfShameSettings settings, CiEntryPointSetting ciEntryPointSetting)
-        //{
-        //    return new ConfigureHudson(settings, this, ciEntryPointSetting);
-        //}
-
-        public string Name
+        public Task<MyBuildDefinition[]> GetProjects(GetProjectsArgs getProjectsArgs)
         {
-            get { return "Hudson"; }
+            return new HudsonService().GetProjects(getProjectsArgs);
         }
 
-        public string DisplayName
-        {
-            get { return "Jenkins/Hudson"; }
-        }
+        public string Name => "Hudson";
+
+        public string DisplayName => "Jenkins/Hudson";
 
         public WatcherBase GetWatcher(SirenOfShameSettings settings)
         {

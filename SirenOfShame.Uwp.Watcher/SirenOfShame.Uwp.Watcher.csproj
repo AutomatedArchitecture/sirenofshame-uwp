@@ -111,6 +111,7 @@
     <Compile Include="StatCalculators\SuccessInARow.cs" />
     <Compile Include="Util\BuildStatusUtil.cs" />
     <Compile Include="Util\ObservableCollectionUtil.cs" />
+    <Compile Include="Watchers\MockCiServerServices\MockBuildDefinition.cs" />
     <Compile Include="Watchers\MockCiServerServices\MockCiEntryPoint.cs" />
     <Compile Include="Watchers\MockCiServerServices\MockWatcher.cs" />
     <Compile Include="Watcher\BuildStatus.cs" />

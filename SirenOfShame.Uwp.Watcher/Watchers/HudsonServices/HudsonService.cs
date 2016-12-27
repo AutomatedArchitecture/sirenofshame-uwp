@@ -24,11 +24,17 @@ namespace SirenOfShame.Uwp.Watcher.HudsonServices
             return downloadXml;
         }
 
+        internal async Task<MyBuildDefinition[]> GetProjects(GetProjectsArgs getProjectsArgs)
+        {
+            var buildDefinitions = await GetProjects(getProjectsArgs.Url, getProjectsArgs.UserName, getProjectsArgs.Password);
+            return buildDefinitions.Cast<MyBuildDefinition>().ToArray();
+        }
+
         private static readonly ILog _log = MyLogManager.GetLog(typeof(HudsonService));
 
         public delegate void GetProjectsCompleteDelegate(HudsonBuildDefinition[] buildDefinitions);
 
-        public void GetProjects(string rootUrl, string userName, string password, GetProjectsCompleteDelegate complete, Action<Exception> onError)
+        private async Task<HudsonBuildDefinition[]> GetProjects(string rootUrl, string userName, string password)
         {
             WebClientXml webClient = new WebClientXml
             {
@@ -38,19 +44,16 @@ namespace SirenOfShame.Uwp.Watcher.HudsonServices
             };
             rootUrl = GetRootUrl(rootUrl);
 
-            webClient.DownloadXmlAsync(rootUrl + "/api/xml", onSuccess: doc =>
+            var doc = await webClient.DownloadXml(rootUrl + "/api/xml", userName, password);
+            if (doc.Root == null)
             {
-                if (doc.Root == null)
-                {
-                    onError(new Exception("No results returned"));
-                    return;
-                }
-                HudsonBuildDefinition[] buildDefinitions = doc.Root
-                    .Elements("job")
-                    .Select(projectXml => new HudsonBuildDefinition(rootUrl, projectXml))
-                    .ToArray();
-                complete(buildDefinitions);
-            }, onError: OnError(onError));
+                throw new Exception("No results returned");
+            }
+            HudsonBuildDefinition[] buildDefinitions = doc.Root
+                .Elements("job")
+                .Select(projectXml => new HudsonBuildDefinition(rootUrl, projectXml))
+                .ToArray();
+            return buildDefinitions;
         }
 
         private static Action<Exception> OnError(Action<Exception> onError)
