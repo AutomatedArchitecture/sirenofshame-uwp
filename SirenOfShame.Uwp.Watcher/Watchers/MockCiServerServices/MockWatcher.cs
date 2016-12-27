@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
@@ -6,15 +7,35 @@ namespace SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices
 {
     public class MockWatcher : WatcherBase
     {
-        private readonly List<BuildStatus> _buildStatuses = new List<BuildStatus>();
-
         public MockWatcher(SirenOfShameSettings settings) : base(settings)
         {
         }
 
         protected override IList<BuildStatus> GetBuildStatus()
         {
-            return _buildStatuses;
+            return new List<BuildStatus>
+            {
+                GetBuildStatus(1),
+                GetBuildStatus(2),
+                GetBuildStatus(3)
+            };
+        }
+
+        private BuildStatus GetBuildStatus(int id)
+        {
+            DateTime? startedTime = new DateTime(2016, 12, 12, 9, 9 ,9);
+            return new BuildStatus
+            {
+                Name = "Mock " + id,
+                BuildDefinitionId = "Mock" + id,
+                BuildStatusEnum = BuildStatusEnum.Working,
+                Comment = "Comment #" + id,
+                FinishedTime = new DateTime(2016, 12, 12, 10, 10, 10),
+                StartedTime = startedTime,
+                RequestedBy = "Bob Smith",
+                BuildId = startedTime.HasValue ? startedTime.Value.Ticks.ToString() : null,
+                Url = "http://www.google.com"
+            };
         }
 
         public override void StopWatching()

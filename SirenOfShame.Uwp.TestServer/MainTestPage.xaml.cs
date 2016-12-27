@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using IotWeb.Common.Http;
 using IotWeb.Server;
+using Newtonsoft.Json;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher;
@@ -74,6 +75,34 @@ namespace SirenOfShame.Uwp.TestServer
             _rulesEngine = new RulesEngine(sosSettings);
             _rulesEngine.Start(true);
             _rulesEngine.SetLights += RulesEngineOnSetLights;
+            _rulesEngine.RefreshStatus += RulesEngineOnRefreshStatus;
+            _rulesEngine.NewNewsItem += RulesEngineOnNewNewsItem;
+            _rulesEngine.NewUser += RulesEngineOnNewUser;
+            _rulesEngine.StatsChanged += RulesEngineOnStatsChanged;
+        }
+
+        private async void RulesEngineOnStatsChanged(object sender, StatsChangedEventArgs args)
+        {
+            //var argsAsJson = JsonConvert.SerializeObject(args);
+            //await _messageRelayService.Send("StatsChanged", argsAsJson);
+        }
+
+        private async void RulesEngineOnNewUser(object sender, NewUserEventArgs args)
+        {
+            //var argsAsJson = JsonConvert.SerializeObject(args);
+            //await _messageRelayService.Send("NewUser", argsAsJson);
+        }
+
+        private async void RulesEngineOnNewNewsItem(object sender, NewNewsItemEventArgs args)
+        {
+            //var argsAsJson = JsonConvert.SerializeObject(args);
+            //await _messageRelayService.Send("NewNewsItem", argsAsJson);
+        }
+
+        private async void RulesEngineOnRefreshStatus(object sender, RefreshStatusEventArgs args)
+        {
+            var argsAsJson = JsonConvert.SerializeObject(args);
+            await _messageRelayService.Send("RefreshStatus", argsAsJson);
         }
 
         private async void RulesEngineOnSetLights(object sender, SetLightsEventArgs args)
