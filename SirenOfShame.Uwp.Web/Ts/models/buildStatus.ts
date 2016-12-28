@@ -11,3 +11,8 @@
     requestedBy: string;
     url: string;
 }
+
+export interface BuildStatusEnum {
+    id: number;
+    title: string;
+}
