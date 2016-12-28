@@ -1,7 +1,5 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
@@ -26,11 +24,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         public override string CommandName => "addCiEntryPointSetting";
         public override async Task<SocketResult> Invoke(string frame)
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var request = JsonConvert.DeserializeObject<AddCiEntryPointSettingRequest>(frame, jsonSerializerSettings);
+            var request = Deserialize<AddCiEntryPointSettingRequest>(frame);
 
             var appSettings = await _sosService.GetAppSettings();
 

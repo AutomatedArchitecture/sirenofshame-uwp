@@ -9,6 +9,7 @@ import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsettin
 import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 import { DeleteSettingsCommand } from './commands/delete-settings.command';
 import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command';
+import { UpdateMockBuildCommand } from './commands/update-mock-build.command'
 
 @Component({
     selector: 'my-app',
@@ -16,7 +17,7 @@ import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command';
     providers: [
         ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
         GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand,
-        GetCiEntryPointsCommand
+        GetCiEntryPointsCommand, UpdateMockBuildCommand
     ]
 })
 export class AppComponent {

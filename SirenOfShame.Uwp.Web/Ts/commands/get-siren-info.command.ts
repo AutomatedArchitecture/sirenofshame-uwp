@@ -21,7 +21,7 @@ export class GetSirenInfoCommand extends BaseCommand {
         return new Promise<ISirenInfo>((resolve, err) => {
             this.response = (sirenInfo) => resolve(sirenInfo.result);
             var sendRequest = {
-                type: 'getSirenInfo'
+                type: this.type
             }
             this.serverService.send(sendRequest, err);
         }

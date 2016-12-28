@@ -1,4 +1,6 @@
 import {Component} from '@angular/core';
+import {UpdateMockBuildCommand} from './commands/update-mock-build.command';
+import {BuildStatus} from "./models/buildStatus";
 
 @Component({
     template: `
@@ -36,14 +38,27 @@ import {Component} from '@angular/core';
 </form>
 
 <h2>Project #2</h2>
-<h2>Project #3</h2>
+<h2>Project #4</h2>
 `
 })
 export class MockServer {
-    constructor() {
+    constructor(private updateMockBuildCommand: UpdateMockBuildCommand) {
     }
 
     public send() {
-        alert('sending');
+        var buildStatus: BuildStatus = {
+            buildDefinitionId: 'Mock1',
+            buildId: new Date().getMilliseconds().toString(),
+            startedTime: new Date(),
+            buildStatusEnum: 2,
+            buildStatusMessage: 'What is this?',
+            comment: 'From the UI!!!',
+            finishedTime: new Date(),
+            localStartTime: new Date(),
+            name: 'Mock 1',
+            requestedBy: 'BobSmith',
+            url: 'http://www.google.com'
+        };
+        this.updateMockBuildCommand.execute(buildStatus);
     }
 }

@@ -27,7 +27,7 @@ export class GetCiEntryPointSettingCommand extends BaseCommand {
                 }
             };
             var sendRequest = {
-                type: 'getCiEntryPointSetting',
+                type: this.type,
                 id: id
             }
             this.serverService.send(sendRequest, err);

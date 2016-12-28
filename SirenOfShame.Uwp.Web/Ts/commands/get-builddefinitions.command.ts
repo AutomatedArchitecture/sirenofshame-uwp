@@ -28,7 +28,7 @@ export class GetBuildDefinitionsCommand extends BaseCommand {
                 }
             };
             var sendRequest = {
-                type: 'getBuildDefinitions',
+                type: this.type,
                 ciServer: ciEntryPointSetting
             }
             this.serverService.send(sendRequest, err);

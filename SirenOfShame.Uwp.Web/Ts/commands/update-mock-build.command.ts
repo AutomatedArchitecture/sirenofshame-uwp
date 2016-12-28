@@ -1,9 +1,10 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseCommand } from './base.command';
 import { ServerService } from '../server.service';
+import { BuildStatus } from "../models/buildStatus";
 
 @Injectable()
-export class EchoCommand extends BaseCommand
+export class UpdateMockBuildCommand extends BaseCommand
 {
     constructor(protected serverService: ServerService) {
         super(serverService);
@@ -12,17 +13,17 @@ export class EchoCommand extends BaseCommand
     }
 
     get type() {
-        return "echo";
+        return "updateMockBuild";
     }
 
     public response(data) { }
 
-    public echo(message: string): Promise<string> {
-        return new Promise<string>((resolve, err) => {
+    public execute(buildStatus: BuildStatus): Promise<boolean> {
+        return new Promise<boolean>((resolve, err) => {
             this.response = (message) => resolve(message.result);
             var sendRequest = {
                 type: this.type,
-                message: message
+                message: buildStatus
             };
             this.serverService.send(sendRequest, err);
         });

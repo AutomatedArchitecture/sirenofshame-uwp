@@ -13,15 +13,23 @@ namespace SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices
 
         protected override IList<BuildStatus> GetBuildStatus()
         {
-            return new List<BuildStatus>
+            return Builds;
+        }
+
+        public static void UpdateBuild(BuildStatus buildStatus)
+        {
+            // todo: find the correct build to update
+            Builds[0] = buildStatus;
+        }
+
+        private static IList<BuildStatus> Builds { get; set; } = new List<BuildStatus>
             {
                 GetBuildStatus(1),
                 GetBuildStatus(2),
                 GetBuildStatus(3)
             };
-        }
 
-        private BuildStatus GetBuildStatus(int id)
+        private static BuildStatus GetBuildStatus(int id)
         {
             DateTime? startedTime = new DateTime(2016, 12, 12, 9, 9 ,9);
             return new BuildStatus
