@@ -7,6 +7,7 @@ import {Home} from './home.component'
 import {ShowOff} from './show-off.component'
 import {Server} from './server.component'
 import {Settings} from './settings.component'
+import {MockServer} from './mock-server.component'
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import {Settings} from './settings.component'
         Home,
         ShowOff,
         Server,
-        Settings
+        Settings,
+        MockServer
     ],
     bootstrap: [AppComponent]
 })

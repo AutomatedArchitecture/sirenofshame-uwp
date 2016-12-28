@@ -4,6 +4,7 @@ import {ShowOff} from './show-off.component'
 import {Home} from './home.component'
 import {Server} from './server.component'
 import {Settings} from './settings.component'
+import {MockServer} from './mock-server.component'
 
 const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -11,7 +12,8 @@ const routes: Routes = [
     { path: 'showoff', component: ShowOff },
     { path: 'server', component: Server },
     { path: 'server/:id', component: Server },
-    { path: 'settings', component: Settings }
+    { path: 'settings', component: Settings },
+    { path: 'mockServer', component: MockServer }
 ];
 
 @NgModule({
