@@ -97,7 +97,7 @@ gulp.task('debug:copyts',
 gulp.task('watch', ['watch.ts', 'debug:copyts']);
 
 gulp.task('watch.ts', ['ts'], function () {
-    return gulp.watch('Ts/*.ts', ['ts']);
+    return gulp.watch('Ts/**/*.ts', ['ts']);
 });
 
 gulp.task('deploy:ts', function (done) {
