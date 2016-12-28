@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
@@ -7,6 +8,8 @@ namespace SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices
 {
     public class MockWatcher : WatcherBase
     {
+        private static readonly ILog _log = MyLogManager.GetLog(typeof(MockWatcher));
+
         public MockWatcher(SirenOfShameSettings settings) : base(settings)
         {
         }
@@ -18,8 +21,14 @@ namespace SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices
 
         public static void UpdateBuild(BuildStatus buildStatus)
         {
-            // todo: find the correct build to update
-            Builds[0] = buildStatus;
+            var build = Builds.FirstOrDefault(i => i.BuildDefinitionId == buildStatus.BuildDefinitionId);
+            if (build == null)
+            {
+                _log.Error("Unable to find build " + buildStatus.BuildId);
+                return;
+            }
+            var index = Builds.IndexOf(build);
+            Builds[index] = buildStatus;
         }
 
         private static IList<BuildStatus> Builds { get; set; } = new List<BuildStatus>

@@ -5,6 +5,7 @@ import {UpdateMockBuildCommand} from './update-mock-build.command';
 @Component({
     selector: 'mock-build',
     template: `
+<h2>{{buildStatus.name}}</h2>
 <form class="form-horizontal" novalidate #serverForm="ngForm" (ngSubmit)="send()">
   <div class="form-group">
     <label for="inputStatus" class="col-sm-2 control-label">Status</label>
