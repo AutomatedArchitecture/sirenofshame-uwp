@@ -61,7 +61,7 @@ namespace SirenOfShame.Uwp.Web
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            var pages = new List<string> {"showoff", "server", "settings"};
+            var pages = new List<string> {"showoff", "server", "settings", "mockServer"};
 
             app.UseMvc(routes =>
             {
