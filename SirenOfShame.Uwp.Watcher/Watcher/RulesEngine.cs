@@ -504,8 +504,12 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private void AddAnyNewPeopleToSettings(IEnumerable<BuildStatus> changedBuildStatuses)
         {
+            var buildDefinitionSettings = _settings.CiEntryPointSettings
+                .SelectMany(i => i.BuildDefinitionSettings)
+                .ToList();
+
             var buildStatusesWithNewPeople = from buildStatus in changedBuildStatuses
-                                             join setting in _settings.CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings) on buildStatus.BuildDefinitionId equals setting.Id
+                                             join setting in buildDefinitionSettings on buildStatus.BuildDefinitionId equals setting.Id
                                              where !setting.ContainsPerson(buildStatus)
                                                 && !string.IsNullOrEmpty(buildStatus.RequestedBy)
                                              select new { buildStatus, setting };
@@ -516,8 +520,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 .ToList();
             if (!buildStatusesWithNewPeopleList.Any()) return;
 
-            var allExistingPeople = _settings.CiEntryPointSettings
-                .SelectMany(eps => eps.BuildDefinitionSettings)
+            var allExistingPeople = buildDefinitionSettings
                 .SelectMany(bds => bds.People)
                 .Distinct().ToList();
             var newPeople = buildStatusesWithNewPeopleList

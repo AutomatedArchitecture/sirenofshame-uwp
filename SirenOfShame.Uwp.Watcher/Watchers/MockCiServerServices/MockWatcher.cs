@@ -32,15 +32,20 @@ namespace SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices
         }
 
         private static IList<BuildStatus> Builds { get; set; } = new List<BuildStatus>
-            {
-                GetBuildStatus(1),
-                GetBuildStatus(2),
-                GetBuildStatus(3)
-            };
+        {
+            GetBuildStatus(1),
+            GetBuildStatus(2),
+            GetBuildStatus(3)
+        };
+
+        public static IEnumerable<MockBuildDefinition> GetBuildDefinitions()
+        {
+            return Builds.Select(b => new MockBuildDefinition(b.BuildDefinitionId, b.Name));
+        }
 
         private static BuildStatus GetBuildStatus(int id)
         {
-            DateTime? startedTime = new DateTime(2016, 12, 12, 9, 9 ,9);
+            DateTime? startedTime = new DateTime(2016, 12, 12, 9, 9, 9);
             return new BuildStatus
             {
                 Name = "Mock " + id,
@@ -57,12 +62,12 @@ namespace SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices
 
         public override void StopWatching()
         {
-            
+
         }
 
         public override void Dispose()
         {
-            
+
         }
     }
 }
