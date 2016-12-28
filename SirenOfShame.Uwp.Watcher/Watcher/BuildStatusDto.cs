@@ -124,8 +124,8 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         public void SetDisplayName(SirenOfShameSettings settings)
         {
-            //var person = settings.FindAddPerson(RequestedByRawName);
-            //RequestedByDisplayName = person == null ? RequestedByRawName : person.DisplayName;
+            var person = settings.FindAddPerson(RequestedByRawName);
+            RequestedByDisplayName = person == null ? RequestedByRawName : person.DisplayName;
         }
 
         public void Update(BuildStatusDto newBd)
