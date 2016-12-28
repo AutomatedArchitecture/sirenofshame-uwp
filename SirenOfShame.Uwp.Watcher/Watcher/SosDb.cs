@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Watcher.Watcher
@@ -110,10 +111,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 .ToList();
         }
 
-        //protected virtual FileAdapter FileAdapter
-        //{
-        //    get { return new FileAdapter(); }
-        //}
+        protected virtual FileAdapter FileAdapter
+        {
+            get { return new FileAdapter(); }
+        }
 
         private IEnumerable<BuildStatus> ReadAllInternal(BuildDefinitionSetting buildDefinitionSetting)
         {
