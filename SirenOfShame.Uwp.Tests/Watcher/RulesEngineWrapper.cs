@@ -54,10 +54,10 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.NewAchievement += (sender, arg) => NewAchievementEvents.Add(arg);
             _rulesEngine.NewNewsItem += (sender, arg) => NewNewsItemEvents.Add(arg);
             _rulesEngine.NewUser += (sender, arg) => NewUserEvents.Add(arg);
+            _rulesEngine.StatsChanged += (sender, arg) => StatsChangedEvents.Add(arg);
 
             _rulesEngine.Start(initialStart: true);
         }
-
 
         private readonly FakeRulesEngine _rulesEngine;
 
@@ -75,6 +75,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<NewAchievementEventArgs> NewAchievementEvents { get; private set; }
         public List<NewNewsItemEventArgs> NewNewsItemEvents { get; private set; }
         public List<NewUserEventArgs> NewUserEvents { get; private set; }
+        public List<StatsChangedEventArgs> StatsChangedEvents { get; set; } = new List<StatsChangedEventArgs>();
 
         public SosDbFake SosDb
         {

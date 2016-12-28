@@ -88,6 +88,16 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
+        public void NewChecking_StatsChanged()
+        {
+            var rulesEngineWrapper = new RulesEngineWrapper();
+            rulesEngineWrapper.InvokeStatusChecked(BuildStatusEnum.Working);
+            Assert.AreEqual(1, rulesEngineWrapper.StatsChangedEvents.Count);
+            Assert.AreEqual(1, rulesEngineWrapper.StatsChangedEvents[0].ChangedBuildStatuses.Count);
+            Assert.AreEqual(1, rulesEngineWrapper.StatsChangedEvents[0].ChangedPeople.Count);
+        }
+
+        [Test]
         public void NewUser_NewUserEvent()
         {
             var rulesEngine = new RulesEngineWrapper();

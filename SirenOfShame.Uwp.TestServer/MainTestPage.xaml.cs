@@ -83,20 +83,20 @@ namespace SirenOfShame.Uwp.TestServer
 
         private async void RulesEngineOnStatsChanged(object sender, StatsChangedEventArgs args)
         {
-            //var argsAsJson = JsonConvert.SerializeObject(args);
-            //await _messageRelayService.Send("StatsChanged", argsAsJson);
+            var argsAsJson = JsonConvert.SerializeObject(args);
+            await _messageRelayService.Send("StatsChanged", argsAsJson);
         }
 
         private async void RulesEngineOnNewUser(object sender, NewUserEventArgs args)
         {
-            //var argsAsJson = JsonConvert.SerializeObject(args);
-            //await _messageRelayService.Send("NewUser", argsAsJson);
+            var argsAsJson = JsonConvert.SerializeObject(args);
+            await _messageRelayService.Send("NewUser", argsAsJson);
         }
 
         private async void RulesEngineOnNewNewsItem(object sender, NewNewsItemEventArgs args)
         {
-            //var argsAsJson = JsonConvert.SerializeObject(args);
-            //await _messageRelayService.Send("NewNewsItem", argsAsJson);
+            var argsAsJson = JsonConvert.SerializeObject(args);
+            await _messageRelayService.Send("NewNewsItem", argsAsJson);
         }
 
         private async void RulesEngineOnRefreshStatus(object sender, RefreshStatusEventArgs args)

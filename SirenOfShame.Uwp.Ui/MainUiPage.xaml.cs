@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using SirenOfShame.Uwp.Ui.Helpers;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
@@ -61,12 +60,12 @@ namespace SirenOfShame.Uwp.Ui
             }
         }
 
-        private async void MessageDistributorServiceOnStatsChanged(object sender, PersonSetting[] args)
+        private async void MessageDistributorServiceOnStatsChanged(object sender, StatsChangedEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 var leaderPairs = from oldLeader in ViewModel.Leaders
-                    join newLeader in args on oldLeader.RawName equals newLeader.RawName
+                    join newLeader in args.ChangedPeople on oldLeader.RawName equals newLeader.RawName
                     select new {oldLeader, newLeader};
                 foreach (var leaderPair in leaderPairs)
                 {

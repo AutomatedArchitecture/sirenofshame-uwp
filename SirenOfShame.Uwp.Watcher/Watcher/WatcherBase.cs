@@ -67,7 +67,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                     if (token.IsCancellationRequested) break;
                     GetBuildStatusAndFireEvents();
                     if (token.IsCancellationRequested) break;
-                    await Task.Delay(Settings.PollInterval*1000);
+                    await Task.Delay(Settings.PollInterval*1000, token);
                 }
                 _log.Debug("Stopped watching build status");
                 StopWatching();

@@ -345,7 +345,16 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var statsChanged = StatsChanged;
             if (statsChanged == null) return;
-            statsChanged(this, new StatsChangedEventArgs { ChangedBuildStatuses = changedBuildStatuses });
+            var changedPeople = from changedBuildStatus in changedBuildStatuses
+                join person in _settings.VisiblePeople on changedBuildStatus.RequestedBy equals person.RawName
+                select person;
+            var uniqueChangedPeople = changedPeople.GroupBy(p => p.RawName).Select(i => i.First()).ToList();
+
+            statsChanged(this, new StatsChangedEventArgs
+            {
+                ChangedBuildStatuses = changedBuildStatuses,
+                ChangedPeople = uniqueChangedPeople
+            });
         }
 
         private void InvokeRefreshStatus(IEnumerable<BuildStatus> buildStatuses)

@@ -16,7 +16,7 @@ namespace SirenOfShame.Uwp.Ui.Services
         public event EventHandler<NewNewsItemEventArgs> NewNewsItem;
         public event EventHandler<PersonSetting> NewPerson;
         public event EventHandler<RefreshStatusEventArgs> RefreshStatus;
-        public event EventHandler<PersonSetting[]> StatsChanged;
+        public event EventHandler<StatsChangedEventArgs> StatsChanged;
 
         public void StartWatching()
         {
@@ -56,7 +56,7 @@ namespace SirenOfShame.Uwp.Ui.Services
                 }
                 if (keyValuePair.Key == "StatsChanged")
                 {
-                    var result = JsonConvert.DeserializeObject<PersonSetting[]>(messageBody);
+                    var result = JsonConvert.DeserializeObject<StatsChangedEventArgs>(messageBody);
                     StatsChanged?.Invoke(this, result);
                     return;
                 }
