@@ -31,17 +31,27 @@ namespace SirenOfShame.Uwp.Server.Services
             return _settingsCache;
         }
 
+        private SemaphoreSlim _lock = new SemaphoreSlim(1);
+
         private async Task<SirenOfShameSettings> GetAppSettingsFromDiskOrDefault()
         {
             var sosFolder = await GetSosAppDataFolder();
             var configFile = await sosFolder.TryGetItemAsync(SirenOfShameSettings.SIRENOFSHAME_CONFIG);
             if (configFile != null)
             {
-                using (var fileStream = new FileStream(configFile.Path, FileMode.Open))
-                using (var streamReader = new StreamReader(fileStream))
+                await _lock.WaitAsync();
+                try
                 {
-                    var contents = await streamReader.ReadToEndAsync();
-                    return JsonConvert.DeserializeObject<SirenOfShameSettings>(contents);
+                    using (var fileStream = new FileStream(configFile.Path, FileMode.Open))
+                    using (var streamReader = new StreamReader(fileStream))
+                    {
+                        var contents = await streamReader.ReadToEndAsync();
+                        return JsonConvert.DeserializeObject<SirenOfShameSettings>(contents);
+                    }
+                }
+                finally
+                {
+                    _lock.Release();
                 }
             }
 
