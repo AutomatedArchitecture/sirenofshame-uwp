@@ -110,7 +110,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         public void Start()
         {
-            _rulesEngine.Start(initialStart: true);
+            _rulesEngine.Start(initialStart: true).Wait();
         }
 
         public void InvokeStatusChecked(BuildStatusEnum status)
