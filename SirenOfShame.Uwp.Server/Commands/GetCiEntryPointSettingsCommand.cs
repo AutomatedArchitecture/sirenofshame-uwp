@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
-using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
@@ -12,8 +11,8 @@ namespace SirenOfShame.Uwp.Server.Commands
         public override string CommandName => "getCiEntryPointSettings";
         public override async Task<SocketResult> Invoke(string frame)
         {
-            var sosService = ServiceContainer.Resolve<SirenOfShameSettingsService>();
-            var sirenOfShameSettings = await sosService.GetAppSettings();
+            await Task.Yield();
+            var sirenOfShameSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
             return new GetCiEntryPointSettingsResult(sirenOfShameSettings.CiEntryPointSettings);
         }
     }

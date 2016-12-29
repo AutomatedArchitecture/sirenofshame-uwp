@@ -26,5 +26,20 @@ namespace SirenOfShame.Uwp.Ui.Services
         {
             throw new NotImplementedException();
         }
+
+        public Task<string> ReadTextAsync(string location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(string location)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task WriteTextAsync(string location, string contents)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

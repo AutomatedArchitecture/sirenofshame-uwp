@@ -9,5 +9,8 @@ namespace SirenOfShame.Lib.Watcher
         Task<bool> Exists(string location);
         Task<IEnumerable<string>> ReadAllLines(string location);
         Task<IEnumerable<string>> GetFiles(string fileExtension);
+        Task<string> ReadTextAsync(string location);
+        Task DeleteAsync(string location);
+        Task WriteTextAsync(string location, string contents);
     }
 }

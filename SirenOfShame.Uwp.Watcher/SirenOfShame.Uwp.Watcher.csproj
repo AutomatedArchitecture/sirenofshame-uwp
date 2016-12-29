@@ -75,6 +75,8 @@
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Helpers\XElementHelpers.cs" />
     <Compile Include="Services\ServiceContainer.cs" />
+    <Compile Include="Services\StartManagerBase.cs" />
+    <Compile Include="Settings\SettingsIoService.cs" />
     <Compile Include="Watchers\HudsonServices\HudsonBuildDefinition.cs" />
     <Compile Include="Watchers\HudsonServices\HudsonBuildStatus.cs" />
     <Compile Include="Watchers\HudsonServices\HudsonCIEntryPoint.cs" />

@@ -101,12 +101,12 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             if (handler != null) handler(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title });
         }
 
-        public RulesEngine(SirenOfShameSettings settings)
+        public RulesEngine()
         {
             DisableSosOnline = false;
             DisableWritingToSosDb = false;
             ResetPreviousWorkingOrBrokenStatuses();
-            _settings = settings;
+            _settings = ServiceContainer.Resolve<SirenOfShameSettings>();
             _timer = new Timer(TimerTick, null, 0, 1000);
         }
 

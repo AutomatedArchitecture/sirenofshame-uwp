@@ -31,12 +31,14 @@ namespace SirenOfShame.Test.Unit.Watcher
             NewUserEvents = new List<NewUserEventArgs>();
 
             Settings = new SirenOfShameSettingsFake();
+            ServiceContainer.Register<SirenOfShameSettings>(() => Settings);
+
             CiEntryPointSetting = new CiEntryPointSettingFake(Settings);
             Settings.CiEntryPointSettings.Add(CiEntryPointSetting);
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1" });
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2" });
 
-            _rulesEngine = new FakeRulesEngine(Settings);
+            _rulesEngine = new FakeRulesEngine();
 
             _rulesEngine.TrayNotify += (sender, arg) => TrayNotificationEvents.Add(arg);
             _rulesEngine.SetTrayIcon += (sender, arg) => SetTrayIconEvents.Add(arg);

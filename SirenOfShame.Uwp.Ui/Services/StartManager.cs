@@ -3,15 +3,11 @@ using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
-    public class StartManager
+    public class StartManager : StartManagerBase
     {
-        public void Configure()
+        protected override void RegisterServices()
         {
-            RegisterServices();
-        }
-
-        private void RegisterServices()
-        {
+            base.RegisterServices();
             ServiceContainer.Register(() => new MessageRelayService());
             ServiceContainer.Register(() => new MessageDistributorService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());

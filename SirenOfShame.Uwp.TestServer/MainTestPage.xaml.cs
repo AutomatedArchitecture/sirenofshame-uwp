@@ -26,7 +26,6 @@ namespace SirenOfShame.Uwp.TestServer
         private readonly StartManager _startManager = new StartManager();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainTestPage));
         private MessageRelayService _messageRelayService;
-        private readonly SirenOfShameSettingsService _sosSettings = ServiceContainer.Resolve<SirenOfShameSettingsService>();
 
         public MainTestPage()
         {
@@ -73,9 +72,8 @@ namespace SirenOfShame.Uwp.TestServer
 
         private async Task StartCiWatcher()
         {
-            var sosSettings = await _sosSettings.GetAppSettings();
-            _rulesEngine = new RulesEngine(sosSettings);
-            _rulesEngine.Start(true);
+            _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
+            await _rulesEngine.Start(true);
             _rulesEngine.SetLights += RulesEngineOnSetLights;
             _rulesEngine.RefreshStatus += RulesEngineOnRefreshStatus;
             _rulesEngine.NewNewsItem += RulesEngineOnNewNewsItem;

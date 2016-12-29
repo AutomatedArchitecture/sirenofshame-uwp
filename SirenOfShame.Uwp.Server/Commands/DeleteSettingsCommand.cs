@@ -2,22 +2,27 @@
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
     internal class DeleteSettingsCommand : CommandBase
     {
-        private readonly SirenOfShameSettingsService _sirenOfShameSettingsService;
+        private readonly SettingsIoService _settingsService;
+        private readonly RulesEngine _rulesEngine;
 
         public DeleteSettingsCommand()
         {
-            _sirenOfShameSettingsService = ServiceContainer.Resolve<SirenOfShameSettingsService>();
+            _settingsService = ServiceContainer.Resolve<SettingsIoService>();
+            _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
         }
 
         public override string CommandName => "delete-settings";
         public override async Task<SocketResult> Invoke(string frame)
         {
-            await _sirenOfShameSettingsService.DeleteSettings();
+            await _settingsService.DeleteSettings();
+            _rulesEngine.RefreshAll();
             return new OkSocketResult();
         }
     }

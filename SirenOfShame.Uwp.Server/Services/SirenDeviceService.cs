@@ -6,6 +6,7 @@ using Windows.Foundation.Metadata;
 using SirenOfShame.Device;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
@@ -13,7 +14,7 @@ namespace SirenOfShame.Uwp.Server.Services
     {
         private readonly SirenOfShameDevice _device;
         private readonly ILog _log = MyLogManager.GetLog(typeof(SirenDeviceService));
-        private SirenOfShameSettingsService _sosSettings = ServiceContainer.Resolve<SirenOfShameSettingsService>();
+        private SettingsIoService _settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
 
         public SirenDeviceService()
         {
@@ -31,7 +32,7 @@ namespace SirenOfShame.Uwp.Server.Services
         {
             _log.Debug("Device Connected");
 
-            var settings = await _sosSettings.GetAppSettings();
+            var settings = ServiceContainer.Resolve<SirenOfShameSettings>();
             bool firstTimeSirenHasEverBeenConnected = !settings.SirenEverConnected;
             if (firstTimeSirenHasEverBeenConnected)
             {
@@ -39,7 +40,7 @@ namespace SirenOfShame.Uwp.Server.Services
                 var firstLedPattern = ToDeviceLedPatten(_device.LedPatterns.First());
                 var firstAudioPattern = ToDeviceAudioPatten(_device.AudioPatterns.First());
                 settings.InitializeRulesForConnectedSiren(firstAudioPattern, firstLedPattern);
-                await _sosSettings.Save(settings);
+                await _settingsIoService.Save();
             }
 
             //EnableSirenMenuItem(true);

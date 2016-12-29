@@ -43,5 +43,20 @@ namespace SirenOfShame.Test.Unit.Watcher
                 .Where(i => i.Key.Split('.').LastOrDefault() == fileExtension)
                 .Select(i => i.Value);
         }
+
+        public Task<string> ReadTextAsync(string location)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task DeleteAsync(string location)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task WriteTextAsync(string location, string contents)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

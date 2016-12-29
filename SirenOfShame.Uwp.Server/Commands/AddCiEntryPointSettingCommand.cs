@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
-using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
@@ -14,11 +14,11 @@ namespace SirenOfShame.Uwp.Server.Commands
 
     internal class AddCiEntryPointSettingCommand : CommandBase
     {
-        private readonly SirenOfShameSettingsService _sosService;
+        private readonly RulesEngine _rulesEngine;
 
         public AddCiEntryPointSettingCommand()
         {
-            _sosService = ServiceContainer.Resolve<SirenOfShameSettingsService>();
+            _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
         }
 
         public override string CommandName => "addCiEntryPointSetting";
@@ -26,7 +26,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         {
             var request = Deserialize<AddCiEntryPointSettingRequest>(frame);
 
-            var appSettings = await _sosService.GetAppSettings();
+            var appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
 
             foreach (var buildDefinitionSetting in request.CiEntryPointSetting.BuildDefinitionSettings)
             {
@@ -48,7 +48,9 @@ namespace SirenOfShame.Uwp.Server.Commands
                 existingRecord.Url = request.CiEntryPointSetting.Url;
                 existingRecord.BuildDefinitionSettings = request.CiEntryPointSetting.BuildDefinitionSettings;
             }
-            await _sosService.Save(appSettings);
+            var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
+            await settingsIoService.Save();
+            _rulesEngine.RefreshAll();
             return new OkSocketResult
             {
                 Result = request.CiEntryPointSetting.Id

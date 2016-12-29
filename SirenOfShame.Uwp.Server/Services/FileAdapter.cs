@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
@@ -19,6 +21,16 @@ namespace SirenOfShame.Uwp.Server.Services
             await FileIO.AppendTextAsync(storageFile, contents);
         }
 
+        public async Task WriteTextAsync(string location, string contents)
+        {
+            if (!await Exists(location))
+            {
+                await ApplicationData.Current.LocalFolder.CreateFileAsync(location);
+            }
+            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(location);
+            await FileIO.WriteTextAsync(storageFile, contents);
+        }
+
         public async Task<bool> Exists(string location)
         {
             var files = await ApplicationData.Current.LocalFolder.GetFilesAsync();
@@ -31,12 +43,24 @@ namespace SirenOfShame.Uwp.Server.Services
             return await FileIO.ReadLinesAsync(storageFile);
         }
 
+        public async Task<string> ReadTextAsync(string location)
+        {
+            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(location);
+            return await FileIO.ReadTextAsync(storageFile);
+        }
+
         public async Task<IEnumerable<string>> GetFiles(string fileExtension)
         {
             var readOnlyList = await ApplicationData.Current.LocalFolder.GetFilesAsync();
             return readOnlyList
                 .Where(i => i.Name.Split('.').LastOrDefault() == fileExtension)
                 .Select(i => i.Name);
+        }
+
+        public async Task DeleteAsync(string location)
+        {
+            var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(location);
+            await storageFile.DeleteAsync();
         }
     }
 }

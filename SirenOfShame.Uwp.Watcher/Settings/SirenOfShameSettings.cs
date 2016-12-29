@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Xml.Serialization;
+using Newtonsoft.Json;
+using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.HudsonServices;
@@ -28,13 +31,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         private static int? _currentVersion;
         public const float DEFAULT_FONT_SIZE = 8.25f;
 
-        private static readonly List<Rule> _defaultRules = new List<Rule>{
-            new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = SoundService.NEW_RESOURCE_PREFIX + "Plunk.wav" },
-            new Rule { TriggerType = TriggerType.InitialFailedBuild, AlertType = AlertType.ModalDialog, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation  = SoundService.NEW_RESOURCE_PREFIX + "Sad-Trombone.wav" },
-            new Rule { TriggerType = TriggerType.SubsequentFailedBuild, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = SoundService.NEW_RESOURCE_PREFIX + "Boo-Hiss.wav" },
-            new Rule { TriggerType = TriggerType.SuccessfulBuild, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = null },
-        };
-
         //private static readonly UpgradeBase[] _upgrades =
         //{
         //    new Upgrade0To1(),
@@ -54,9 +50,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    Save();
         //}
 
-        public SirenOfShameSettings() : this(true) { }
-
-        public SirenOfShameSettings(bool useMef)
+        protected internal SirenOfShameSettings()
         {
             //if (useMef)
             //    IocContainer.Instance.Compose(this);
@@ -89,8 +83,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public DateTime? LastCheckedForAlert { get; set; }
 
         public List<Rule> Rules { get; set; }
-
-        public const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
 
         public int Pattern { get; set; }
 
@@ -319,15 +311,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    if (CiEntryPointSettings.SelectMany(i => i.BuildDefinitionSettings).Any(bds => string.IsNullOrEmpty(bds.BuildServer)))
         //        throw new Exception("A BuildDefinitionSetting.BuildServer was null or empty");
         //}
-
-        public static SirenOfShameSettings GetDefaultSettings()
-        {
-            return new SirenOfShameSettings
-            {
-                Rules = _defaultRules,
-                PollInterval = 5
-            };
-        }
 
         //public Rule FindRule(TriggerType triggerType, string id, string triggerPerson)
         //{
