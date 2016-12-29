@@ -11,6 +11,10 @@ namespace SirenOfShame.Uwp.Server.Services
     {
         public async Task AppendAllText(string location, string contents)
         {
+            if (!await Exists(location))
+            {
+                await ApplicationData.Current.LocalFolder.CreateFileAsync(location);
+            }
             var storageFile = await ApplicationData.Current.LocalFolder.GetFileAsync(location);
             await FileIO.AppendTextAsync(storageFile, contents);
         }
