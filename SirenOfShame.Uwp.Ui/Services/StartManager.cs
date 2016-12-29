@@ -1,4 +1,5 @@
-﻿using SirenOfShame.Uwp.Watcher.Services;
+﻿using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
@@ -13,6 +14,7 @@ namespace SirenOfShame.Uwp.Ui.Services
         {
             ServiceContainer.Register(() => new MessageRelayService());
             ServiceContainer.Register(() => new MessageDistributorService());
+            ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
         }
     }
 }
