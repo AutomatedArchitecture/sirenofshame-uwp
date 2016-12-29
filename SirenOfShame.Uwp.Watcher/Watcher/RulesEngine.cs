@@ -179,7 +179,8 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 InvokeRefreshStatusIfAnythingChanged(allBuildStatuses, changedBuildStatuses);
                 AddAnyNewPeopleToSettings(changedBuildStatuses);
                 UpdateBuildNamesInSettingsIfAnyChanged(changedBuildStatuses);
-                var changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
+                var changedBuildStatusesAndTheirPreviousState =
+                    GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
                 FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
                 WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
                 await NotifyIfNewAchievements(changedBuildStatuses);
@@ -187,6 +188,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 await SyncNewBuildsToSos(changedBuildStatuses);
                 InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
                 CacheBuildStatuses(changedBuildStatuses);
+            }
+            catch (Exception ex)
+            {
+                // log and continue?
+                _log.Error("Error in Watcher", ex);
             }
             finally
             {
