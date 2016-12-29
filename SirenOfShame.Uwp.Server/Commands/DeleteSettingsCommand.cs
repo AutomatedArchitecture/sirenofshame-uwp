@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
@@ -10,7 +11,7 @@ namespace SirenOfShame.Uwp.Server.Commands
 
         public DeleteSettingsCommand()
         {
-            _sirenOfShameSettingsService = SirenOfShameSettingsService.Instance;
+            _sirenOfShameSettingsService = ServiceContainer.Resolve<SirenOfShameSettingsService>();
         }
 
         public override string CommandName => "delete-settings";

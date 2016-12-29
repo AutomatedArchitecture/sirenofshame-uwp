@@ -2,17 +2,18 @@
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
     internal class GetCiEntryPointSettingCommand : CommandBase
     {
-        private SirenOfShameSettingsService _sosService;
+        private readonly SirenOfShameSettingsService _sosService;
 
         public GetCiEntryPointSettingCommand()
         {
-            _sosService = SirenOfShameSettingsService.Instance;
+            _sosService = ServiceContainer.Resolve<SirenOfShameSettingsService>();
         }
 
         public override string CommandName => "getCiEntryPointSetting";

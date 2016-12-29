@@ -213,14 +213,16 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         [XmlIgnore]
         public bool ShowUpgradeWindowAtNextOpportunity { get; set; }
 
-        public virtual void Save()
+        public virtual void Dirty()
         {
+            _dirty = true;
             // todo: How to Save()?
             //string fileName = GetConfigFileName();
             //Save(fileName);
         }
 
         private readonly object _lock = new object();
+        private bool _dirty;
 
         //public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
 
@@ -394,7 +396,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
                 AvatarId = People.Count % avatarCount
             };
             People.Add(person);
-            Save();
+            Dirty();
             return person;
         }
 
@@ -419,7 +421,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
                 .FirstOrDefault(i => i.Id == changedBuildStatus.BuildDefinitionId && i.Name != changedBuildStatus.Name);
             if (changedName == null) return;
             changedName.Name = changedBuildStatus.Name;
-            Save();
+            Dirty();
         }
 
         public bool BuildExistsAndIsActive(string ciEntryPointName, string buildName)

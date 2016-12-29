@@ -10,7 +10,6 @@ namespace SirenOfShame.Uwp.Server.Services
 {
     public class SirenOfShameSettingsService
     {
-        public static SirenOfShameSettingsService Instance = new SirenOfShameSettingsService();
         private SirenOfShameSettings _settingsCache;
 
         public async Task<StorageFolder> GetSosAppDataFolder()

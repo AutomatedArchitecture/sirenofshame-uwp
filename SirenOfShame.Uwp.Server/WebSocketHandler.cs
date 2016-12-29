@@ -24,8 +24,8 @@ namespace SirenOfShame.Uwp.Server
             _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
-            _sirenDeviceService.Device.Connected += DeviceOnConnected;
-            _sirenDeviceService.Device.Disconnected += DeviceOnDisconnected;
+            _sirenDeviceService.Connected += DeviceOnConnected;
+            _sirenDeviceService.Disconnected += DeviceOnDisconnected;
             _messageRelayService.MessageReceived += MessageRelayServiceMessageReceived;
         }
 

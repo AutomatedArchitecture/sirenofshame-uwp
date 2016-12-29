@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using SirenOfShame.Device;
 using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
@@ -12,6 +13,7 @@ namespace SirenOfShame.Uwp.Server.Services
     {
         private readonly SirenOfShameDevice _device;
         private readonly ILog _log = MyLogManager.GetLog(typeof(SirenDeviceService));
+        private SirenOfShameSettingsService _sosSettings = ServiceContainer.Resolve<SirenOfShameSettingsService>();
 
         public SirenDeviceService()
         {
@@ -29,7 +31,7 @@ namespace SirenOfShame.Uwp.Server.Services
         {
             _log.Debug("Device Connected");
 
-            var settings = await SirenOfShameSettingsService.Instance.GetAppSettings();
+            var settings = await _sosSettings.GetAppSettings();
             bool firstTimeSirenHasEverBeenConnected = !settings.SirenEverConnected;
             if (firstTimeSirenHasEverBeenConnected)
             {
@@ -37,7 +39,7 @@ namespace SirenOfShame.Uwp.Server.Services
                 var firstLedPattern = ToDeviceLedPatten(_device.LedPatterns.First());
                 var firstAudioPattern = ToDeviceAudioPatten(_device.AudioPatterns.First());
                 settings.InitializeRulesForConnectedSiren(firstAudioPattern, firstLedPattern);
-                await SirenOfShameSettingsService.Instance.Save(settings);
+                await _sosSettings.Save(settings);
             }
 
             //EnableSirenMenuItem(true);
@@ -49,6 +51,17 @@ namespace SirenOfShame.Uwp.Server.Services
         public bool IsConnected => _device.IsConnected;
         public List<AudioPattern> AudioPatterns => _device.AudioPatterns;
         public List<LedPattern> LedPatterns => _device.LedPatterns;
+        public event EventHandler Connected
+        {
+            add { _device.Connected += value; }
+            remove { _device.Connected -= value; }
+        }
+
+        public event EventHandler Disconnected
+        {
+            add { _device.Disconnected += value; }
+            remove { _device.Disconnected -= value; }
+        }
 
         public void StartWatching() => _device.StartWatching();
 

@@ -46,7 +46,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 personSetting.FailedBuilds++;
             }
             personSetting.TotalBuilds++;
-            settings.Save();
+            settings.Dirty();
         }
 
         private void AppendToFile(BuildStatus buildStatus)

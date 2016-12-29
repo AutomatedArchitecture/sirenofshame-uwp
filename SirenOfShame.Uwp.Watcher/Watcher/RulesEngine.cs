@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Watcher.Device;
-using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.Helpers;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
@@ -465,7 +464,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                                                  Person = person,
                                                  Build = changedBuildStatus
                                              };
-            
+
             foreach (var personWithNewChange in visiblePeopleWithNewChanges)
             {
                 var newAchievements = await personWithNewChange.Person.CalculateNewAchievements(_settings, personWithNewChange.Build);
@@ -475,9 +474,9 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                     personWithNewChange.Person.AddAchievements(achievements);
                     InvokeNewAchievement(personWithNewChange.Person, achievements);
                 }
+                // this is required because achievements often write to settings e.g. cumulative build time
+                _settings.Dirty();
             }
-            // this is required because achievements often write to settings e.g. cumulative build time
-            _settings.Save();
         }
 
         private static BuildStatusEnum? TryGetBuildStatus(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
@@ -538,14 +537,16 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
             var allExistingPeople = buildDefinitionSettings
                 .SelectMany(bds => bds.People)
-                .Distinct().ToList();
+                .Distinct()
+                .ToList();
             var newPeople = buildStatusesWithNewPeopleList
                 .Select(s => s.buildStatus.RequestedBy)
-                .Where(p => allExistingPeople.All(p1 => p1 != p)).ToList();
+                .Where(p => allExistingPeople.All(p1 => p1 != p))
+                .ToList();
 
             buildStatusesWithNewPeopleList
                 .ForEach(bss => bss.setting.People.Add(bss.buildStatus.RequestedBy));
-            _settings.Save();
+            _settings.Dirty();
 
             newPeople.ForEach(InvokeNewUser);
         }
@@ -621,7 +622,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 return;
             }
             args.BuildDefinitionSetting.Active = false;
-            _settings.Save();
+            _settings.Dirty();
             InvokeTrayNotify(SosToolTipIcon.Error, "Can't Find " + args.BuildDefinitionSetting.Name, "This build will be removed from the list of watched builds.\nYou may add it back from the 'Configure CI Server' button.");
         }
 
@@ -649,17 +650,18 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             _watcherCancellationToken.Cancel();
         }
 
-        public void SyncAllBuildStatuses()
-        {
-            if (DisableSosOnline) return;
-            if (_settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses)
-            {
-                _sosOnlineService.BuildStatusChanged(
-                    _settings,
-                    PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList(),
-                    _settings.People.Select(i => new InstanceUserDto(i)).ToList()
-                    );
-            }
-        }
+        // todo: implement sos online
+        //public void SyncAllBuildStatuses()
+        //{
+        //    if (DisableSosOnline) return;
+        //    if (_settings.SosOnlineWhatToSync == WhatToSyncEnum.BuildStatuses)
+        //    {
+        //        _sosOnlineService.BuildStatusChanged(
+        //            _settings,
+        //            PreviousWorkingOrBrokenBuildStatus.Select(i => i.Value).ToList(),
+        //            _settings.People.Select(i => new InstanceUserDto(i)).ToList()
+        //            );
+        //    }
+        //}
     }
 }

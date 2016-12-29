@@ -7,7 +7,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
         }
 
-        public override void Save()
+        public override void Dirty()
         {
             // do nothing
         }
