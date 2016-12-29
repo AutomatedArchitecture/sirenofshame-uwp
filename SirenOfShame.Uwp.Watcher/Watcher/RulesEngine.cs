@@ -113,7 +113,12 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private bool _serverPreviouslyUnavailable;
 
-        private async void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
+        private void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
+        {
+            BuildWatcherServerUnavailableAsync(args).Wait();
+        }
+
+        private async Task BuildWatcherServerUnavailableAsync(ServerUnavailableEventArgs args)
         {
             InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect", args.Exception);
             await SetStatusUnknown();
@@ -219,12 +224,14 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private void InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
         {
-            changedBuildStatuses
+            var newNewsItemEventArgses = changedBuildStatuses
                 .Where(i => i.PreviousWorkingOrBrokenBuildStatus != null && !string.IsNullOrEmpty(i.ChangedBuildStatus.RequestedBy))
 // ReSharper disable PossibleInvalidOperationException
                 .Select(i => i.ChangedBuildStatus.AsNewsItemEventArgs(i.PreviousWorkingOrBrokenBuildStatus.Value, _settings))
 // ReSharper restore PossibleInvalidOperationException
-                .ToList()
+                .ToList();
+
+            newNewsItemEventArgses
                 .ForEach(i => InvokeNewNewsItem(i, newsIsBothLocalAndNew: true));
         }
 
