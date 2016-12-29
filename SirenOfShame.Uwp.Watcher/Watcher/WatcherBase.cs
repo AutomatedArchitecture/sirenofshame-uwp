@@ -30,8 +30,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         protected void InvokeStatusChecked(IList<BuildStatus> args)
         {
-            var e = StatusChecked;
-            if (e != null) e(this, new StatusCheckedEventArgsArgs
+            StatusChecked?.Invoke(this, new StatusCheckedEventArgsArgs
             {
                 BuildStatuses = args
             });

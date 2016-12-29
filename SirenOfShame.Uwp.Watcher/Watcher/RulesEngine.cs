@@ -150,9 +150,12 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
         }
 
-        private async void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
+        private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
-            await ExecuteNewBuilds(args.BuildStatuses);
+            // .Wait() rather than async void so that we can ensure it runs to completion
+            //      before the polling does a 2nd check, possibly resuling in calling 
+            //      ExecuteNewBuilds simultaneously
+            ExecuteNewBuilds(args.BuildStatuses).Wait();
         }
 
         private void StoppedWatching(object sender, StoppedWatchingEventArgs args)
