@@ -132,8 +132,8 @@
     <Compile Include="Models\SirenInfoResult.cs" />
     <Compile Include="Models\SocketResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FileAdapter.cs" />
     <Compile Include="Services\MessageRelayService.cs" />
-    <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\SirenOfShameSettingsService.cs" />
     <Compile Include="Services\SirenDeviceService.cs" />
     <Compile Include="Services\StartManager.cs" />

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Newtonsoft.Json;
+using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 

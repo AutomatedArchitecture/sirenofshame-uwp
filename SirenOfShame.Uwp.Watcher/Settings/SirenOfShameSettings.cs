@@ -245,11 +245,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    }
         //}
 
-        public static string GetSosAppDataFolder()
-        {
-            return GetSosAppDataFolder();
-        }
-
         //private static string GetConfigFileName()
         //{
         //    string path = GetSosAppDataFolder();

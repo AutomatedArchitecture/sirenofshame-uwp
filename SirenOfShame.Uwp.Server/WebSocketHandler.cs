@@ -7,6 +7,7 @@ using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Server.Commands;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server
 {

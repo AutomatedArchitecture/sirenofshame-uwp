@@ -38,9 +38,10 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         /// </summary>
         public string Parent { get; set; }
 
-        public BuildStatus AsUnknownBuildStatus(SosDb sosDb)
+        public async Task<BuildStatus> AsUnknownBuildStatus(SosDb sosDb)
         {
-            var lastKnownBuild = sosDb.ReadAll(this).LastOrDefault();
+            var readAll = await sosDb.ReadAll(this);
+            var lastKnownBuild = readAll.LastOrDefault();
             var comment = lastKnownBuild == null ? null : lastKnownBuild.Comment;
             var startedTime = lastKnownBuild == null ? null : lastKnownBuild.StartedTime;
             // SosDb doesn't store local start time, so use the server's start time

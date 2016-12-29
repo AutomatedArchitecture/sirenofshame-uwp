@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SirenOfShame.Uwp.Server.Services
+namespace SirenOfShame.Uwp.Watcher.Services
 {
     /// <summary>
     /// A simple service container implementation, singleton only

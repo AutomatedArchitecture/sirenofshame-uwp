@@ -2,8 +2,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
-using SirenOfShame.Uwp.Watcher.Watcher;
-using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {

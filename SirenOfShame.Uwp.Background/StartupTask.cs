@@ -7,6 +7,7 @@ using IotWeb.Server;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Background

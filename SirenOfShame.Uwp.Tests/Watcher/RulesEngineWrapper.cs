@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
@@ -13,8 +14,6 @@ namespace SirenOfShame.Test.Unit.Watcher
         public const string CURRENT_USER = "User1";
         public const string BUILD1_ID = "Build Def 1";
         public const string BUILD2_ID = "Build Def 2";
-
-        private readonly SosDbFake _sosDbFake = new SosDbFake();
 
         public RulesEngineWrapper()
         {
@@ -37,10 +36,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD1_ID, Name = "Build Def 1" });
             Settings.CiEntryPointSettings.First().BuildDefinitionSettings.Add(new BuildDefinitionSetting { Active = true, AffectsTrayIcon = true, Id = BUILD2_ID, Name = "Build Def 2" });
 
-            _rulesEngine = new FakeRulesEngine(Settings)
-            {
-                SosDb = _sosDbFake
-            };
+            _rulesEngine = new FakeRulesEngine(Settings);
 
             _rulesEngine.TrayNotify += (sender, arg) => TrayNotificationEvents.Add(arg);
             _rulesEngine.SetTrayIcon += (sender, arg) => SetTrayIconEvents.Add(arg);
@@ -56,7 +52,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.NewUser += (sender, arg) => NewUserEvents.Add(arg);
             _rulesEngine.StatsChanged += (sender, arg) => StatsChangedEvents.Add(arg);
 
-            _rulesEngine.Start(initialStart: true);
+            _rulesEngine.Start(initialStart: true).Wait();
         }
 
         private readonly FakeRulesEngine _rulesEngine;
@@ -77,9 +73,9 @@ namespace SirenOfShame.Test.Unit.Watcher
         public List<NewUserEventArgs> NewUserEvents { get; private set; }
         public List<StatsChangedEventArgs> StatsChangedEvents { get; set; } = new List<StatsChangedEventArgs>();
 
-        public SosDbFake SosDb
+        public SosDb SosDb
         {
-            get { return _sosDbFake; }
+            get { return _rulesEngine.SosDb; }
         }
 
         public List<Rule> Rules

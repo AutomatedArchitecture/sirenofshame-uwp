@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using SirenOfShame.Uwp.Watcher.Achievements;
 using SirenOfShame.Uwp.Watcher.StatCalculators;
 using SirenOfShame.Uwp.Watcher.Watcher;
@@ -65,10 +66,11 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //    return gravatarService.DownloadGravatarFromEmailAndAddToImageList(Email, avatarImageList);
         //}
 
-        public IEnumerable<AchievementLookup> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build)
+        public async Task<IEnumerable<AchievementLookup>> CalculateNewAchievements(SirenOfShameSettings settings, BuildStatus build)
         {
-            List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically = _sosDb
-                .ReadAll(settings.GetAllActiveBuildDefinitions())
+            var allBuildDefinitions = await _sosDb
+                .ReadAll(settings.GetAllActiveBuildDefinitions());
+            List<BuildStatus> allActiveBuildDefinitionsOrderedChronoligically = allBuildDefinitions
                 .OrderBy(i => i.StartedTime)
                 .ToList();
 

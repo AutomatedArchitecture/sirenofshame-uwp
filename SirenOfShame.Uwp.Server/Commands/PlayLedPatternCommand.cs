@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SirenOfShame.Device;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {

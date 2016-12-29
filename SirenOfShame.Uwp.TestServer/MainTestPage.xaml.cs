@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409

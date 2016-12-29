@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -13,6 +14,12 @@ namespace SirenOfShame.Test.Unit.Watcher
     [TestFixture]
     public class RulesEngineTest
     {
+        [SetUp]
+        public void Setup()
+        {
+            ServiceContainer.Register<IFileAdapter>(() => new FileAdapterFake());
+        }
+
         [Test]
         public void WhenStopWatchingThenStartWatching_InvokeChangeBuildStatuses()
         {
@@ -1293,7 +1300,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
 
-            var lines = rulesEngine.SosDb.ReadAll(RulesEngineWrapper.BUILD1_ID);
+            var lines = rulesEngine.SosDb.ReadAll(RulesEngineWrapper.BUILD1_ID).Result;
 
             Assert.AreEqual(1, lines.Count);
             var buildDefinition = lines.First();
@@ -1309,7 +1316,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working); // do not write initial states
-            var lines = rulesEngine.SosDb.ReadAll(RulesEngineWrapper.BUILD1_ID);
+            var lines = rulesEngine.SosDb.ReadAll(RulesEngineWrapper.BUILD1_ID).Result;
             Assert.AreEqual(0, lines.Count);
         }
     }

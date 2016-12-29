@@ -1,4 +1,6 @@
-﻿namespace SirenOfShame.Uwp.Ui.Services
+﻿using SirenOfShame.Uwp.Watcher.Services;
+
+namespace SirenOfShame.Uwp.Ui.Services
 {
     public class StartManager
     {

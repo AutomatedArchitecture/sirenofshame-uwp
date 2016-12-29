@@ -118,7 +118,6 @@
     <Compile Include="Services\MessageDistributorService.cs" />
     <Compile Include="Services\MessageRelayService.cs" />
     <Compile Include="Services\MyLogManager.cs" />
-    <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\StartManager.cs" />
   </ItemGroup>
   <ItemGroup>

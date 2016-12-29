@@ -74,6 +74,7 @@
     <Compile Include="Helpers\ListHelpers.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Helpers\XElementHelpers.cs" />
+    <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Watchers\HudsonServices\HudsonBuildDefinition.cs" />
     <Compile Include="Watchers\HudsonServices\HudsonBuildStatus.cs" />
     <Compile Include="Watchers\HudsonServices\HudsonCIEntryPoint.cs" />
@@ -117,7 +118,7 @@
     <Compile Include="Watcher\BuildStatus.cs" />
     <Compile Include="Watcher\BuildStatusDto.cs" />
     <Compile Include="Watcher\BuildStatusEnum.cs" />
-    <Compile Include="Watcher\FileAdapter.cs" />
+    <Compile Include="Watcher\IFileAdapter.cs" />
     <Compile Include="Watcher\ModalDialogEvent.cs" />
     <Compile Include="Watcher\ModalDialogEventArgs.cs" />
     <Compile Include="Watcher\NewAchievementEvent.cs" />

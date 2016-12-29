@@ -113,10 +113,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private bool _serverPreviouslyUnavailable;
 
-        private void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
+        private async void BuildWatcherServerUnavailable(object sender, ServerUnavailableEventArgs args)
         {
             InvokeUpdateStatusBar("Build server unavailable, attempting to reconnect", args.Exception);
-            SetStatusUnknown();
+            await SetStatusUnknown();
             // only notify that it was unavailable once
             if (_serverPreviouslyUnavailable)
             {
@@ -150,9 +150,9 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
         }
 
-        private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
+        private async void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
         {
-            ExecuteNewBuilds(args.BuildStatuses);
+            await ExecuteNewBuilds(args.BuildStatuses);
         }
 
         private void StoppedWatching(object sender, StoppedWatchingEventArgs args)
@@ -160,7 +160,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             _restarting = true;
         }
 
-        public void ExecuteNewBuilds(IList<BuildStatus> newBuildStatuses)
+        public async Task ExecuteNewBuilds(IList<BuildStatus> newBuildStatuses)
         {
             try
             {
@@ -182,9 +182,9 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 var changedBuildStatusesAndTheirPreviousState = GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
                 FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
                 WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
-                NotifyIfNewAchievements(changedBuildStatuses);
+                await NotifyIfNewAchievements(changedBuildStatuses);
                 InvokeStatsChanged(changedBuildStatuses);
-                SyncNewBuildsToSos(changedBuildStatuses);
+                await SyncNewBuildsToSos(changedBuildStatuses);
                 InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
                 CacheBuildStatuses(changedBuildStatuses);
             }
@@ -390,14 +390,14 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             get { return _sosOnlineService; }
         }
 
-        private void SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
+        private async Task SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
         {
             if (!_settings.SosOnlineAlwaysSync) return;
             var noUsername = string.IsNullOrEmpty(_settings.SosOnlineUsername);
             if (noUsername) return;
 
             TrySynchronizeBuildStatuses(changedBuildStatuses);
-            TrySynchronizeMyPointsAndAchievements(changedBuildStatuses);
+            await TrySynchronizeMyPointsAndAchievements(changedBuildStatuses);
         }
 
         private void TrySynchronizeBuildStatuses(IList<BuildStatus> changedBuildStatuses)
@@ -408,13 +408,13 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             SosOnlineService.BuildStatusChanged(_settings, changedBuildStatuses, requestedByPeople);
         }
 
-        private void TrySynchronizeMyPointsAndAchievements(IList<BuildStatus> changedBuildStatuses)
+        private async Task TrySynchronizeMyPointsAndAchievements(IList<BuildStatus> changedBuildStatuses)
         {
             if (DisableSosOnline) return;
             if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
-            var exportedBuilds = SosDb.ExportNewBuilds(_settings);
+            var exportedBuilds = await SosDb.ExportNewBuilds(_settings);
             var noBuildsToExport = exportedBuilds == null;
             if (noBuildsToExport)
             {
@@ -438,7 +438,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             _settings.SosOnlineHighWaterMark = newHighWaterMark.Ticks;
         }
 
-        private void NotifyIfNewAchievements(IList<BuildStatus> changedBuildStatuses)
+        private async Task NotifyIfNewAchievements(IList<BuildStatus> changedBuildStatuses)
         {
             if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var visiblePeopleWithNewChanges = from changedBuildStatus in changedBuildStatuses
@@ -452,7 +452,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             
             foreach (var personWithNewChange in visiblePeopleWithNewChanges)
             {
-                var newAchievements = personWithNewChange.Person.CalculateNewAchievements(_settings, personWithNewChange.Build);
+                var newAchievements = await personWithNewChange.Person.CalculateNewAchievements(_settings, personWithNewChange.Build);
                 List<AchievementLookup> achievements = newAchievements.ToList();
                 if (achievements.Any())
                 {
@@ -557,7 +557,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             stopSiren(this, new SetLightsEventArgs { LedPattern = ledPattern, Duration = duration });
         }
 
-        public void Start(bool initialStart)
+        public async Task Start(bool initialStart)
         {
             var ciEntryPointSettings = _settings.CiEntryPointSettings
                 .Where(s => !string.IsNullOrEmpty(s.Url))
@@ -585,7 +585,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 if (initialStart)
                 {
                     InvokeUpdateStatusBar("Attempting to connect to server");
-                    SetStatusUnknown();
+                    await SetStatusUnknown();
                 }
 
                 _timer.Change(0, 1000);
@@ -609,13 +609,15 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             InvokeTrayNotify(SosToolTipIcon.Error, "Can't Find " + args.BuildDefinitionSetting.Name, "This build will be removed from the list of watched builds.\nYou may add it back from the 'Configure CI Server' button.");
         }
 
-        private void SetStatusUnknown()
+        private async Task SetStatusUnknown()
         {
             InvokeSetTrayIcon(TrayIcon.Question);
-            IEnumerable<BuildStatus> buildStatuses = _settings.CiEntryPointSettings
+            var tasks = _settings.CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
                 .Where(bd => bd.Active)
-                .Select(bd => bd.AsUnknownBuildStatus(SosDb));
+                .Select(bd => bd.AsUnknownBuildStatus(SosDb))
+                .ToList();
+            var buildStatuses = await Task.WhenAll(tasks);
             InvokeRefreshStatus(buildStatuses);
         }
 

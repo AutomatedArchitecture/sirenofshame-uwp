@@ -1,4 +1,7 @@
-﻿namespace SirenOfShame.Uwp.Server.Services
+﻿using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Watcher.Services;
+
+namespace SirenOfShame.Uwp.Server.Services
 {
     public class StartManager
     {
@@ -11,6 +14,7 @@
         {
             ServiceContainer.Register(() => new MessageRelayService());
             ServiceContainer.Register(() => new SirenDeviceService());
+            ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
         }
     }
 }
