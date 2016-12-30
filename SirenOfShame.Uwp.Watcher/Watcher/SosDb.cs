@@ -16,7 +16,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private static readonly ILog _log = MyLogManager.GetLog(typeof(SosDb));
         private readonly IFileAdapter _fileAdapter = ServiceContainer.Resolve<IFileAdapter>();
 
-        protected async Task Write(string location, string contents)
+        private async Task Write(string location, string contents)
         {
             try
             {
@@ -71,7 +71,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private static string RemoveIllegalCharacters(string s)
         {
             string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars()) + "\\.";
-            Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
+            Regex r = new Regex($"[{Regex.Escape(regexSearch)}]");
             return r.Replace(s, "");
         }
 

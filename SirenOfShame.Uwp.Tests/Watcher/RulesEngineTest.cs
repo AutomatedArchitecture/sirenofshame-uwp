@@ -405,17 +405,19 @@ namespace SirenOfShame.Test.Unit.Watcher
         [Test]
         public void Hudson_BuildUrlPassesThrough()
         {
+
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeStatusChecked(new BuildStatus
             {
-                BuildStatusEnum = BuildStatusEnum.InProgress,
+                BuildStatusEnum = BuildStatusEnum.Working,
                 Name = "New Name!",
                 RequestedBy = RulesEngineWrapper.CURRENT_USER,
                 BuildDefinitionId = RulesEngineWrapper.BUILD1_ID,
                 StartedTime = new DateTime(2010, 1, 1, 11, 33, 0),
                 Url = "http://win7ci:8081/job/SvnTest/32/",
-                BuildId = "32",
+                BuildId = "32"
             });
+
             Assert.AreEqual(2, rulesEngine.RefreshStatusEvents.Count);
             RefreshStatusEventArgs refreshStatusEventArgs = rulesEngine.RefreshStatusEvents[1];
             Assert.AreEqual(1, refreshStatusEventArgs.BuildStatusDtos.Count());
