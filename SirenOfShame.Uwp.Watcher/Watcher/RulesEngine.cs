@@ -30,6 +30,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private CancellationTokenSource _watcherCancellationToken;
         readonly Timer _timer;
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
+        private readonly SettingsIoService _settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
 
         private readonly SirenOfShameSettings _settings;
         private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
@@ -195,6 +196,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 await SyncNewBuildsToSos(changedBuildStatuses);
                 InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
                 CacheBuildStatuses(changedBuildStatuses);
+                await SaveSettingsIfDirty();
             }
             catch (Exception ex)
             {
@@ -205,6 +207,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             {
                 _restarting = false;
             }
+        }
+
+        private async Task SaveSettingsIfDirty()
+        {
+            await _settingsIoService.SaveIfDirty();
         }
 
         private void ApplyUserMappings(IList<BuildStatus> buildStatuses)
@@ -638,16 +645,16 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             InvokeRefreshStatus(buildStatuses);
         }
 
-        public void RefreshAll()
+        public async Task RefreshAll()
         {
             Stop();
-            Start(initialStart: false);
+            await Start(initialStart: false);
         }
 
         public void Stop()
         {
             _timer.Change(-1, int.MaxValue);
-            _watcherCancellationToken.Cancel();
+            _watcherCancellationToken?.Cancel();
         }
 
         // todo: implement sos online

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SirenOfShame.Lib.Watcher;
@@ -11,7 +9,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 {
     public class SettingsIoService
     {
-        public const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
+        private const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
 
         private static readonly List<Rule> _defaultRules = new List<Rule>{
             new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = SoundService.NEW_RESOURCE_PREFIX + "Plunk.wav" },
@@ -42,15 +40,39 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             }
         }
 
-        public async Task Save()
+        SemaphoreSlim _lock = new SemaphoreSlim(1);
+
+        public async Task SaveIfDirty()
         {
-            IFileAdapter fileAdapter = ServiceContainer.Resolve<IFileAdapter>();
             SirenOfShameSettings settings = ServiceContainer.Resolve<SirenOfShameSettings>();
-            var contents = JsonConvert.SerializeObject(settings);
-            await fileAdapter.WriteTextAsync(SIRENOFSHAME_CONFIG, contents);
+            if (settings.IsDirty)
+            {
+                await Save(settings);
+            }
         }
 
-        public SirenOfShameSettings GetDefaultSettings()
+        public async Task Save()
+        {
+            SirenOfShameSettings settings = ServiceContainer.Resolve<SirenOfShameSettings>();
+            await Save(settings);
+        }
+
+        private async Task Save(SirenOfShameSettings settings)
+        {
+            await _lock.WaitAsync();
+            try
+            {
+                IFileAdapter fileAdapter = ServiceContainer.Resolve<IFileAdapter>();
+                var contents = JsonConvert.SerializeObject(settings);
+                await fileAdapter.WriteTextAsync(SIRENOFSHAME_CONFIG, contents);
+            }
+            finally
+            {
+                _lock.Release();
+            }
+        }
+
+        private SirenOfShameSettings GetDefaultSettings()
         {
             return new SirenOfShameSettings
             {

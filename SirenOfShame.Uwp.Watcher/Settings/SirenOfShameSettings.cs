@@ -207,89 +207,12 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         public virtual void Dirty()
         {
-            _dirty = true;
-            // todo: How to Save()?
-            //string fileName = GetConfigFileName();
-            //Save(fileName);
+            IsDirty = true;
         }
 
-        private readonly object _lock = new object();
-        private bool _dirty;
+        public bool IsDirty { get; private set; }
 
         //public AchievementAlertPreferenceEnum AchievementAlertPreference { get; set; }
-
-        //public void Save(string fileName)
-        //{
-        //    lock (_lock)
-        //    {
-        //        StreamWriter myWriter = null;
-        //        try
-        //        {
-        //            XmlSerializer mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-        //            myWriter = new StreamWriter(fileName, false);
-        //            mySerializer.Serialize(myWriter, this);
-        //        }
-        //        finally
-        //        {
-        //            if (myWriter != null)
-        //            {
-        //                myWriter.Close();
-        //            }
-        //        }
-        //    }
-        //}
-
-        //private static string GetConfigFileName()
-        //{
-        //    string path = GetSosAppDataFolder();
-        //    Directory.CreateDirectory(path);
-        //    return Path.Combine(path, SIRENOFSHAME_CONFIG);
-        //}
-
-        //public static SirenOfShameSettings GetAppSettings()
-        //{
-        //    string fileName = GetConfigFileName();
-        //    return GetAppSettings(fileName);
-        //}
-
-        //public static SirenOfShameSettings GetAppSettings(string fileName)
-        //{
-        //    FileStream myFileStream = null;
-        //    try
-        //    {
-        //        XmlSerializer mySerializer = new XmlSerializer(typeof(SirenOfShameSettings));
-        //        FileInfo fi = new FileInfo(fileName);
-        //        if (fi.Exists)
-        //        {
-        //            myFileStream = fi.OpenRead();
-        //            SirenOfShameSettings settings = (SirenOfShameSettings)mySerializer.Deserialize(myFileStream);
-        //            settings._fileName = fileName;
-        //            settings.ErrorIfAnythingLooksBad();
-        //            return settings;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        _log.Error("Unable to deserialize settings file, so reverting", ex);
-        //        var dialogResult = MessageBox.Show("There was an error deserializing the settings file.  Click OK to revert the file and start over or cancel to fix the problem yourself (we'll start the app so you can view logs, etc, just close the app quickly and your old settings will remain).  Here's the error: " + ex, "Drat!", MessageBoxButtons.OKCancel);
-        //        if (dialogResult == DialogResult.Cancel)
-        //        {
-        //            Application.Exit();
-        //            return null;
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        if (myFileStream != null)
-        //        {
-        //            myFileStream.Close();
-        //        }
-        //    }
-        //    SirenOfShameSettings defaultSettings = GetDefaultSettings();
-        //    defaultSettings._fileName = fileName;
-        //    defaultSettings.Save();
-        //    return defaultSettings;
-        //}
 
         //public void TryUpgrade()
         //{
