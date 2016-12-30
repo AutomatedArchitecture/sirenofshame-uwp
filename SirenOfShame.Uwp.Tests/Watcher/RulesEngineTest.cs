@@ -18,6 +18,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public void Setup()
         {
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapterFake());
+            ServiceContainer.Register(new SettingsIoService());
         }
 
         [Test]
