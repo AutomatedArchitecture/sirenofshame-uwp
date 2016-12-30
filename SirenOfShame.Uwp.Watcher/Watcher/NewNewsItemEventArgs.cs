@@ -65,7 +65,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             {
                 return string.Format("{0},{1},{2},{3},{4},{5},{6}",
                                      EventDate.Ticks,
-                                     MakeCsvSafe(Person.RawName),
+                                     MakeCsvSafe(Person?.RawName),
                                      (int)NewsItemType,
                                      ReputationChange,
                                      MakeCsvSafe(BuildDefinitionId),

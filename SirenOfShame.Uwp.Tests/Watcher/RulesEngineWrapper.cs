@@ -15,7 +15,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         public const string BUILD1_ID = "Build Def 1";
         public const string BUILD2_ID = "Build Def 2";
 
-        public RulesEngineWrapper()
+        public RulesEngineWrapper(bool start = true)
         {
             TrayNotificationEvents = new List<TrayNotifyEventArgs>();
             SetTrayIconEvents = new List<SetTrayIconEventArgs>();
@@ -54,7 +54,10 @@ namespace SirenOfShame.Test.Unit.Watcher
             _rulesEngine.NewUser += (sender, arg) => NewUserEvents.Add(arg);
             _rulesEngine.StatsChanged += (sender, arg) => StatsChangedEvents.Add(arg);
 
-            _rulesEngine.Start(initialStart: true).Wait();
+            if (start)
+            {
+                _rulesEngine.Start(initialStart: true).Wait();
+            }
         }
 
         private readonly FakeRulesEngine _rulesEngine;

@@ -244,6 +244,23 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
+        public void GivenOldNewsItems_WhenWeStartWatching_ThenOldNewsFiredThroughNewNewsEvent()
+        {
+            var sosDb = ServiceContainer.Resolve<SosDb>();
+            var rulesEngine = new RulesEngineWrapper(start: false);
+            rulesEngine.Settings.People.Add(new PersonSetting { RawName = RulesEngineWrapper.CURRENT_USER });
+            sosDb.ExportNewNewsItem(new NewsItemEvent
+            {
+                Title = "Old News",
+                Person = rulesEngine.Settings.People[0]
+            }).Wait();
+            rulesEngine.Start();
+            Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
+            Assert.AreEqual(1, rulesEngine.NewNewsItemEvents[0].NewsItemEvents.Count);
+            Assert.AreEqual("Old News", rulesEngine.NewNewsItemEvents[0].NewsItemEvents[0].Title);
+        }
+
+        [Test]
         public void BuildWorkingThenWorking_BuildInitiatedNewsItem()
         {
             var rulesEngine = new RulesEngineWrapper();

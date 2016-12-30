@@ -639,16 +639,15 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private async Task SendRecentNews()
         {
-            // todo: send recent news
-            //var recentEvent = await _sosDb.GetMostRecentNewsItems(_settings);
-            //var recentEventsByPerson = recentEvent
-            //    //.GroupBy(i => i.BuildId ?? i.EventDate.ToString(CultureInfo.InvariantCulture))
-            //    .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
-            //    .ToList();
-            //await InvokeNewNewsItem(new NewNewsItemEventArgs
-            //{
-            //    NewsItemEvents = recentEventsByPerson
-            //}, newsIsBothLocalAndNew: false);
+            var allEvents = await _sosDb.GetAllNewsItems(_settings);
+            var recentEvent = allEvents
+                .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                .ToList();
+            if (recentEvent.Count == 0) return;
+            await InvokeNewNewsItem(new NewNewsItemEventArgs
+            {
+                NewsItemEvents = recentEvent
+            }, newsIsBothLocalAndNew: false);
         }
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)

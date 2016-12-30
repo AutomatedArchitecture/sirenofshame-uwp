@@ -189,7 +189,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        public async Task<IList<NewsItemEvent>> GetMostRecentNewsItems(SirenOfShameSettings settings)
+        public async Task<IList<NewsItemEvent>> GetAllNewsItems(SirenOfShameSettings settings)
         {
             try
             {
