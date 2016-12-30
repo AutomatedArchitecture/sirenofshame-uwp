@@ -1,4 +1,5 @@
-﻿using SirenOfShame.Lib.Watcher;
+﻿using System.Threading.Tasks;
+using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services

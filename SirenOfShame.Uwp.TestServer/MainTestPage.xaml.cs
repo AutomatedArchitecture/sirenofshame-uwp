@@ -36,6 +36,7 @@ namespace SirenOfShame.Uwp.TestServer
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             _startManager.Configure();
+            await _startManager.RegisterSirenOfShameSettings();
 
             _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();

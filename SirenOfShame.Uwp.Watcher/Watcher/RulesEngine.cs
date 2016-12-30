@@ -646,7 +646,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         public void Stop()
         {
-            _timer.Change(TimeSpan.MaxValue, TimeSpan.MaxValue);
+            _timer.Change(-1, int.MaxValue);
             _watcherCancellationToken.Cancel();
         }
 

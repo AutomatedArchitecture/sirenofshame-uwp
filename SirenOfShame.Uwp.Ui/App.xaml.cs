@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Util;
 
 namespace SirenOfShame.Uwp.Ui
 {

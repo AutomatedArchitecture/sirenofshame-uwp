@@ -22,7 +22,6 @@ namespace SirenOfShame.Uwp.Background
         private MessageRelayService _messageRelayService;
         private readonly ILog _log = MyLogManager.GetLog(typeof(StartupTask));
         private SirenDeviceService _sirenDeviceService;
-        private SirenOfShameSettingsService _sosSettings;
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -30,10 +29,10 @@ namespace SirenOfShame.Uwp.Background
 
             taskInstance.Canceled += TaskInstanceOnCanceled;
             _startManager.Configure();
+            await _startManager.RegisterSirenOfShameSettings();
 
             _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
-            _sosSettings = ServiceContainer.Resolve<SirenOfShameSettingsService>();
 
             StartWebServer();
             _sirenDeviceService.StartWatching();
@@ -62,9 +61,8 @@ namespace SirenOfShame.Uwp.Background
 
         private async Task StartCiWatcher()
         {
-            var sosSettings = await _sosSettings.GetAppSettings();
-            _rulesEngine = new RulesEngine(sosSettings);
-            _rulesEngine.Start(true);
+            _rulesEngine = new RulesEngine();
+            await _rulesEngine.Start(true);
         }
 
         private void StartWebServer()
