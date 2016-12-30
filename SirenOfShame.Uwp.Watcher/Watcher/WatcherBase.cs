@@ -60,23 +60,31 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         {
             try
             {
-                _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds", Settings.PollInterval));
+                _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds",
+                    Settings.PollInterval));
                 while (true)
                 {
                     if (token.IsCancellationRequested) break;
                     GetBuildStatusAndFireEvents();
                     if (token.IsCancellationRequested) break;
-                    await Task.Delay(Settings.PollInterval*1000, token);
+                    await Task.Delay(Settings.PollInterval * 1000, token);
                 }
                 _log.Debug("Stopped watching build status");
-                StopWatching();
+                OnStoppedWatching();
+            }
+            catch (TaskCanceledException)
+            {
+                _log.Debug("Cancelled watching");
                 OnStoppedWatching();
             }
             catch (Exception ex)
             {
                 _log.Error("uncaught exception in watcher", ex);
-                StopWatching();
                 ExceptionMessageBox.Show(null, "Drat", "Error connecting to server", ex);
+            }
+            finally
+            {
+                StopWatching();
             }
         }
 

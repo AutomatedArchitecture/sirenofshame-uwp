@@ -22,7 +22,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         public override async Task<SocketResult> Invoke(string frame)
         {
             await _settingsService.DeleteSettings();
-            _rulesEngine.RefreshAll();
+            await _rulesEngine.RefreshAll();
             return new OkSocketResult();
         }
     }

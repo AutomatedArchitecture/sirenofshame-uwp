@@ -50,7 +50,7 @@ namespace SirenOfShame.Uwp.Server.Commands
             }
             var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
             await settingsIoService.Save();
-            _rulesEngine.RefreshAll();
+            await _rulesEngine.RefreshAll();
             return new OkSocketResult
             {
                 Result = request.CiEntryPointSetting.Id
