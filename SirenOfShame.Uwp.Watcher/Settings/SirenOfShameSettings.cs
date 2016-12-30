@@ -309,7 +309,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public PersonSetting FindPersonByRawName(string rawName)
         {
             if (People == null) People = new List<PersonSetting>();
-            var person = People.FirstOrDefault(i => NewNewsItemEventArgs.MakeCsvSafe(i.RawName) == NewNewsItemEventArgs.MakeCsvSafe(rawName));
+            var person = People.FirstOrDefault(i => NewsItemEvent.MakeCsvSafe(i.RawName) == NewsItemEvent.MakeCsvSafe(rawName));
             return person;
         }
 

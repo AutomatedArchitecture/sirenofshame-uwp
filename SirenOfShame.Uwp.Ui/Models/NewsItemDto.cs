@@ -13,7 +13,7 @@ namespace SirenOfShame.Uwp.Ui.Models
         public string When { get; set; }
         public NewsItemTypeEnum NewsItemTypeEnum { get; set; }
 
-        public NewsItemDto(NewNewsItemEventArgs news)
+        public NewsItemDto(NewsItemEvent news)
         {
             ReputationChange = news.ReputationChange.HasValue ? GetNumericAsDelta(news.ReputationChange.Value) : null;
             Title = GetTitle(news);
@@ -23,7 +23,7 @@ namespace SirenOfShame.Uwp.Ui.Models
             NewsItemTypeEnum = news.NewsItemType;
         }
 
-        private static string GetTitle(NewNewsItemEventArgs news)
+        private static string GetTitle(NewsItemEvent news)
         {
             return news.NewsItemType == NewsItemTypeEnum.SosOnlineComment ? "\"" + news.Title + "\"" : news.Title;
         }

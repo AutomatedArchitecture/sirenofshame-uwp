@@ -18,8 +18,8 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         NewAchievement = 103,
         BuildUnknown = 104,
     }
-    
-    public class NewNewsItemEventArgs
+
+    public class NewsItemEvent
     {
         private static readonly ILog _log = MyLogManager.GetLog(typeof(NewNewsItemEventArgs));
 
@@ -79,7 +79,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        public static NewNewsItemEventArgs FromCommaSeparated(string commaSeparated, SirenOfShameSettings settings)
+        public static NewsItemEvent FromCommaSeparated(string commaSeparated, SirenOfShameSettings settings)
         {
             try
             {
@@ -101,7 +101,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 var buildDefinitionId = GetString(elements[4]);
                 var buildId = GetString(elements[5]);
                 var title = GetTitle(elements, 6);
-                return new NewNewsItemEventArgs
+                return new NewsItemEvent
                 {
                     EventDate = eventDate,
                     Person = person,
@@ -163,5 +163,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
             return person;
         }
+    }
+
+    public class NewNewsItemEventArgs
+    {
+        public List<NewsItemEvent> NewsItemEvents { get; set; }
     }
 }

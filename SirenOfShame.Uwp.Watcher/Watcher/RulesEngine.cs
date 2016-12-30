@@ -31,9 +31,13 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         readonly Timer _timer;
         private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
         private readonly SettingsIoService _settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
+        private readonly SosDb _sosDb = ServiceContainer.Resolve<SosDb>();
 
         private readonly SirenOfShameSettings _settings;
-        private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
+        private readonly IList<WatcherBase> _watchers = new List<WatcherBase>
+        {
+            
+        };
         public SosDb SosDb = new SosDb();
         public bool DisableSosOnline { get; set; }
         public bool DisableWritingToSosDb { get; set; }
@@ -61,19 +65,28 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             });
         }
 
-        private void InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
+        private async Task InvokeNewNewsItem(NewsItemEvent args, bool newsIsBothLocalAndNew)
         {
-            var newNewsItem = NewNewsItem;
-            if (newsIsBothLocalAndNew)
-                SosDb.ExportNewNewsItem(args);
-            if (newNewsItem != null) newNewsItem(this, args);
+            await InvokeNewNewsItem(new NewNewsItemEventArgs
+            {
+                NewsItemEvents = new List<NewsItemEvent> {args}
+            }, newsIsBothLocalAndNew);
         }
 
-        private void InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
+        private async Task InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
         {
-            var newAchievement = NewAchievement;
-            if (newAchievement != null) newAchievement(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
-            achievements.ForEach(i => InvokeNewNewsItem(i.AsNewNewsItem(person), newsIsBothLocalAndNew: true));
+            if (newsIsBothLocalAndNew)
+                await SosDb.ExportNewNewsItem(args);
+            NewNewsItem?.Invoke(this, args);
+        }
+
+        private async Task InvokeNewAchievement(PersonSetting person, List<AchievementLookup> achievements)
+        {
+            NewAchievement?.Invoke(this, new NewAchievementEventArgs { Person = person, Achievements = achievements });
+            foreach (var achievement in achievements)
+            {
+                await InvokeNewNewsItem(achievement.AsNewNewsItem(person), newsIsBothLocalAndNew: true);
+            }
         }
 
         public void InvokePlayWindowsAudio(string location)
@@ -194,7 +207,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 await NotifyIfNewAchievements(changedBuildStatuses);
                 InvokeStatsChanged(changedBuildStatuses);
                 await SyncNewBuildsToSos(changedBuildStatuses);
-                InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
+                await InvokeNewNewsItemIfAny(changedBuildStatusesAndTheirPreviousState);
                 CacheBuildStatuses(changedBuildStatuses);
                 await SaveSettingsIfDirty();
             }
@@ -228,7 +241,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        private void InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
+        private async Task InvokeNewNewsItemIfAny(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatuses)
         {
             var newNewsItemEventArgses = changedBuildStatuses
                 .Where(i => i.PreviousWorkingOrBrokenBuildStatus != null && !string.IsNullOrEmpty(i.ChangedBuildStatus.RequestedBy))
@@ -237,8 +250,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 // ReSharper restore PossibleInvalidOperationException
                 .ToList();
 
-            newNewsItemEventArgses
-                .ForEach(i => InvokeNewNewsItem(i, newsIsBothLocalAndNew: true));
+            foreach (var newsItemEvent in newNewsItemEventArgses)
+            {
+                await InvokeNewNewsItem(newsItemEvent, newsIsBothLocalAndNew: true);
+            }
         }
 
         private void WriteNewBuildsToSosDb(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
@@ -600,8 +615,8 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 watcher.CiEntryPointSetting = ciEntryPointSetting;
                 // todo: It looks like we are overwriting preceding watcher threads with subsequent ones which will cause problems when we try to Stop() them
                 _watcherCancellationToken = new CancellationTokenSource();
-                _watcherThread = new Task(async () => await watcher.StartWatching(_watcherCancellationToken.Token), _watcherCancellationToken.Token);
-                _watcherThread.Start();
+                //_watcherThread = new Task(async () => await watcher.StartWatching(_watcherCancellationToken.Token), _watcherCancellationToken.Token);
+                //_watcherThread.Start();
             }
 
             if (ciEntryPointSettings.Any())
@@ -610,6 +625,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 {
                     InvokeUpdateStatusBar("Attempting to connect to server");
                     await SetStatusUnknown();
+                    await SendRecentNews();
                 }
 
                 _timer.Change(0, 1000);
@@ -619,6 +635,20 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 InvokeUpdateStatusBar("");
                 InvokeRefreshStatus(Enumerable.Empty<BuildStatus>());
             }
+        }
+
+        private async Task SendRecentNews()
+        {
+            // todo: send recent news
+            //var recentEvent = await _sosDb.GetMostRecentNewsItems(_settings);
+            //var recentEventsByPerson = recentEvent
+            //    //.GroupBy(i => i.BuildId ?? i.EventDate.ToString(CultureInfo.InvariantCulture))
+            //    .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+            //    .ToList();
+            //await InvokeNewNewsItem(new NewNewsItemEventArgs
+            //{
+            //    NewsItemEvents = recentEventsByPerson
+            //}, newsIsBothLocalAndNew: false);
         }
 
         private void BuildDefinitionNotFound(object sender, BuildDefinitionNotFoundArgs args)

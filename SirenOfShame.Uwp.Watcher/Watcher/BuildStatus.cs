@@ -275,10 +275,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             return string.Format("{0}-{1}-{2}", BuildDefinitionId, BuildId, RequestedBy);
         }
 
-        public NewNewsItemEventArgs AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
+        public NewsItemEvent AsNewsItemEventArgs(BuildStatusEnum previousWorkingOrBrokenBuildStatus, SirenOfShameSettings settings)
         {
             var person = settings.FindAddPerson(RequestedBy);
-            return new NewNewsItemEventArgs
+            return new NewsItemEvent
             {
                 Person = person,
                 EventDate = DateTime.Now,

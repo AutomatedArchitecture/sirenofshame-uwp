@@ -163,7 +163,15 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             return string.IsNullOrEmpty(result) ? null : result;
         }
 
-        public void ExportNewNewsItem(NewNewsItemEventArgs args)
+        public async Task ExportNewNewsItem(NewNewsItemEventArgs args)
+        {
+            foreach (var argsNewsItemEvent in args.NewsItemEvents)
+            {
+                await ExportNewNewsItem(argsNewsItemEvent);
+            }
+        }
+
+        public async Task ExportNewNewsItem(NewsItemEvent args)
         {
             var location = GetEventsLocation();
             string asCommaSeparated = args.AsCommaSeparated();
@@ -172,7 +180,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 string contents = asCommaSeparated + "\r\n";
                 try
                 {
-                    _fileAdapter.AppendAllText(location, contents);
+                    await _fileAdapter.AppendAllText(location, contents);
                 }
                 catch (IOException ex)
                 {
@@ -181,25 +189,25 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        public async Task GetMostRecentNewsItems(SirenOfShameSettings settings, Action<IList<NewNewsItemEventArgs>> onGetNewsItems)
+        public async Task<IList<NewsItemEvent>> GetMostRecentNewsItems(SirenOfShameSettings settings)
         {
             try
             {
                 var location = GetEventsLocation();
                 var exists = await _fileAdapter.Exists(location);
-                if (!exists) onGetNewsItems(new List<NewNewsItemEventArgs>());
+                if (!exists) return new List<NewsItemEvent>();
 
                 var allLines = await _fileAdapter.ReadAllLines(location);
                 var result = allLines
-                    .Select(i => NewNewsItemEventArgs.FromCommaSeparated(i, settings))
+                    .Select(i => NewsItemEvent.FromCommaSeparated(i, settings))
                     .Where(i => i != null)
                     .Reverse()
                     .ToList();
-                onGetNewsItems(result);
+                return result;
             } catch (Exception exception) { 
                 if (!(exception is FileNotFoundException))
                     _log.Error("Error getting most recent news items", exception);
-                onGetNewsItems(new List<NewNewsItemEventArgs>());
+                return new List<NewsItemEvent>();
             }
 
         }

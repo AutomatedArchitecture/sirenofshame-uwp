@@ -9,9 +9,9 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public NewNewsItemEventArgs AsNewNewsItem(PersonSetting person)
+        public NewsItemEvent AsNewNewsItem(PersonSetting person)
         {
-            return new NewNewsItemEventArgs
+            return new NewsItemEvent
             {
                 Person = person,
                 EventDate = DateTime.Now,

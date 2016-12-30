@@ -19,6 +19,7 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapterFake());
             ServiceContainer.Register(new SettingsIoService());
+            ServiceContainer.Register(new SosDb());
         }
 
         [Test]
@@ -235,7 +236,9 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
-            var newNewsItem = rulesEngine.NewNewsItemEvents[0];
+            var newNewsItemList = rulesEngine.NewNewsItemEvents[0];
+            Assert.AreEqual(1, newNewsItemList.NewsItemEvents.Count);
+            var newNewsItem = newNewsItemList.NewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
             Assert.AreEqual("'Fixing a typo'", newNewsItem.Title);
         }
@@ -248,7 +251,9 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
-            var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
+            var latestNewsItemList = rulesEngine.NewNewsItemEvents[1];
+            Assert.AreEqual(1, latestNewsItemList.NewsItemEvents.Count);
+            var latestNewsItem = latestNewsItemList.NewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
             Assert.AreEqual("Successful build", latestNewsItem.Title);
         }
@@ -260,7 +265,9 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Working);
             Assert.AreEqual(1, rulesEngine.NewNewsItemEvents.Count);
-            var newNewsItem = rulesEngine.NewNewsItemEvents[0];
+            var newNewsItemList = rulesEngine.NewNewsItemEvents[0];
+            Assert.AreEqual(1, newNewsItemList.NewsItemEvents.Count);
+            var newNewsItem = newNewsItemList.NewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, newNewsItem.Person.RawName);
             Assert.AreEqual("Fixed the broken build", newNewsItem.Title);
         }
@@ -273,7 +280,9 @@ namespace SirenOfShame.Test.Unit.Watcher
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.Broken);
             Assert.AreEqual(2, rulesEngine.NewNewsItemEvents.Count);
-            var latestNewsItem = rulesEngine.NewNewsItemEvents[1];
+            var latestNewsItemList = rulesEngine.NewNewsItemEvents[1];
+            Assert.AreEqual(1, latestNewsItemList.NewsItemEvents.Count);
+            var latestNewsItem = latestNewsItemList.NewsItemEvents[0];
             Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, latestNewsItem.Person.RawName);
             Assert.AreEqual("Failed to fix the build", latestNewsItem.Title);
         }
