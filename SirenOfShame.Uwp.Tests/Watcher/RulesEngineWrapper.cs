@@ -80,7 +80,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
         public SosDb SosDb
         {
-            get { return _rulesEngine.SosDb; }
+            get { return ServiceContainer.Resolve<SosDb>(); }
         }
 
         public List<Rule> Rules

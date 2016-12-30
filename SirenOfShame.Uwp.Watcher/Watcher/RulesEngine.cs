@@ -21,26 +21,20 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             public BuildStatusEnum? PreviousBuildStatus { get; set; }
         }
 
-        public const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
+        private const int NEWS_ITEMS_TO_GET_ON_STARTUP = 10;
         private static readonly ILog _log = MyLogManager.GetLog(typeof(RulesEngine));
         private IDictionary<string, BuildStatus> PreviousWorkingOrBrokenBuildStatus { get; set; }
         private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
 
-        private Task _watcherThread;
         private CancellationTokenSource _watcherCancellationToken;
         readonly Timer _timer;
-        private readonly SosOnlineService _sosOnlineService = new SosOnlineService();
         private readonly SettingsIoService _settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
         private readonly SosDb _sosDb = ServiceContainer.Resolve<SosDb>();
 
         private readonly SirenOfShameSettings _settings;
-        private readonly IList<WatcherBase> _watchers = new List<WatcherBase>
-        {
-            
-        };
-        public SosDb SosDb = new SosDb();
-        public bool DisableSosOnline { get; set; }
-        public bool DisableWritingToSosDb { get; set; }
+        private readonly IList<WatcherBase> _watchers = new List<WatcherBase>();
+        private bool DisableSosOnline { get; }
+        private bool DisableWritingToSosDb { get; }
 
         public event UpdateStatusBarEvent UpdateStatusBar;
         public event StatusChangedEvent RefreshStatus;
@@ -58,8 +52,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private void InvokeNewUser(string requestedBy)
         {
-            var handler = NewUser;
-            if (handler != null) handler(this, new NewUserEventArgs
+            NewUser?.Invoke(this, new NewUserEventArgs
             {
                 RawName = requestedBy
             });
@@ -76,7 +69,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private async Task InvokeNewNewsItem(NewNewsItemEventArgs args, bool newsIsBothLocalAndNew)
         {
             if (newsIsBothLocalAndNew)
-                await SosDb.ExportNewNewsItem(args);
+                await _sosDb.ExportNewNewsItem(args);
             NewNewsItem?.Invoke(this, args);
         }
 
@@ -93,26 +86,22 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         {
             if (_settings.Mute) return;
 
-            PlayWindowsAudioEvent playWindowsAudio = PlayWindowsAudio;
-            if (playWindowsAudio != null) playWindowsAudio(this, new PlayWindowsAudioEventArgs { Location = location });
+            PlayWindowsAudio?.Invoke(this, new PlayWindowsAudioEventArgs { Location = location });
         }
 
         private void InvokeSetTrayIcon(TrayIcon trayIcon)
         {
-            SetTrayIconEvent setTrayIcon = SetTrayIcon;
-            if (setTrayIcon != null) setTrayIcon(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
+            SetTrayIcon?.Invoke(this, new SetTrayIconEventArgs { TrayIcon = trayIcon });
         }
 
         private void InvokeNewAlert(NewAlertEventArgs args)
         {
-            NewAlertEvent newAlert = NewAlert;
-            if (newAlert != null) newAlert(this, args);
+            NewAlert?.Invoke(this, args);
         }
 
         public void InvokeTrayNotify(SosToolTipIcon tipIcon, string title, string tipText)
         {
-            TrayNotifyEvent handler = TrayNotify;
-            if (handler != null) handler(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title });
+            TrayNotify?.Invoke(this, new TrayNotifyEventArgs { TipIcon = tipIcon, TipText = tipText, Title = title });
         }
 
         public RulesEngine()
@@ -161,11 +150,9 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             string datedStatusText = null;
             if (!string.IsNullOrEmpty(statusText))
             {
-                datedStatusText = string.Format("{0:G} - {1}", DateTime.Now, statusText);
+                datedStatusText = $"{DateTime.Now:G} - {statusText}";
             }
-            var updateStatusBar = UpdateStatusBar;
-            if (updateStatusBar == null) return;
-            updateStatusBar(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
+            UpdateStatusBar?.Invoke(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
         }
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)
@@ -181,7 +168,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             _restarting = true;
         }
 
-        public async Task ExecuteNewBuilds(IList<BuildStatus> newBuildStatuses)
+        private async Task ExecuteNewBuilds(IList<BuildStatus> newBuildStatuses)
         {
             try
             {
@@ -203,7 +190,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 var changedBuildStatusesAndTheirPreviousState =
                     GetChangedBuildStatusesAndTheirPreviousState(changedBuildStatuses);
                 FireApplicableRulesEngineEvents(changedBuildStatusesAndTheirPreviousState);
-                WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
+                await WriteNewBuildsToSosDb(changedBuildStatusesAndTheirPreviousState);
                 await NotifyIfNewAchievements(changedBuildStatuses);
                 InvokeStatsChanged(changedBuildStatuses);
                 await SyncNewBuildsToSos(changedBuildStatuses);
@@ -256,12 +243,15 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        private void WriteNewBuildsToSosDb(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
+        private async Task WriteNewBuildsToSosDb(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
         {
             var previouslyWorkingOrBrokenBuilds = changedBuildStatusesAndTheirPreviousState
                 .Where(i => i.ChangedBuildStatus.IsWorkingOrBroken() && i.PreviousWorkingOrBrokenBuildStatus != null)
                 .ToList();
-            previouslyWorkingOrBrokenBuilds.ForEach(i => SosDb.Write(i.ChangedBuildStatus, _settings, DisableWritingToSosDb));
+            foreach (var i in previouslyWorkingOrBrokenBuilds)
+            {
+                await _sosDb.Write(i.ChangedBuildStatus, _settings, DisableWritingToSosDb);
+            }
         }
 
         private void FireApplicableRulesEngineEvents(IEnumerable<ChangedBuildStatusesAndTheirPreviousState> changedBuildStatusesAndTheirPreviousState)
@@ -345,7 +335,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
             bool startTimesUnequal = oldStatus.StartedTime != newStatus.StartedTime;
             bool buildStatusesUnequal = oldStatus.BuildStatusEnum != newStatus.BuildStatusEnum;
-           bool buildChanged = 
+            bool buildChanged = 
                 startTimesUnequal || buildStatusesUnequal;
             
             if (buildChanged)
@@ -372,10 +362,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             SosOnlineService.TryToGetAndSendNewSosOnlineAlerts(_settings, Now, InvokeNewAlert);
         }
 
-        protected virtual DateTime Now
-        {
-            get { return DateTime.Now; }
-        }
+        protected virtual DateTime Now => DateTime.Now;
 
         private void InvokeStatsChanged(IList<BuildStatus> changedBuildStatuses)
         {
@@ -400,9 +387,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 .Select(bs => bs.AsBuildStatusDto(DateTime.Now, PreviousWorkingOrBrokenBuildStatus, _settings))
                 .ToList();
 
-            var refreshStatus = RefreshStatus;
-            if (refreshStatus == null) return;
-            refreshStatus(this, new RefreshStatusEventArgs { BuildStatusDtos = buildStatusListViewItems });
+            RefreshStatus?.Invoke(this, new RefreshStatusEventArgs { BuildStatusDtos = buildStatusListViewItems });
         }
 
         private void TimerTick(object sender)
@@ -422,10 +407,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        protected virtual SosOnlineService SosOnlineService
-        {
-            get { return _sosOnlineService; }
-        }
+        protected virtual SosOnlineService SosOnlineService { get; } = new SosOnlineService();
 
         private async Task SyncNewBuildsToSos(IList<BuildStatus> changedBuildStatuses)
         {
@@ -451,7 +433,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             if (!changedBuildStatuses.Any(i => i.IsWorkingOrBroken())) return;
             var anyBuildsAreMine = changedBuildStatuses.Any(i => i.RequestedBy == _settings.MyRawName && i.IsWorkingOrBroken());
             if (!anyBuildsAreMine) return;
-            var exportedBuilds = await SosDb.ExportNewBuilds(_settings);
+            var exportedBuilds = await _sosDb.ExportNewBuilds(_settings);
             var noBuildsToExport = exportedBuilds == null;
             if (noBuildsToExport)
             {
@@ -494,7 +476,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 if (achievements.Any())
                 {
                     personWithNewChange.Person.AddAchievements(achievements);
-                    InvokeNewAchievement(personWithNewChange.Person, achievements);
+                    await InvokeNewAchievement(personWithNewChange.Person, achievements);
                 }
                 // this is required because achievements often write to settings e.g. cumulative build time
                 _settings.Dirty();
@@ -506,7 +488,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             BuildStatus previousWorkingOrBrokenBuildStatus;
             dictionary.TryGetValue(changedBuildStatus.BuildDefinitionId, out previousWorkingOrBrokenBuildStatus);
 
-            return previousWorkingOrBrokenBuildStatus == null ? (BuildStatusEnum?)null : previousWorkingOrBrokenBuildStatus.BuildStatusEnum;
+            return previousWorkingOrBrokenBuildStatus?.BuildStatusEnum;
         }
 
         private static void SetValue(BuildStatus changedBuildStatus, IDictionary<string, BuildStatus> dictionary)
@@ -576,24 +558,18 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         internal void InvokeModalDialog(string dialogText, string okText)
         {
             var modalDialog = ModalDialog;
-            if (modalDialog == null) return;
-            modalDialog(this, new ModalDialogEventArgs { DialogText = dialogText, OkText = okText });
+            modalDialog?.Invoke(this, new ModalDialogEventArgs { DialogText = dialogText, OkText = okText });
         }
 
         public void InvokeSetAudio(AudioPattern audioPattern, int? duration)
         {
             if (_settings.Mute) return;
-            
-            var startSiren = SetAudio;
-            if (startSiren == null) return;
-            startSiren(this, new SetAudioEventArgs { AudioPattern = audioPattern, Duration = duration });
+            SetAudio?.Invoke(this, new SetAudioEventArgs { AudioPattern = audioPattern, Duration = duration });
         }
 
         public void InvokeSetLights(LedPattern ledPattern, int? duration)
         {
-            var stopSiren = SetLights;
-            if (stopSiren == null) return;
-            stopSiren(this, new SetLightsEventArgs { LedPattern = ledPattern, Duration = duration });
+            SetLights?.Invoke(this, new SetLightsEventArgs { LedPattern = ledPattern, Duration = duration });
         }
 
         public async Task Start(bool initialStart)
@@ -641,7 +617,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         {
             var allEvents = await _sosDb.GetAllNewsItems(_settings);
             var recentEvent = allEvents
-                .Take(RulesEngine.NEWS_ITEMS_TO_GET_ON_STARTUP)
+                .Take(NEWS_ITEMS_TO_GET_ON_STARTUP)
                 .ToList();
             if (recentEvent.Count == 0) return;
             await InvokeNewNewsItem(new NewNewsItemEventArgs
@@ -668,7 +644,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             var tasks = _settings.CiEntryPointSettings
                 .SelectMany(i => i.BuildDefinitionSettings)
                 .Where(bd => bd.Active)
-                .Select(bd => bd.AsUnknownBuildStatus(SosDb))
+                .Select(bd => bd.AsUnknownBuildStatus(_sosDb))
                 .ToList();
             var buildStatuses = await Task.WhenAll(tasks);
             InvokeRefreshStatus(buildStatuses);
@@ -680,7 +656,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             await Start(initialStart: false);
         }
 
-        public void Stop()
+        private void Stop()
         {
             _timer.Change(-1, int.MaxValue);
             _watcherCancellationToken?.Cancel();

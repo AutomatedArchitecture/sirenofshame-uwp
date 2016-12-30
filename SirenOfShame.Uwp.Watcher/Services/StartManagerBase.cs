@@ -24,6 +24,7 @@ namespace SirenOfShame.Uwp.Watcher.Services
         {
             ServiceContainer.Register(() => new RulesEngine());
             ServiceContainer.Register(() => new SettingsIoService());
+            ServiceContainer.Register(() => new SosDb());
         }
     }
 }

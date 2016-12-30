@@ -16,11 +16,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private static readonly ILog _log = MyLogManager.GetLog(typeof(SosDb));
         private readonly IFileAdapter _fileAdapter = ServiceContainer.Resolve<IFileAdapter>();
 
-        protected void Write(string location, string contents)
+        protected async Task Write(string location, string contents)
         {
             try
             {
-                _fileAdapter.AppendAllText(location, contents);
+                await _fileAdapter.AppendAllText(location, contents);
             }
             catch (IOException ex)
             {
@@ -28,11 +28,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        public void Write(BuildStatus buildStatus, SirenOfShameSettings settings, bool disableWritingToSosDb)
+        public async Task Write(BuildStatus buildStatus, SirenOfShameSettings settings, bool disableWritingToSosDb)
         {
             if (!disableWritingToSosDb)
             {
-                AppendToFile(buildStatus);
+                await AppendToFile(buildStatus);
             }
             UpdateStatsInSettings(buildStatus, settings);
         }
@@ -49,7 +49,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             settings.Dirty();
         }
 
-        private void AppendToFile(BuildStatus buildStatus)
+        private async Task AppendToFile(BuildStatus buildStatus)
         {
             string[] items = new[]
             {
@@ -60,7 +60,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             };
             string contents = string.Join(",", items) + "\r\n";
             string location = GetBuildLocation(buildStatus);
-            Write(location, contents);
+            await Write(location, contents);
         }
 
         private string GetBuildLocation(BuildStatus buildStatus)
