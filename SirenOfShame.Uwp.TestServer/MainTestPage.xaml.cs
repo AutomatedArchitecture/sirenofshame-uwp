@@ -74,12 +74,12 @@ namespace SirenOfShame.Uwp.TestServer
         private async Task StartCiWatcher()
         {
             _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
-            await _rulesEngine.Start(true);
             _rulesEngine.SetLights += RulesEngineOnSetLights;
             _rulesEngine.RefreshStatus += RulesEngineOnRefreshStatus;
             _rulesEngine.NewNewsItem += RulesEngineOnNewNewsItem;
             _rulesEngine.NewUser += RulesEngineOnNewUser;
             _rulesEngine.StatsChanged += RulesEngineOnStatsChanged;
+            await _rulesEngine.Start(true);
         }
 
         private async void RulesEngineOnStatsChanged(object sender, StatsChangedEventArgs args)
