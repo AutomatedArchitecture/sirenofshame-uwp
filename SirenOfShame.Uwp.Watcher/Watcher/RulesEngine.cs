@@ -27,7 +27,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private IDictionary<string, BuildStatus> PreviousBuildStatus { get; set; }
 
         private CancellationTokenSource _watcherCancellationToken;
-        readonly Timer _timer;
+        readonly Timer _buildsInProgressTimer;
         private readonly SettingsIoService _settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
         private readonly SosDb _sosDb = ServiceContainer.Resolve<SosDb>();
 
@@ -120,7 +120,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             DisableWritingToSosDb = false;
             ResetPreviousWorkingOrBrokenStatuses();
             _settings = ServiceContainer.Resolve<SirenOfShameSettings>();
-            _timer = new Timer(TimerTick, null, 0, 1000);
+            _buildsInProgressTimer = new Timer(BuildsInProgressTimerTick, null, 0, 1000);
         }
 
         private bool _serverPreviouslyUnavailable;
@@ -400,7 +400,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             RefreshStatus?.Invoke(this, new RefreshStatusEventArgs { BuildStatusDtos = buildStatusListViewItems });
         }
 
-        private void TimerTick(object sender)
+        private void BuildsInProgressTimerTick(object sender)
         {
             if (_previousBuildStatuses.Any(bs => bs.BuildStatusEnum == BuildStatusEnum.InProgress))
             {
@@ -612,10 +612,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                     InvokeUpdateStatusBar("Attempting to connect to server");
                     await SetStatusUnknown();
                     await SendRecentNews();
-                    await AddExistingLeaders();
+                    AddExistingLeaders();
                 }
 
-                _timer.Change(0, 1000);
+                _buildsInProgressTimer.Change(0, 1000);
             }
             else
             {
@@ -624,11 +624,15 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        private async Task AddExistingLeaders()
+        private void AddExistingLeaders()
         {
-            await Task.Yield();
-            //var peopleByReputation = _settings.People.OrderByDescending(i => i.GetReputation());
-            //InvokeNewUser();
+            var peopleByReputation = _settings.People
+                .OrderByDescending(i => i.GetReputation())
+                .ToList();
+            if (peopleByReputation.Count > 0)
+            {
+                InvokeNewUser(peopleByReputation);
+            }
         }
 
         private async Task SendRecentNews()
@@ -676,7 +680,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private void Stop()
         {
-            _timer.Change(-1, int.MaxValue);
+            _buildsInProgressTimer.Change(-1, int.MaxValue);
             _watcherCancellationToken?.Cancel();
         }
 

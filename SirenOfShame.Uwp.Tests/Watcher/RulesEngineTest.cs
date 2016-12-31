@@ -118,6 +118,21 @@ namespace SirenOfShame.Test.Unit.Watcher
         }
 
         [Test]
+        public void GivenUserInSettings_WhenStartWatching_ThenUserIsSentThroughNewUserEvent()
+        {
+            var rulesEngine = new RulesEngineWrapper(start: false);
+            rulesEngine.Settings.People.Add(new PersonSetting
+            {
+                RawName = "BobSmith",
+            });
+            rulesEngine.Start();
+
+            Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents[0].NewPeople.Count);
+            Assert.AreEqual("BobSmith", rulesEngine.NewUserEvents[0].NewPeople[0].RawName);
+        }
+
+        [Test]
         public void UsersSecondCheckin_NoNewUserEvent()
         {
             var rulesEngine = new RulesEngineWrapper();
