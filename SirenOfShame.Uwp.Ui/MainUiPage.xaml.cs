@@ -164,10 +164,31 @@ namespace SirenOfShame.Uwp.Ui
             {
                 foreach (var newsItemEvent in newNewsItemEventArgs.NewsItemEvents)
                 {
-                    NewsItemDto newsItemDto = new NewsItemDto(newsItemEvent);
-                    ViewModel.News.Insert(0, newsItemDto);
+                    if (newsItemEvent.ShouldUpdateOldInProgressNewsItem)
+                        TryToFindAndUpdateOldInProgressNewsItem(newsItemEvent);
+                    else
+                        AddNewsItemToPanel(newsItemEvent);
                 }
             });
+        }
+
+        private void AddNewsItemToPanel(NewsItemEvent newsItemEvent)
+        {
+            NewsItemDto newsItemDto = new NewsItemDto(newsItemEvent);
+            ViewModel.News.Insert(0, newsItemDto);
+        }
+
+        private void TryToFindAndUpdateOldInProgressNewsItem(NewsItemEvent newsItemEvent)
+        {
+            var oldBuild = ViewModel.News.FirstOrDefault(i => i.BuildId == newsItemEvent.BuildId);
+            if (oldBuild == null)
+            {
+                AddNewsItemToPanel(newsItemEvent);
+            }
+            else
+            {
+                oldBuild.UpdateState(newsItemEvent);
+            }
         }
 
         private void LoadInitialData()
