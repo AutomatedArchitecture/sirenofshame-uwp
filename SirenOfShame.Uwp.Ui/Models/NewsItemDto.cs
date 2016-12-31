@@ -1,8 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
 using SirenOfShame.Uwp.Ui.Annotations;
-using SirenOfShame.Uwp.Ui.Helpers;
+using SirenOfShame.Uwp.Watcher.Helpers;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Models
@@ -17,6 +18,7 @@ namespace SirenOfShame.Uwp.Ui.Models
         private NewsItemTypeEnum _newsItemTypeEnum;
 
         public string BuildId { get; }
+        private DateTime EventDate { get; set; }
 
         public string Title
         {
@@ -96,8 +98,14 @@ namespace SirenOfShame.Uwp.Ui.Models
             Title = GetTitle(news);
             DisplayName = news.Person.DisplayName;
             Project = news.BuildDefinitionId?.ToUpperInvariant();
-            When = news.EventDate.PrettyDate();
+            EventDate = news.EventDate;
             NewsItemTypeEnum = news.NewsItemType;
+            CalculatePrettyDate();
+        }
+
+        public void CalculatePrettyDate()
+        {
+            When = EventDate.PrettyDate();
         }
 
         private static string GetTitle(NewsItemEvent news)

@@ -60,13 +60,11 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void PrettyDateOnTick(object state)
         {
-            foreach (var buildDefinition in ViewModel.BuildDefinitions)
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    buildDefinition.CalculatePrettyStartTime();
-                });
-            }
+                ViewModel.BuildDefinitions.ToList().ForEach(i => i.CalculatePrettyDate());
+                ViewModel.News.ToList().ForEach(i => i.CalculatePrettyDate());
+            });
         }
 
         private async Task EnsureConnected()

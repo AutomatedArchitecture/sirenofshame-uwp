@@ -108,7 +108,6 @@
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
     <Compile Include="Converters\NewsItemTypeEnumToColorConverter.cs" />
     <Compile Include="Converters\SosColors.cs" />
-    <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="MainUiPage.xaml.cs">
       <DependentUpon>MainUiPage.xaml</DependentUpon>
     </Compile>

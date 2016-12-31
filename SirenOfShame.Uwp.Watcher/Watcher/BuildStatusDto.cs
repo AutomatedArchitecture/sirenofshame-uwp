@@ -142,10 +142,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             Duration = newBd.Duration;
             RequestedByDisplayName = newBd.RequestedByDisplayName;
             Url = newBd.Url;
-            CalculatePrettyStartTime();
+            CalculatePrettyDate();
         }
 
-        public void CalculatePrettyStartTime()
+        public void CalculatePrettyDate()
         {
             PrettyStartTime = LocalStartTime.PrettyDate();
         }
