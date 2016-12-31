@@ -139,5 +139,15 @@ namespace SirenOfShame.Test.Unit.Watcher
         {
             set { _rulesEngine.MockSosOnlineService = value; }
         }
+
+        public void SendLatest()
+        {
+            _rulesEngine.SendLatest().Wait();
+        }
+
+        public void RefreshAll()
+        {
+            _rulesEngine.RefreshAll().Wait();
+        }
     }
 }

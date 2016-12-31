@@ -588,6 +588,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 .Where(s => !string.IsNullOrEmpty(s.Url))
                 .ToList();
 
+            if (!initialStart)
+            {
+                _restarting = true;
+            }
+
             StartWatchers(ciEntryPointSettings);
             await Task.Yield();
         }
