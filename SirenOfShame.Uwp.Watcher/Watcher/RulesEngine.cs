@@ -588,6 +588,12 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 .Where(s => !string.IsNullOrEmpty(s.Url))
                 .ToList();
 
+            await SendStartupEvents(initialStart, ciEntryPointSettings);
+            await StartWatchers(ciEntryPointSettings);
+        }
+
+        private async Task StartWatchers(List<CiEntryPointSetting> ciEntryPointSettings)
+        {
             _watchers.Clear();
             foreach (var ciEntryPointSetting in ciEntryPointSettings)
             {
@@ -601,10 +607,14 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 watcher.CiEntryPointSetting = ciEntryPointSetting;
                 // todo: It looks like we are overwriting preceding watcher threads with subsequent ones which will cause problems when we try to Stop() them
                 _watcherCancellationToken = new CancellationTokenSource();
-                //_watcherThread = new Task(async () => await watcher.StartWatching(_watcherCancellationToken.Token), _watcherCancellationToken.Token);
-                //_watcherThread.Start();
+                var task = new Task(async () => await watcher.StartWatching(_watcherCancellationToken.Token),
+                    _watcherCancellationToken.Token);
+                task.Start();
             }
+        }
 
+        private async Task SendStartupEvents(bool initialStart, List<CiEntryPointSetting> ciEntryPointSettings)
+        {
             if (ciEntryPointSettings.Any())
             {
                 if (initialStart)
