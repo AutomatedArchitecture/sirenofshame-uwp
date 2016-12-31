@@ -5,26 +5,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <converters:NewsItemTypeEnumToColorConverter x:Key="NewsItemTypeEnumToColorConverter" />
         <DataTemplate x:Name="UserTemplate" x:DataType="models:NewsItemDto">
             <Grid Style="{StaticResource SosHalfCard}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="20" />
+                    <RowDefinition Height="24" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="48" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{Binding Title}" Grid.Column="1"></TextBlock>
-                <StackPanel Background="Gray" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                    <TextBlock Text="{Binding DisplayName}" />
-                    <TextBlock Text="{Binding When}" />
-                    <TextBlock Text="{Binding Project}" />
+                <StackPanel Padding="2" Background="{x:Bind NewsItemTypeEnum, Converter={StaticResource NewsItemTypeEnumToColorConverter}, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                    <TextBlock Foreground="White" Text="{Binding DisplayName}" />
+                    <TextBlock Foreground="White" Text="{Binding When}" />
+                    <TextBlock Foreground="White" Text="{Binding Project}" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
