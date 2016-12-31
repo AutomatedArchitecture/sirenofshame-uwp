@@ -52,9 +52,19 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private void InvokeNewUser(string requestedBy)
         {
+            var firstPerson = _settings.People.FirstOrDefault(i => i.RawName == requestedBy);
+            if (firstPerson == null)
+            {
+                _log.Error("Unable to find person " + requestedBy + " this should never happen.");
+            }
+            InvokeNewUser(new List<PersonSetting>() { firstPerson });
+        }
+
+        private void InvokeNewUser(List<PersonSetting> newPeople)
+        {
             NewUser?.Invoke(this, new NewUserEventArgs
             {
-                RawName = requestedBy
+                NewPeople = newPeople
             });
         }
 
@@ -602,6 +612,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                     InvokeUpdateStatusBar("Attempting to connect to server");
                     await SetStatusUnknown();
                     await SendRecentNews();
+                    await AddExistingLeaders();
                 }
 
                 _timer.Change(0, 1000);
@@ -611,6 +622,13 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 InvokeUpdateStatusBar("");
                 InvokeRefreshStatus(Enumerable.Empty<BuildStatus>());
             }
+        }
+
+        private async Task AddExistingLeaders()
+        {
+            await Task.Yield();
+            //var peopleByReputation = _settings.People.OrderByDescending(i => i.GetReputation());
+            //InvokeNewUser();
         }
 
         private async Task SendRecentNews()

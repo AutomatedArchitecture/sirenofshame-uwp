@@ -59,7 +59,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             };
             rulesEngine.InvokeStatusChecked(new [] { build1, build2 });
             Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
-            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.NewUserEvents[0].RawName);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents[0].NewPeople.Count);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.NewUserEvents[0].NewPeople[0].RawName);
         }
 
         [Test]
@@ -112,7 +113,8 @@ namespace SirenOfShame.Test.Unit.Watcher
             var rulesEngine = new RulesEngineWrapper();
             rulesEngine.InvokeStatusChecked(BuildStatusEnum.InProgress);
             Assert.AreEqual(1, rulesEngine.NewUserEvents.Count);
-            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.NewUserEvents[0].RawName);
+            Assert.AreEqual(1, rulesEngine.NewUserEvents[0].NewPeople.Count);
+            Assert.AreEqual(RulesEngineWrapper.CURRENT_USER, rulesEngine.NewUserEvents[0].NewPeople[0].RawName);
         }
 
         [Test]

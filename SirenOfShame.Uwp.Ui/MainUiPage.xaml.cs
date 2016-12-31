@@ -135,12 +135,15 @@ namespace SirenOfShame.Uwp.Ui
             }
         }
 
-        private async void MessageDistributorServiceOnNewPerson(object sender, PersonSetting personSetting)
+        private async void MessageDistributorServiceOnNewPerson(object sender, NewUserEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                var personDto = new PersonDto(personSetting);
-                ViewModel.Leaders.Add(personDto);
+                foreach (var personSetting in args.NewPeople)
+                {
+                    var personDto = new PersonDto(personSetting);
+                    ViewModel.Leaders.Add(personDto);
+                }
             });
         }
 

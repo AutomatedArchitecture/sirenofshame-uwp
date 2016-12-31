@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Windows.Devices.Geolocation;
 using Windows.Foundation.Collections;
 using Newtonsoft.Json;
 using SirenOfShame.Uwp.Watcher.Services;
-using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Services
@@ -15,7 +13,7 @@ namespace SirenOfShame.Uwp.Ui.Services
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageDistributorService));
 
         public event EventHandler<NewNewsItemEventArgs> NewNewsItem;
-        public event EventHandler<PersonSetting> NewPerson;
+        public event EventHandler<NewUserEventArgs> NewPerson;
         public event EventHandler<RefreshStatusEventArgs> RefreshStatus;
         public event EventHandler<StatsChangedEventArgs> StatsChanged;
 
@@ -45,7 +43,7 @@ namespace SirenOfShame.Uwp.Ui.Services
                 }
                 if (keyValuePair.Key == "NewUser")
                 {
-                    var result = JsonConvert.DeserializeObject<PersonSetting>(messageBody);
+                    var result = JsonConvert.DeserializeObject<NewUserEventArgs>(messageBody);
                     NewPerson?.Invoke(this, result);
                     return;
                 }
