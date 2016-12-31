@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SirenOfShame.Uwp.Watcher.Annotations;
+using SirenOfShame.Uwp.Watcher.Helpers;
 using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Watcher.Watcher
@@ -14,9 +15,9 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         private string _comment;
         private string _duration;
         private int _imageIndex;
-        private DateTime _localStartTime;
         private string _requestedByDisplayName;
         private string _url;
+        private string _prettyStartTime;
 
         public string BuildDefinitionDisplayName
         {
@@ -84,16 +85,18 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        public DateTime LocalStartTime
+        public string PrettyStartTime
         {
-            get { return _localStartTime; }
+            get { return _prettyStartTime; }
             set
             {
-                if (value.Equals(_localStartTime)) return;
-                _localStartTime = value;
+                if (value == _prettyStartTime) return;
+                _prettyStartTime = value;
                 OnPropertyChanged();
             }
         }
+
+        public DateTime LocalStartTime { get; set; }
 
         public string RequestedByDisplayName
         {
@@ -139,9 +142,15 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             Duration = newBd.Duration;
             RequestedByDisplayName = newBd.RequestedByDisplayName;
             Url = newBd.Url;
-    }
+            CalculatePrettyStartTime();
+        }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+        public void CalculatePrettyStartTime()
+        {
+            PrettyStartTime = LocalStartTime.PrettyDate();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

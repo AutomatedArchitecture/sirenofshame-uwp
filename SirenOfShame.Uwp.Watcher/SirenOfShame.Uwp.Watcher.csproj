@@ -72,6 +72,7 @@
     <Compile Include="Exceptions\ServerUnavailableException.cs" />
     <Compile Include="Exceptions\SosException.cs" />
     <Compile Include="Helpers\ListHelpers.cs" />
+    <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Helpers\XElementHelpers.cs" />
     <Compile Include="Services\ServiceContainer.cs" />

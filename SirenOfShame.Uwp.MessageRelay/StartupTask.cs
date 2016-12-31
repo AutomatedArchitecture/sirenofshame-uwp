@@ -34,7 +34,7 @@ namespace SirenOfShame.Uwp.MessageRelay
                 var connection = triggerDetails.AppServiceConnection;
                 // save the guid and connection in a *static* list of all connections
                 Connections.Add(_thisConnectionGuid, connection);
-                await Debug("Connection opened: " + _thisConnectionGuid);
+                await Info("Connection opened: " + _thisConnectionGuid);
                 taskInstance.Canceled += OnTaskCancelled;
                 // listen for incoming app service requests
                 connection.RequestReceived += ConnectionRequestReceived;
@@ -42,13 +42,17 @@ namespace SirenOfShame.Uwp.MessageRelay
             }
             catch (Exception ex)
             {
-                await Debug("Error in startup " + ex);
+                await Error("Error in startup", ex);
             }
         }
 
+        /// <summary>
+        /// This happens when an app closes its connection normally.
+        /// </summary>
         private async void OnTaskCancelled(IBackgroundTaskInstance sender, BackgroundTaskCancellationReason reason)
         {
-            await Debug("MessageRelay was cancelled");
+            await Info("MessageRelay was cancelled, removing " + _thisConnectionGuid + " from the list of active connections.");
+            RemoveConnection(_thisConnectionGuid);
             if (_backgroundTaskDeferral != null)
             {
                 _backgroundTaskDeferral.Complete();
@@ -58,19 +62,37 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         private async void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
-            await Debug("Connection closed: " + _thisConnectionGuid);
+            await Info("Connection closed: " + _thisConnectionGuid);
             RemoveConnection(_thisConnectionGuid);
+        }
+
+        private async Task Error(string message, Exception ex = null)
+        {
+            await Write("ERROR", message + " - " + ex);
+        }
+
+        private async Task Info(string message)
+        {
+            await Write("INFO", message);
         }
 
         private async Task Debug(string message)
         {
-            await Task.Yield();
+            //await Write("DEBUG", message);
+        }
 
-            //// e.g. '\User Folders\LocalAppData\SirenOfShame.Uwp.MessageRelay-uwp_1.0.0.0_arm__n7wdzm614gaee\LocalState\MessageRelayLogs'
-            //var logFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("MessageRelayLogs", CreationCollisionOption.OpenIfExists);
-            //var messageRelayLogsPath = Path.Combine(logFolder.Path, "MessageRelayLogs.txt");
-            //var contents = $"{DateTime.Now} - {message}{Environment.NewLine}";
-            //File.AppendAllText(messageRelayLogsPath, contents);
+        /// <summary>
+        /// Writes logs to the LocalFolder.  On Windows IoT on a Pi this would be like:
+        /// '\User Folders\LocalAppData\SirenOfShame.Uwp.MessageRelay-uwp_1.0.0.0_arm__n7wdzm614gaee\LocalState\MessageRelayLogs'
+        /// On an x86 Windows machine it would be something like:
+        /// C:\Users\[user]\AppData\Local\Packages\SirenOfShame.Uwp.MessageRelay-uwp_n7wdzm614gaee\LocalState\MessageRelayLogs
+        /// </summary>
+        private async Task Write(string level, string message)
+        {
+            var logFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("MessageRelayLogs", CreationCollisionOption.OpenIfExists);
+            var messageRelayLogsPath = Path.Combine(logFolder.Path, "MessageRelayLogs.txt");
+            var contents = $"{DateTime.Now} - {level} - {message}{Environment.NewLine}";
+            File.AppendAllText(messageRelayLogsPath, contents);
         }
 
         private async void ConnectionRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
@@ -112,15 +134,15 @@ namespace SirenOfShame.Uwp.MessageRelay
                     //      to dispose of its connection, the connection object remains
                     //      in Connections.  When someone tries to send to it, it gets
                     //      an AppServiceResponseStatus.Failure response
-                    await Debug("Error sending to " + connection.Key + ".  Removing it from the list of active connections.");
+                    await Info("Error sending to " + connection.Key + ".  Removing it from the list of active connections.");
                     RemoveConnection(connection.Key);
                     return;
                 }
-                await Debug("Error sending to " + connection.Key + " - " + result.Status);
+                await Error("Error sending to " + connection.Key + " - " + result.Status);
             }
             catch (Exception ex)
             {
-                await Debug("Error SendMessage to " + connection.Key + " " + ex);
+                await Error("Error SendMessage to " + connection.Key, ex);
             }
         }
 

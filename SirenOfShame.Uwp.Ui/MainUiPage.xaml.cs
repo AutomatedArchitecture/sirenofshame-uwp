@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
-using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Util;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
@@ -26,6 +27,7 @@ namespace SirenOfShame.Uwp.Ui
         private RootViewModel ViewModel { get; set; }
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainUiPage));
         private List<BuildStatusDto> _lastBuildStatusDtos;
+        private Timer _prettyDateTimer;
 
         public MainUiPage()
         {
@@ -43,13 +45,27 @@ namespace SirenOfShame.Uwp.Ui
             try
             {
                 // if we start UI and Server at the same time, give the server time to start up
+                SetStatus($"Connecting to server...");
                 await Task.Delay(2000);
                 await _messageDistributorService.SendLatest();
+                _prettyDateTimer = new Timer(PrettyDateOnTick, null, 0, 10000);
+                SetStatus(null);
             }
             catch (EndpointNotFoundException)
             {
                 await EnsureConnected();
                 await _messageDistributorService.SendLatest();
+            }
+        }
+
+        private async void PrettyDateOnTick(object state)
+        {
+            foreach (var buildDefinition in ViewModel.BuildDefinitions)
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    buildDefinition.CalculatePrettyStartTime();
+                });
             }
         }
 
@@ -66,9 +82,19 @@ namespace SirenOfShame.Uwp.Ui
                 catch (Exception ex)
                 {
                     _log.Error("Unable to connect, retrying", ex);
-                    ErrorMessage.Text = $"Unable to connect to siren of shame engine. Retrying in {(retryDelay / 1000)} seconds...";
+                    SetStatus($"Unable to connect to siren of shame engine. Retrying in {(retryDelay / 1000)} seconds...");
                     await Task.Delay(retryDelay);
                 }
+            }
+        }
+
+        private void SetStatus(string statusText)
+        {
+            var hide = string.IsNullOrEmpty(statusText);
+            Status.Visibility = hide ? Visibility.Collapsed : Visibility.Visible;
+            if (statusText != null)
+            {
+                Status.Text = statusText;
             }
         }
 

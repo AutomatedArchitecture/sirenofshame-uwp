@@ -34,7 +34,7 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Bind RequestedByDisplayName, Mode=OneWay}" />
-                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind LocalStartTime, Mode=OneWay}" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind PrettyStartTime, Mode=OneWay}" />
                     <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Bind Comment, Mode=OneWay}" />
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Bind Duration, Mode=OneWay}" />
                     <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>

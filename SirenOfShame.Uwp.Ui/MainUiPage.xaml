@@ -17,9 +17,11 @@
     </Page.Resources>
 
     <Grid Background="#191919">
-        <TextBlock x:Name="ErrorMessage" Text="" HorizontalAlignment="Right" VerticalAlignment="Top" Padding="10"></TextBlock>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
-            <TextBlock Style="{StaticResource SosPageTitle}">Siren of Shame</TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="30" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" Grid.Row="0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
@@ -32,5 +34,8 @@
                 <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
             </Grid>
         </StackPanel>
+        <Grid Grid.Row="1" Background="#2D2D30">
+            <TextBlock x:Name="Status" Foreground="WhiteSmoke"></TextBlock>
+        </Grid>
     </Grid>
 </Page>
