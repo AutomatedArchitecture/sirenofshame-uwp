@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -10,13 +9,14 @@ namespace SirenOfShame.Uwp.Server.Services
 {
     public class MessageRelayService
     {
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
-
         private AppServiceConnection _connection;
+        public event Action<ValueSet> OnMessageReceived;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
 
         private async Task<AppServiceConnection> CachedConnection()
         {
             if (_connection != null) return _connection;
+            _log.Debug("Opening connection to MessageRelay");
             _connection = await MakeConnection();
             _connection.RequestReceived += ConnectionOnRequestReceived;
             _connection.ServiceClosed += ConnectionOnServiceClosed;
@@ -75,8 +75,9 @@ namespace SirenOfShame.Uwp.Server.Services
             var appServiceDeferral = args.GetDeferral();
             try
             {
-                var message = args.Request.Message.First();
-                MessageReceived?.Invoke(message.Value as string);
+                ValueSet valueSet = args.Request.Message;
+                _log.Debug("Received message from MessageRelay: " + valueSet);
+                OnMessageReceived?.Invoke(valueSet);
             }
             finally
             {
@@ -104,7 +105,5 @@ namespace SirenOfShame.Uwp.Server.Services
                 _log.Error("Error sending message " + message, ex);
             }
         }
-
-        public event Action<string> MessageReceived;
     }
 }

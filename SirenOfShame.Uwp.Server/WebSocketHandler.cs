@@ -16,17 +16,14 @@ namespace SirenOfShame.Uwp.Server
     /// </summary>
     public class WebSocketHandler : IWebSocketRequestHandler
     {
-        private readonly MessageRelayService _messageRelayService;
         private readonly SirenDeviceService _sirenDeviceService;
 
         public WebSocketHandler()
         {
-            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
             _sirenDeviceService.Connected += DeviceOnConnected;
             _sirenDeviceService.Disconnected += DeviceOnDisconnected;
-            _messageRelayService.MessageReceived += MessageRelayServiceMessageReceived;
         }
 
         public bool WillAcceptRequest(string uri, string protocol)
@@ -47,13 +44,6 @@ namespace SirenOfShame.Uwp.Server
             _socket = null;
         }
 
-        private void MessageRelayServiceMessageReceived(string message)
-        {
-            if (_socket == null) return;
-            var echoResult = new AlertResult(message);
-            SendObject(_socket, echoResult);
-        }
-
         private void DeviceOnDisconnected(object sender, EventArgs e)
         {
             SendConnectionChanged(false);
@@ -70,7 +60,7 @@ namespace SirenOfShame.Uwp.Server
             SendObject(_socket, new DeviceConnectionChangedResult(isConnected));
         }
 
-        private static readonly CommandBase[] Commands = {
+        internal static readonly CommandBase[] Commands = {
             new EchoCommand(),
             new SirenInfoCommand(),
             new PlayLedPatternCommand(),
@@ -81,7 +71,8 @@ namespace SirenOfShame.Uwp.Server
             new AddCiEntryPointSettingCommand(),
             new DeleteSettingsCommand(), 
             new GetCiEntryPointsCommand(),
-            new UpdateMockBuildCommand()
+            new UpdateMockBuildCommand(),
+            new SendLatestCommand()
         };
 
         private WebSocket _socket;

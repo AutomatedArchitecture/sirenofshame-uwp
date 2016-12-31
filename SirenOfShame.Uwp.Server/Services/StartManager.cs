@@ -11,6 +11,7 @@ namespace SirenOfShame.Uwp.Server.Services
             ServiceContainer.Register(() => new MessageRelayService());
             ServiceContainer.Register(() => new SirenDeviceService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
+            ServiceContainer.Register(() => new MessageCommandProcessor());
         }
     }
 }

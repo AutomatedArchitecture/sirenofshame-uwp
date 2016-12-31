@@ -26,6 +26,7 @@ namespace SirenOfShame.Uwp.TestServer
         private readonly StartManager _startManager = new StartManager();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainTestPage));
         private MessageRelayService _messageRelayService;
+        private MessageCommandProcessor _messageCommandProcessor;
 
         public MainTestPage()
         {
@@ -39,6 +40,7 @@ namespace SirenOfShame.Uwp.TestServer
             await _startManager.RegisterSirenOfShameSettings();
 
             _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _messageCommandProcessor = ServiceContainer.Resolve<MessageCommandProcessor>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
             InitializeMockCiServer();
@@ -61,6 +63,7 @@ namespace SirenOfShame.Uwp.TestServer
 
         private async Task StartMessageRelayService()
         {
+            _messageCommandProcessor.StartWatching();
             try
             {
                 await _messageRelayService.Open();

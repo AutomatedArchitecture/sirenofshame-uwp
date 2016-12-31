@@ -29,17 +29,18 @@ namespace SirenOfShame.Uwp.Ui
         public MainUiPage()
         {
             InitializeComponent();
-            Loaded += OnLoaded;
             _messageDistributorService.NewNewsItem += MessageDistributorServiceOnNewNewsItem;
             _messageDistributorService.NewPerson += MessageDistributorServiceOnNewPerson;
             _messageDistributorService.RefreshStatus += MessageDistributorServiceOnRefreshStatus;
             _messageDistributorService.StatsChanged += MessageDistributorServiceOnStatsChanged;
             LoadInitialData();
+            Loaded += OnLoaded;
         }
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             await EnsureConnected();
+            await _messageDistributorService.SendLatest();
         }
 
         private async Task EnsureConnected()

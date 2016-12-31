@@ -588,11 +588,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                 .Where(s => !string.IsNullOrEmpty(s.Url))
                 .ToList();
 
-            await SendStartupEvents(initialStart, ciEntryPointSettings);
-            await StartWatchers(ciEntryPointSettings);
+            StartWatchers(ciEntryPointSettings);
+            await Task.Yield();
         }
 
-        private async Task StartWatchers(List<CiEntryPointSetting> ciEntryPointSettings)
+        private void StartWatchers(List<CiEntryPointSetting> ciEntryPointSettings)
         {
             _watchers.Clear();
             foreach (var ciEntryPointSetting in ciEntryPointSettings)
@@ -613,19 +613,14 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
         }
 
-        private async Task SendStartupEvents(bool initialStart, List<CiEntryPointSetting> ciEntryPointSettings)
+        public async Task SendLatest()
         {
-            if (ciEntryPointSettings.Any())
+            if (_watchers.Any())
             {
-                if (initialStart)
-                {
-                    InvokeUpdateStatusBar("Attempting to connect to server");
-                    await SetStatusUnknown();
-                    await SendRecentNews();
-                    AddExistingLeaders();
-                }
-
-                _buildsInProgressTimer.Change(0, 1000);
+                InvokeUpdateStatusBar("Attempting to connect to server");
+                await SendRecentNews();
+                AddExistingLeaders();
+                _restarting = true;
             }
             else
             {
