@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -99,7 +100,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             {
                 return;
             }
-            throw new Exception("Error sending " + result.Status);
+            throw new EndpointNotFoundException("Error sending " + result.Status);
         }
 
         public async Task SendMessageAsync(string key, string value)

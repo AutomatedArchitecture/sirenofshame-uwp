@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Ui.Models;
@@ -39,8 +40,17 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
-            await EnsureConnected();
-            await _messageDistributorService.SendLatest();
+            try
+            {
+                // if we start UI and Server at the same time, give the server time to start up
+                await Task.Delay(2000);
+                await _messageDistributorService.SendLatest();
+            }
+            catch (EndpointNotFoundException)
+            {
+                await EnsureConnected();
+                await _messageDistributorService.SendLatest();
+            }
         }
 
         private async Task EnsureConnected()
