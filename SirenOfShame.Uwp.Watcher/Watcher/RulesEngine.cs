@@ -618,9 +618,18 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             if (_watchers.Any())
             {
                 InvokeUpdateStatusBar("Attempting to connect to server");
-                await SendRecentNews();
                 AddExistingLeaders();
-                _restarting = true;
+                if (_previousBuildStatuses != null && _previousBuildStatuses.Any())
+                {
+                    InvokeRefreshStatus(_previousBuildStatuses);
+                }
+                else
+                {
+                    // if there aren't any previous build statuses maybe we haven't started up
+                    //  yet, but setting _restarted = true will ensure we send everything next cycle
+                    _restarting = true;
+                }
+                await SendRecentNews();
             }
             else
             {
