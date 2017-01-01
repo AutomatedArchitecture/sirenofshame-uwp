@@ -14,7 +14,8 @@
         <converters:BuildStatusToImageConverter x:Key="BuildStatusToImageConverter" />
         <converters:BuildStatusToColorConverter x:Key="BuildStatusToColorConverter" />
         <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="watcher:BuildStatusDto">
-            <StackPanel Style="{StaticResource SosCard}">
+            <RelativePanel Style="{StaticResource SosCard}">
+                <StackPanel x:Name="TitleBar" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
                 <Grid Background="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToColorConverter}, Mode=OneWay}" Padding="10 2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -23,7 +24,8 @@
                     <TextBlock Text="{x:Bind BuildDefinitionDisplayName, Mode=OneWay}" FontSize="18" Foreground="White" />
                     <Image Grid.Column="1" Source="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToImageConverter}, Mode=OneWay}" />
                 </Grid>
-                <Grid Padding="10">
+                </StackPanel>
+                <Grid Padding="10" VerticalAlignment="Stretch" RelativePanel.Below="TitleBar" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"  RelativePanel.AlignLeftWithPanel="True">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
@@ -35,11 +37,13 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Grid.Column="0" FontWeight="Bold" Text="{x:Bind RequestedByDisplayName, Mode=OneWay}" />
                     <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" Foreground="#333" Text="{x:Bind PrettyStartTime, Mode=OneWay}" />
-                    <TextBlock Grid.Row="1" TextWrapping="Wrap" Grid.Column="0" Grid.ColumnSpan="2" Text="{x:Bind Comment, Mode=OneWay}" />
+                    <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                        <TextBlock TextWrapping="Wrap" Text="{x:Bind Comment, Mode=OneWay}" />
+                    </ScrollViewer>
+
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="{x:Bind Duration, Mode=OneWay}" />
-                    <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">* *</TextBlock>
                 </Grid>
-            </StackPanel>
+            </RelativePanel>
         </DataTemplate>
     </UserControl.Resources>
 
