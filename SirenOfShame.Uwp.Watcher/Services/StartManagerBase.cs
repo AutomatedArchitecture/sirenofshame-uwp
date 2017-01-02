@@ -8,9 +8,10 @@ namespace SirenOfShame.Uwp.Watcher.Services
     {
         private SirenOfShameSettings _sirenOfShameSettings;
 
-        public void Configure()
+        public virtual async Task Start()
         {
             RegisterServices();
+            await Task.Yield();
         }
 
         public async Task RegisterSirenOfShameSettings()
@@ -25,6 +26,10 @@ namespace SirenOfShame.Uwp.Watcher.Services
             ServiceContainer.Register(() => new RulesEngine());
             ServiceContainer.Register(() => new SettingsIoService());
             ServiceContainer.Register(() => new SosDb());
+        }
+
+        public virtual void Stop()
+        {
         }
     }
 }

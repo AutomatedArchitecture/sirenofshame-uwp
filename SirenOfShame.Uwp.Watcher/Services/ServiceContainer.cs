@@ -148,7 +148,8 @@ namespace SirenOfShame.Uwp.Watcher.Services
                 {
                     return service.Value;
                 }
-                throw new KeyNotFoundException(string.Format("Service not found for type '{0}'", type));
+                var message = $"Service not found for type '{type}'";
+                throw new KeyNotFoundException(message);
             }
         }
 

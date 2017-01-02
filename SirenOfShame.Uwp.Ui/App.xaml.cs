@@ -29,7 +29,7 @@ namespace SirenOfShame.Uwp.Ui
             InitializeComponent();
 
             var startManager = new StartManager();
-            startManager.Configure();
+            startManager.Start();
             _connection = ServiceContainer.Resolve<MessageRelayService>();
             _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
 
