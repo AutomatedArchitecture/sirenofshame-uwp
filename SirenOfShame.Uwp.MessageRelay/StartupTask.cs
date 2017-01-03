@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
@@ -14,7 +15,8 @@ namespace SirenOfShame.Uwp.MessageRelay
     {
         private BackgroundTaskDeferral _backgroundTaskDeferral;
         private Guid _thisConnectionGuid;
-        private static readonly Dictionary<Guid, AppServiceConnection> Connections = new Dictionary<Guid, AppServiceConnection>();
+        private static readonly Dictionary<Guid, AppServiceConnection> _connections = new Dictionary<Guid, AppServiceConnection>();
+        private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         /// <summary>
         /// When an AppServiceConnection of type 'SirenOfShameMessageRelay' (as
@@ -30,10 +32,16 @@ namespace SirenOfShame.Uwp.MessageRelay
                 _backgroundTaskDeferral = taskInstance.GetDeferral();
                 // save a unique identifier for each connection
                 _thisConnectionGuid = Guid.NewGuid();
-                var triggerDetails = (AppServiceTriggerDetails) taskInstance.TriggerDetails;
-                var connection = triggerDetails.AppServiceConnection;
+                var triggerDetails = taskInstance.TriggerDetails as AppServiceTriggerDetails;
+                var connection = triggerDetails?.AppServiceConnection;
+                if (connection == null)
+                {
+                    await Error("AppServiceConnection was null, ignorning this request");
+                    _backgroundTaskDeferral.Complete();
+                    return;
+                }
                 // save the guid and connection in a *static* list of all connections
-                Connections.Add(_thisConnectionGuid, connection);
+                _connections.Add(_thisConnectionGuid, connection);
                 await Info("Connection opened: " + _thisConnectionGuid);
                 taskInstance.Canceled += OnTaskCancelled;
                 // listen for incoming app service requests
@@ -89,10 +97,19 @@ namespace SirenOfShame.Uwp.MessageRelay
         /// </summary>
         private async Task Write(string level, string message)
         {
-            var logFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("MessageRelayLogs", CreationCollisionOption.OpenIfExists);
+            var logFolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("MessageRelayLogs",
+                CreationCollisionOption.OpenIfExists);
             var messageRelayLogsPath = Path.Combine(logFolder.Path, "MessageRelayLogs.txt");
             var contents = $"{DateTime.Now} - {level} - {message}{Environment.NewLine}";
-            File.AppendAllText(messageRelayLogsPath, contents);
+            await _semaphore.WaitAsync();
+            try
+            {
+                File.AppendAllText(messageRelayLogsPath, contents);
+            }
+            finally
+            {
+                _semaphore.Release(1);
+            }
         }
 
         private async void ConnectionRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
@@ -104,7 +121,7 @@ namespace SirenOfShame.Uwp.MessageRelay
                 await Debug("Request initiated by " + _thisConnectionGuid);
 
                 // .ToList() required since connections may get removed during SendMessage()
-                var otherConnections = Connections
+                var otherConnections = _connections
                     .Where(i => i.Key != _thisConnectionGuid)
                     .ToList();
                 foreach (var connection in otherConnections)
@@ -148,9 +165,9 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         private void RemoveConnection(Guid key)
         {
-            var connection = Connections[key];
+            var connection = _connections[key];
             connection.Dispose();
-            Connections.Remove(key);
+            _connections.Remove(key);
         }
     }
 }
