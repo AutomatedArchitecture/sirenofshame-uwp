@@ -71,6 +71,12 @@ namespace SirenOfShame.Uwp.Server.Services
             await _device.PlayLightPattern(ledPattern, duration);
         }
 
+        public async Task PlayAudioPattern(Watcher.Device.AudioPattern deviceAudioPattern, TimeSpan? duration)
+        {
+            var audioPattern = ToRealAudioPatten(deviceAudioPattern);
+            await _device.PlayAudioPattern(audioPattern, duration);
+        }
+
         public async Task PlayAudioPattern(AudioPattern audioPattern, TimeSpan? duration)
         {
             await _device.PlayAudioPattern(audioPattern, duration);
@@ -84,6 +90,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private static LedPattern ToRealLedPatten(Watcher.Device.LedPattern deviceLedPattern)
         {
+            if (deviceLedPattern == null) return null;
             LedPattern ledPattern = new LedPattern
             {
                 Id = deviceLedPattern.Id,
@@ -94,6 +101,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private static AudioPattern ToRealAudioPatten(Watcher.Device.AudioPattern deviceAudioPattern)
         {
+            if (deviceAudioPattern == null) return null;
             AudioPattern audioPatten = new AudioPattern
             {
                 Id = deviceAudioPattern.Id,

@@ -45,6 +45,7 @@ namespace SirenOfShame.Uwp.Server.Services
             {
                 var rulesEngine = ServiceContainer.Resolve<RulesEngine>();
                 rulesEngine.SetLights += RulesEngineOnSetLights;
+                rulesEngine.SetAudio += RulesEngineOnSetAudio;
                 rulesEngine.RefreshStatus += RulesEngineOnRefreshStatus;
                 rulesEngine.NewNewsItem += RulesEngineOnNewNewsItem;
                 rulesEngine.NewUser += RulesEngineOnNewUser;
@@ -92,6 +93,14 @@ namespace SirenOfShame.Uwp.Server.Services
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
             await _messageRelayService.Send("RefreshStatus", argsAsJson);
+        }
+
+        private async void RulesEngineOnSetAudio(object sender, SetAudioEventArgs args)
+        {
+            if (_sirenDeviceService.IsConnected)
+            {
+                await _sirenDeviceService.PlayAudioPattern(args.AudioPattern, args.TimeSpan);
+            }
         }
 
         private async void RulesEngineOnSetLights(object sender, SetLightsEventArgs args)
