@@ -90,12 +90,13 @@ namespace SirenOfShame.Uwp.Ui.Models
         {
             BuildId = news.BuildId;
             UpdateState(news);
+            Title = GetTitle(news);
         }
 
         public void UpdateState(NewsItemEvent news)
         {
+            // todo: Add a Description with more details then add back setting Title here
             ReputationChange = news.ReputationChange.HasValue ? GetNumericAsDelta(news.ReputationChange.Value) : null;
-            Title = GetTitle(news);
             DisplayName = news.Person.DisplayName;
             Project = news.BuildDefinitionId?.ToUpperInvariant();
             EventDate = news.EventDate;
