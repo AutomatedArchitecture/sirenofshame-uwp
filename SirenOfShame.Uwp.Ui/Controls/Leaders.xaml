@@ -2,7 +2,6 @@
     x:Class="SirenOfShame.Uwp.Ui.Controls.Leaders"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SirenOfShame.Uwp.Ui.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
@@ -49,20 +48,26 @@
                     <TextBlock Text="FSB:" Style="{StaticResource SosAttributeTitle}" />
                     <TextBlock Text="{Binding FixedSomeoneElsesBuild, Mode=OneWay}"></TextBlock>
                 </StackPanel>
-                <StackPanel Background="Gray" Grid.Row="2" Grid.ColumnSpan="4">
+                <StackPanel Background="Gray" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
                     <TextBlock Text="{Binding DisplayName, Mode=OneWay}" Foreground="White"></TextBlock>
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource SosSubheading}" Text="Leaders"></TextBlock>
-        <GridView Foreground="#fff" SelectionMode="None" 
-                  IsItemClickEnabled="True"
-                  ItemsSource="{Binding}"
-                  ItemTemplate="{StaticResource UserTemplate}"
-                  >
+        <GridView 
+            Grid.Row="1"
+            Foreground="#fff" SelectionMode="None" 
+            IsItemClickEnabled="True"
+            ItemsSource="{Binding}"
+            ItemTemplate="{StaticResource UserTemplate}"
+            >
         </GridView>
-    </StackPanel>
+    </Grid>
 </UserControl>

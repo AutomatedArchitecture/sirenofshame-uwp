@@ -35,14 +35,20 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <StackPanel>
-            <TextBlock Style="{StaticResource SosSubheading}" Text="News"></TextBlock>
-            <GridView Foreground="#fff" SelectionMode="None" 
-                  IsItemClickEnabled="True"
-                  ItemsSource="{Binding}"
-                  ItemTemplate="{StaticResource UserTemplate}"
-                  >
-            </GridView>
-        </StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBlock Style="{StaticResource SosSubheading}" Text="News"></TextBlock>
+        <GridView 
+                Grid.Row="1"
+                Foreground="#fff" SelectionMode="None" 
+                IsItemClickEnabled="True"
+                ItemsSource="{Binding}"
+                ItemTemplate="{StaticResource UserTemplate}"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollMode="Enabled"
+                >
+        </GridView>
     </Grid>
 </UserControl>
