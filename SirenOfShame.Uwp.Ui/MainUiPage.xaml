@@ -16,7 +16,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="#191919">
+    <Grid Background="#191919" Padding="10 20 10 0">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
