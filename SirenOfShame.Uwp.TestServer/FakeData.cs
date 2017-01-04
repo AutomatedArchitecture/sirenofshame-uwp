@@ -39,7 +39,7 @@ namespace SirenOfShame.Uwp.TestServer
     ""ShouldUpdateOldInProgressNewsItem"": false
 }";
 
-        public static string NewUserItem { get; } = @"{
+        public static string NewUserItem { get; } = @"{NewPeople:[{
         ""RawName"": ""Bob Shimpty"",
         ""DisplayName"": ""Bob Shimpty"",
         ""TotalBuilds"": 200,
@@ -58,6 +58,7 @@ namespace SirenOfShame.Uwp.TestServer
         ""AvatarImageName"": null,
         ""AvatarImageUploaded"": false,
         ""Clickable"": true
+    }]
     }";
 
         public static string StatsChanged { get; } = @"[{

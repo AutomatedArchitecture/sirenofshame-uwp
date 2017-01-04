@@ -47,13 +47,19 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <TextBlock Style="{StaticResource SosSubheading}" Text="Builds"></TextBlock>
-        <GridView Foreground="#fff" SelectionMode="None" 
-                  IsItemClickEnabled="True"
-                  ItemsSource="{Binding}"
-                  ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
-                  >
+        <GridView 
+            Grid.Row="1"
+            Foreground="#fff" SelectionMode="None" 
+            IsItemClickEnabled="True"
+            ItemsSource="{Binding}"
+            ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
+            >
         </GridView>
-    </StackPanel>
+    </Grid>
 </UserControl>
