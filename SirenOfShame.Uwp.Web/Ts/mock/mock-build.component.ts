@@ -46,6 +46,14 @@ export class MockBuild {
     public buildStatus: BuildStatus;
 
     public send() {
+        var inProgress = 3;
+        if (Number(this.buildStatus.buildStatusEnum) === inProgress) {
+            this.buildStatus.startedTime = new Date();
+            this.buildStatus.finishedTime = null;
+        } else {
+            this.buildStatus.finishedTime = new Date();
+        }
+
         this.updateMockBuildCommand.execute(this.buildStatus);
     }
 }
