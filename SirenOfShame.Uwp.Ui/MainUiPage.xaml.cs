@@ -45,7 +45,7 @@ namespace SirenOfShame.Uwp.Ui
             try
             {
                 // if we start UI and Server at the same time, give the server time to start up
-                SetStatus($"Connecting to server...");
+                SetStatus("Connecting to server...");
                 await Task.Delay(2000);
                 await _messageDistributorService.SendLatest();
                 _prettyDateTimer = new Timer(PrettyDateOnTick, null, 0, 10000);
@@ -107,13 +107,18 @@ namespace SirenOfShame.Uwp.Ui
                 {
                     leaderPair.oldLeader.Update(leaderPair.newLeader);
                 }
-                ViewModel.Leaders.SortDescending(i => i.Reputation);
+                ResortLeaders();
             });
+        }
+
+        private void ResortLeaders()
+        {
+            ViewModel.Leaders.SortDescending(i => i.Reputation);
         }
 
         private async void MessageDistributorServiceOnRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 _lastBuildStatusDtos = args.BuildStatusDtos
                     .OrderByDescending(i => i.LocalStartTime)
@@ -161,7 +166,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
         {
-            bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count();
+            bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count;
             bool anyNewBuildDefIds = buildStatusDtos
                 .Any(newBd => ViewModel.BuildDefinitions.All(oldBd => newBd.BuildDefinitionId != oldBd.BuildDefinitionId));
             if (numberOfBuildsChanged || anyNewBuildDefIds)
@@ -173,19 +178,20 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void MessageDistributorServiceOnNewPerson(object sender, NewUserEventArgs args)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 foreach (var personSetting in args.NewPeople)
                 {
                     var personDto = new PersonDto(personSetting);
                     ViewModel.Leaders.Add(personDto);
                 }
+                ResortLeaders();
             });
         }
 
         private async void MessageDistributorServiceOnNewNewsItem(object sender, NewNewsItemEventArgs newNewsItemEventArgs)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 foreach (var newsItemEvent in newNewsItemEventArgs.NewsItemEvents)
                 {
