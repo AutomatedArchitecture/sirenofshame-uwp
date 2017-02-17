@@ -90,10 +90,16 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private string ValueSetToString(ValueSet valueSet)
         {
-            if (valueSet.Count > 1) return "Multiple ValueSets: " + String.Join(", ", valueSet.Select(i => i.Key));
+            if (valueSet.Count > 1)
+                return "Multiple ValueSets: " + string.Join(", ", valueSet.Select(i => i.Key));
             var value = valueSet.First();
-            if (value.Key == "RefreshStatus") return value.Key;
+            if (IsChatty(value.Key)) return value.Key;
             return value.Key + " - " + value.Value;
+        }
+
+        private bool IsChatty(string valueKey)
+        {
+            return valueKey == MessageDistributorService.REFRESHSTATUS;
         }
 
         public void CloseConnection()

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Windows.UI.Notifications;
 using Newtonsoft.Json;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
@@ -11,6 +10,10 @@ namespace SirenOfShame.Uwp.Ui.Services
 {
     public class MessageDistributorService
     {
+        public const string REFRESHSTATUS = "RefreshStatus";
+        private const string NEWUSER = "NewUser";
+        private const string NEWNEWSITEM = "NewNewsItem";
+        private const string STATSCHANGED = "StatsChanged";
         private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageDistributorService));
 
@@ -35,19 +38,19 @@ namespace SirenOfShame.Uwp.Ui.Services
         private readonly Dictionary<string, MessageOutletBase> _messageOutlets = new Dictionary<string, MessageOutletBase>
         {
             {
-                "NewNewsItem",
+                NEWNEWSITEM,
                 new MessageOutlet<NewNewsItemEventArgs>((arg, mds) => mds.NewNewsItem?.Invoke(mds, arg))
             },
             {
-                "NewUser",
+                NEWUSER,
                 new MessageOutlet<NewUserEventArgs>((arg, mds) => mds.NewPerson?.Invoke(mds, arg))
             },
             {
-                "RefreshStatus",
+                REFRESHSTATUS,
                 new MessageOutlet<RefreshStatusEventArgs>((arg, mds) => mds.RefreshStatus?.Invoke(mds, arg))
             },
             {
-                "StatsChanged",
+                STATSCHANGED,
                 new MessageOutlet<StatsChangedEventArgs>((arg, mds) => mds.StatsChanged?.Invoke(mds, arg))
             }
         };
