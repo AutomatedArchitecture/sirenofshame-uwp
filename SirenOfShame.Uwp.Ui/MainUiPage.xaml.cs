@@ -98,7 +98,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void MessageDistributorServiceOnStatsChanged(object sender, StatsChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var leaderPairs = from oldLeader in ViewModel.Leaders
                     join newLeader in args.ChangedPeople on oldLeader.RawName equals newLeader.RawName
@@ -107,6 +107,7 @@ namespace SirenOfShame.Uwp.Ui
                 {
                     leaderPair.oldLeader.Update(leaderPair.newLeader);
                 }
+                ViewModel.Leaders.SortDescending(i => i.Reputation);
             });
         }
 
