@@ -16,6 +16,7 @@ namespace SirenOfShame.Uwp.Ui.Models
         private string _reputationChange;
         private string _when;
         private NewsItemTypeEnum _newsItemTypeEnum;
+        private int? _avatarId;
 
         public string BuildId { get; }
         private DateTime EventDate { get; set; }
@@ -75,6 +76,17 @@ namespace SirenOfShame.Uwp.Ui.Models
             }
         }
 
+        public int? AvatarId
+        {
+            get { return _avatarId; }
+            set
+            {
+                if (value == _avatarId) return;
+                _avatarId = value;
+                OnPropertyChanged();
+            }
+        }
+
         public NewsItemTypeEnum NewsItemTypeEnum
         {
             get { return _newsItemTypeEnum; }
@@ -98,6 +110,7 @@ namespace SirenOfShame.Uwp.Ui.Models
             // todo: Add a Description with more details then add back setting Title here
             ReputationChange = news.ReputationChange.HasValue ? GetNumericAsDelta(news.ReputationChange.Value) : null;
             DisplayName = news.Person.DisplayName;
+            AvatarId = news.Person.AvatarId;
             Project = news.BuildDefinitionId?.ToUpperInvariant();
             EventDate = news.EventDate;
             NewsItemTypeEnum = news.NewsItemType;

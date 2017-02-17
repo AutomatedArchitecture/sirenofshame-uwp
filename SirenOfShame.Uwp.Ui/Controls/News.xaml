@@ -11,22 +11,24 @@
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <converters:AvatarIdToImageConverter x:Key="AvatarIdToImageConverter" />
         <converters:NewsItemTypeEnumToColorConverter x:Key="NewsItemTypeEnumToColorConverter" />
         <DataTemplate x:Name="UserTemplate" x:DataType="models:NewsItemDto">
             <Grid Style="{StaticResource SosHalfCard}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="26" />
+                    <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Source="{x:Bind AvatarId, Converter={StaticResource AvatarIdToImageConverter}, Mode=OneWay}" />
                 <TextBlock Text="{Binding Title}" Grid.Column="1"></TextBlock>
-                <Grid Padding="2" Background="{x:Bind NewsItemTypeEnum, Converter={StaticResource NewsItemTypeEnumToColorConverter}, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+                <Grid Background="{x:Bind NewsItemTypeEnum, Converter={StaticResource NewsItemTypeEnumToColorConverter}, Mode=OneWay}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
                     <!-- nested StackPanel required because apparently OneWay databinding on StackPanel Background's doesn't work -->
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Foreground="White" Padding="5 2" Text="{Binding DisplayName}" />
+                        <TextBlock Foreground="White" Padding="5 2" Text="{Binding DisplayName}" TextAlignment="Center" MinWidth="75" />
                         <TextBlock Foreground="White" Padding="5 2" Text="{Binding When}" />
                         <TextBlock Foreground="White" Padding="5 2" Text="{Binding Project}" />
                     </StackPanel>

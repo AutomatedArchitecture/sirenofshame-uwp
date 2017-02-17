@@ -52,7 +52,7 @@
                     <TextBlock Text="{Binding FixedSomeoneElsesBuild, Mode=OneWay}"></TextBlock>
                 </StackPanel>
                 <StackPanel Background="Gray" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4">
-                    <TextBlock Text="{Binding DisplayName, Mode=OneWay}" Foreground="White"></TextBlock>
+                    <TextBlock Text="{Binding DisplayName, Mode=OneWay}" Foreground="White" TextAlignment="Center" MinWidth="75" HorizontalAlignment="Left" ></TextBlock>
                 </StackPanel>
             </Grid>
         </DataTemplate>
