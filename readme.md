@@ -109,3 +109,30 @@ and compile all typescript files.
 To deploy to the pi run `gulp pideploy` which
 will copy the Angular 2 based web app into SirenOfShame.Uwp.Background/wwwroot/
 
+# Development Environment
+
+There are two main ways to work:
+
+1. On a Raspberry Pi, in 'production'
+2. On a PC in 'mock' mode
+
+The second option is trickier to set up, but has the fastest dev feedback cycle.
+
+## Mock Environment Setup
+
+To set up Mock mode
+
+#### Prerequisites:
+UWP-based servers can not be hit via localhost, so:
+
+* Set up a VM or other computer that can access your dev machine
+* Open up port 8080 for your web server
+
+#### Steps
+1. Set SirenOfShame.Uwp.Web as startup project and Start Without Debugging.
+2. Set SirenOfShame.Uwp.TestServer up as startup project and Start Without Debugging
+3. Hit http://[mycomputer]:8080/ from another machine
+4. Add a 'Mock' CI Server via the menu on the web page
+5. Set SirenOfShame.Uwp.MessageRelay as startup project and right click + deploy
+6. Set SirenOfShame.Uwp.Ui as startup project and Start it
+7. Click 'Mock Server' from the web page to throw mock CI info into the UWP UI
