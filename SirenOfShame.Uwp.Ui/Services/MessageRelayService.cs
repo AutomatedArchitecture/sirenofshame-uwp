@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
@@ -78,13 +79,21 @@ namespace SirenOfShame.Uwp.Ui.Services
             try
             {
                 ValueSet valueSet = args.Request.Message;
-                _log.Debug("Received message from MessageRelay: " + valueSet);
+                _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
                 OnMessageReceived?.Invoke(valueSet);
             }
             finally
             {
                 appServiceDeferral.Complete();
             }
+        }
+
+        private string ValueSetToString(ValueSet valueSet)
+        {
+            if (valueSet.Count > 1) return "Multiple ValueSets: " + String.Join(", ", valueSet.Select(i => i.Key));
+            var value = valueSet.First();
+            if (value.Key == "RefreshStatus") return value.Key;
+            return value.Key + " - " + value.Value;
         }
 
         public void CloseConnection()

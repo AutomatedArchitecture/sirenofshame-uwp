@@ -163,9 +163,9 @@ namespace SirenOfShame.Uwp.Ui
             bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count();
             bool anyNewBuildDefIds = buildStatusDtos
                 .Any(newBd => ViewModel.BuildDefinitions.All(oldBd => newBd.BuildDefinitionId != oldBd.BuildDefinitionId));
-            _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
             if (numberOfBuildsChanged || anyNewBuildDefIds)
             {
+                _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
                 ViewModel.BuildDefinitions.Clear();
             }
         }
