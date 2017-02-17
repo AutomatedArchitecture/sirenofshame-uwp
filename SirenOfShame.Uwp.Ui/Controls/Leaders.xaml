@@ -5,11 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
     <UserControl.Resources>
+        <converters:AvatarIdToImageConverter x:Key="AvatarIdToImageConverter" />
         <Style x:Name="SosAttributeTitle" TargetType="TextBlock">
             <Setter Property="FontWeight" Value="Bold"></Setter>
             <Setter Property="Padding" Value="0 0 5 0"></Setter>
@@ -17,7 +19,7 @@
         <DataTemplate x:Name="UserTemplate" x:DataType="models:PersonDto">
             <Grid Style="{StaticResource SosHalfCard}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition Width="80" />
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
                     <ColumnDefinition Width="1*" />
@@ -27,6 +29,7 @@
                     <RowDefinition Height="1*" />
                     <RowDefinition Height="20" />
                 </Grid.RowDefinitions>
+                <Image Grid.Column="0" Grid.RowSpan="2" Source="{x:Bind AvatarId, Converter={StaticResource AvatarIdToImageConverter}, Mode=OneWay}" />
                 <TextBlock FontSize="22" Grid.Column="1" Grid.Row="0" Text="{Binding Reputation, Mode=OneWay}" />
                 <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
                     <TextBlock Text="A:" Style="{StaticResource SosAttributeTitle}" />

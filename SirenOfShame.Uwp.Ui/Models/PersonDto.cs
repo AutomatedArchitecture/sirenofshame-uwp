@@ -15,6 +15,7 @@ namespace SirenOfShame.Uwp.Ui.Models
         private int _reputation;
         private string _displayName;
         private string _rawName;
+        private int? _avatarId;
 
         public PersonDto(PersonSetting person)
         {
@@ -25,12 +26,24 @@ namespace SirenOfShame.Uwp.Ui.Models
         {
             RawName = person.RawName;
             DisplayName = person.DisplayName;
+            AvatarId = person.AvatarId;
             Reputation = person.GetReputation();
             Achievements = person.Achievements.Count;
             FailPercent = string.Format("{0:p1}", person.CurrentBuildRatio).Replace(" ", "");
             SuccessfulBuildsInARow = string.Format("{0}", person.CurrentSuccessInARow);
             FixedSomeoneElsesBuild = string.Format("{0}", person.NumberOfTimesFixedSomeoneElsesBuild);
             TotalBuilds = string.Format("{0}", person.TotalBuilds);
+        }
+
+        public int? AvatarId
+        {
+            get { return _avatarId; }
+            set
+            {
+                if (value == _avatarId) return;
+                _avatarId = value;
+                OnPropertyChanged();
+            }
         }
 
         public string TotalBuilds

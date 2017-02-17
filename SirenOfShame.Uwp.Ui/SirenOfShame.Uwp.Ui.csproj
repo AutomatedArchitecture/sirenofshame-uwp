@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Converters\BuildStatusToColorConverter.cs" />
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
+    <Compile Include="Converters\LeaderToImageConverter.cs" />
     <Compile Include="Converters\NewsItemTypeEnumToColorConverter.cs" />
     <Compile Include="Converters\SosColors.cs" />
     <Compile Include="MainUiPage.xaml.cs">
@@ -129,6 +130,38 @@
     <None Include="SirenOfShame.Uwp.Ui_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Avatars\Avatar01.png" />
+    <Content Include="Assets\Avatars\Avatar02.png" />
+    <Content Include="Assets\Avatars\Avatar03.png" />
+    <Content Include="Assets\Avatars\Avatar04.png" />
+    <Content Include="Assets\Avatars\Avatar05.png" />
+    <Content Include="Assets\Avatars\Avatar06.png" />
+    <Content Include="Assets\Avatars\Avatar07.png" />
+    <Content Include="Assets\Avatars\Avatar08.png" />
+    <Content Include="Assets\Avatars\Avatar09.png" />
+    <Content Include="Assets\Avatars\Avatar10.png" />
+    <Content Include="Assets\Avatars\Avatar11.png" />
+    <Content Include="Assets\Avatars\Avatar12.png" />
+    <Content Include="Assets\Avatars\Avatar13.png" />
+    <Content Include="Assets\Avatars\Avatar14.png" />
+    <Content Include="Assets\Avatars\Avatar15.png" />
+    <Content Include="Assets\Avatars\Avatar16.png" />
+    <Content Include="Assets\Avatars\Avatar17.png" />
+    <Content Include="Assets\Avatars\Avatar18.png" />
+    <Content Include="Assets\Avatars\Avatar19.png" />
+    <Content Include="Assets\Avatars\Avatar20.png" />
+    <Content Include="Assets\Avatars\Avatar21.png" />
+    <Content Include="Assets\Avatars\Avatar22.png" />
+    <Content Include="Assets\Avatars\Avatar23.png" />
+    <Content Include="Assets\Avatars\Avatar24.png" />
+    <Content Include="Assets\Avatars\Avatar25.png" />
+    <Content Include="Assets\Avatars\Avatar26.png" />
+    <Content Include="Assets\Avatars\Avatar27.png" />
+    <Content Include="Assets\Avatars\Avatar28.png" />
+    <Content Include="Assets\Avatars\Avatar29.png" />
+    <Content Include="Assets\Avatars\Avatar30.png" />
+    <Content Include="Assets\Avatars\Avatar31.png" />
+    <Content Include="Assets\Avatars\Avatar32.png" />
     <Content Include="Assets\error.scale-100.png" />
     <Content Include="Assets\error.scale-140.png" />
     <Content Include="Assets\error.scale-180.png" />
