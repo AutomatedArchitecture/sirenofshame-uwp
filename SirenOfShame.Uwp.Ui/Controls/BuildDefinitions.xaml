@@ -21,7 +21,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{x:Bind BuildDefinitionDisplayName, Mode=OneWay}" FontSize="18" Foreground="White" />
+                    <TextBlock TextTrimming="CharacterEllipsis" Text="{x:Bind BuildDefinitionDisplayName, Mode=OneWay}" FontSize="18" Foreground="White" />
                     <Image Grid.Column="1" Source="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToImageConverter}, Mode=OneWay}" />
                 </Grid>
                 </StackPanel>
