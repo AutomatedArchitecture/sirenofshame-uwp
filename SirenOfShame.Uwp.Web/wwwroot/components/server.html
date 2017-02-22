@@ -23,13 +23,13 @@
     <div class="form-group">
         <label for="username" class="col-sm-2 control-label">User Name</label>
         <div class="col-sm-10">
-            <input type="text" class="form-control" id="username" name="username" />
+            <input [(ngModel)]="ciEntryPointSetting.username" type="text" class="form-control" id="username" name="username" />
         </div>
     </div>
     <div class="form-group">
         <label for="password" class="col-sm-2 control-label">Password</label>
         <div class="col-sm-10">
-            <input type="password" class="form-control" id="password" name="password" />
+            <input [(ngModel)]="ciEntryPointSetting.password" type="password" class="form-control" id="password" name="password" />
         </div>
     </div>
     <div class="form-group">
