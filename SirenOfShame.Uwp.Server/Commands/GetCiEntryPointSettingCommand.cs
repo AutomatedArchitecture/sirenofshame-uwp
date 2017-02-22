@@ -1,20 +1,21 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class GetCiEntryPointSettingCommand : CommandBase
+    internal class GetCiEntryPointSettingCommand : CommandBase<GetCiEntryPointSettingRequest>
     {
         public override string CommandName => "getCiEntryPointSetting";
-        public override async Task<SocketResult> Invoke(string frame)
+
+        protected override async Task<SocketResult> Invoke(GetCiEntryPointSettingRequest request)
         {
             await Task.Yield();
             var appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
-            // todo: Support multiple ci entry points!!!
-            var ciEntryPointSetting = appSettings.CiEntryPointSettings.FirstOrDefault();
+            var ciEntryPointSetting = appSettings.CiEntryPointSettings.FirstOrDefault(i => i.Id == request.Id);
             return new GetCiEntryPointSettingResult(ciEntryPointSetting);
         }
     }

@@ -12,7 +12,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         public CiEntryPointSetting CiEntryPointSetting { get; set; }
     }
 
-    internal class AddCiEntryPointSettingCommand : CommandBase
+    internal class AddCiEntryPointSettingCommand : CommandBase<AddCiEntryPointSettingRequest>
     {
         private readonly RulesEngine _rulesEngine;
 
@@ -22,10 +22,8 @@ namespace SirenOfShame.Uwp.Server.Commands
         }
 
         public override string CommandName => "addCiEntryPointSetting";
-        public override async Task<SocketResult> Invoke(string frame)
+        protected override async Task<SocketResult> Invoke(AddCiEntryPointSettingRequest request)
         {
-            var request = Deserialize<AddCiEntryPointSettingRequest>(frame);
-
             var appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
 
             foreach (var buildDefinitionSetting in request.CiEntryPointSetting.BuildDefinitionSettings)

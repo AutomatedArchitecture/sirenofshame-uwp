@@ -6,14 +6,13 @@ using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal class UpdateMockBuildCommand : CommandBase
+    internal class UpdateMockBuildCommand : CommandBase<Request<BuildStatus>>
     {
         public override string CommandName => "updateMockBuild";
 
-        public override async Task<SocketResult> Invoke(string frame)
+        protected override async Task<SocketResult> Invoke(Request<BuildStatus> request)
         {
             await Task.Yield();
-            var request = Deserialize<Request<BuildStatus>>(frame);
             // normally setting LocalStartTime happens in the ctor, but b/c of json deserialization we need to re-set it
             request.Message.LocalStartTime = DateTime.Now;
             MockWatcher.UpdateBuild(request.Message);

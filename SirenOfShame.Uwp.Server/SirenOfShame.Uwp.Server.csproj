@@ -124,6 +124,7 @@
     <Compile Include="Models\DeviceConnectionChangedResult.cs" />
     <Compile Include="Models\EchoResult.cs" />
     <Compile Include="Models\ErrorResult.cs" />
+    <Compile Include="Models\GetCiEntryPointSettingRequest.cs" />
     <Compile Include="Models\GetProjectsResult.cs" />
     <Compile Include="Models\OkSocketResult.cs" />
     <Compile Include="Models\PlayAudioRequest.cs" />

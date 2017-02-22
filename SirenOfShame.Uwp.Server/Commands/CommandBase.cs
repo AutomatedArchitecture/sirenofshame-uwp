@@ -5,13 +5,17 @@ using SirenOfShame.Uwp.Server.Models;
 
 namespace SirenOfShame.Uwp.Server.Commands
 {
-    internal abstract class CommandBase
+    internal abstract class CommandBase<T> : CommandBase
     {
-        public abstract string CommandName { get; }
+        protected abstract Task<SocketResult> Invoke(T frame);
 
-        public abstract Task<SocketResult> Invoke(string frame);
+        public override Task<SocketResult> Invoke(string frame)
+        {
+            var obj = Deserialize(frame);
+            return Invoke(obj);
+        }
 
-        protected static T Deserialize<T>(string frame)
+        private static T Deserialize(string frame)
         {
             var jsonSerializerSettings = new JsonSerializerSettings
             {
@@ -20,5 +24,12 @@ namespace SirenOfShame.Uwp.Server.Commands
             var request = JsonConvert.DeserializeObject<T>(frame, jsonSerializerSettings);
             return request;
         }
+    }
+
+    internal abstract class CommandBase
+    {
+        public abstract string CommandName { get; }
+
+        public abstract Task<SocketResult> Invoke(string frame);
     }
 }
