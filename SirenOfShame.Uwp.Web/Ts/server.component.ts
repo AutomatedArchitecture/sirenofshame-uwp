@@ -29,6 +29,8 @@ export class Server {
     public serverTypes: CiEntryPoint[];
 
     ngOnInit() {
+        this.addingProjects = false;
+
         this.sub = this.route.params.subscribe(params => {
             let id = +params['id'];
             if (id) {
@@ -54,6 +56,7 @@ export class Server {
     public ciEntryPointSetting = new CiEntryPointSetting();
 
     public loadingProjects: boolean = false;
+    public addingProjects: boolean = false;
 
     public errorMessage: string = null;
 
@@ -62,12 +65,17 @@ export class Server {
         this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciEntryPointSetting)
             .then(projects => {
                 this.ciEntryPointSetting.projects = projects;
+                this.addingProjects = true;
             }, ex => {
                 this.errorMessage = ex;
             })
             .then(() => {
                 this.loadingProjects = false;
             });
+    }
+
+    public onAddBuilds() {
+        this.addingProjects = false;
     }
 
     public onSave() {
