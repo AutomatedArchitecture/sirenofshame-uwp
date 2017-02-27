@@ -88,6 +88,7 @@ export class Server {
 
     public delete() {
         this.deleteServerCommand.execute(this.ciEntryPointSetting.id).then(() => {
+            this.serverService.refreshCiEntryPoints.emit();
             this.router.navigate(["home"]);
             }
         );
@@ -102,8 +103,8 @@ export class Server {
                 let adding = this.ciEntryPointSetting.id === 0;
                 if (adding) {
                     this.ciEntryPointSetting.id = ciEntryPointSettingId;
-                    this.serverService.serverAdded.emit((this.ciEntryPointSetting));
                 }
+                this.serverService.refreshCiEntryPoints.emit();
                 this.router.navigate(["home"]);
             });
     }

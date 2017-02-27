@@ -27,7 +27,7 @@ export class AppComponent {
         private getCiEntryPointSettingsCommand: GetCiEntryPointSettingsCommand
     ) {
         serverService.connected.subscribe(() => this.onServerConnected());
-        serverService.serverAdded.subscribe(ciEntryPointSetting => this.onServerAdded(ciEntryPointSetting));
+        serverService.refreshCiEntryPoints.subscribe(() => this.refreshCiEntryPoints());
         serverService.connectionError.subscribe(err => {
             this.webSocketsConnecting = false;
             this.webSocketsError = err;
@@ -38,12 +38,12 @@ export class AppComponent {
     private onServerConnected() {
         this.webSocketsConnecting = false;
         this.webSocketsError = null;
-        this.getCiEntryPointSettingsCommand.execute()
-            .then(ciEntryPoints => this.ciEntryPointSettings = ciEntryPoints);
+        this.refreshCiEntryPoints();
     }
 
-    private onServerAdded(ciEntryPointSetting: CiEntryPointSetting) {
-        this.ciEntryPointSettings.push(ciEntryPointSetting);
+    private refreshCiEntryPoints() {
+        this.getCiEntryPointSettingsCommand.execute()
+            .then(ciEntryPoints => this.ciEntryPointSettings = ciEntryPoints);
     }
 
     public webSocketsConnecting: boolean = true;

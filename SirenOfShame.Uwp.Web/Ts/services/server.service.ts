@@ -69,7 +69,7 @@ export class ServerService {
     @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
     @Output() public connectionError: EventEmitter<string> = new EventEmitter<string>(true);
     @Output() public deviceConnectionChanged: EventEmitter<boolean> = new EventEmitter<any>(true);
-    @Output() public serverAdded: EventEmitter<CiEntryPointSetting> = new EventEmitter<CiEntryPointSetting>(true);
+    @Output() public refreshCiEntryPoints: EventEmitter<any> = new EventEmitter<any>(true);
 
     public isConnected: boolean;
 
