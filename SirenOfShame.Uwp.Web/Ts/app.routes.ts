@@ -1,9 +1,9 @@
 import { NgModule }             from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import {ShowOff} from "./show-off.component"
+import {ShowOff} from "./showOff/show-off.component"
 import {Home} from "./home/home.component"
 import {Server} from "./ciServers/server.component"
-import {Settings} from "./settings.component"
+import {Settings} from "./settings/settings.component"
 import {MockServer} from "./mock/mock-server.component"
 
 const routes: Routes = [
