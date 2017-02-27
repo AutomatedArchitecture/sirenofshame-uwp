@@ -6,7 +6,7 @@ using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.Siren
 {
     internal class PlayAudioPatternCommand : CommandBase
     {

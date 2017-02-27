@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
-    internal class DeleteBuildDefinitionCommand : CommandBase<Request<int>>
+    internal class DeleteCiEntryPointSettingCommand : CommandBase<Request<int>>
     {
         public override string CommandName => "delete-server";
         protected override async Task<SocketResult> Invoke(Request<int> frame)

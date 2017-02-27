@@ -1,11 +1,10 @@
 ﻿using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
-using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.Settings
 {
     internal class DeleteSettingsCommand : CommandBase
     {

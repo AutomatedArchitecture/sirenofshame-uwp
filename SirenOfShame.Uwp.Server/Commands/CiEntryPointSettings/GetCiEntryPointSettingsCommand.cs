@@ -4,7 +4,7 @@ using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
     internal class GetCiEntryPointSettingsCommand : CommandBase
     {

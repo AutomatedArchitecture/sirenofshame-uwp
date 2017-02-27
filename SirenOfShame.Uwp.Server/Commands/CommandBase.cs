@@ -1,6 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SirenOfShame.Uwp.Server.Commands.BuildDefinitions;
+using SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings;
+using SirenOfShame.Uwp.Server.Commands.Settings;
+using SirenOfShame.Uwp.Server.Commands.Siren;
 using SirenOfShame.Uwp.Server.Models;
 
 namespace SirenOfShame.Uwp.Server.Commands
@@ -45,7 +49,7 @@ namespace SirenOfShame.Uwp.Server.Commands
             new GetCiEntryPointsCommand(),
             new UpdateMockBuildCommand(),
             new SendLatestCommand(),
-            new DeleteBuildDefinitionCommand()
+            new DeleteCiEntryPointSettingCommand()
         };
     }
 }
