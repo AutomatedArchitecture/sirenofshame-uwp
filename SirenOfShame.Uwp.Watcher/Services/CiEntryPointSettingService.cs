@@ -9,6 +9,7 @@ namespace SirenOfShame.Uwp.Watcher.Services
     {
         private readonly SirenOfShameSettings _appSettings;
         private readonly RulesEngine _rulesEngine;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(CiEntryPointSettingService));
 
         public CiEntryPointSettingService()
         {
@@ -18,7 +19,7 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
         public CiEntryPointSetting GetById(int id)
         {
-            var existingRecord = _appSettings.CiEntryPointSettings.First(i => i.Id == id);
+            var existingRecord = _appSettings.CiEntryPointSettings.FirstOrDefault(i => i.Id == id);
             return existingRecord;
         }
 
@@ -60,9 +61,27 @@ namespace SirenOfShame.Uwp.Watcher.Services
             {
                 Update(requestCiEntryPointSetting);
             }
+            await SaveSettingsRefreshWatcher();
+        }
+
+        private async Task SaveSettingsRefreshWatcher()
+        {
             var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
             await settingsIoService.Save();
             await _rulesEngine.RefreshAll();
+        }
+
+        public async Task Delete(int id)
+        {
+            _log.Debug("Attempting to delete CiEntryPointSetting #" + id);
+            var ciEntryPointSetting = GetById(id);
+            if (ciEntryPointSetting == null)
+            {
+                _log.Warn("Tried to delete CiEntryPointSetting #" + id + " but it didn't exist");
+                return;
+            }
+            _appSettings.CiEntryPointSettings.Remove(ciEntryPointSetting);
+            await SaveSettingsRefreshWatcher();
         }
     }
 }

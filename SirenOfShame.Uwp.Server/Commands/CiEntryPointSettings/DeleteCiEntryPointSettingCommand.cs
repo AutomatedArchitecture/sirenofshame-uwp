@@ -1,26 +1,22 @@
 ﻿using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher.Services;
-using SirenOfShame.Uwp.Watcher.Settings;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
     internal class DeleteCiEntryPointSettingCommand : CommandBase<Request<int>>
     {
-        private readonly RulesEngine _rulesEngine;
+        private readonly CiEntryPointSettingService _ciEntryPointSettingService;
 
         public DeleteCiEntryPointSettingCommand()
         {
-            _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
+            _ciEntryPointSettingService = ServiceContainer.Resolve<CiEntryPointSettingService>();
         }
 
         public override string CommandName => "delete-server";
         protected override async Task<SocketResult> Invoke(Request<int> frame)
         {
-            var appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
-            // todo delete
-            await Task.Yield();
+            await _ciEntryPointSettingService.Delete(frame.Message);
             return new OkSocketResult();
         }
     }
