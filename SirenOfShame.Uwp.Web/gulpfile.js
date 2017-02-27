@@ -7,7 +7,8 @@ var gulp = require("gulp"),
     cssmin = require("gulp-cssmin"),
     uglify = require("gulp-uglify"),
     ts = require('gulp-typescript'),
-    htmlreplace = require('gulp-html-replace');
+    htmlreplace = require('gulp-html-replace'),
+    gutil = require('gulp-util');
 
 var paths = {
     webroot: "./wwwroot/"
@@ -84,9 +85,21 @@ gulp.task('ts', function (done) {
     var tsResult = gulp.src([
             "Ts/**/*.ts"
     ])
-    .pipe(ts(tsProject), undefined, ts.reporter.fullReporter());
+    .pipe(ts(tsProject, undefined, visualStudioReporter()));
     return tsResult.js.pipe(gulp.dest('./wwwroot/appScripts'));
 });
+
+function visualStudioReporter() {
+    return {
+        error: function (error) {
+            //This works
+            gutil.log("Typescript: error", error.message);
+            //This isn't shown
+            console.error(error.message);
+        },
+        finish: ts.reporter.defaultReporter().finish
+    };
+}
 
 gulp.task('debug:copyts',
     function(done) {
