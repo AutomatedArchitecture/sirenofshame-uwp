@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-import 'rxjs/add/operator/toPromise';
-import { GetSirenInfoCommand } from './commands/get-siren-info.command';
+import {Component} from "@angular/core";
+import "rxjs/add/operator/toPromise";
+import { GetSirenInfoCommand } from "../commands/get-siren-info.command";
 
 @Component({
     template: `
