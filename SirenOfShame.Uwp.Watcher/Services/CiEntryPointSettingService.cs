@@ -1,8 +1,7 @@
 ﻿using System.Linq;
-using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
-namespace SirenOfShame.Uwp.Server.Services
+namespace SirenOfShame.Uwp.Watcher.Services
 {
     public class CiEntryPointSettingService
     {

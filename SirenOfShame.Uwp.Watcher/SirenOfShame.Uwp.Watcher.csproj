@@ -75,6 +75,7 @@
     <Compile Include="Helpers\PrettyDateHelper.cs" />
     <Compile Include="Helpers\StringHelpers.cs" />
     <Compile Include="Helpers\XElementHelpers.cs" />
+    <Compile Include="Services\CiEntryPointSettingService.cs" />
     <Compile Include="Services\ServiceContainer.cs" />
     <Compile Include="Services\StartManagerBase.cs" />
     <Compile Include="Settings\SettingsIoService.cs" />

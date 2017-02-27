@@ -16,8 +16,11 @@ using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
 
 namespace SirenOfShame.Uwp.Watcher.Settings
 {
-    // todo: figure out settings serialization
-    //[Serializable]
+    /// <summary>
+    /// This is essentially the database of all settings.  It represents the set of information 
+    /// that is required to run SoS including server url's and 
+    /// credentials, rules, users, reputation and achievements, etc.
+    /// </summary>
     public class SirenOfShameSettings
     {
         public const int AVATAR_COUNT = 21;
