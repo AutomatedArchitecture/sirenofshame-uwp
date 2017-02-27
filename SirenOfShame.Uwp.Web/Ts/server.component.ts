@@ -33,7 +33,9 @@ export class Server {
 
         this.sub = this.route.params.subscribe(params => {
             let id = +params['id'];
+
             if (id) {
+                this.editingExisting = true;
                 this.getCiEntryPointSettingCommand.invoke(id)
                     .then(ciEntryPointSetting => {
                         this.ciEntryPointSetting.id = ciEntryPointSetting.id;
@@ -57,6 +59,7 @@ export class Server {
 
     public loadingProjects: boolean = false;
     public addingProjects: boolean = false;
+    public editingExisting: boolean = false;
 
     public errorMessage: string = null;
 
@@ -76,6 +79,10 @@ export class Server {
 
     public onAddBuilds() {
         this.addingProjects = false;
+    }
+
+    public delete() {
+        // todo: delete
     }
 
     public onSave() {
