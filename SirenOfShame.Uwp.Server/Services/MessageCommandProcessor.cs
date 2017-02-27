@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
+using SirenOfShame.Uwp.Server.Commands;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 
@@ -35,7 +36,7 @@ namespace SirenOfShame.Uwp.Server.Services
             {
                 var messageBody = keyValuePair.Value as string;
 
-                foreach (var command in WebSocketHandler.Commands)
+                foreach (var command in CommandBase.Commands)
                 {
                     if (command.CommandName == keyValuePair.Key)
                     {
