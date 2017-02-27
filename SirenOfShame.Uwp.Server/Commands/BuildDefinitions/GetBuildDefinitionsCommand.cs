@@ -4,7 +4,7 @@ using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Settings;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.BuildDefinitions
 {
     public class GetProjectsRequest : RequestBase
     {

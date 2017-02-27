@@ -4,7 +4,7 @@ using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher.Watcher;
 using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.BuildDefinitions
 {
     internal class UpdateMockBuildCommand : CommandBase<Request<BuildStatus>>
     {

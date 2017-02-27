@@ -1,11 +1,10 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
-namespace SirenOfShame.Uwp.Server.Commands
+namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
     internal class GetCiEntryPointSettingCommand : CommandBase<GetCiEntryPointSettingRequest>
     {

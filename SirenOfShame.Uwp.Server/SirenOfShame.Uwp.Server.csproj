@@ -108,19 +108,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandBase.cs" />
-    <Compile Include="Commands\DeleteBuildDefinitionCommand.cs" />
-    <Compile Include="Commands\DeleteSettingsCommand.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\DeleteCiEntryPointSettingCommand.cs" />
+    <Compile Include="Commands\Settings\DeleteSettingsCommand.cs" />
     <Compile Include="Commands\SendLatestCommand.cs" />
-    <Compile Include="Commands\UpdateMockBuildCommand.cs" />
+    <Compile Include="Commands\BuildDefinitions\UpdateMockBuildCommand.cs" />
     <Compile Include="Commands\EchoCommand.cs" />
-    <Compile Include="Commands\GetBuildDefinitionsCommand.cs" />
-    <Compile Include="Commands\AddCiEntryPointSettingCommand.cs" />
-    <Compile Include="Commands\GetCiEntryPointsCommand.cs" />
-    <Compile Include="Commands\GetCiEntryPointSettingsCommand.cs" />
-    <Compile Include="Commands\GetCiEntryPointSettingCommand.cs" />
-    <Compile Include="Commands\PlayLedPatternCommand.cs" />
-    <Compile Include="Commands\PlayAudioPatternCommand.cs" />
-    <Compile Include="Commands\SirenInfoCommand.cs" />
+    <Compile Include="Commands\BuildDefinitions\GetBuildDefinitionsCommand.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\AddCiEntryPointSettingCommand.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\GetCiEntryPointsCommand.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\GetCiEntryPointSettingsCommand.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\GetCiEntryPointSettingCommand.cs" />
+    <Compile Include="Commands\Siren\PlayLedPatternCommand.cs" />
+    <Compile Include="Commands\Siren\PlayAudioPatternCommand.cs" />
+    <Compile Include="Commands\Siren\SirenInfoCommand.cs" />
     <Compile Include="Models\AlertResult.cs" />
     <Compile Include="Models\DeviceConnectionChangedResult.cs" />
     <Compile Include="Models\EchoResult.cs" />
