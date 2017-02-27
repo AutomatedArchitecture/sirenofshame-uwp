@@ -1,15 +1,19 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Watcher.Services
 {
     public class CiEntryPointSettingService
     {
         private readonly SirenOfShameSettings _appSettings;
+        private readonly RulesEngine _rulesEngine;
 
         public CiEntryPointSettingService()
         {
             _appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
+            _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
         }
 
         public CiEntryPointSetting GetById(int id)
@@ -37,6 +41,28 @@ namespace SirenOfShame.Uwp.Watcher.Services
             var existingRecord = GetById(requestCiEntryPointSetting.Id);
             existingRecord.Url = requestCiEntryPointSetting.Url;
             existingRecord.BuildDefinitionSettings = requestCiEntryPointSetting.BuildDefinitionSettings;
+        }
+
+        public async Task AddUpdate(CiEntryPointSetting requestCiEntryPointSetting)
+        {
+            foreach (var buildDefinitionSetting in requestCiEntryPointSetting.BuildDefinitionSettings)
+            {
+                buildDefinitionSetting.Active = true;
+                buildDefinitionSetting.BuildServer = requestCiEntryPointSetting.Name;
+            }
+
+            var incommingId = requestCiEntryPointSetting.Id;
+            if (incommingId == 0)
+            {
+                Add(requestCiEntryPointSetting);
+            }
+            else
+            {
+                Update(requestCiEntryPointSetting);
+            }
+            var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
+            await settingsIoService.Save();
+            await _rulesEngine.RefreshAll();
         }
     }
 }
