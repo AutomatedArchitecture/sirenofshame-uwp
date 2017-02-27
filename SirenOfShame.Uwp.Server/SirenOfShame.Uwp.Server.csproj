@@ -135,7 +135,6 @@
     <Compile Include="Models\SirenInfoResult.cs" />
     <Compile Include="Models\SocketResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\CiEntryPointSettingService.cs" />
     <Compile Include="Services\FileAdapter.cs" />
     <Compile Include="Services\IWebServer.cs" />
     <Compile Include="Services\MessageCommandProcessor.cs" />
