@@ -31,5 +31,12 @@ namespace SirenOfShame.Uwp.Watcher.Services
             ciEntryPointSetting.Id = newId;
             _appSettings.CiEntryPointSettings.Add(ciEntryPointSetting);
         }
+
+        public void Update(CiEntryPointSetting requestCiEntryPointSetting)
+        {
+            var existingRecord = GetById(requestCiEntryPointSetting.Id);
+            existingRecord.Url = requestCiEntryPointSetting.Url;
+            existingRecord.BuildDefinitionSettings = requestCiEntryPointSetting.BuildDefinitionSettings;
+        }
     }
 }

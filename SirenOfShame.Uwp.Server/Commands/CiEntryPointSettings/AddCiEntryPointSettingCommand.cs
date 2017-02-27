@@ -40,9 +40,7 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
             }
             else
             {
-                var existingRecord = ciEntryPointSettingService.GetById(incommingId);
-                existingRecord.Url = request.CiEntryPointSetting.Url;
-                existingRecord.BuildDefinitionSettings = request.CiEntryPointSetting.BuildDefinitionSettings;
+                ciEntryPointSettingService.Update(request.CiEntryPointSetting);
             }
             var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
             await settingsIoService.Save();
