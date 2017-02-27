@@ -38,5 +38,21 @@ namespace SirenOfShame.Uwp.Tests.Services
             ciEntryPointSettingService.Add(ciEntryPointSetting);
             Assert.AreEqual(2, ciEntryPointSetting.Id);
         }
+
+        [Test]
+        public void GivenOneCiEntryPointSetting_WhenUpdate_ThenUrlUpdates()
+        {
+            var existingCiEntryPointSetting = new CiEntryPointSetting { Id = 1, Url = "Old" };
+            Settings.CiEntryPointSettings.Add(existingCiEntryPointSetting);
+            var ciEntryPointSettingService = new CiEntryPointSettingService();
+
+            var ciEntryPointSetting = new CiEntryPointSetting
+            {
+                Id = 1,
+                Url = "New"
+            };
+            ciEntryPointSettingService.Update(ciEntryPointSetting);
+            Assert.AreEqual("New", existingCiEntryPointSetting.Url);
+        }
     }
 }
