@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Threading.Tasks;
+using NUnit.Framework;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
@@ -53,6 +54,24 @@ namespace SirenOfShame.Uwp.Tests.Services
             };
             ciEntryPointSettingService.Update(ciEntryPointSetting);
             Assert.AreEqual("New", existingCiEntryPointSetting.Url);
+        }
+
+        [Test]
+        public async Task GivenMatchingCiEntryPointSetting_WhenDelete_ItIsDeleted()
+        {
+            var existingCiEntryPointSetting = new CiEntryPointSetting { Id = 2 };
+            Settings.CiEntryPointSettings.Add(existingCiEntryPointSetting);
+            var ciEntryPointSettingService = new CiEntryPointSettingService();
+            await ciEntryPointSettingService.Delete(2);
+            Assert.AreEqual(0, Settings.CiEntryPointSettings.Count);
+        }
+
+        [Test]
+        public async Task GivenNonmatchingCiEntryPointSetting_WhenDelete_ItFailsQuietly()
+        {
+            var ciEntryPointSettingService = new CiEntryPointSettingService();
+            await ciEntryPointSettingService.Delete(2);
+            Assert.AreEqual(0, Settings.CiEntryPointSettings.Count);
         }
     }
 }
