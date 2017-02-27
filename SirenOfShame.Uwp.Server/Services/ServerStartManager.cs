@@ -118,6 +118,9 @@ namespace SirenOfShame.Uwp.Server.Services
             ServiceContainer.Register(() => new SirenDeviceService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
             ServiceContainer.Register(() => new MessageCommandProcessor());
+
+            // Services
+            ServiceContainer.Register(() => new CiEntryPointSettingService());
         }
 
         public override void Stop()
