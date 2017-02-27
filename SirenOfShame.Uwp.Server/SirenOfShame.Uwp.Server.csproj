@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CommandBase.cs" />
+    <Compile Include="Commands\DeleteBuildDefinitionCommand.cs" />
     <Compile Include="Commands\DeleteSettingsCommand.cs" />
     <Compile Include="Commands\SendLatestCommand.cs" />
     <Compile Include="Commands\UpdateMockBuildCommand.cs" />

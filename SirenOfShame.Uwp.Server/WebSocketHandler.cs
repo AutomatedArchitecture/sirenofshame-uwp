@@ -60,21 +60,6 @@ namespace SirenOfShame.Uwp.Server
             SendObject(_socket, new DeviceConnectionChangedResult(isConnected));
         }
 
-        internal static readonly CommandBase[] Commands = {
-            new EchoCommand(),
-            new SirenInfoCommand(),
-            new PlayLedPatternCommand(),
-            new PlayAudioPatternCommand(), 
-            new GetBuildDefinitionsCommand(), 
-            new GetCiEntryPointSettingCommand(),
-            new GetCiEntryPointSettingsCommand(),
-            new AddCiEntryPointSettingCommand(),
-            new DeleteSettingsCommand(), 
-            new GetCiEntryPointsCommand(),
-            new UpdateMockBuildCommand(),
-            new SendLatestCommand()
-        };
-
         private WebSocket _socket;
 
         async void OnDataReceived(WebSocket socket, string frame)
@@ -91,7 +76,7 @@ namespace SirenOfShame.Uwp.Server
         {
             try
             {
-                var controller = Commands.FirstOrDefault(i => i.CommandName == requestType);
+                var controller = CommandBase.Commands.FirstOrDefault(i => i.CommandName == requestType);
                 if (controller == null)
                 {
                     return new ErrorResult(404, "No controller associated with type: " + requestType);

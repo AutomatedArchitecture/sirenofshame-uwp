@@ -8,6 +8,8 @@ import { MyBuildDefinition } from './models/myBuildDefinition';
 import { ServerService } from './server.service';
 import { CiEntryPoint } from './models/ciEntryPoint.ts'
 import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command'
+import { DeleteServerCommand } from './commands/delete-server.command'
+import { ModalComponent } from './common/modal-component'
 
 @Component({
     templateUrl: './components/server.html'
@@ -17,6 +19,7 @@ export class Server {
         private getBuildDefinitionsCommand: GetBuildDefinitionsCommand,
         private getCiEntryPointSettingCommand: GetCiEntryPointSettingCommand,
         private addCiEntryPointSettingCommand: AddCiEntryPointSettingCommand,
+        private deleteServerCommand: DeleteServerCommand,
         private route: ActivatedRoute,
         private router: Router,
         private serverService: ServerService,
@@ -84,7 +87,10 @@ export class Server {
     }
 
     public delete() {
-        // todo: delete
+        this.deleteServerCommand.execute(this.ciEntryPointSetting.id).then(() => {
+            this.router.navigate(['home']);
+            }
+        );
     }
 
     public onSave() {
