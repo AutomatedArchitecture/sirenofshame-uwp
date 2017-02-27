@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
@@ -24,7 +25,7 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
         public override string CommandName => "addCiEntryPointSetting";
         protected override async Task<SocketResult> Invoke(AddCiEntryPointSettingRequest request)
         {
-            var appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
+            var ciEntryPointSettingService = ServiceContainer.Resolve<CiEntryPointSettingService>();
 
             foreach (var buildDefinitionSetting in request.CiEntryPointSetting.BuildDefinitionSettings)
             {
@@ -35,14 +36,11 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
             var incommingId = request.CiEntryPointSetting.Id;
             if (incommingId == 0)
             {
-                var maxId = appSettings.CiEntryPointSettings.Max(i => (int?)i.Id) ?? 0;
-                var newId = maxId + 1;
-                request.CiEntryPointSetting.Id = newId;
-                appSettings.CiEntryPointSettings.Add(request.CiEntryPointSetting);
+                ciEntryPointSettingService.Add(request.CiEntryPointSetting);
             }
             else
             {
-                var existingRecord = appSettings.CiEntryPointSettings.First(i => i.Id == incommingId);
+                var existingRecord = ciEntryPointSettingService.GetById(incommingId);
                 existingRecord.Url = request.CiEntryPointSetting.Url;
                 existingRecord.BuildDefinitionSettings = request.CiEntryPointSetting.BuildDefinitionSettings;
             }
