@@ -77,6 +77,11 @@ namespace SirenOfShame.Uwp.Web
                         );
                 });
                 routes.MapRoute(
+                    name: "server-edit",
+                    template: "server/{id}",
+                    defaults: new { controller = "Home", action = "Index" }
+                    );
+                routes.MapRoute(
                     name: "vendorsmin",
                     template: "vendors.min.js",
                     defaults: new { controller = "Home", action = "Vendors" }
