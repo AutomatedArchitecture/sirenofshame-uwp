@@ -62,11 +62,23 @@
                 <span *ngIf="!editingExisting">Add</span>
                 <span *ngIf="editingExisting">Update</span>
             </button>
-            <button type="button" (click)="delete()" class="btn btn-danger" *ngIf="editingExisting">
+            <button type="button" (click)="modal.show()" class="btn btn-danger" *ngIf="editingExisting">
                 <span *ngIf="!loadingProjects">Delete</span>
             </button>
         </div>
     </div>
+    <app-modal>
+        <div class="app-modal-header">
+            Delete CI Server?
+        </div>
+        <div class="app-modal-body">
+            Are you sure you want to delete the CI Server at {{ciEntryPointSetting.url}}?  Users will not lose any earned points or achievements, but you will lose the local copy of any build history.
+        </div>
+        <div class="app-modal-footer">
+            <button type="button" class="btn btn-default" (click)="modal.hide()">Cancel</button>
+            <button type="button" class="btn btn-danger" (click)="delete()">Delete</button>
+        </div>
+    </app-modal>
 </form>
 <form class="form-horizontal" (ngSubmit)="onAddBuilds()" #serverForm="ngForm" novalidate *ngIf="addingProjects">
     <p>Select projects to watch</p>

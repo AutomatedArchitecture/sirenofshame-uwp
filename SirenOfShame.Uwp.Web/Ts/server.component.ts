@@ -1,4 +1,4 @@
-﻿import { Component } from '@angular/core';
+﻿import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CiEntryPointSetting } from './models/ciEntryPointSetting';
 import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
@@ -27,6 +27,8 @@ export class Server {
 
     private sub: any;
     public serverTypes: CiEntryPoint[];
+    @ViewChild(ModalComponent)
+    public modal: ModalComponent;
 
     ngOnInit() {
         this.addingProjects = false;
