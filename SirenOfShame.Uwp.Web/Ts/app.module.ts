@@ -9,6 +9,7 @@ import {Server} from './server.component'
 import {Settings} from './settings.component'
 import {MockServer} from './mock/mock-server.component'
 import {MockBuild} from './mock/mock-build.component'
+import {ModalComponent} from './common/modal-component'
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import {MockBuild} from './mock/mock-build.component'
         Server,
         Settings,
         MockServer,
-        MockBuild
+        MockBuild,
+        ModalComponent
     ],
     bootstrap: [AppComponent]
 })
