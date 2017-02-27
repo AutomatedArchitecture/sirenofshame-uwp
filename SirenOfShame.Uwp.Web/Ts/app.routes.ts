@@ -1,19 +1,19 @@
-import { NgModule }             from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {ShowOff} from './show-off.component'
-import {Home} from './home.component'
-import {Server} from './server.component'
-import {Settings} from './settings.component'
-import {MockServer} from './mock/mock-server.component'
+import { NgModule }             from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import {ShowOff} from "./show-off.component"
+import {Home} from "./home/home.component"
+import {Server} from "./ciServers/server.component"
+import {Settings} from "./settings.component"
+import {MockServer} from "./mock/mock-server.component"
 
 const routes: Routes = [
-    { path: '', redirectTo: 'home', pathMatch: 'full' },
-    { path: 'home', component: Home },
-    { path: 'showoff', component: ShowOff },
-    { path: 'server', component: Server },
-    { path: 'server/:id', component: Server },
-    { path: 'settings', component: Settings },
-    { path: 'mockServer', component: MockServer }
+    { path: "", redirectTo: "home", pathMatch: "full" },
+    { path: "home", component: Home },
+    { path: "showoff", component: ShowOff },
+    { path: "server", component: Server },
+    { path: "server/:id", component: Server },
+    { path: "settings", component: Settings },
+    { path: "mockServer", component: MockServer }
 ];
 
 @NgModule({

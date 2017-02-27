@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
-import { ServerService } from './server.service';
-import { EchoCommand } from './commands/echo.command';
-import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
-import { GetSirenInfoCommand } from './commands/get-siren-info.command';
-import { GetCiEntryPointSettingsCommand } from './commands/get-cientrypointsettings.command';
-import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
-import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
-import { CiEntryPointSetting } from './models/ciEntryPointSetting';
-import { DeleteSettingsCommand } from './commands/delete-settings.command';
-import { DeleteServerCommand } from './commands/delete-server.command';
-import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command';
-import { UpdateMockBuildCommand } from './mock/update-mock-build.command'
+import { Component } from "@angular/core";
+import { ServerService } from "./services/server.service";
+import { EchoCommand } from "./commands/echo.command";
+import { GetBuildDefinitionsCommand } from "./commands/get-builddefinitions.command";
+import { GetSirenInfoCommand } from "./commands/get-siren-info.command";
+import { GetCiEntryPointSettingsCommand } from "./commands/get-cientrypointsettings.command";
+import { GetCiEntryPointSettingCommand } from "./commands/get-cientrypointsetting.command";
+import { AddCiEntryPointSettingCommand } from "./commands/add-cientrypointsetting.command";
+import { CiEntryPointSetting } from "./models/ciEntryPointSetting";
+import { DeleteSettingsCommand } from "./commands/delete-settings.command";
+import { DeleteServerCommand } from "./commands/delete-server.command";
+import { GetCiEntryPointsCommand } from "./commands/get-cientrypoints.command";
+import { UpdateMockBuildCommand } from "./mock/update-mock-build.command"
 
 @Component({
-    selector: 'my-app',
-    templateUrl: 'components/app.html',
+    selector: "my-app",
+    templateUrl: "components/app.html",
     providers: [
         ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
         GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand,

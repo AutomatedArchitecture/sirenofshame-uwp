@@ -1,18 +1,18 @@
-﻿import { Component, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CiEntryPointSetting } from './models/ciEntryPointSetting';
-import { GetBuildDefinitionsCommand } from './commands/get-builddefinitions.command';
-import { GetCiEntryPointSettingCommand } from './commands/get-cientrypointsetting.command';
-import { AddCiEntryPointSettingCommand } from './commands/add-cientrypointsetting.command';
-import { MyBuildDefinition } from './models/myBuildDefinition';
-import { ServerService } from './server.service';
-import { CiEntryPoint } from './models/ciEntryPoint.ts'
-import { GetCiEntryPointsCommand } from './commands/get-cientrypoints.command'
-import { DeleteServerCommand } from './commands/delete-server.command'
-import { ModalComponent } from './common/modal-component'
+﻿import { Component, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { CiEntryPointSetting } from "../models/ciEntryPointSetting";
+import { GetBuildDefinitionsCommand } from "../commands/get-builddefinitions.command";
+import { GetCiEntryPointSettingCommand } from "../commands/get-cientrypointsetting.command";
+import { AddCiEntryPointSettingCommand } from "../commands/add-cientrypointsetting.command";
+import { ServerService } from "../services/server.service";
+import { CiEntryPoint } from "../models/ciEntryPoint.ts";
+import { GetCiEntryPointsCommand } from "../commands/get-cientrypoints.command";
+import { DeleteServerCommand } from "../commands/delete-server.command";
+import { ModalComponent } from "../common/modal-component";
+import { MyBuildDefinition } from "../models/myBuildDefinition";
 
 @Component({
-    templateUrl: './components/server.html'
+    templateUrl: "./components/server.html"
 })
 export class Server {
     constructor(
@@ -37,12 +37,12 @@ export class Server {
         this.addingProjects = false;
 
         this.sub = this.route.params.subscribe(params => {
-            let id = +params['id'];
+            let id = +params["id"];
 
             if (id) {
                 this.editingExisting = true;
                 this.getCiEntryPointSettingCommand.invoke(id)
-                    .then(ciEntryPointSetting => {
+                    .then((ciEntryPointSetting: CiEntryPointSetting) => {
                         this.ciEntryPointSetting.id = ciEntryPointSetting.id;
                         this.ciEntryPointSetting.name = ciEntryPointSetting.name;
                         this.ciEntryPointSetting.url = ciEntryPointSetting.url;
@@ -51,7 +51,7 @@ export class Server {
         });
 
         this.getCiEntryPointsCommand.execute()
-            .then(ciEntryPoints => {
+            .then((ciEntryPoints: CiEntryPoint[]) => {
                 this.serverTypes = ciEntryPoints;
             });
     }
@@ -71,7 +71,7 @@ export class Server {
     public getProjects() {
         this.loadingProjects = true;
         this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciEntryPointSetting)
-            .then(projects => {
+            .then((projects: MyBuildDefinition[]) => {
                 this.ciEntryPointSetting.projects = projects;
                 this.addingProjects = true;
             }, ex => {
@@ -88,7 +88,7 @@ export class Server {
 
     public delete() {
         this.deleteServerCommand.execute(this.ciEntryPointSetting.id).then(() => {
-            this.router.navigate(['home']);
+            this.router.navigate(["home"]);
             }
         );
     }
@@ -104,7 +104,7 @@ export class Server {
                     this.ciEntryPointSetting.id = ciEntryPointSettingId;
                     this.serverService.serverAdded.emit((this.ciEntryPointSetting));
                 }
-                this.router.navigate(['home']);
+                this.router.navigate(["home"]);
             });
     }
 }

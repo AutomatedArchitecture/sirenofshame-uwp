@@ -1,5 +1,5 @@
 ﻿import {Component, OnInit } from '@angular/core';
-import { EchoCommand } from './commands/echo.command'
+import { EchoCommand } from '../commands/echo.command'
 
 @Component({
     template: `

@@ -1,7 +1,7 @@
-﻿import { Injectable } from '@angular/core';
-import { BaseCommand } from './base.command';
-import { ServerService } from '../server.service';
-import { ISirenInfo } from '../models/sirenInfo';
+﻿import { Injectable } from "@angular/core";
+import { BaseCommand } from "./base.command";
+import { ServerService } from "../services/server.service";
+import { ISirenInfo } from "../models/sirenInfo";
 
 @Injectable()
 export class GetSirenInfoCommand extends BaseCommand {
@@ -22,7 +22,7 @@ export class GetSirenInfoCommand extends BaseCommand {
             this.response = (sirenInfo) => resolve(sirenInfo.result);
             var sendRequest = {
                 type: this.type
-            }
+            };
             this.serverService.send(sendRequest, err);
         }
         );

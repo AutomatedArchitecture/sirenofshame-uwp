@@ -1,6 +1,6 @@
 ﻿import { Injectable, Output, EventEmitter } from '@angular/core';
-import { BaseCommand } from './commands/base.command';
-import { CiEntryPointSetting } from './models/ciEntryPointSetting';
+import { BaseCommand } from "../commands/base.command";
+import { CiEntryPointSetting } from '../models/ciEntryPointSetting';
 
 @Injectable()
 export class ServerService {
@@ -11,8 +11,7 @@ export class ServerService {
         this.isConnected = false;
         if ("WebSocket" in window) {
             this.connectToServer();
-        }
-        else {
+        } else {
             this.connectionError.emit("This browser does not support websockets");
         }
     }
@@ -23,14 +22,14 @@ export class ServerService {
 
     private connectToServer() {
         var wsUrl = this.getUrl();
-        var connection = new WebSocket(wsUrl, ['echo']);
+        var connection = new WebSocket(wsUrl, ["echo"]);
         connection.onopen = () => {
             this.isConnected = true;
             this.ws = connection;
             this.ws.onmessage = (e) => {
                 let data = JSON.parse(e.data);
 
-                this.commands.forEach(command => {
+                this.commands.forEach((command : BaseCommand) => {
                     if (command.type === data.type) {
                         command.response(data);
                         return;
@@ -64,7 +63,7 @@ export class ServerService {
             this.isConnected = false;
             this.connectionError.emit("Lost connection to server, attempting to reconnect.");
             this.connectToServer();
-        }
+        };
     }
 
     @Output() public connected: EventEmitter<any> = new EventEmitter<any>(true);
@@ -75,7 +74,7 @@ export class ServerService {
     public isConnected: boolean;
 
     private getUrl() {
-        //let port = (location.port ? ':' + location.port : '');
+        // let port = (location.port ? ':' + location.port : '');
         let port = ':8001';
         let hostname = location.hostname;
 

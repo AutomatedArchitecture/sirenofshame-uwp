@@ -1,4 +1,4 @@
-﻿import { ServerService } from '../server.service';
+﻿import { ServerService } from "../services/server.service";
 
 export abstract class BaseCommand {
     constructor(protected serverService: ServerService) {

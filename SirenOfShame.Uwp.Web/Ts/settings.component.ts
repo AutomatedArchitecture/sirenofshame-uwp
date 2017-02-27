@@ -1,5 +1,5 @@
-﻿import {Component} from '@angular/core';
-import { DeleteSettingsCommand } from './commands/delete-settings.command'
+﻿import {Component} from "@angular/core";
+import { DeleteSettingsCommand } from "./commands/delete-settings.command"
 
 @Component({
     template: `
@@ -11,10 +11,10 @@ export class Settings {
     constructor(private deleteSettingsCommand: DeleteSettingsCommand) {  }
 
     public deleteConfig() {
-        if (confirm('Are you 100% sure?')) {
+        if (confirm("Are you 100% sure?")) {
             this.deleteSettingsCommand.execute()
                 .then(() => {
-                    alert('settings deleted');
+                    alert("settings deleted");
                 });
         };
     }
