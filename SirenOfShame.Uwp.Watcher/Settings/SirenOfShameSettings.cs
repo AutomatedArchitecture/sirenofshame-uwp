@@ -31,7 +31,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         private static readonly ILog _log = MyLogManager.GetLog(typeof(SirenOfShameSettings));
         private string _updateLocationOther;
         private bool? _anyDuplicateSettingsCached;
-        private static int? _currentVersion;
+        //private static int? _currentVersion;
         public const float DEFAULT_FONT_SIZE = 8.25f;
 
         //private static readonly UpgradeBase[] _upgrades =

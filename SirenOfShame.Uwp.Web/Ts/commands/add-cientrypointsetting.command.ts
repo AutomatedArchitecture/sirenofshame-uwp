@@ -1,7 +1,7 @@
-﻿import { Injectable } from '@angular/core';
-import { BaseCommand } from './base.command';
-import { ServerService } from '../server.service';
-import { CiEntryPointSetting } from '../models/ciEntryPointSetting';
+﻿import { Injectable } from "@angular/core";
+import { BaseCommand } from "./base.command";
+import { ServerService } from "../services/server.service";
+import { CiEntryPointSetting } from "../models/ciEntryPointSetting";
 
 @Injectable()
 export class AddCiEntryPointSettingCommand extends BaseCommand {
@@ -29,7 +29,7 @@ export class AddCiEntryPointSettingCommand extends BaseCommand {
             var sendRequest = {
                 type: this.type,
                 ciEntryPointSetting: ciEntryPointSetting
-            }
+            };
             this.serverService.send(sendRequest, err);
         });
     }

@@ -3,9 +3,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
 import { AppComponent }  from './app';
 import { AppRoutingModule }     from './app.routes';
-import {Home} from './home.component'
+import {Home} from './home/home.component'
 import {ShowOff} from './show-off.component'
-import {Server} from './server.component'
+import {Server} from './ciServers/server.component'
 import {Settings} from './settings.component'
 import {MockServer} from './mock/mock-server.component'
 import {MockBuild} from './mock/mock-build.component'

@@ -1,6 +1,6 @@
 ﻿import { Injectable } from '@angular/core';
 import { BaseCommand } from './base.command';
-import { ServerService } from '../server.service';
+import { ServerService } from '../services/server.service';
 
 @Injectable()
 export class DeleteSettingsCommand extends BaseCommand
