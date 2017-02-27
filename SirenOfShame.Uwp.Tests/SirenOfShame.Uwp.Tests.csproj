@@ -55,6 +55,9 @@
     <Compile Include="ObservableCollectionUtilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CiEntryPointSettingServiceTest.cs" />
+    <Compile Include="Services\FakeFileAdapter.cs" />
+    <Compile Include="Services\FakeSettingsIoService.cs" />
+    <Compile Include="Services\FakeSosDb.cs" />
     <Compile Include="Services\SosOnlineServiceDummy.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="Watcher\CiEntryPointSettingFake.cs" />

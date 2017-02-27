@@ -18,7 +18,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             new Rule { TriggerType = TriggerType.SuccessfulBuild, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = null },
         };
 
-        public async Task<SirenOfShameSettings> GetFromDiskOrDefault()
+        public virtual async Task<SirenOfShameSettings> GetFromDiskOrDefault()
         {
             IFileAdapter fileAdapter = ServiceContainer.Resolve<IFileAdapter>();
             var configFileExists = await fileAdapter.Exists(SIRENOFSHAME_CONFIG);
@@ -30,7 +30,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             return JsonConvert.DeserializeObject<SirenOfShameSettings>(fileContents);
         }
 
-        public async Task DeleteSettings()
+        public virtual async Task DeleteSettings()
         {
             IFileAdapter fileAdapter = ServiceContainer.Resolve<IFileAdapter>();
             var configFileExists = await fileAdapter.Exists(SIRENOFSHAME_CONFIG);
@@ -42,7 +42,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         SemaphoreSlim _lock = new SemaphoreSlim(1);
 
-        public async Task SaveIfDirty()
+        public virtual async Task SaveIfDirty()
         {
             SirenOfShameSettings settings = ServiceContainer.Resolve<SirenOfShameSettings>();
             if (settings.IsDirty)
@@ -51,7 +51,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             }
         }
 
-        public async Task Save()
+        public virtual async Task Save()
         {
             SirenOfShameSettings settings = ServiceContainer.Resolve<SirenOfShameSettings>();
             await Save(settings);
@@ -72,7 +72,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             }
         }
 
-        private SirenOfShameSettings GetDefaultSettings()
+        protected SirenOfShameSettings GetDefaultSettings()
         {
             return new SirenOfShameSettings
             {
