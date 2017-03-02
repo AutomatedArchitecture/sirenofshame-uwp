@@ -10,7 +10,8 @@ import { MyBuildDefinition } from "../models/myBuildDefinition";
             <input type="checkbox" [(ngModel)]="project.selected" name="{{project.id}}"> {{project.name}}
         </label>
     </div>
-    <button type="submit" class="btn btn-default">Add</button>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="button" (click)="cancel()" class="btn btn-default">Cancel</button>
 </form>
 `
 })
@@ -20,6 +21,10 @@ export class AddBuild {
 
     @Output()
     buildsAdded: EventEmitter<MyBuildDefinition[]> = new EventEmitter<MyBuildDefinition[]>();
+
+    public cancel() {
+        this.buildsAdded.emit([]);
+    }
 
     public onAddBuilds() {
         let selectedProjects = this.projects.filter(i => i.selected);
