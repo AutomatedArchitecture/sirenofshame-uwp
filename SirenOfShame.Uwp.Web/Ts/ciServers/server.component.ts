@@ -74,7 +74,7 @@ export class Server {
         this.loadingProjects = true;
         this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciEntryPointSetting)
             .then((projects: MyBuildDefinition[]) => {
-                this.allProjects = projects.filter(p => this.ciEntryPointSetting.buildDefinitionSettings.some(b => b.name !== p.name));
+                this.allProjects = projects.filter(p => !this.ciEntryPointSetting.buildDefinitionSettings.some(b => b.id === p.id));
                 this.addingProjects = true;
             }, ex => {
                 this.errorMessage = ex;
@@ -90,6 +90,11 @@ export class Server {
             this.router.navigate(["home"]);
             }
         );
+    }
+
+    public deleteProject(project: MyBuildDefinition) {
+        var filteredList = this.ciEntryPointSetting.buildDefinitionSettings.filter(i => i.name !== project.name);
+        this.ciEntryPointSetting.buildDefinitionSettings = filteredList;
     }
 
     public onBuildsAdded(builds: MyBuildDefinition[]) {
