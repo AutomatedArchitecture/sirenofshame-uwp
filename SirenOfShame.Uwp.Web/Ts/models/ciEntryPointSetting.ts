@@ -6,6 +6,5 @@ export class CiEntryPointSetting {
     public url: string;
     public username: string;
     public password: string;
-    public projects: MyBuildDefinition[];
     public buildDefinitionSettings: MyBuildDefinition[];
 }
