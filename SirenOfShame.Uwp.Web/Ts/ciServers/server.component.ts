@@ -82,10 +82,6 @@ export class Server {
             });
     }
 
-    public onAddBuilds() {
-        this.addingProjects = false;
-    }
-
     public delete() {
         this.deleteServerCommand.execute(this.ciEntryPointSetting.id).then(() => {
             this.serverService.refreshCiEntryPoints.emit();
@@ -94,10 +90,12 @@ export class Server {
         );
     }
 
-    public onSave() {
-        this.ciEntryPointSetting.buildDefinitionSettings = this.ciEntryPointSetting.projects
-            .filter(project => project.selected);
+    public onBuildsAdded(builds: MyBuildDefinition[]) {
+        this.addingProjects = false;
+        this.ciEntryPointSetting.buildDefinitionSettings = builds;
+    }
 
+    public onSave() {
         this.addCiEntryPointSettingCommand.invoke(this.ciEntryPointSetting)
             .then((ciEntryPointSettingId: number) => {
                 let adding = this.ciEntryPointSetting.id === 0;

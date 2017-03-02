@@ -80,12 +80,5 @@
         </div>
     </app-modal>
 </form>
-<form class="form-horizontal" (ngSubmit)="onAddBuilds()" #serverForm="ngForm" novalidate *ngIf="addingProjects">
-    <p>Select projects to watch</p>
-    <div class="checkbox" *ngFor="let project of ciEntryPointSetting.projects">
-        <label>
-            <input type="checkbox" [(ngModel)]="project.selected" name="{{project.id}}"> {{project.name}}
-        </label>
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+
+<app-addbuild [projects]="ciEntryPointSetting.projects" (buildsAdded)="onBuildsAdded($event)" *ngIf="addingProjects"></app-addbuild>
