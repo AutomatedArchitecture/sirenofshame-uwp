@@ -4,13 +4,14 @@ import { MyBuildDefinition } from "../models/myBuildDefinition";
 @Component({
     selector: "app-addbuild",
     template: `<form (ngSubmit)="onAddBuilds()" #serverForm="ngForm" novalidate>
-    <p>Select projects to watch</p>
+    <p *ngIf="projects.length > 0">Select projects to watch</p>
     <div class="checkbox" *ngFor="let project of projects">
         <label>
             <input type="checkbox" [(ngModel)]="project.selected" name="{{project.id}}"> {{project.name}}
         </label>
     </div>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <p *ngIf="projects.length == 0">No projects were found that aren't already being watched.</p>
+    <button *ngIf="projects.length > 0" [disabled]="noneSelected()" type="submit" class="btn btn-primary">Add</button>
     <button type="button" (click)="cancel()" class="btn btn-default">Cancel</button>
 </form>
 `
@@ -24,6 +25,10 @@ export class AddBuild {
 
     public cancel() {
         this.buildsAdded.emit([]);
+    }
+
+    public noneSelected() {
+        return this.projects.filter(i => i.selected).length === 0;
     }
 
     public onAddBuilds() {
