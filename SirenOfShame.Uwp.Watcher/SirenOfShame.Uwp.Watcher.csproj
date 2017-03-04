@@ -105,7 +105,7 @@
     <Compile Include="Settings\PersonSetting.cs" />
     <Compile Include="Settings\Rule.cs" />
     <Compile Include="Settings\SirenOfShameSettings.cs" />
-    <Compile Include="Settings\TripleDesStringEncryptor.cs" />
+    <Compile Include="Settings\CryptographyServiceBase.cs" />
     <Compile Include="Settings\UpdateLocation.cs" />
     <Compile Include="Settings\UserMapping.cs" />
     <Compile Include="Settings\WhatToSyncEnum.cs" />
