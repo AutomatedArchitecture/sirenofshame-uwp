@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Services
@@ -121,6 +122,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
             // Services
             ServiceContainer.Register(() => new CiEntryPointSettingService());
+            ServiceContainer.Register<CryptographyServiceBase>(() => new CryptographyService());
         }
 
         public override void Stop()
