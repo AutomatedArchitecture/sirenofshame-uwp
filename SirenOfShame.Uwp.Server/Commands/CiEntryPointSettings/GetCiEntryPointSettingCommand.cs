@@ -13,9 +13,9 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
         protected override async Task<SocketResult> Invoke(GetCiEntryPointSettingRequest request)
         {
             await Task.Yield();
-            var appSettings = ServiceContainer.Resolve<SirenOfShameSettings>();
-            var ciEntryPointSetting = appSettings.CiEntryPointSettings.FirstOrDefault(i => i.Id == request.Id);
-            return new GetCiEntryPointSettingResult(ciEntryPointSetting);
+            var ciEntryPointSettingService = ServiceContainer.Resolve<CiEntryPointSettingService>();
+            var result = ciEntryPointSettingService.GetByIdForUnencryptedCommunication(request.Id);
+            return new GetCiEntryPointSettingResult(result);
         }
     }
 
