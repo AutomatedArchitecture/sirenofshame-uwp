@@ -15,8 +15,8 @@ namespace SirenOfShame.Uwp.Tests.Services
 
         public TestCryptographyService()
         {
-            _key = Encoding.ASCII.GetBytes("GSYAHAGCBDUUADIADKOPAAAW");
-            _iv = Encoding.ASCII.GetBytes("USAZBGAW");
+            _key = Encoding.ASCII.GetBytes(DefaultKey);
+            _iv = Encoding.ASCII.GetBytes(DefaultIv);
             _provider = new TripleDESCryptoServiceProvider();
         }
 
