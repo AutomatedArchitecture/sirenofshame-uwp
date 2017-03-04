@@ -30,8 +30,9 @@ namespace SirenOfShame.Uwp.Watcher.Services
             return newId;
         }
 
-        public void Add(CiEntryPointSetting ciEntryPointSetting)
+        public void Add(InMemoryCiEntryPointSetting ciEntryPointSetting)
         {
+            EncryptPassword(ciEntryPointSetting);
             var newId = GetNextId();
             ciEntryPointSetting.Id = newId;
             _appSettings.CiEntryPointSettings.Add(ciEntryPointSetting);
@@ -39,13 +40,19 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
         public void Update(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
         {
-            requestCiEntryPointSetting.SetPassword(requestCiEntryPointSetting.Password);
+            EncryptPassword(requestCiEntryPointSetting);
 
             var existingRecord = GetById(requestCiEntryPointSetting.Id);
             existingRecord.Url = requestCiEntryPointSetting.Url;
             existingRecord.UserName = requestCiEntryPointSetting.UserName;
             existingRecord.EncryptedPassword = requestCiEntryPointSetting.EncryptedPassword;
             existingRecord.BuildDefinitionSettings = requestCiEntryPointSetting.BuildDefinitionSettings;
+        }
+
+        private static void EncryptPassword(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
+        {
+            requestCiEntryPointSetting.SetPassword(requestCiEntryPointSetting.Password);
+            requestCiEntryPointSetting.Password = null;
         }
 
         public async Task AddUpdate(InMemoryCiEntryPointSetting requestCiEntryPointSetting)

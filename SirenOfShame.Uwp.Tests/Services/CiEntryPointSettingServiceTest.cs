@@ -8,6 +8,8 @@ namespace SirenOfShame.Uwp.Tests.Services
     [TestFixture]
     public class CiEntryPointSettingServiceTest : TestBase
     {
+        private string passwordEncrypted = "wwwfBrRRCDxe3qSYCrri3w==";
+
         [Test]
         public void GivenCiEntryPointSetting_WhenGetById_ThenSettingIsFound()
         {
@@ -20,11 +22,24 @@ namespace SirenOfShame.Uwp.Tests.Services
         }
 
         [Test]
+        public void GivenZeroCiEntryPointSettings_WhenAdd_ThenPasswordSavedEncrypted()
+        {
+            var ciEntryPointSettingService = new CiEntryPointSettingService();
+
+            var ciEntryPointSetting = new InMemoryCiEntryPointSetting
+            {
+                Password = "password"
+            };
+            ciEntryPointSettingService.Add(ciEntryPointSetting);
+            Assert.AreEqual(passwordEncrypted, Settings.CiEntryPointSettings[0].EncryptedPassword);
+        }
+
+        [Test]
         public void GivenZeroCiEntryPointSettings_WhenAdd_ThenSettingIdIs1()
         {
             var ciEntryPointSettingService = new CiEntryPointSettingService();
 
-            var ciEntryPointSetting = new CiEntryPointSetting();
+            var ciEntryPointSetting = new InMemoryCiEntryPointSetting();
             ciEntryPointSettingService.Add(ciEntryPointSetting);
             Assert.AreEqual(1, ciEntryPointSetting.Id);
         }
@@ -35,7 +50,7 @@ namespace SirenOfShame.Uwp.Tests.Services
             Settings.CiEntryPointSettings.Add(new CiEntryPointSetting { Id = 1 });
             var ciEntryPointSettingService = new CiEntryPointSettingService();
 
-            var ciEntryPointSetting = new CiEntryPointSetting();
+            var ciEntryPointSetting = new InMemoryCiEntryPointSetting();
             ciEntryPointSettingService.Add(ciEntryPointSetting);
             Assert.AreEqual(2, ciEntryPointSetting.Id);
         }
@@ -53,7 +68,7 @@ namespace SirenOfShame.Uwp.Tests.Services
                 Password = "password"
             };
             ciEntryPointSettingService.Update(ciEntryPointSetting);
-            Assert.AreEqual("wwwfBrRRCDxe3qSYCrri3w==", existingCiEntryPointSetting.EncryptedPassword);
+            Assert.AreEqual(passwordEncrypted, existingCiEntryPointSetting.EncryptedPassword);
         }
 
         [Test]
