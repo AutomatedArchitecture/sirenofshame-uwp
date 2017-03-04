@@ -11,6 +11,22 @@ namespace SirenOfShame.Uwp.Tests.Services
         private string passwordEncrypted = "wwwfBrRRCDxe3qSYCrri3w==";
 
         [Test]
+        public void GivenCiEntryPointSettingWithPassword_WhenGetByIdForUnencryptedCommunication_ThenPasswordIsEmpty()
+        {
+            Settings.CiEntryPointSettings.Add(new CiEntryPointSetting
+            {
+                Id = 5,
+                EncryptedPassword = "encryptedPassword"
+            });
+            var ciEntryPointSettingService = new CiEntryPointSettingService();
+
+            var foundCiEntryPointSetting = ciEntryPointSettingService.GetByIdForUnencryptedCommunication(5);
+            Assert.IsNotNull(foundCiEntryPointSetting);
+            Assert.AreEqual(5, foundCiEntryPointSetting.Id);
+            Assert.IsNull(foundCiEntryPointSetting.EncryptedPassword);
+        }
+
+        [Test]
         public void GivenCiEntryPointSetting_WhenGetById_ThenSettingIsFound()
         {
             Settings.CiEntryPointSettings.Add(new CiEntryPointSetting { Id = 5 });

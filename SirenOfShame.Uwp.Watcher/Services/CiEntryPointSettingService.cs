@@ -94,5 +94,14 @@ namespace SirenOfShame.Uwp.Watcher.Services
             _appSettings.CiEntryPointSettings.Remove(ciEntryPointSetting);
             await SaveSettingsRefreshWatcher();
         }
+
+        public CiEntryPointSetting GetByIdForUnencryptedCommunication(int? id)
+        {
+            var ciEntryPointSetting = _appSettings.CiEntryPointSettings.FirstOrDefault(i => i.Id == id);
+            if (ciEntryPointSetting == null) return null;
+            var result = new CiEntryPointSetting(ciEntryPointSetting);
+            result.EncryptedPassword = null;
+            return result;
+        }
     }
 }

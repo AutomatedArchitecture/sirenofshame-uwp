@@ -22,6 +22,19 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             BuildDefinitionSettings = new List<BuildDefinitionSetting>();
         }
 
+        public CiEntryPointSetting(CiEntryPointSetting entryPointSetting)
+        {
+            Id = entryPointSetting.Id;
+            Name = entryPointSetting.Name;
+            Url = entryPointSetting.Url;
+            UserName = entryPointSetting.UserName;
+            EncryptedPassword = entryPointSetting.EncryptedPassword;
+            ApplyBuildQuality = entryPointSetting.ApplyBuildQuality;
+            TreatUnstableAsSuccess = entryPointSetting.TreatUnstableAsSuccess;
+            BuildDefinitionSettings = entryPointSetting.BuildDefinitionSettings;
+            BuildDefinitionSettings = entryPointSetting.BuildDefinitionSettings;
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }
@@ -43,6 +56,8 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         /// </summary>
         public bool TreatUnstableAsSuccess { get; set; }
 
+        public List<BuildDefinitionSetting> BuildDefinitionSettings { get; set; }
+
         public void SetPassword(string value)
         {
             var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
@@ -61,8 +76,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             if (ciEntryPoint == null) throw new SosException("Unable to find plugin: " + Name);
             return ciEntryPoint;
         }
-
-        public List<BuildDefinitionSetting> BuildDefinitionSettings { get; set; }
 
         public BuildDefinitionSetting FindAddBuildDefinition(MyBuildDefinition buildDefinition, string buildServer)
         {
