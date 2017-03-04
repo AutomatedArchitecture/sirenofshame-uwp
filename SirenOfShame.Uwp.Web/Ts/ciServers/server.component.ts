@@ -61,7 +61,13 @@ export class Server {
         this.sub.unsubscribe();
     }
 
-    public ciEntryPointSetting = new CiEntryPointSetting();
+    public ciEntryPointSetting = this.emptyCiEntryPointSetting();
+
+    private emptyCiEntryPointSetting() {
+        let ciEntryPointSetting = new CiEntryPointSetting();
+        ciEntryPointSetting.buildDefinitionSettings = [];
+        return ciEntryPointSetting;
+    }
 
     public loadingProjects: boolean = false;
     public addingProjects: boolean = false;
@@ -72,6 +78,7 @@ export class Server {
 
     public getProjects() {
         this.loadingProjects = true;
+        this.errorMessage = null;
         this.getBuildDefinitionsCommand.getBuildDefinitions(this.ciEntryPointSetting)
             .then((projects: MyBuildDefinition[]) => {
                 this.allProjects = projects.filter(p => !this.ciEntryPointSetting.buildDefinitionSettings.some(b => b.id === p.id));
@@ -90,6 +97,11 @@ export class Server {
             this.router.navigate(["home"]);
             }
         );
+    }
+
+    public isValid() {
+        return this.ciEntryPointSetting.buildDefinitionSettings &&
+            this.ciEntryPointSetting.buildDefinitionSettings.length > 0;
     }
 
     public deleteProject(project: MyBuildDefinition) {
