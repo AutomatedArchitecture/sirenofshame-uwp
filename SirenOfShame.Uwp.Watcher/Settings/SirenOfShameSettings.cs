@@ -356,22 +356,26 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         public void SetSosOnlineProxyPassword(string rawPassword)
         {
-            SosOnlineProxyPasswordEncrypted = new TripleDesStringEncryptor().EncryptString(rawPassword);
+            var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
+            SosOnlineProxyPasswordEncrypted = cryptographyService.EncryptString(rawPassword);
         }
 
         public string GetSosOnlineProxyPassword()
         {
-            return new TripleDesStringEncryptor().DecryptString(SosOnlineProxyPasswordEncrypted);
+            var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
+            return cryptographyService.DecryptString(SosOnlineProxyPasswordEncrypted);
         }
 
         public void SetSosOnlinePassword(string rawPassword)
         {
-            SosOnlinePassword = new TripleDesStringEncryptor().EncryptString(rawPassword);
+            var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
+            SosOnlinePassword = cryptographyService.EncryptString(rawPassword);
         }
 
         public string GetSosOnlinePassword()
         {
-            return new TripleDesStringEncryptor().DecryptString(SosOnlinePassword);
+            var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
+            return cryptographyService.DecryptString(SosOnlinePassword);
         }
 
         public string ExportNewAchievements()

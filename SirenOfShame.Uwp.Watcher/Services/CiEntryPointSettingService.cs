@@ -37,14 +37,18 @@ namespace SirenOfShame.Uwp.Watcher.Services
             _appSettings.CiEntryPointSettings.Add(ciEntryPointSetting);
         }
 
-        public void Update(CiEntryPointSetting requestCiEntryPointSetting)
+        public void Update(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
         {
+            requestCiEntryPointSetting.SetPassword(requestCiEntryPointSetting.Password);
+
             var existingRecord = GetById(requestCiEntryPointSetting.Id);
             existingRecord.Url = requestCiEntryPointSetting.Url;
+            existingRecord.UserName = requestCiEntryPointSetting.UserName;
+            existingRecord.EncryptedPassword = requestCiEntryPointSetting.EncryptedPassword;
             existingRecord.BuildDefinitionSettings = requestCiEntryPointSetting.BuildDefinitionSettings;
         }
 
-        public async Task AddUpdate(CiEntryPointSetting requestCiEntryPointSetting)
+        public async Task AddUpdate(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
         {
             foreach (var buildDefinitionSetting in requestCiEntryPointSetting.BuildDefinitionSettings)
             {

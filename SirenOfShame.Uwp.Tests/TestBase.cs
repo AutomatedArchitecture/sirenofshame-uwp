@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Watcher;
 using SirenOfShame.Uwp.Tests.Services;
@@ -21,6 +21,7 @@ namespace SirenOfShame.Uwp.Tests
             ServiceContainer.Register<RulesEngine>(() => new FakeRulesEngine());
             ServiceContainer.Register<SettingsIoService>(() => new FakeSettingsIoService());
             ServiceContainer.Register<SosDb>(() => new FakeSosDb());
+            ServiceContainer.Register<CryptographyServiceBase>(() => new TestCryptographyService());
         }
     }
 }

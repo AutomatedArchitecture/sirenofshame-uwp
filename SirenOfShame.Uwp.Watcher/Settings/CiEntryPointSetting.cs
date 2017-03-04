@@ -1,12 +1,20 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using SirenOfShame.Uwp.Watcher.Exceptions;
+using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Watcher.Settings
 {
-    // todo: figure out settings serialization
-    //[Serializable]
+    /// <summary>
+    /// Just like a CiEntryPointSetting except it has an unencrypted password field.  This class should 
+    /// never be used to save to a repository since we need encryption at rest.
+    /// </summary>
+    public class InMemoryCiEntryPointSetting : CiEntryPointSetting
+    {
+        public string Password { get; set; }
+    }
+
     public class CiEntryPointSetting
     {
         public CiEntryPointSetting()
@@ -37,12 +45,14 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 
         public void SetPassword(string value)
         {
-            EncryptedPassword = new TripleDesStringEncryptor().EncryptString(value);
+            var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
+            EncryptedPassword = cryptographyService.EncryptString(value);
         }
 
         public string GetPassword()
         {
-            return new TripleDesStringEncryptor().DecryptString(EncryptedPassword);
+            var cryptographyService = ServiceContainer.Resolve<CryptographyServiceBase>();
+            return cryptographyService.DecryptString(EncryptedPassword);
         }
 
         public ICiEntryPoint GetCiEntryPoint(SirenOfShameSettings settings)

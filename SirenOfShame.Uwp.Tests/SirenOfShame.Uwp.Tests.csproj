@@ -60,6 +60,7 @@
     <Compile Include="Services\FakeSosDb.cs" />
     <Compile Include="Services\SosOnlineServiceDummy.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="Services\TestCryptographyService.cs" />
     <Compile Include="Watcher\CiEntryPointSettingFake.cs" />
     <Compile Include="Watcher\FakeRulesEngine.cs" />
     <Compile Include="Watcher\FileAdapterFake.cs" />
