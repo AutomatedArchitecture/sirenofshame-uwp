@@ -72,6 +72,22 @@ namespace SirenOfShame.Uwp.Tests.Services
         }
 
         [Test]
+        public void GivenWhitespacePassword_WhenUpdatePassword_ThenPaswordIsNotUpdated()
+        {
+            var existingCiEntryPointSetting = new CiEntryPointSetting { Id = 1, EncryptedPassword = "EP" };
+            Settings.CiEntryPointSettings.Add(existingCiEntryPointSetting);
+            var ciEntryPointSettingService = new CiEntryPointSettingService();
+
+            var ciEntryPointSetting = new InMemoryCiEntryPointSetting
+            {
+                Id = 1,
+                Password = "        "
+            };
+            ciEntryPointSettingService.Update(ciEntryPointSetting);
+            Assert.AreEqual("EP", existingCiEntryPointSetting.EncryptedPassword);
+        }
+
+        [Test]
         public void GivenCiEntryPointSetting_WhenUpdatePassword_ThenPaswordIsSavedEncrypted()
         {
             var existingCiEntryPointSetting = new CiEntryPointSetting { Id = 1 };

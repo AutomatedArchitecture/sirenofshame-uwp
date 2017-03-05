@@ -42,12 +42,7 @@ export class Server {
             if (id) {
                 this.editingExisting = true;
                 this.getCiEntryPointSettingCommand.invoke(id)
-                    .then((ciEntryPointSetting: CiEntryPointSetting) => {
-                        this.ciEntryPointSetting.id = ciEntryPointSetting.id;
-                        this.ciEntryPointSetting.name = ciEntryPointSetting.name;
-                        this.ciEntryPointSetting.url = ciEntryPointSetting.url;
-                        this.ciEntryPointSetting.buildDefinitionSettings = ciEntryPointSetting.buildDefinitionSettings;
-                    });
+                    .then(i => this.updateCiEntryPointSetting(i));
             }
         });
 
@@ -55,6 +50,19 @@ export class Server {
             .then((ciEntryPoints: CiEntryPoint[]) => {
                 this.serverTypes = ciEntryPoints;
             });
+    }
+
+    private updateCiEntryPointSetting(ciEntryPointSetting: CiEntryPointSetting) {
+        // the server never returns the real password, even encrypted, but from a UI perspective
+        //    it'd be nice to look like you're changing your existing password
+        const placeholderPassword = "        ";
+
+        this.ciEntryPointSetting.id = ciEntryPointSetting.id;
+        this.ciEntryPointSetting.name = ciEntryPointSetting.name;
+        this.ciEntryPointSetting.url = ciEntryPointSetting.url;
+        this.ciEntryPointSetting.userName = ciEntryPointSetting.userName;
+        this.ciEntryPointSetting.password = placeholderPassword;
+        this.ciEntryPointSetting.buildDefinitionSettings = ciEntryPointSetting.buildDefinitionSettings;
     }
 
     ngOnDestroy() {

@@ -32,7 +32,7 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
         public void Add(InMemoryCiEntryPointSetting ciEntryPointSetting)
         {
-            EncryptPassword(ciEntryPointSetting);
+            EncryptPassword(ciEntryPointSetting, ciEntryPointSetting);
             var newId = GetNextId();
             ciEntryPointSetting.Id = newId;
             _appSettings.CiEntryPointSettings.Add(ciEntryPointSetting);
@@ -40,19 +40,21 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
         public void Update(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
         {
-            EncryptPassword(requestCiEntryPointSetting);
 
             var existingRecord = GetById(requestCiEntryPointSetting.Id);
+            EncryptPassword(requestCiEntryPointSetting, existingRecord);
             existingRecord.Url = requestCiEntryPointSetting.Url;
             existingRecord.UserName = requestCiEntryPointSetting.UserName;
-            existingRecord.EncryptedPassword = requestCiEntryPointSetting.EncryptedPassword;
             existingRecord.BuildDefinitionSettings = requestCiEntryPointSetting.BuildDefinitionSettings;
         }
 
-        private static void EncryptPassword(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
+        private static void EncryptPassword(InMemoryCiEntryPointSetting settingFromUi, CiEntryPointSetting settingToUpdate)
         {
-            requestCiEntryPointSetting.SetPassword(requestCiEntryPointSetting.Password);
-            requestCiEntryPointSetting.Password = null;
+            // don't update empty passwords, the UI uses them to indicate no change
+            if (string.IsNullOrWhiteSpace(settingFromUi.Password)) return;
+            settingFromUi.SetPassword(settingFromUi.Password);
+            settingToUpdate.EncryptedPassword = settingFromUi.EncryptedPassword;
+            settingFromUi.Password = null;
         }
 
         public async Task AddUpdate(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
