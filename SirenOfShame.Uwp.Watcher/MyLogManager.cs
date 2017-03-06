@@ -1,8 +1,9 @@
 ﻿using System;
+using MetroLog;
 
 namespace SirenOfShame.Uwp.Watcher
 {
-    public class MyLogManager
+    public static class MyLogManager
     {
         public static ILog GetLog(Type type)
         {
@@ -12,39 +13,45 @@ namespace SirenOfShame.Uwp.Watcher
 
     public class ConsoleLogger : ILog
     {
-        private readonly Type _type;
+        private readonly ILogger _log;
 
         public ConsoleLogger(Type type)
         {
-            _type = type;
+            _log = LogManagerFactory.DefaultLogManager.GetLogger(type);
         }
 
         public void Error(string message)
         {
-            System.Diagnostics.Debug.WriteLine($"ERROR {_type} - {message}");
+            _log.Error(message);
         }
 
-        public void Error(string message, Exception webException)
+        public void Error(string message, Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"ERROR {_type} - {message} - {webException}");
+            _log.Error(message, ex);
         }
 
         public void Warn(string message)
         {
-            System.Diagnostics.Debug.WriteLine($"WARN {_type} - {message}");
+            _log.Warn(message);
+        }
+
+        public void Info(string message)
+        {
+            _log.Info(message);
         }
 
         public void Debug(string message)
         {
-            System.Diagnostics.Debug.WriteLine($"DEBUG {_type} - {message}");
+            _log.Debug(message);
         }
     }
 
     public interface ILog
     {
         void Error(string message);
-        void Error(string message, Exception webException);
+        void Error(string message, Exception ex);
         void Warn(string message);
+        void Info(string message);
         void Debug(string message);
     }
 }
