@@ -1,5 +1,6 @@
 ﻿using System;
 using MetroLog;
+using MetroLog.Targets;
 
 namespace SirenOfShame.Uwp.Watcher
 {
@@ -7,15 +8,23 @@ namespace SirenOfShame.Uwp.Watcher
     {
         public static ILog GetLog(Type type)
         {
-            return new ConsoleLogger(type);
+            return new MetroLogger(type);
         }
     }
 
-    public class ConsoleLogger : ILog
+    public class MetroLogger : ILog
     {
+        static MetroLogger()
+        {
+            // set more verbose logging to the file system (default is only warn and above)
+            var minFileSystemLogLevel = LogLevel.Debug;
+            LogManagerFactory.DefaultConfiguration.AddTarget(minFileSystemLogLevel, LogLevel.Fatal, new StreamingFileTarget());
+        }
+
+
         private readonly ILogger _log;
 
-        public ConsoleLogger(Type type)
+        public MetroLogger(Type type)
         {
             _log = LogManagerFactory.DefaultLogManager.GetLogger(type);
         }
