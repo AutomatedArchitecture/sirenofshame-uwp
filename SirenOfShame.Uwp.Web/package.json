@@ -23,7 +23,8 @@
     "//": " ^ if you upgrade this, remember to update systemjs.config.js AND systemjs.config.prod.js",
     "zone.js": "^0.6.26",
     "bootstrap": "^3.3.7",
-    "es6-shim": "^0.35.0"
+    "es6-shim": "^0.35.0",
+    "spinkit": "1.2.5"
   },
   "devDependencies": {
     "gulp": "^3.9.1",

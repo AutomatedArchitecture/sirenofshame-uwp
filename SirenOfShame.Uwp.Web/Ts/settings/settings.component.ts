@@ -7,6 +7,9 @@ import { Router } from "@angular/router";
     template: `
 <h1>Settings</h1>
 <button type="button" class="btn btn-danger" (click)="deleteConfig()">Delete Config</button>
+<h2>Logs</h2>
+<div>{{logs}}</div>
+<app-spinner [isBusy]="isBusy"></app-spinner>
 `
 })
 export class Settings {
@@ -14,7 +17,17 @@ export class Settings {
         private deleteSettingsCommand: DeleteSettingsCommand,
         private router: Router,
         private serverService: ServerService
-    ) { }
+    ) {
+        this.logs = "loading...";
+    }
+
+    public logs: string;
+    public isBusy: boolean;
+
+    public ngOnInit() {
+        this.isBusy = true;
+        setTimeout(() => { this.isBusy = false; }, 3000);
+    }
 
     public deleteConfig() {
         if (confirm("Are you 100% sure?")) {

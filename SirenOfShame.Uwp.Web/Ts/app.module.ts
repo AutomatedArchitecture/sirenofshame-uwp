@@ -11,6 +11,7 @@ import {Settings} from "./settings/settings.component";
 import {MockServer} from "./mock/mock-server.component";
 import {MockBuild} from "./mock/mock-build.component";
 import {ModalComponent} from "./common/modal-component";
+import {Spinner} from "./common/spinner-component";
 
 @NgModule({
     imports: [
@@ -27,7 +28,8 @@ import {ModalComponent} from "./common/modal-component";
         Settings,
         MockServer,
         MockBuild,
-        ModalComponent
+        ModalComponent,
+        Spinner
     ],
     bootstrap: [AppComponent]
 })
