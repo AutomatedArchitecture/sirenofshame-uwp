@@ -10,7 +10,8 @@ import { CiEntryPointSetting } from "./models/ciEntryPointSetting";
 import { DeleteSettingsCommand } from "./commands/delete-settings.command";
 import { DeleteServerCommand } from "./commands/delete-server.command";
 import { GetCiEntryPointsCommand } from "./commands/get-cientrypoints.command";
-import { UpdateMockBuildCommand } from "./mock/update-mock-build.command"
+import { UpdateMockBuildCommand } from "./mock/update-mock-build.command";
+import { GetLogsCommand } from "./commands/get-logs.command";
 
 @Component({
     selector: "my-app",
@@ -18,7 +19,7 @@ import { UpdateMockBuildCommand } from "./mock/update-mock-build.command"
     providers: [
         ServerService, EchoCommand, GetBuildDefinitionsCommand, GetSirenInfoCommand, GetCiEntryPointSettingsCommand,
         GetCiEntryPointSettingCommand, AddCiEntryPointSettingCommand, DeleteSettingsCommand,
-        GetCiEntryPointsCommand, UpdateMockBuildCommand, DeleteServerCommand
+        GetCiEntryPointsCommand, UpdateMockBuildCommand, DeleteServerCommand, GetLogsCommand
     ]
 })
 export class AppComponent {

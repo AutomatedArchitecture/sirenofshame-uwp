@@ -107,6 +107,7 @@
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CiEntryPointSettings\GetLogs.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CiEntryPointSettings\DeleteCiEntryPointSettingCommand.cs" />
     <Compile Include="Commands\Settings\DeleteSettingsCommand.cs" />
