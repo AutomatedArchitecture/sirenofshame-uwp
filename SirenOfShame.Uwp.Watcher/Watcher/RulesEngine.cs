@@ -697,6 +697,20 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             await Start(initialStart: false);
         }
 
+        public async Task Pause(Func<Task> action)
+        {
+            Stop();
+            try
+            {
+                await action();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error occurred while paused, resuming watching", ex);
+            }
+            await Start(initialStart: false);
+        }
+
         private void Stop()
         {
             _buildsInProgressTimer.Change(-1, int.MaxValue);

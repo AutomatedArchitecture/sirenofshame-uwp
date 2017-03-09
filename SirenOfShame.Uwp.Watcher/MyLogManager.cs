@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using MetroLog;
 using MetroLog.Targets;
 
@@ -14,13 +15,20 @@ namespace SirenOfShame.Uwp.Watcher
 
     public class MetroLogger : ILog
     {
+        private static readonly StreamingFileTarget _streamingFileTarget;
+
         static MetroLogger()
         {
             // set more verbose logging to the file system (default is only warn and above)
             var minFileSystemLogLevel = LogLevel.Debug;
-            LogManagerFactory.DefaultConfiguration.AddTarget(minFileSystemLogLevel, LogLevel.Fatal, new StreamingFileTarget());
+            _streamingFileTarget = new StreamingFileTarget();
+            LogManagerFactory.DefaultConfiguration.AddTarget(minFileSystemLogLevel, LogLevel.Fatal, _streamingFileTarget);
         }
 
+        public static async void CloseAllOpenFiles()
+        {
+            await _streamingFileTarget.CloseAllOpenFiles();
+        }
 
         private readonly ILogger _log;
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
@@ -59,42 +60,51 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
         public async Task AddUpdate(InMemoryCiEntryPointSetting requestCiEntryPointSetting)
         {
-            foreach (var buildDefinitionSetting in requestCiEntryPointSetting.BuildDefinitionSettings)
+            await PauseSaveResume(async () =>
             {
-                buildDefinitionSetting.Active = true;
-                buildDefinitionSetting.BuildServer = requestCiEntryPointSetting.Name;
-            }
+                await Task.Yield();
+                foreach (var buildDefinitionSetting in requestCiEntryPointSetting.BuildDefinitionSettings)
+                {
+                    buildDefinitionSetting.Active = true;
+                    buildDefinitionSetting.BuildServer = requestCiEntryPointSetting.Name;
+                }
 
-            var incommingId = requestCiEntryPointSetting.Id;
-            if (incommingId == 0)
-            {
-                Add(requestCiEntryPointSetting);
-            }
-            else
-            {
-                Update(requestCiEntryPointSetting);
-            }
-            await SaveSettingsRefreshWatcher();
+                var incommingId = requestCiEntryPointSetting.Id;
+                if (incommingId == 0)
+                {
+                    Add(requestCiEntryPointSetting);
+                }
+                else
+                {
+                    Update(requestCiEntryPointSetting);
+                }
+            });
         }
 
-        private async Task SaveSettingsRefreshWatcher()
+        private async Task PauseSaveResume(Func<Task> action)
         {
-            var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
-            await settingsIoService.Save();
-            await _rulesEngine.RefreshAll();
+            await _rulesEngine.Pause(async () =>
+            {
+                await action();
+                var settingsIoService = ServiceContainer.Resolve<SettingsIoService>();
+                await settingsIoService.Save();
+            });
         }
 
         public async Task Delete(int id)
         {
-            _log.Debug("Attempting to delete CiEntryPointSetting #" + id);
-            var ciEntryPointSetting = GetById(id);
-            if (ciEntryPointSetting == null)
+            await PauseSaveResume(async () =>
             {
-                _log.Warn("Tried to delete CiEntryPointSetting #" + id + " but it didn't exist");
-                return;
-            }
-            _appSettings.CiEntryPointSettings.Remove(ciEntryPointSetting);
-            await SaveSettingsRefreshWatcher();
+                await Task.Yield();
+                _log.Debug("Attempting to delete CiEntryPointSetting #" + id);
+                var ciEntryPointSetting = GetById(id);
+                if (ciEntryPointSetting == null)
+                {
+                    _log.Warn("Tried to delete CiEntryPointSetting #" + id + " but it didn't exist");
+                    return;
+                }
+                _appSettings.CiEntryPointSettings.Remove(ciEntryPointSetting);
+            });
         }
 
         public CiEntryPointSetting GetByIdForUnencryptedCommunication(int? id)
