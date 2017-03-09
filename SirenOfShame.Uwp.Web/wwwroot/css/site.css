@@ -63,9 +63,20 @@ a.disabled {
   pointer-events: none;
   cursor: not-allowed;
 }
-.spinner {
-  background-color: rgba(0, 0, 0, 0.5);
-  transition: all 1s ease-in-out;
+.spinner-wrapper {
+  background-color: rgba(80, 80, 80, 0.5);
+  transition: all 0.4s ease-in-out;
+  z-index: 100;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: table;
+}
+.spinner-wrapper .spinner {
+  display: table-cell;
+  vertical-align: middle;
 }
 /* copied from spinkit https://github.com/tobiasahlin/SpinKit */
 .sk-double-bounce {

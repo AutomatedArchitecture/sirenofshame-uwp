@@ -2,11 +2,13 @@
 
 @Component({
     selector: "app-spinner",
-    template: `<div class="spinner" [style.opacity]="spinnerOpacity">
-      <div class="sk-double-bounce">
-        <div class="sk-child sk-double-bounce1"></div>
-        <div class="sk-child sk-double-bounce2"></div>
-      </div>
+    template: `<div class="spinner-wrapper" [style.opacity]="spinnerOpacity">
+        <div class="spinner">
+          <div class="sk-double-bounce">
+            <div class="sk-child sk-double-bounce1"></div>
+            <div class="sk-child sk-double-bounce2"></div>
+          </div>
+        </div>
     </div>
 `
 })
