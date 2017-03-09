@@ -9,7 +9,8 @@ import { Router } from "@angular/router";
 <h1>Settings</h1>
 <button type="button" class="btn btn-danger" (click)="deleteConfig()">Delete Config</button>
 <h2>Logs</h2>
-<pre>{{logs}}</pre>
+<button type="button" (click)="getLogs()" class="btn btn-default">Get Logs</button>
+<pre class="pre-scrollable" *ngIf="logs">{{logs}}</pre>
 <app-spinner [isBusy]="isBusy"></app-spinner>
 `
 })
@@ -20,13 +21,13 @@ export class Settings {
         private serverService: ServerService,
         private getLogsCommand: GetLogsCommand
     ) {
-        this.logs = "loading...";
+        this.logs = null;
     }
 
     public logs: string;
-    public isBusy: boolean;
+    public isBusy: boolean = false;
 
-    public ngOnInit() {
+    public getLogs() {
         this.isBusy = true;
 
         this.getLogsCommand.execute()

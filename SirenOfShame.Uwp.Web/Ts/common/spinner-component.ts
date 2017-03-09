@@ -2,7 +2,7 @@
 
 @Component({
     selector: "app-spinner",
-    template: `<div class="spinner-wrapper" [style.opacity]="spinnerOpacity">
+    template: `<div *ngIf="spinnerBlocksInput" class="spinner-wrapper" [style.opacity]="spinnerOpacity">
         <div class="spinner">
           <div class="sk-double-bounce">
             <div class="sk-child sk-double-bounce1"></div>
@@ -19,15 +19,27 @@ export class Spinner {
 
     @Input()
     public set isBusy(value: boolean) {
-        var newOpacity = value ? 1 : 0;
         if (this.initialLoad) {
             this.initialLoad = false;
-            setTimeout(() => { this.spinnerOpacity = newOpacity; }, 1);
+            // the very first load might happen in a constructor or ngInit so wait until the page has loaded
+            setTimeout(() => { this.setIsBusy(value); }, 1);
         } else {
-            this.spinnerOpacity = newOpacity;
+            this.setIsBusy(value);
         }
     }
 
+    private setIsBusy(newIsBusy: boolean) {
+        if (newIsBusy) {
+            this.spinnerBlocksInput = true;
+        } else {
+            // if we're turning the spinner back off wait until the animation completes then hide it
+            setTimeout(() => { this.spinnerBlocksInput = false; }, 400);
+        }
+        var newOpacity = newIsBusy ? 1 : 0;
+        this.spinnerOpacity = newOpacity;
+    }
+
     public spinnerOpacity: number;
+    public spinnerBlocksInput: boolean = false;
     private initialLoad: boolean = true;
 }
