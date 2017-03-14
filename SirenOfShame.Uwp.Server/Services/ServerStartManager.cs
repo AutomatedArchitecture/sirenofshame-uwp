@@ -23,13 +23,20 @@ namespace SirenOfShame.Uwp.Server.Services
 
         public override async Task Start()
         {
-            await base.Start();
-            await RegisterSirenOfShameSettings();
-            SetDependencies();
-            _webServer.Start();
-            _sirenDeviceService.StartWatching();
-            await StartMessageRelayService();
-            await StartCiWatcher();
+            try
+            {
+                await base.Start();
+                await RegisterSirenOfShameSettings();
+                SetDependencies();
+                _webServer.Start();
+                _sirenDeviceService.StartWatching();
+                await StartMessageRelayService();
+                await StartCiWatcher();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error during startup", ex);
+            }
         }
 
         private void SetDependencies()
