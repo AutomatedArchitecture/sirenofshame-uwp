@@ -7,7 +7,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
-using SirenOfShame.Uwp.Watcher.Util;
 
 namespace SirenOfShame.Uwp.Ui
 {
@@ -28,6 +27,8 @@ namespace SirenOfShame.Uwp.Ui
         {
             InitializeComponent();
 
+            UnhandledException += OnUnhandledException;
+
             var startManager = new StartManager();
             startManager.Start();
             _connection = ServiceContainer.Resolve<MessageRelayService>();
@@ -35,6 +36,11 @@ namespace SirenOfShame.Uwp.Ui
 
             LeavingBackground += OnLeavingBackground;
             Suspending += OnSuspending;
+        }
+
+        private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            _log.Error("Global unhandeled exception in UI", unhandledExceptionEventArgs.Exception);
         }
 
         private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
