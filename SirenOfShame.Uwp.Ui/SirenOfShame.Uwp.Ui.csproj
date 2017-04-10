@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion>10.0.14393.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.14393.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -95,12 +95,16 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppShell.xaml.cs">
+      <DependentUpon>AppShell.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BuildDefinitions.xaml.cs">
       <DependentUpon>BuildDefinitions.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Leaders.xaml.cs">
       <DependentUpon>Leaders.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\NavMenuListView.cs" />
     <Compile Include="Controls\News.xaml.cs">
       <DependentUpon>News.xaml</DependentUpon>
     </Compile>
@@ -109,6 +113,7 @@
     <Compile Include="Converters\LeaderToImageConverter.cs" />
     <Compile Include="Converters\NewsItemTypeEnumToColorConverter.cs" />
     <Compile Include="Converters\SosColors.cs" />
+    <Compile Include="Models\NavMenuItem.cs" />
     <Compile Include="Views\MainUiPage.xaml.cs">
       <DependentUpon>MainUiPage.xaml</DependentUpon>
     </Compile>
@@ -192,6 +197,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AppShell.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\BuildDefinitions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,6 +212,11 @@
     <Page Include="Controls\News.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\MainUiPage.xaml">
       <Generator>MSBuild:Compile</Generator>
