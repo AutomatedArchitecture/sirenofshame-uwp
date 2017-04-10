@@ -11,21 +11,24 @@
     <Page.Resources>
     </Page.Resources>
 
-    <Grid Background="#191919" Padding="10 20 10 0">
+    <Grid Background="#191919">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="1*" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
 
-            <controls:BuildDefinition Grid.Column="0" DataContext="{Binding BuildDefinitions}" />
-            <controls:News Grid.Column="1" DataContext="{Binding News}" />
-            <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
+        <Grid Padding="10 20 10 0" Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+
+                <controls:BuildDefinition Grid.Column="0" DataContext="{Binding BuildDefinitions}" />
+                <controls:News Grid.Column="1" DataContext="{Binding News}" />
+                <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
+            </Grid>
         </Grid>
         <Grid Grid.Row="1" Background="#2D2D30">
             <TextBlock x:Name="Status" Foreground="WhiteSmoke"></TextBlock>
