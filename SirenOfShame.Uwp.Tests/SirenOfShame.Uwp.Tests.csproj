@@ -51,6 +51,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Fakes\FakeLogger.cs" />
     <Compile Include="Helpers\PrettyDateHelperTest.cs" />
     <Compile Include="ObservableCollectionUtilTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

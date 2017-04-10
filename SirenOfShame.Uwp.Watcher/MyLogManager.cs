@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using MetroLog;
 using MetroLog.Targets;
 
@@ -7,10 +6,7 @@ namespace SirenOfShame.Uwp.Watcher
 {
     public static class MyLogManager
     {
-        public static ILog GetLog(Type type)
-        {
-            return new MetroLogger(type);
-        }
+        public static Func<Type, ILog> GetLog = (type) => new MetroLogger(type);
     }
 
     public class MetroLogger : ILog

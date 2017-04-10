@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Tests;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -12,7 +13,7 @@ using SirenOfShame.Uwp.Watcher.Watcher;
 namespace SirenOfShame.Test.Unit.Watcher
 {
     [TestFixture]
-    public class RulesEngineTest
+    public class RulesEngineTest : TestBase
     {
         [SetUp]
         public void Setup()
