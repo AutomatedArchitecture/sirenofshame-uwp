@@ -236,33 +236,5 @@ namespace SirenOfShame.Uwp.Ui
             };
             DataContext = ViewModel;
         }
-
-        private async void OnConfigureServerTapped(object sender, TappedRoutedEventArgs e)
-        {
-            var url = GetIpAddress();
-            var content = $"Configuring servers is currently only available via the web admin portal.  Please open a url to http://{url}/";
-            var dialog = new MessageDialog(content);
-            await dialog.ShowAsync();
-        }
-
-        private string GetIpAddress()
-        {
-            foreach (HostName localHostName in NetworkInformation.GetHostNames())
-            {
-                if (localHostName.IPInformation != null)
-                {
-                    if (localHostName.Type == HostNameType.Ipv4)
-                    {
-                        return localHostName.ToString();
-                    }
-                }
-            }
-            return "[url]";
-        }
-
-        private void OnViewLogsTapped(object sender, TappedRoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ViewLogs));
-        }
     }
 }

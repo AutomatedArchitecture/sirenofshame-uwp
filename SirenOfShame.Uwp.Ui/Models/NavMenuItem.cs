@@ -12,13 +12,9 @@ namespace SirenOfShame.Uwp.Ui.Models
     {
         public string Label { get; set; }
         public Symbol Symbol { get; set; }
-        public char SymbolAsChar
-        {
-            get
-            {
-                return (char)this.Symbol;
-            }
-        }
+        public char? SymbolChar { get; set; }
+
+        public char SymbolAsChar => SymbolChar ?? (char)Symbol;
 
         private bool _isSelected;
         public bool IsSelected
