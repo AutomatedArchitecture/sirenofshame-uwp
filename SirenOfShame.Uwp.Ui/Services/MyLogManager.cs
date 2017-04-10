@@ -21,14 +21,17 @@ namespace SirenOfShame.Uwp.Ui.Services
         static MetroLogger()
         {
             // set more verbose logging to the file system (default is only warn and above)
-            var minLogLevel = LogLevel.Debug;
+            var minLogLevel = LogLevel.Trace;
             _sqLiteTarget = new SQLiteTarget();
             LogManagerFactory.DefaultConfiguration.AddTarget(minLogLevel, LogLevel.Fatal, _sqLiteTarget);
         }
 
-        public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync()
+        public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
-            var logReadQuery = new LogReadQuery();
+            var logReadQuery = new LogReadQuery
+            {
+                IsDebugEnabled = showAll
+            };
             var result = await _sqLiteTarget.ReadLogEntriesAsync(logReadQuery);
             return result;
         }
