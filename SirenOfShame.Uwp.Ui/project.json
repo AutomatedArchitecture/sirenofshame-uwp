@@ -2,7 +2,6 @@
   "dependencies": {
     "MetroLog": "1.0.1",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.1.0",
-    "MyToolkit.Extended": "2.5.16",
     "SQLitePCL.raw": "0.8.5"
   },
   "frameworks": {

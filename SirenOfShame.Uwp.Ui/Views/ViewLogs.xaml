@@ -8,8 +8,13 @@
     xmlns:controls="using:MyToolkit.Controls"
     xmlns:system="using:System"
     xmlns:metroLog="using:MetroLog"
+    xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <converters:ToLocalTimeConverter x:Name="ToLocalTimeConverter" />
+    </UserControl.Resources>
+    
     <Grid Style="{StaticResource DefaultPageStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -27,34 +32,25 @@
                 Click="ToggleButton_OnChecked">Show All Logs</ToggleButton>
         </RelativePanel>
         
-        <controls:DataGrid
+        <ListView
             Grid.Row="1"
-            ItemsSource="{Binding Events}"
-            >
-
-            <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn 
-                    Width="200" 
-                    Header="DateTimeUtc" 
-                    Binding="{Binding DateTimeUtc}"
-                    d:DataContext="{d:DesignInstance Type=system:DateTime}" 
-                    CanSort="False" 
-                    />
-                <controls:DataGridTextColumn 
-                    Width="200" 
-                    Header="Level"
-                    Binding="{Binding Level}" 
-                    d:DataContext="{d:DesignInstance Type=metroLog:LogLevel}"
-                    CanSort="False" 
-                    />
-                <controls:DataGridTextColumn 
-                    Width="*" 
-                    Header="Message" 
-                    Binding="{Binding Message}" 
-                    d:DataContext="{d:DesignInstance Type=system:String}" 
-                    CanSort="False" 
-                    />
-            </controls:DataGrid.Columns>
-        </controls:DataGrid>
+            ItemsSource="{Binding Events}">
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180" />
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0" VerticalAlignment="Top" Text="{Binding DateTimeUtc, Converter={StaticResource ToLocalTimeConverter}}" />
+                        <TextBlock Grid.Column="1" VerticalAlignment="Top" Text="{Binding Level}" />
+                        <TextBlock Grid.Column="2" TextWrapping="Wrap" VerticalAlignment="Top" Text="{Binding Message}" />
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </Page>
