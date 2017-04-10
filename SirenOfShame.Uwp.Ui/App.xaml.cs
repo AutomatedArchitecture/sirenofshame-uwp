@@ -17,7 +17,6 @@ namespace SirenOfShame.Uwp.Ui
     {
         private readonly MessageRelayService _connection;
         private readonly MessageDistributorService _messageDistributorService;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(App));
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -25,6 +24,8 @@ namespace SirenOfShame.Uwp.Ui
         /// </summary>
         public App()
         {
+            var log = MyLogManager.GetLog(typeof(App));
+            log.Info("Starting App");
             InitializeComponent();
 
             UnhandledException += OnUnhandledException;
@@ -40,11 +41,13 @@ namespace SirenOfShame.Uwp.Ui
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
         {
-            _log.Error("Global unhandeled exception in UI", unhandledExceptionEventArgs.Exception);
+            var log = MyLogManager.GetLog(typeof(App));
+            log.Error("Global unhandeled exception in UI", unhandledExceptionEventArgs.Exception);
         }
 
         private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
+            var log = MyLogManager.GetLog(typeof(App));
             _messageDistributorService.StartWatching();
             try
             {
@@ -55,7 +58,7 @@ namespace SirenOfShame.Uwp.Ui
                 // failing quietly is probably ok for now since the connection will
                 //  attempt to re-open itself again on next send.  It just means
                 //  we won't be able to receive messages
-                _log.Error("Error opening connection on startup", ex);
+                log.Error("Error opening connection on startup", ex);
             }
         }
 

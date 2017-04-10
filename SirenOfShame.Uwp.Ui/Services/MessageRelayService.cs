@@ -104,6 +104,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         public void CloseConnection()
         {
+            _log.Debug("Closing connection");
             DisposeConnection();
         }
 
