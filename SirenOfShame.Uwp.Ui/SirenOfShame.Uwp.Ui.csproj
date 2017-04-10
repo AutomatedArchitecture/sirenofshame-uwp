@@ -114,6 +114,8 @@
     <Compile Include="Converters\NewsItemTypeEnumToColorConverter.cs" />
     <Compile Include="Converters\SosColors.cs" />
     <Compile Include="Models\NavMenuItem.cs" />
+    <Compile Include="Triggers\IsTenFootTrigger.cs" />
+    <Compile Include="Helpers\SystemInformationHelpers.cs" />
     <Compile Include="Views\ConfigureServer.xaml.cs">
       <DependentUpon>ConfigureServer.xaml</DependentUpon>
     </Compile>

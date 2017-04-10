@@ -26,7 +26,8 @@ namespace SirenOfShame.Uwp.Ui
                 {
                     Symbol = Symbol.Home,
                     Label = "Home",
-                    DestPage = typeof(MainUiPage)
+                    DestPage = typeof(MainUiPage),
+                    IsSelected = true
                 },
                 new NavMenuItem()
                 {
@@ -105,6 +106,7 @@ namespace SirenOfShame.Uwp.Ui
         {
             Current = this;
             CheckTogglePaneButtonSizeChanged();
+            RootSplitView.IsPaneOpen = false;
 
             // remove the thick border caused by FocusState.Keyboard
             TogglePaneButton.Focus(FocusState.Pointer);
@@ -175,6 +177,7 @@ namespace SirenOfShame.Uwp.Ui
                         AppFrame.BackStack.Clear();
                     }
                     ShowBackButton();
+                    RootSplitView.IsPaneOpen = false;
                 }
             }
         }

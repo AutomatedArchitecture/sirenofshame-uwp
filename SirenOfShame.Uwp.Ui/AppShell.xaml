@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    xmlns:triggers="using:SirenOfShame.Uwp.Ui.Triggers"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -32,9 +33,82 @@
                 <TextBlock x:Name="Text" Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" VerticalAlignment="Center"/>
             </Grid>
         </DataTemplate>
+
+        <DataTemplate x:Key="NavMenuItem10ftTemplate" x:DataType="models:NavMenuItem">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <!-- Showing a ToolTip on Xbox is not desirable. The SelectedPipe is also deliberately omited. -->
+                <FontIcon x:Name="Glyph" FontSize="16" Glyph="{x:Bind SymbolAsChar}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock x:Name="Text" Grid.Column="1" Text="{x:Bind Label}" Style="{StaticResource BodyTextBlockStyle}" TextWrapping="NoWrap" Margin="0,0,16,0"/>
+            </Grid>
+        </DataTemplate>
+
     </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <!-- Adaptive triggers -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource LargeWindowSnapPoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootSplitView.DisplayMode" Value="CompactInline"/>
+                        <Setter Target="RootSplitView.IsPaneOpen" Value="True"/>
+                        <Setter Target="NavPaneDivider.Visibility" Value="Visible"/>
+                        <Setter Target="FeedbackNavPaneButton.IsTabStop" Value="True"/>
+                        <Setter Target="SettingsNavPaneButton.IsTabStop" Value="True"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MediumWindowSnapPoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootSplitView.DisplayMode" Value="CompactOverlay"/>
+                        <Setter Target="RootSplitView.IsPaneOpen" Value="False"/>
+                        <Setter Target="NavPaneDivider.Visibility" Value="Collapsed"/>
+                        <Setter Target="FeedbackNavPaneButton.IsTabStop" Value="False"/>
+                        <Setter Target="SettingsNavPaneButton.IsTabStop" Value="False"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{StaticResource MinWindowSnapPoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootSplitView.DisplayMode" Value="Overlay"/>
+                        <Setter Target="RootSplitView.IsPaneOpen" Value="False"/>
+                        <Setter Target="FeedbackNavPaneButton.IsTabStop" Value="True"/>
+                        <Setter Target="SettingsNavPaneButton.IsTabStop" Value="True"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <triggers:IsTenFootTrigger/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="RootSplitView.OpenPaneLength" Value="368"/>
+                        <Setter Target="RootSplitView.CompactPaneLength" Value="96"/>
+                        <Setter Target="PaneContentGrid.Margin" Value="0,0,0,27"/>
+                        <Setter Target="NavMenuList.Margin" Value="0,79,0,0"/>
+                        <Setter Target="frame.Margin" Value="0,27,48,27"/>
+                        <Setter Target="NavMenuList.ItemContainerStyle" Value="{StaticResource NavMenuItemContainer10ftStyle}"/>
+                        <Setter Target="NavMenuList.ItemTemplate" Value="{StaticResource NavMenuItem10ftTemplate}"/>
+                        <Setter Target="FeedbackNavPaneButton.Style" Value="{StaticResource SplitViewPaneButton10ftStyle}"/>
+                        <Setter Target="SettingsNavPaneButton.Style" Value="{StaticResource SplitViewPaneButton10ftStyle}"/>
+                        <Setter Target="TogglePaneButton.Style" Value="{StaticResource SplitViewTogglePaneButton10ftStyle}"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <ToggleButton x:Name="TogglePaneButton"
                       Canvas.ZIndex="100"
                       TabIndex="1"
