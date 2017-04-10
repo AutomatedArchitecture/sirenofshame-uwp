@@ -5,7 +5,7 @@ using MetroLog.Targets;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
-    public class MyLogManager
+    public static class MyLogManager
     {
         public static ILog GetLog(Type type)
         {
@@ -16,12 +16,12 @@ namespace SirenOfShame.Uwp.Ui.Services
     public class MetroLogger : ILog
     {
         private readonly ILogger _log;
-        private static SQLiteTarget _sqLiteTarget;
+        private static readonly SQLiteTarget _sqLiteTarget;
 
         static MetroLogger()
         {
             // set more verbose logging to the file system (default is only warn and above)
-            var minLogLevel = LogLevel.Trace;
+            var minLogLevel = LogLevel.Debug;
             _sqLiteTarget = new SQLiteTarget();
             LogManagerFactory.DefaultConfiguration.AddTarget(minLogLevel, LogLevel.Fatal, _sqLiteTarget);
         }

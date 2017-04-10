@@ -1,7 +1,8 @@
 ﻿{
   "dependencies": {
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
-    "SirenOfShame.Device": "1.0.1"
+    "SirenOfShame.Device": "1.0.1",
+    "SQLitePCL.raw": "0.8.5"
   },
   "frameworks": {
     "uap10.0": {}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using MetroLog;
 using MetroLog.Targets;
 
@@ -11,22 +12,26 @@ namespace SirenOfShame.Uwp.Watcher
 
     public class MetroLogger : ILog
     {
-        private static readonly StreamingFileTarget _streamingFileTarget;
+        private readonly ILogger _log;
+        private static readonly SQLiteTarget _sqLiteTarget;
 
         static MetroLogger()
         {
             // set more verbose logging to the file system (default is only warn and above)
-            var minFileSystemLogLevel = LogLevel.Debug;
-            _streamingFileTarget = new StreamingFileTarget();
-            LogManagerFactory.DefaultConfiguration.AddTarget(minFileSystemLogLevel, LogLevel.Fatal, _streamingFileTarget);
+            var minLogLevel = LogLevel.Debug;
+            _sqLiteTarget = new SQLiteTarget();
+            LogManagerFactory.DefaultConfiguration.AddTarget(minLogLevel, LogLevel.Fatal, _sqLiteTarget);
         }
 
-        public static async void CloseAllOpenFiles()
+        public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
-            await _streamingFileTarget.CloseAllOpenFiles();
+            var logReadQuery = new LogReadQuery
+            {
+                IsDebugEnabled = showAll
+            };
+            var result = await _sqLiteTarget.ReadLogEntriesAsync(logReadQuery);
+            return result;
         }
-
-        private readonly ILogger _log;
 
         public MetroLogger(Type type)
         {
@@ -62,7 +67,7 @@ namespace SirenOfShame.Uwp.Watcher
     public interface ILog
     {
         void Error(string message);
-        void Error(string message, Exception ex);
+        void Error(string message, Exception webException);
         void Warn(string message);
         void Info(string message);
         void Debug(string message);
