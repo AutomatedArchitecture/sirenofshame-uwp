@@ -10,6 +10,7 @@ using Windows.Networking.Connectivity;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
@@ -257,6 +258,11 @@ namespace SirenOfShame.Uwp.Ui
                 }
             }
             return "[url]";
+        }
+
+        private void OnViewLogsTapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(ViewLogs));
         }
     }
 }

@@ -26,6 +26,11 @@
                         <FontIcon FontFamily="Segoe UI Symbol" Glyph="&#xE211;" Tapped="OnConfigureServerTapped"></FontIcon>
                     </AppBarButton.Icon>
                 </AppBarButton>
+                <AppBarButton Label="View Logs">
+                    <AppBarButton.Icon>
+                        <FontIcon FontFamily="Segoe UI Symbol" Glyph="&#xE15E;" Tapped="OnViewLogsTapped"></FontIcon>
+                    </AppBarButton.Icon>
+                </AppBarButton>
             </CommandBar.PrimaryCommands>
         </CommandBar>
         
