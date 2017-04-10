@@ -51,8 +51,7 @@ namespace SirenOfShame.Uwp.Ui
             Loaded += AppShell_Loaded;
 
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility =
-                AppViewBackButtonVisibility.Visible;
+            ShowBackButton();
 
             RootSplitView.RegisterPropertyChangedCallback(
                 SplitView.DisplayModeProperty,
@@ -64,6 +63,18 @@ namespace SirenOfShame.Uwp.Ui
                 });
 
             NavMenuList.ItemsSource = _navlist;
+        }
+
+        private static void ShowBackButton()
+        {
+            var visible = Current?.AppFrame?.CanGoBack ?? false;
+            ShowBackButton(visible);
+        }
+
+        private static void ShowBackButton(bool visible)
+        {
+            var visibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visibility;
         }
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -86,6 +97,7 @@ namespace SirenOfShame.Uwp.Ui
                 // If not, set the event to handled and go back to the previous page in the app.
                 handled = true;
                 AppFrame.GoBack();
+                ShowBackButton();
             }
         }
 
@@ -158,6 +170,11 @@ namespace SirenOfShame.Uwp.Ui
                     item.DestPage != AppFrame.CurrentSourcePageType)
                 {
                     AppFrame.Navigate(item.DestPage, item.Arguments);
+                    if (item.DestPage == typeof(MainUiPage))
+                    {
+                        AppFrame.BackStack.Clear();
+                    }
+                    ShowBackButton();
                 }
             }
         }
