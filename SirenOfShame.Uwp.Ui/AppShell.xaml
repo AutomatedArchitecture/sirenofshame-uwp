@@ -49,7 +49,7 @@
         <SplitView x:Name="RootSplitView"
                    DisplayMode="Inline"
                    OpenPaneLength="320"
-                   PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                   PaneBackground="#252526"
                    PaneClosed="RootSplitView_PaneClosed"
                    LightDismissOverlayMode="On"
                    IsTabStop="False">

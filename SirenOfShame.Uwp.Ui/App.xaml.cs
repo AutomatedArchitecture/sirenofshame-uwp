@@ -72,7 +72,7 @@ namespace SirenOfShame.Uwp.Ui
 #if DEBUG
             if (Debugger.IsAttached)
             {
-                DebugSettings.EnableFrameRateCounter = true;
+                DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
             AppShell shell = Window.Current.Content as AppShell;

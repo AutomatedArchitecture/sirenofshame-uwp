@@ -11,7 +11,7 @@
     <Page.Resources>
     </Page.Resources>
 
-    <Grid Background="#191919">
+    <Grid Style="{StaticResource DefaultPageStyle}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />

@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Controls;
 using SirenOfShame.Uwp.Ui.Models;
+using SirenOfShame.Uwp.Ui.Views;
 
 namespace SirenOfShame.Uwp.Ui
 {
@@ -31,7 +32,7 @@ namespace SirenOfShame.Uwp.Ui
                 {
                     SymbolChar = (char) 0xE211,
                     Label = "Configure Server",
-                    DestPage = typeof(ViewLogs)
+                    DestPage = typeof(ConfigureServer)
                 },
                 new NavMenuItem()
                 {
@@ -92,6 +93,9 @@ namespace SirenOfShame.Uwp.Ui
         {
             Current = this;
             CheckTogglePaneButtonSizeChanged();
+
+            // remove the thick border caused by FocusState.Keyboard
+            TogglePaneButton.Focus(FocusState.Pointer);
         }
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
