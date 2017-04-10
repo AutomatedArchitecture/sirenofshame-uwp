@@ -13,11 +13,23 @@
 
     <Grid Background="#191919">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <Grid Padding="10 20 10 0" Grid.Row="0">
+        <CommandBar Grid.Row="0">
+            <CommandBar.PrimaryCommands>
+                <AppBarButton Label="Configure Server(s)">
+                    <AppBarButton.Icon>
+                        <!-- All Icons: https://docs.microsoft.com/en-us/windows/uwp/style/segoe-ui-symbol-font -->
+                        <FontIcon FontFamily="Segoe UI Symbol" Glyph="&#xE211;" Tapped="OnConfigureServerTapped"></FontIcon>
+                    </AppBarButton.Icon>
+                </AppBarButton>
+            </CommandBar.PrimaryCommands>
+        </CommandBar>
+        
+        <Grid Padding="10 20 10 0" Grid.Row="1" RequestedTheme="Light">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
@@ -30,7 +42,7 @@
                 <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Background="#2D2D30">
+        <Grid Grid.Row="2" Background="#2D2D30">
             <TextBlock x:Name="Status" Foreground="WhiteSmoke"></TextBlock>
         </Grid>
     </Grid>

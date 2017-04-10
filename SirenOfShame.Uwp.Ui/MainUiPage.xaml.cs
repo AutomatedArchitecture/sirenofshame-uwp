@@ -5,8 +5,12 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -230,6 +234,29 @@ namespace SirenOfShame.Uwp.Ui
                 News = new ObservableCollection<NewsItemDto>()
             };
             DataContext = ViewModel;
+        }
+
+        private async void OnConfigureServerTapped(object sender, TappedRoutedEventArgs e)
+        {
+            var url = GetIpAddress();
+            var content = $"Configuring servers is currently only available via the web admin portal.  Please open a url to http://{url}/";
+            var dialog = new MessageDialog(content);
+            await dialog.ShowAsync();
+        }
+
+        private string GetIpAddress()
+        {
+            foreach (HostName localHostName in NetworkInformation.GetHostNames())
+            {
+                if (localHostName.IPInformation != null)
+                {
+                    if (localHostName.Type == HostNameType.Ipv4)
+                    {
+                        return localHostName.ToString();
+                    }
+                }
+            }
+            return "[url]";
         }
     }
 }
