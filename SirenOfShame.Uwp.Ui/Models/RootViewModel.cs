@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SirenOfShame.Uwp.Ui.Annotations;
@@ -10,6 +9,7 @@ namespace SirenOfShame.Uwp.Ui.Models
     public class RootViewModel : INotifyPropertyChanged
     {
         private ObservableCollection<BuildStatusDto> _buildDefinitions = new ObservableCollection<BuildStatusDto>();
+        private TrayIcon? _trayIcon;
 
         public ObservableCollection<BuildStatusDto> BuildDefinitions
         {
@@ -24,6 +24,18 @@ namespace SirenOfShame.Uwp.Ui.Models
 
         public ObservableCollection<NewsItemDto> News { get; set; }
         public ObservableCollection<PersonDto> Leaders { get; set; }
+
+        public TrayIcon? TrayIcon
+        {
+            get { return _trayIcon; }
+            set
+            {
+                if (value == _trayIcon) return;
+                _trayIcon = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

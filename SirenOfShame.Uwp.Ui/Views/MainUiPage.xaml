@@ -5,10 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
-    mc:Ignorable="d"
-    >
+    xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
+    xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    mc:Ignorable="d" 
+    d:DataContext="{d:DesignInstance models:RootViewModel}">
 
     <Page.Resources>
+        <converters:TrayIconToImageConverter x:Key="TrayIconToImageConverter" />
     </Page.Resources>
 
     <Grid Style="{StaticResource DefaultPageStyle}">
@@ -30,8 +33,21 @@
                 <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" Background="#2D2D30">
-            <TextBlock x:Name="Status" Foreground="WhiteSmoke"></TextBlock>
-        </Grid>
+        <RelativePanel Grid.Row="1" Background="#2D2D30">
+            <TextBlock 
+                x:Name="Status" 
+                Foreground="WhiteSmoke" 
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                RelativePanel.AlignLeftWithPanel="True"
+                Margin="5 0 5 0"
+                />
+            <Image 
+                Width="20" Height="20" 
+                RelativePanel.AlignVerticalCenterWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                Margin="10 5 10 5"
+                Source="{Binding TrayIcon, Converter={StaticResource TrayIconToImageConverter}, Mode=OneWay}" 
+                />
+        </RelativePanel>
     </Grid>
 </Page>

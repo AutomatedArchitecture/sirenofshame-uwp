@@ -5,13 +5,8 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Networking;
-using Windows.Networking.Connectivity;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -41,6 +36,8 @@ namespace SirenOfShame.Uwp.Ui
             _messageDistributorService.NewPerson += MessageDistributorServiceOnNewPerson;
             _messageDistributorService.RefreshStatus += MessageDistributorServiceOnRefreshStatus;
             _messageDistributorService.StatsChanged += MessageDistributorServiceOnStatsChanged;
+            _messageDistributorService.UpdateStatusBar += MessageDistributorServiceOnUpdateStatusBar;
+            _messageDistributorService.SetTrayIcon += MessageDistributorServiceOnSetTrayIcon;
             LoadInitialData();
             Loaded += OnLoaded;
         }
@@ -50,11 +47,10 @@ namespace SirenOfShame.Uwp.Ui
             try
             {
                 // if we start UI and Server at the same time, give the server time to start up
-                SetStatus("Connecting to server...");
+                SetStatus("Connecting to build monitor...");
                 await Task.Delay(2000);
                 await _messageDistributorService.SendLatest();
                 _prettyDateTimer = new Timer(PrettyDateOnTick, null, 0, 10000);
-                SetStatus(null);
             }
             catch (EndpointNotFoundException)
             {
@@ -99,6 +95,22 @@ namespace SirenOfShame.Uwp.Ui
             {
                 Status.Text = statusText;
             }
+        }
+
+        private async void MessageDistributorServiceOnSetTrayIcon(object sender, SetTrayIconEventArgs setTrayIconEventArgs)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                ViewModel.TrayIcon = setTrayIconEventArgs.TrayIcon;
+            });
+        }
+
+        private async void MessageDistributorServiceOnUpdateStatusBar(object sender, UpdateStatusBarEventArgs updateStatusBarEventArgs)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                SetStatus(updateStatusBarEventArgs.StatusText);
+            });
         }
 
         private async void MessageDistributorServiceOnStatsChanged(object sender, StatsChangedEventArgs args)

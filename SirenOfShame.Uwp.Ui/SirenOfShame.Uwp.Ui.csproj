@@ -114,6 +114,7 @@
     <Compile Include="Converters\NewsItemTypeEnumToColorConverter.cs" />
     <Compile Include="Converters\SosColors.cs" />
     <Compile Include="Converters\ToLocalTimeConverter.cs" />
+    <Compile Include="Converters\TrayIconToImageConverter.cs" />
     <Compile Include="Models\NavMenuItem.cs" />
     <Compile Include="Models\ViewLogsViewModel.cs" />
     <Compile Include="Triggers\IsTenFootTrigger.cs" />

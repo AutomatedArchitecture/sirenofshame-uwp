@@ -124,20 +124,13 @@ namespace SirenOfShame.Uwp.Ui
 
         private void TogglePaneButton_Checked(object sender, RoutedEventArgs e)
         {
-            NavPaneDivider.Visibility = Visibility.Visible;
+            //NavPaneDivider.Visibility = Visibility.Visible;
             CheckTogglePaneButtonSizeChanged();
-
-            FeedbackNavPaneButton.IsTabStop = true;
-            SettingsNavPaneButton.IsTabStop = true;
         }
 
         private void RootSplitView_PaneClosed(SplitView sender, object args)
         {
             NavPaneDivider.Visibility = Visibility.Collapsed;
-
-            // Prevent focus from moving to elements when they're not visible on screen
-            FeedbackNavPaneButton.IsTabStop = false;
-            SettingsNavPaneButton.IsTabStop = false;
         }
 
         /// <summary>
