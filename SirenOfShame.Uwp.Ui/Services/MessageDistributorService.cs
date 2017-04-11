@@ -9,15 +9,11 @@ using SirenOfShame.Uwp.Watcher.Watcher;
 namespace SirenOfShame.Uwp.Ui.Services
 {
     /// <summary>
-    /// Receives all messages sent from ServerStartManager, breaks them into message types, then
+    /// Receives all messages sent from RulesEngineWatcher, breaks them into message types, then
     /// distributes them as events that any interested parties can subscribe to (usually MainUiPage).
     /// </summary>
     public class MessageDistributorService
     {
-        public const string REFRESHSTATUS = "RefreshStatus";
-        private const string NEWUSER = "NewUser";
-        private const string NEWNEWSITEM = "NewNewsItem";
-        private const string STATSCHANGED = "StatsChanged";
         private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageDistributorService));
 
@@ -25,6 +21,8 @@ namespace SirenOfShame.Uwp.Ui.Services
         public event EventHandler<NewUserEventArgs> NewPerson;
         public event EventHandler<RefreshStatusEventArgs> RefreshStatus;
         public event EventHandler<StatsChangedEventArgs> StatsChanged;
+        public event EventHandler<SetTrayIconEventArgs> SetTrayIcon;
+        public event EventHandler<UpdateStatusBarEventArgs> UpdateStatusBar;
 
         public void StartWatching()
         {
@@ -42,21 +40,29 @@ namespace SirenOfShame.Uwp.Ui.Services
         private readonly Dictionary<string, MessageOutletBase> _messageOutlets = new Dictionary<string, MessageOutletBase>
         {
             {
-                NEWNEWSITEM,
+                NewNewsItemEventArgs.COMMAND_NAME,
                 new MessageOutlet<NewNewsItemEventArgs>((arg, mds) => mds.NewNewsItem?.Invoke(mds, arg))
             },
             {
-                NEWUSER,
+                NewUserEventArgs.COMMAND_NAME,
                 new MessageOutlet<NewUserEventArgs>((arg, mds) => mds.NewPerson?.Invoke(mds, arg))
             },
             {
-                REFRESHSTATUS,
+                RefreshStatusEventArgs.COMMAND_NAME,
                 new MessageOutlet<RefreshStatusEventArgs>((arg, mds) => mds.RefreshStatus?.Invoke(mds, arg))
             },
             {
-                STATSCHANGED,
+                StatsChangedEventArgs.COMMAND_NAME,
                 new MessageOutlet<StatsChangedEventArgs>((arg, mds) => mds.StatsChanged?.Invoke(mds, arg))
-            }
+            },
+            {
+                SetTrayIconEventArgs.COMMAND_NAME,
+                new MessageOutlet<SetTrayIconEventArgs>((arg, mds) => mds.SetTrayIcon?.Invoke(mds, arg))
+            },
+            {
+                UpdateStatusBarEventArgs.COMMAND_NAME,
+                new MessageOutlet<UpdateStatusBarEventArgs>((arg, mds) => mds.UpdateStatusBar?.Invoke(mds, arg))
+            },
         };
 
         private void Aggregate(KeyValuePair<string, object> keyValuePair)

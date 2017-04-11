@@ -162,7 +162,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             {
                 datedStatusText = $"{DateTime.Now:G} - {statusText}";
             }
-            UpdateStatusBar?.Invoke(this, new UpdateStatusBarEventArgs { StatusText = datedStatusText, Exception = exception });
+            UpdateStatusBar?.Invoke(this, new UpdateStatusBarEventArgs
+            {
+                StatusText = datedStatusText,
+                Exception = exception?.Message
+            });
         }
 
         private void BuildWatcherStatusChecked(object sender, StatusCheckedEventArgsArgs args)

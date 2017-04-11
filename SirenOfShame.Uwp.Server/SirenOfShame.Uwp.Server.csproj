@@ -141,7 +141,7 @@
     <Compile Include="Services\IWebServer.cs" />
     <Compile Include="Services\MessageCommandProcessor.cs" />
     <Compile Include="Services\MessageRelayService.cs" />
-    <Compile Include="Services\RulesEngineService.cs" />
+    <Compile Include="Services\RulesEngineWatcher.cs" />
     <Compile Include="Services\SirenDeviceService.cs" />
     <Compile Include="Services\ServerStartManager.cs" />
     <Compile Include="WebSocketHandler.cs" />

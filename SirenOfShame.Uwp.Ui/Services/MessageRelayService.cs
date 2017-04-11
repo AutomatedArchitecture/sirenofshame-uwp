@@ -5,6 +5,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
@@ -99,7 +100,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private bool IsChatty(string valueKey)
         {
-            return valueKey == MessageDistributorService.REFRESHSTATUS;
+            return valueKey == RefreshStatusEventArgs.COMMAND_NAME;
         }
 
         public void CloseConnection()

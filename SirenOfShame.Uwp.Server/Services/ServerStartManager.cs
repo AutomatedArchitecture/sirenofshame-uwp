@@ -49,7 +49,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private async Task StartCiWatcher()
         {
-            var rulesEngineService = ServiceContainer.Resolve<RulesEngineService>();
+            var rulesEngineService = ServiceContainer.Resolve<RulesEngineWatcher>();
             await rulesEngineService.StartCiWatcher();
         }
 
@@ -77,7 +77,7 @@ namespace SirenOfShame.Uwp.Server.Services
             // Services
             ServiceContainer.Register(() => new CiEntryPointSettingService());
             ServiceContainer.Register<CryptographyServiceBase>(() => new CryptographyService());
-            ServiceContainer.Register(() => new RulesEngineService());
+            ServiceContainer.Register(() => new RulesEngineWatcher());
         }
 
         public override void Stop()
