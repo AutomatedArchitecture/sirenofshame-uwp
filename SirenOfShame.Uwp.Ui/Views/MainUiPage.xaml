@@ -8,7 +8,8 @@
     xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
     mc:Ignorable="d" 
-    d:DataContext="{d:DesignInstance models:RootViewModel}">
+    d:DataContext="{d:DesignInstance models:RootViewModel}"
+    NavigationCacheMode="Required">
 
     <Page.Resources>
         <converters:TrayIconToImageConverter x:Key="TrayIconToImageConverter" />

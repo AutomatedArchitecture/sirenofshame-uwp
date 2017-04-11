@@ -44,6 +44,9 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            // OnLoaded gets called on subsequent navigations despite NavigationCacheMode="Required"
+            if (ViewModel.Initialized) return;
+
             try
             {
                 // if we start UI and Server at the same time, give the server time to start up
