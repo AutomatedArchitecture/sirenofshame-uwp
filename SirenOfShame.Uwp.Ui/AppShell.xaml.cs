@@ -108,6 +108,10 @@ namespace SirenOfShame.Uwp.Ui
             CheckTogglePaneButtonSizeChanged();
             RootSplitView.IsPaneOpen = false;
 
+            var item = _navlist[0];
+            var container = (ListViewItem)NavMenuList.ContainerFromItem(item);
+            NavMenuList.SetSelectedItem(container);
+
             // remove the thick border caused by FocusState.Keyboard
             TogglePaneButton.Focus(FocusState.Pointer);
         }
