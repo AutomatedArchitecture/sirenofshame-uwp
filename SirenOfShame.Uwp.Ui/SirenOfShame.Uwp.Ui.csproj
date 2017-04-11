@@ -190,6 +190,10 @@
     <Content Include="Assets\ok.scale-140.png" />
     <Content Include="Assets\ok.scale-180.png" />
     <Content Include="Assets\ok.scale-240.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
     <Content Include="Assets\unknown.scale-100.png" />
     <Content Include="Assets\unknown.scale-140.png" />
     <Content Include="Assets\unknown.scale-180.png" />
