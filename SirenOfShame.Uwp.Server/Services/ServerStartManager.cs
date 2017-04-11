@@ -100,6 +100,7 @@ namespace SirenOfShame.Uwp.Server.Services
         private async void RulesEngineOnRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
+            // aka goto MessageDistributorService.RefreshStatus
             await _messageRelayService.Send("RefreshStatus", argsAsJson);
         }
 

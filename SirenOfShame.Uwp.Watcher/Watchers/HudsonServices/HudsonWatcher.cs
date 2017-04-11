@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -32,6 +33,12 @@ namespace SirenOfShame.Uwp.Watcher.HudsonServices
                 var buildsStatuses = Task.WhenAll(buildsStatusTasks).Result;
                 return buildsStatuses
                     .Cast<BuildStatus>().ToList();
+            }
+            catch (AggregateException ex)
+            {
+                var serverUnavailable = ex.InnerExceptions.FirstOrDefault(i => i is ServerUnavailableException);
+                if (serverUnavailable != null) throw serverUnavailable;
+                throw;
             }
             catch (WebException ex)
             {
