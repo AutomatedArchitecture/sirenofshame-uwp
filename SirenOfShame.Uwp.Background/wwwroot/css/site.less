@@ -68,3 +68,57 @@ a.disabled {
    pointer-events: none;
    cursor: not-allowed;
 }
+
+.spinner-wrapper {
+    background-color: rgba(80, 80, 80, .5);
+    transition: all .4s ease-in-out;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: table;
+
+    .spinner {
+        display: table-cell;
+        vertical-align: middle;
+    }
+}
+
+/* copied from spinkit https://github.com/tobiasahlin/SpinKit */
+.sk-double-bounce {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  margin: 40px auto; }
+  .sk-double-bounce .sk-child {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: #333;
+    opacity: 0.6;
+    position: absolute;
+    top: 0;
+    left: 0;
+    -webkit-animation: sk-doubleBounce 2s infinite ease-in-out;
+            animation: sk-doubleBounce 2s infinite ease-in-out; }
+  .sk-double-bounce .sk-double-bounce2 {
+    -webkit-animation-delay: -1.0s;
+            animation-delay: -1.0s; }
+
+@-webkit-keyframes sk-doubleBounce {
+  0%, 100% {
+    -webkit-transform: scale(0);
+            transform: scale(0); }
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
+
+@keyframes sk-doubleBounce {
+  0%, 100% {
+    -webkit-transform: scale(0);
+            transform: scale(0); }
+  50% {
+    -webkit-transform: scale(1);
+            transform: scale(1); } }
