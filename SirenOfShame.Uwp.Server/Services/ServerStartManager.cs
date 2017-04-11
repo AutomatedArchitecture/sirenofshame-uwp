@@ -47,23 +47,10 @@ namespace SirenOfShame.Uwp.Server.Services
             _webServer = ServiceContainer.Resolve<IWebServer>();
         }
 
-        public async Task StartCiWatcher()
+        private async Task StartCiWatcher()
         {
-            try
-            {
-                var rulesEngine = ServiceContainer.Resolve<RulesEngine>();
-                rulesEngine.SetLights += RulesEngineOnSetLights;
-                rulesEngine.SetAudio += RulesEngineOnSetAudio;
-                rulesEngine.RefreshStatus += RulesEngineOnRefreshStatus;
-                rulesEngine.NewNewsItem += RulesEngineOnNewNewsItem;
-                rulesEngine.NewUser += RulesEngineOnNewUser;
-                rulesEngine.StatsChanged += RulesEngineOnStatsChanged;
-                await rulesEngine.Start(true);
-            }
-            catch (Exception ex)
-            {
-                _log.Error("Error starting CI watcher", ex);
-            }
+            var rulesEngineService = ServiceContainer.Resolve<RulesEngineService>();
+            await rulesEngineService.StartCiWatcher();
         }
 
         public async Task StartMessageRelayService()
@@ -79,47 +66,6 @@ namespace SirenOfShame.Uwp.Server.Services
             }
         }
 
-        private async void RulesEngineOnStatsChanged(object sender, StatsChangedEventArgs args)
-        {
-            var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send("StatsChanged", argsAsJson);
-        }
-
-        private async void RulesEngineOnNewUser(object sender, NewUserEventArgs args)
-        {
-            var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send("NewUser", argsAsJson);
-        }
-
-        private async void RulesEngineOnNewNewsItem(object sender, NewNewsItemEventArgs args)
-        {
-            var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send("NewNewsItem", argsAsJson);
-        }
-
-        private async void RulesEngineOnRefreshStatus(object sender, RefreshStatusEventArgs args)
-        {
-            var argsAsJson = JsonConvert.SerializeObject(args);
-            // aka goto MessageDistributorService.RefreshStatus
-            await _messageRelayService.Send("RefreshStatus", argsAsJson);
-        }
-
-        private async void RulesEngineOnSetAudio(object sender, SetAudioEventArgs args)
-        {
-            if (_sirenDeviceService.IsConnected)
-            {
-                await _sirenDeviceService.PlayAudioPattern(args.AudioPattern, args.TimeSpan);
-            }
-        }
-
-        private async void RulesEngineOnSetLights(object sender, SetLightsEventArgs args)
-        {
-            if (_sirenDeviceService.IsConnected)
-            {
-                await _sirenDeviceService.PlayLightPattern(args.LedPattern, args.TimeSpan);
-            }
-        }
-
         protected override void RegisterServices()
         {
             base.RegisterServices();
@@ -131,6 +77,7 @@ namespace SirenOfShame.Uwp.Server.Services
             // Services
             ServiceContainer.Register(() => new CiEntryPointSettingService());
             ServiceContainer.Register<CryptographyServiceBase>(() => new CryptographyService());
+            ServiceContainer.Register(() => new RulesEngineService());
         }
 
         public override void Stop()

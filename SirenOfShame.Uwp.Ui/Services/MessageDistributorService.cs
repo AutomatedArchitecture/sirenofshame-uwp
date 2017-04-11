@@ -8,6 +8,10 @@ using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
+    /// <summary>
+    /// Receives all messages sent from ServerStartManager, breaks them into message types, then
+    /// distributes them as events that any interested parties can subscribe to (usually MainUiPage).
+    /// </summary>
     public class MessageDistributorService
     {
         public const string REFRESHSTATUS = "RefreshStatus";
