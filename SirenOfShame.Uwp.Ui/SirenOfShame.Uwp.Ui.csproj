@@ -138,6 +138,9 @@
     <Compile Include="Views\ViewLogs.xaml.cs">
       <DependentUpon>ViewLogs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ViewUser.xaml.cs">
+      <DependentUpon>ViewUser.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -242,6 +245,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ViewLogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ViewUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

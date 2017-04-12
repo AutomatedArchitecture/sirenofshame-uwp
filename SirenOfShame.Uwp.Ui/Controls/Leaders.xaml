@@ -70,6 +70,7 @@
             IsItemClickEnabled="True"
             ItemsSource="{Binding}"
             ItemTemplate="{StaticResource UserTemplate}"
+            ItemClick="ListViewBase_OnItemClick"
             >
         </GridView>
     </Grid>
