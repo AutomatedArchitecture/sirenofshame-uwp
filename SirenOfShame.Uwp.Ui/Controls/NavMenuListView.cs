@@ -92,6 +92,7 @@ namespace SirenOfShame.Uwp.Ui.Controls
             for (int i = 0; i < this.Items.Count; i++)
             {
                 var lvi = (ListViewItem)this.ContainerFromIndex(i);
+                if (lvi == null) return;
                 if (i != index)
                 {
                     lvi.IsSelected = false;
