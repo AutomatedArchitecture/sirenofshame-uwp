@@ -24,7 +24,7 @@ namespace SirenOfShame.Uwp.Ui.Models
         }
 
         public ObservableCollection<NewsItemDto> News { get; set; }
-        public ObservableCollection<PersonDto> Leaders { get; set; }
+        public LeadersViewModel LeadersViewModel { get; set; }
 
         public TrayIcon? TrayIcon
         {

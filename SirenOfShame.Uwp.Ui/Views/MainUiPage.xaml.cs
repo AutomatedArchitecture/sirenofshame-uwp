@@ -120,20 +120,8 @@ namespace SirenOfShame.Uwp.Ui
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var leaderPairs = from oldLeader in ViewModel.Leaders
-                    join newLeader in args.ChangedPeople on oldLeader.RawName equals newLeader.RawName
-                    select new {oldLeader, newLeader};
-                foreach (var leaderPair in leaderPairs)
-                {
-                    leaderPair.oldLeader.Update(leaderPair.newLeader);
-                }
-                ResortLeaders();
+                ViewModel.LeadersViewModel.StatsChanged(args.ChangedPeople);
             });
-        }
-
-        private void ResortLeaders()
-        {
-            ViewModel.Leaders.SortDescending(i => i.Reputation);
         }
 
         private async void MessageDistributorServiceOnRefreshStatus(object sender, RefreshStatusEventArgs args)
@@ -200,12 +188,7 @@ namespace SirenOfShame.Uwp.Ui
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                foreach (var personSetting in args.NewPeople)
-                {
-                    var personDto = new PersonDto(personSetting);
-                    ViewModel.Leaders.Add(personDto);
-                }
-                ResortLeaders();
+                ViewModel.LeadersViewModel.AddPerson(args.NewPeople);
             });
         }
 
@@ -246,7 +229,10 @@ namespace SirenOfShame.Uwp.Ui
         {
             ViewModel = new RootViewModel
             {
-                Leaders = new ObservableCollection<PersonDto>(),
+                LeadersViewModel = new LeadersViewModel
+                {
+                    Leaders = new ObservableCollection<PersonDto>(),
+                },
                 News = new ObservableCollection<NewsItemDto>()
             };
             DataContext = ViewModel;

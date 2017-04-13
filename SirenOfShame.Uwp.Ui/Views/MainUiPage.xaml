@@ -31,7 +31,7 @@
 
                 <controls:BuildDefinition Grid.Column="0" DataContext="{Binding BuildDefinitions}" />
                 <controls:News Grid.Column="1" DataContext="{Binding News}" />
-                <controls:Leaders Grid.Column="2" DataContext="{Binding Leaders}" />
+                <controls:Leaders Grid.Column="2" DataContext="{Binding LeadersViewModel}" />
             </Grid>
         </Grid>
         <RelativePanel Grid.Row="1" Background="#2D2D30">

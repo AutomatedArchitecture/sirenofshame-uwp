@@ -69,7 +69,7 @@
             Grid.Row="1"
             Foreground="#fff" SelectionMode="None" 
             IsItemClickEnabled="True"
-            ItemsSource="{Binding}"
+            ItemsSource="{Binding Leaders}"
             ItemTemplate="{StaticResource UserTemplate}"
             ItemClick="ListViewBase_OnItemClick"
             >
