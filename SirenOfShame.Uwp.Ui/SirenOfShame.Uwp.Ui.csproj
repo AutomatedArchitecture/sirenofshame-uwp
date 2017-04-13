@@ -101,6 +101,7 @@
     <Compile Include="Controls\BuildDefinitions.xaml.cs">
       <DependentUpon>BuildDefinitions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\UserControlBase.cs" />
     <Compile Include="Controls\Leaders.xaml.cs">
       <DependentUpon>Leaders.xaml</DependentUpon>
     </Compile>
