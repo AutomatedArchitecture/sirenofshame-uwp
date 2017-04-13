@@ -14,7 +14,7 @@ namespace SirenOfShame.Uwp.Ui.Controls
         private void ListViewBase_OnItemClick(object sender, ItemClickEventArgs e)
         {
             var person = e.ClickedItem as PersonDto;
-            Navigate<ViewUser>();
+            Navigate<ViewUser>(person);
         }
     }
 }

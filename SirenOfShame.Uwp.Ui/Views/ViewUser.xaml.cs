@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SirenOfShame.Uwp.Ui.Models;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -25,6 +26,14 @@ namespace SirenOfShame.Uwp.Ui.Views
         public ViewUser()
         {
             this.InitializeComponent();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            var person = e.Parameter as PersonDto;
+            if (person == null) return;
+            Title.Text = person.DisplayName;
         }
     }
 }

@@ -20,10 +20,10 @@ namespace SirenOfShame.Uwp.Ui.Controls
             return FindParent<T>(parent);
         }
 
-        protected void Navigate<T>()
+        protected void Navigate<T>(object parameter = null)
         {
             var page = FindParent<Page>();
-            page.Frame.Navigate(typeof(T));
+            page.Frame.Navigate(typeof(T), parameter);
         }
     }
 }
