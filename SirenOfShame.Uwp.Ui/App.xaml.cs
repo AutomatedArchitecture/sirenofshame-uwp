@@ -24,8 +24,6 @@ namespace SirenOfShame.Uwp.Ui
         /// </summary>
         public App()
         {
-            var log = MyLogManager.GetLog(typeof(App));
-            log.Info("Starting App");
             InitializeComponent();
 
             UnhandledException += OnUnhandledException;
@@ -48,6 +46,7 @@ namespace SirenOfShame.Uwp.Ui
         private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
             var log = MyLogManager.GetLog(typeof(App));
+            log.Info("Starting App");
             _messageDistributorService.StartWatching();
             try
             {
