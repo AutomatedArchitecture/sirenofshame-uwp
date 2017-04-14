@@ -116,9 +116,9 @@
     <Compile Include="Converters\SosColors.cs" />
     <Compile Include="Converters\ToLocalTimeConverter.cs" />
     <Compile Include="Converters\TrayIconToImageConverter.cs" />
-    <Compile Include="Models\LeadersViewModel.cs" />
+    <Compile Include="ViewModels\LeadersViewModel.cs" />
     <Compile Include="Models\NavMenuItem.cs" />
-    <Compile Include="Models\ViewLogsViewModel.cs" />
+    <Compile Include="ViewModels\ViewLogsViewModel.cs" />
     <Compile Include="Triggers\IsTenFootTrigger.cs" />
     <Compile Include="Helpers\SystemInformationHelpers.cs" />
     <Compile Include="ViewModels\ViewUserViewModel.cs" />
@@ -130,7 +130,7 @@
     </Compile>
     <Compile Include="Models\NewsItemDto.cs" />
     <Compile Include="Models\PersonDto.cs" />
-    <Compile Include="Models\RootViewModel.cs" />
+    <Compile Include="ViewModels\RootViewModel.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileAdapter.cs" />
