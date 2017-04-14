@@ -35,5 +35,10 @@ namespace SirenOfShame.Uwp.Ui.Views
             if (person == null) return;
             Title.Text = person.DisplayName;
         }
+
+        private void GoBack(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
+        }
     }
 }

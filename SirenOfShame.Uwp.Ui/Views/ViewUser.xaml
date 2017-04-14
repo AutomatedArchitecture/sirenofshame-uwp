@@ -8,6 +8,29 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="Title" Text="View User" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button Click="GoBack" 
+                IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" 
+                Style="{StaticResource BackButtonStyle}"
+                Background="Yellow"
+                Grid.Row="0"
+                Grid.Column="0"
+                />
+        
+        <TextBlock 
+            x:Name="Title" 
+            Grid.Row="0"
+            Grid.Column="1"
+            Text="View User" 
+            Style="{StaticResource PageHeaderTextStyle}" 
+            />
     </Grid>
 </Page>
