@@ -164,7 +164,7 @@ UWP-based servers can not be hit via localhost, so:
 * Open up port 8080 for your web server
 
 #### Steps
-1. Set SirenOfShame.Uwp.Web as startup project and Start Without Debugging.
+1. Set SirenOfShame.Uwp.Web as startup project and Start Without Debugging.  Note: if you navigate to the web server on from you dev machine the site will come up, but it will not be able to communicate with the back-end over web sockets (which happens to be on port 8001)
 2. Set SirenOfShame.Uwp.TestServer up as startup project and Start Without Debugging
 3. Hit http://[mycomputer]:8080/ from another machine
 4. Add a 'Mock' CI Server via the menu on the web page

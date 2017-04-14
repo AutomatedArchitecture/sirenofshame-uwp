@@ -73,12 +73,19 @@ export class ServerService {
 
     public isConnected: boolean;
 
-    private getUrl() {
-        // let port = (location.port ? ':' + location.port : '');
-        let port = ':80';
-        let hostname = location.hostname;
+    private getBaseUrl(location) {
+        if (location.port) {
+            // we're hitting the admin portal using a port (probably 8080) if we're in dev
+            //    in that case connect to the back end on port 8001 (as specified in SirenOfShame.Uwp.TestServer\Services\WebServer.cs)
+            let testServerPort = "8001";
+            return location.hostname + ":" + testServerPort;
+        }
+        return location.hostname;
+    }
 
-        return "ws://" + hostname + port + "/sockets/";
+    private getUrl() {
+        let baseUrl = this.getBaseUrl(location);
+        return "ws://" + baseUrl + "/sockets/";
     }
 
     public send(sendRequest, err?: any) {
