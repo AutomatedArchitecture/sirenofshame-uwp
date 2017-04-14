@@ -46,12 +46,12 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Image 
-                Grid.Column="0" 
-                Grid.Row="0" 
-                Height="128"
-                Width="128"
-                Source="{Binding AvatarId, Converter={StaticResource AvatarIdToImageConverter}, Mode=OneWay}" />
+            <Canvas Background="White" Grid.Column="0" Grid.Row="0">
+                <Image 
+                    Height="128"
+                    Width="128"
+                    Source="{Binding AvatarId, Converter={StaticResource AvatarIdToImageConverter}, Mode=OneWay}" />
+            </Canvas>
         </Grid>
     </Grid>
 </Page>

@@ -48,20 +48,12 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Style="{StaticResource SosSubheading}" Text="Builds"></TextBlock>
-        <GridView 
-            Grid.Row="1"
-            Foreground="#fff" SelectionMode="None" 
-            IsItemClickEnabled="True"
-            ItemsSource="{Binding}"
-            ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
-            >
-        </GridView>
-    </Grid>
+    <GridView 
+        Foreground="#fff" SelectionMode="None" 
+        IsItemClickEnabled="True"
+        ItemsSource="{Binding}"
+        ItemTemplate="{StaticResource BuildDefinitionsTemplate}"
+        >
+    </GridView>
 </controls:UserControlBase>
 

@@ -14,14 +14,20 @@
     <Page.Resources>
         <converters:TrayIconToImageConverter x:Key="TrayIconToImageConverter" />
     </Page.Resources>
-
+    
     <Grid Style="{StaticResource DefaultPageStyle}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <Grid Padding="10 20 10 0" Grid.Row="0" RequestedTheme="Light">
+        <CommandBar ClosedDisplayMode="Compact" Grid.Row="0" HorizontalContentAlignment="Stretch" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <AppBarButton Icon="Refresh" Label="Refresh" Tapped="RefreshOnTapped">
+            </AppBarButton>
+        </CommandBar>
+
+        <Grid Padding="10 20 10 0" Grid.Row="1" RequestedTheme="Light">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="2*" />
@@ -34,7 +40,7 @@
                 <controls:Leaders Grid.Column="2" DataContext="{Binding LeadersViewModel}" />
             </Grid>
         </Grid>
-        <RelativePanel Grid.Row="1" Background="#2D2D30">
+        <RelativePanel Grid.Row="2" Background="#2D2D30">
             <TextBlock 
                 x:Name="Status" 
                 Foreground="WhiteSmoke" 

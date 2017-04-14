@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -236,6 +237,12 @@ namespace SirenOfShame.Uwp.Ui
                 News = new ObservableCollection<NewsItemDto>()
             };
             DataContext = ViewModel;
+        }
+
+        private async void RefreshOnTapped(object sender, TappedRoutedEventArgs e)
+        {
+            await EnsureConnected();
+            await _messageDistributorService.SendLatest();
         }
     }
 }
