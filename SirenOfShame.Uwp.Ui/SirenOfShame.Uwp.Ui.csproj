@@ -121,6 +121,7 @@
     <Compile Include="Models\ViewLogsViewModel.cs" />
     <Compile Include="Triggers\IsTenFootTrigger.cs" />
     <Compile Include="Helpers\SystemInformationHelpers.cs" />
+    <Compile Include="ViewModels\ViewUserViewModel.cs" />
     <Compile Include="Views\ConfigureServer.xaml.cs">
       <DependentUpon>ConfigureServer.xaml</DependentUpon>
     </Compile>

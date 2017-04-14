@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Models;
+using SirenOfShame.Uwp.Ui.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -33,7 +34,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             base.OnNavigatedTo(e);
             var person = e.Parameter as PersonDto;
             if (person == null) return;
-            DataContext = person;
+            DataContext = new ViewUserViewModel(person);
             Title.Text = person.DisplayName;
         }
 
