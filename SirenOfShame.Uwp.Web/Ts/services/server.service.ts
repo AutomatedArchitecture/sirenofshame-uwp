@@ -75,7 +75,7 @@ export class ServerService {
 
     private getUrl() {
         // let port = (location.port ? ':' + location.port : '');
-        let port = ':8001';
+        let port = ':80';
         let hostname = location.hostname;
 
         return "ws://" + hostname + port + "/sockets/";

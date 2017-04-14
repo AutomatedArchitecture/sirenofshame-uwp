@@ -123,8 +123,7 @@ The second option is trickier to set up, but has the fastest dev feedback cycle.
 For first time setup follow these instructions.  You can skip various steps
 for subsequent deploys.
 
-1. Run `gulp pideploy` from Siren(optionally from the Task Runner Explorer window) to ensure SirenOfShame.Uwp.Server contains latest
-2. Deploy SirenOfShame.Uwp.MessageRelay so UI can communicate with Background App
+1. Deploy SirenOfShame.Uwp.MessageRelay so UI can communicate with Background App
 
     1. Set SirenOfShame.Uwp.MessageRelay as startup
     2. Solution Platform -> ARM
@@ -132,7 +131,12 @@ for subsequent deploys.
     4. Right click Deploy
     5. Should see "Deploy succeeded"
 
-2. Deploy SirenOfShame.Uwp.Background to Raspberry Pi
+2. Run `gulp pideploy` from Siren.Uwp.Web (optionally from the Task Runner Explorer window) to ensure SirenOfShame.Uwp.Server contains latest
+
+3. Open port 80 on the Raspberry Pi by running `netsh advfirewall firewall add rule name="Open Port 80" dir=in action=allow protocol=TCP localport=80` from 
+"Run Command" in the Windows Device Portal
+
+4. Deploy SirenOfShame.Uwp.Background to Raspberry Pi
 
    1. Set SirenOfShame.Uwp.Background as startup
    2. Solution Platform -> ARM
@@ -140,14 +144,14 @@ for subsequent deploys.
    4. Start With Debugging (F5)
    5. If no errors either Start Without Debugging Ctrl-F5 or start 'SirenOfShame.Uwp.Background' from the Raspberry PI's App Manager web interface
 
-3. Deploy SirenOfShame.Uwp.Ui
+5. Navigate to http://[raspiurl]/ and add a Mock Server
+
+6. Deploy SirenOfShame.Uwp.Ui
 
     1. Set SirenOfShame.Uwp.Ui as startup
     2. Solution Platform -> ARM
     3. Set Project Properties -> `Debug` -> `Remote Machine` to you're PI's IP address or WINS name
     4. Start With Debugging (F5)
-
-4. Navigate to http://[raspiurl]:8001/ and if all goes well add a Mock Server and see the build status show up in the UI
 
 ## Mock Environment Setup
 

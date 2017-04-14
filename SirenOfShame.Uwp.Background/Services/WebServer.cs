@@ -12,7 +12,7 @@ namespace SirenOfShame.Uwp.Background.Services
 
         public void Start()
         {
-            _httpServer = new HttpServer(8001);
+            _httpServer = new HttpServer(80);
             _httpServer.AddWebSocketRequestHandler(
                 "/sockets/",
                 new WebSocketHandler()
