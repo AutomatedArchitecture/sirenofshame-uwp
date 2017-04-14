@@ -33,6 +33,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             base.OnNavigatedTo(e);
             var person = e.Parameter as PersonDto;
             if (person == null) return;
+            DataContext = person;
             Title.Text = person.DisplayName;
         }
 
