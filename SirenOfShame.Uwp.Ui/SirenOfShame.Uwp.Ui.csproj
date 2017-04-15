@@ -109,6 +109,7 @@
     <Compile Include="Controls\News.xaml.cs">
       <DependentUpon>News.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MyWrapPanel.cs" />
     <Compile Include="Converters\BuildStatusToColorConverter.cs" />
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
     <Compile Include="Converters\LeaderToImageConverter.cs" />

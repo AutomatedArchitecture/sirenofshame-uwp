@@ -6,6 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
+    xmlns:viewModels="using:SirenOfShame.Uwp.Ui.ViewModels"
+    xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
+    d:DataContext="{d:DesignInstance viewModels:ViewUserViewModel}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -42,17 +45,34 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Canvas Background="White" Grid.Column="0" Grid.Row="0">
+
+            <Grid Background="White" Grid.Column="0" VerticalAlignment="Top" Height="128" Width="128">
                 <Image 
                     Height="128"
                     Width="128"
-                    Source="{Binding AvatarId, Converter={StaticResource AvatarIdToImageConverter}, Mode=OneWay}" />
-            </Canvas>
+                    Source="{Binding AvatarId, Converter={StaticResource AvatarIdToImageConverter}, Mode=OneWay}"
+                    />
+            </Grid>
+
+            <GridView
+                Padding="10 0 0 0"
+                Grid.Column="1"
+                ItemsSource="{Binding Achievements}">
+
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <controls:MyWrapPanel Orientation="Horizontal"></controls:MyWrapPanel>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" Margin="10 2 10 2"></TextBlock>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
         </Grid>
     </Grid>
 </Page>
+
+
 
