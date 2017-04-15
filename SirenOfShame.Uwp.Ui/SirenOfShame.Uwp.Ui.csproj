@@ -112,6 +112,7 @@
     <Compile Include="Controls\MyWrapPanel.cs" />
     <Compile Include="Converters\BuildStatusToColorConverter.cs" />
     <Compile Include="Converters\BuildStatusToImageConverter.cs" />
+    <Compile Include="Converters\IsAchievedToBackgroundColor.cs" />
     <Compile Include="Converters\LeaderToImageConverter.cs" />
     <Compile Include="Converters\NewsItemTypeEnumToColorConverter.cs" />
     <Compile Include="Converters\SosColors.cs" />

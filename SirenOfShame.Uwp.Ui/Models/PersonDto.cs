@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using SirenOfShame.Uwp.Ui.Annotations;
 using SirenOfShame.Uwp.Watcher.Settings;
@@ -29,11 +31,14 @@ namespace SirenOfShame.Uwp.Ui.Models
             AvatarId = person.AvatarId;
             Reputation = person.GetReputation();
             Achievements = person.Achievements.Count;
+            AchievementIdsList = person.Achievements.Select(i => i.AchievementId).ToList();
             FailPercent = string.Format("{0:p1}", person.CurrentBuildRatio).Replace(" ", "");
             SuccessfulBuildsInARow = string.Format("{0}", person.CurrentSuccessInARow);
             FixedSomeoneElsesBuild = string.Format("{0}", person.NumberOfTimesFixedSomeoneElsesBuild);
             TotalBuilds = string.Format("{0}", person.TotalBuilds);
         }
+
+        public List<int> AchievementIdsList { get; set; }
 
         public int? AvatarId
         {
