@@ -46,5 +46,12 @@ namespace SirenOfShame.Uwp.Ui.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        public void Clear()
+        {
+            LeadersViewModel.Leaders.Clear();
+            News.Clear();
+            BuildDefinitions.Clear();
+        }
     }
 }

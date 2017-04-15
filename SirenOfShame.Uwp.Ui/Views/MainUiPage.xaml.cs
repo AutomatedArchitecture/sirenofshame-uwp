@@ -241,6 +241,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void RefreshOnTapped(object sender, TappedRoutedEventArgs e)
         {
+            ViewModel.Clear();
             await EnsureConnected();
             await _messageDistributorService.SendLatest();
         }
