@@ -1,4 +1,4 @@
-﻿<Page
+﻿<views:PageBase
     x:Class="SirenOfShame.Uwp.Ui.MainUiPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,6 +7,7 @@
     xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
     xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
+    xmlns:views="using:SirenOfShame.Uwp.Ui.Views"
     mc:Ignorable="d" 
     d:DataContext="{d:DesignInstance models:RootViewModel}"
     NavigationCacheMode="Required">
@@ -57,4 +58,5 @@
                 />
         </RelativePanel>
     </Grid>
-</Page>
+</views:PageBase>
+
