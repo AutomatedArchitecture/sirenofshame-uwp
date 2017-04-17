@@ -54,7 +54,10 @@ namespace SirenOfShame.Uwp.Ui.Views
             await _firstAdapter.ScanAsync();
             ViewModel.UpdateStatus(null);
             var networkReport = _firstAdapter.NetworkReport;
-            ViewModel.NetworkList = networkReport.AvailableNetworks.ToList();
+            var networks = networkReport.AvailableNetworks
+                .Select(network => new WiFiNetworkDisplay(network, _firstAdapter))
+                .ToList();
+            ViewModel.NetworkList = networks;
         }
     }
 }

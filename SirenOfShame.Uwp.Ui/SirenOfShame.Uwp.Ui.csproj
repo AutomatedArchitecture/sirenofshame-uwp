@@ -195,6 +195,16 @@
     <Content Include="Assets\Avatars\Avatar30.png" />
     <Content Include="Assets\Avatars\Avatar31.png" />
     <Content Include="Assets\Avatars\Avatar32.png" />
+    <Content Include="Assets\ConfigureWifi\open_1bar.png" />
+    <Content Include="Assets\ConfigureWifi\open_2bar.png" />
+    <Content Include="Assets\ConfigureWifi\open_3bar.png" />
+    <Content Include="Assets\ConfigureWifi\open_4bar.png" />
+    <Content Include="Assets\ConfigureWifi\open_5bar.png" />
+    <Content Include="Assets\ConfigureWifi\secure_1bar.png" />
+    <Content Include="Assets\ConfigureWifi\secure_2bar.png" />
+    <Content Include="Assets\ConfigureWifi\secure_3bar.png" />
+    <Content Include="Assets\ConfigureWifi\secure_4bar.png" />
+    <Content Include="Assets\ConfigureWifi\secure_5bar.png" />
     <Content Include="Assets\error.scale-100.png" />
     <Content Include="Assets\error.scale-140.png" />
     <Content Include="Assets\error.scale-180.png" />
