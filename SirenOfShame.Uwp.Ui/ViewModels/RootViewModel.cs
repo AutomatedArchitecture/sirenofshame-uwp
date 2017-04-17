@@ -3,9 +3,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using SirenOfShame.Uwp.Ui.Annotations;
+using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
-namespace SirenOfShame.Uwp.Ui.Models
+namespace SirenOfShame.Uwp.Ui.ViewModels
 {
     public class RootViewModel : INotifyPropertyChanged
     {

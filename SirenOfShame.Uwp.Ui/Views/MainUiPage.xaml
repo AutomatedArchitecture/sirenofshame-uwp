@@ -6,10 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
     xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
-    xmlns:models="using:SirenOfShame.Uwp.Ui.Models"
     xmlns:views="using:SirenOfShame.Uwp.Ui.Views"
+    xmlns:viewModels="using:SirenOfShame.Uwp.Ui.ViewModels"
     mc:Ignorable="d" 
-    d:DataContext="{d:DesignInstance models:RootViewModel}"
+    d:DataContext="{d:DesignInstance viewModels:RootViewModel}"
     NavigationCacheMode="Required">
 
     <Page.Resources>
