@@ -41,14 +41,6 @@
                             <TextBlock Text="{Binding Path=Bssid}" TextWrapping="Wrap" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Rssi:" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding Path=Rssi}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Ch. Frequency:" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding Path=ChannelCenterFrequency}" TextWrapping="Wrap"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Path=SecuritySettings}" TextWrapping="Wrap" Margin="0,0,5,0"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -60,14 +52,14 @@
         </DataTemplate>
 
     </local:PageBase.Resources>
-    
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="#36547C">
         <Grid.RowDefinitions>
             <RowDefinition Height="140" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="128" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
@@ -81,7 +73,6 @@
         <StackPanel Grid.Row="1" Grid.Column="1">
             <TextBlock Text="{Binding StatusText}"></TextBlock>
             <Button Content="Scan Available Wifi Networks" Click="ScanWifiOnClick" Visibility="{Binding AnyNetworkAdapterFound, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
-            <Button Content="Another Button" Click="ScanWifiOnClick" ></Button>
             <ListView ItemsSource="{Binding NetworkList}" ItemTemplate="{StaticResource ResultsListViewTemplate}">
 
             </ListView>
