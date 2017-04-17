@@ -1,13 +1,10 @@
-﻿<Page
+﻿<local:PageBase
     x:Class="SirenOfShame.Uwp.Ui.Views.ViewLogs"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SirenOfShame.Uwp.Ui.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:MyToolkit.Controls"
-    xmlns:system="using:System"
-    xmlns:metroLog="using:MetroLog"
     xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     mc:Ignorable="d">
 
@@ -53,4 +50,4 @@
             </ListView.ItemTemplate>
         </ListView>
     </Grid>
-</Page>
+</local:PageBase>
