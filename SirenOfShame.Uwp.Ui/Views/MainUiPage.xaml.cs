@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
+using SirenOfShame.Uwp.Ui.ViewModels;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Util;
 using SirenOfShame.Uwp.Watcher.Watcher;
