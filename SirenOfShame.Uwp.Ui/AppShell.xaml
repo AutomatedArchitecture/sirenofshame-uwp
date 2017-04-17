@@ -173,7 +173,8 @@
                             Content="&#xE713;"
                             AutomationProperties.Name="Settings"
                             ToolTipService.ToolTip="Settings"
-                            Visibility="Collapsed"/>
+                            Click="SettingsOnClick"
+                            />
                 </Grid>
             </SplitView.Pane>
 

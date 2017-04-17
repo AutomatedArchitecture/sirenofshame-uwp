@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -130,11 +131,14 @@ namespace SirenOfShame.Uwp.Ui
         {
             //NavPaneDivider.Visibility = Visibility.Visible;
             CheckTogglePaneButtonSizeChanged();
+            SettingsNavPaneButton.IsTabStop = true;
         }
 
         private void RootSplitView_PaneClosed(SplitView sender, object args)
         {
             NavPaneDivider.Visibility = Visibility.Collapsed;
+
+            SettingsNavPaneButton.IsTabStop = false;
         }
 
         /// <summary>
@@ -168,15 +172,20 @@ namespace SirenOfShame.Uwp.Ui
                 if (item.DestPage != null &&
                     item.DestPage != AppFrame.CurrentSourcePageType)
                 {
-                    AppFrame.Navigate(item.DestPage, item.Arguments);
-                    if (item.DestPage == typeof(MainUiPage))
-                    {
-                        AppFrame.BackStack.Clear();
-                    }
-                    ShowBackButton();
-                    RootSplitView.IsPaneOpen = false;
+                    NavigateTo(item.DestPage, item.Arguments);
                 }
             }
+        }
+
+        private void NavigateTo(Type sourcePageType, object arguments)
+        {
+            AppFrame.Navigate(sourcePageType, arguments);
+            if (sourcePageType == typeof(MainUiPage))
+            {
+                AppFrame.BackStack.Clear();
+            }
+            ShowBackButton();
+            RootSplitView.IsPaneOpen = false;
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
@@ -226,6 +235,11 @@ namespace SirenOfShame.Uwp.Ui
         private void CheckTogglePaneButtonSizeChanged()
         {
             // meh, for tablet support maybe someday
+        }
+
+        private void SettingsOnClick(object sender, RoutedEventArgs e)
+        {
+            NavigateTo(typeof(ConfigureWifi), null);
         }
     }
 }

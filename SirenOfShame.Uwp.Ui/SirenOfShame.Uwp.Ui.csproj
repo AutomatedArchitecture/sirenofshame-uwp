@@ -127,6 +127,9 @@
     <Compile Include="Views\ConfigureServer.xaml.cs">
       <DependentUpon>ConfigureServer.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ConfigureWifi.xaml.cs">
+      <DependentUpon>ConfigureWifi.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainUiPage.xaml.cs">
       <DependentUpon>MainUiPage.xaml</DependentUpon>
     </Compile>
@@ -242,6 +245,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Views\ConfigureServer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfigureWifi.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

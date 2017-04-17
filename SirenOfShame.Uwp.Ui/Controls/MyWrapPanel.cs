@@ -4,6 +4,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace SirenOfShame.Uwp.Ui.Controls
 {
+    /// <summary>
+    /// From https://codepaste.net/8gr5go
+    /// </summary>
     public class MyWrapPanel : Panel
     {
 
