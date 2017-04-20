@@ -117,8 +117,6 @@ namespace SirenOfShame.Uwp.Ui.ViewModels
 
         public string Ssid => AvailableNetwork.Ssid;
 
-        public string Bssid => AvailableNetwork.Bssid;
-
         public string SecuritySettings => string.Format("Authentication: {0}; Encryption: {1}", AvailableNetwork.SecuritySettings.NetworkAuthenticationType, AvailableNetwork.SecuritySettings.NetworkEncryptionType);
 
         public string ConnectivityLevel
