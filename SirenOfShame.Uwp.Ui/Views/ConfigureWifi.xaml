@@ -37,10 +37,6 @@
                 <Border Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5">
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Bssid:" Margin="0,0,5,0"/>
-                            <TextBlock Text="{Binding Path=Bssid}" TextWrapping="Wrap" />
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Path=SecuritySettings}" TextWrapping="Wrap" Margin="0,0,5,0"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -70,12 +66,20 @@
             Style="{StaticResource PageHeaderTextStyle}" 
             />
 
-        <StackPanel Grid.Row="1" Grid.Column="1">
-            <TextBlock Text="{Binding StatusText}"></TextBlock>
-            <Button Content="Scan Available Wifi Networks" Click="ScanWifiOnClick" Visibility="{Binding AnyNetworkAdapterFound, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}"></Button>
-            <ListView ItemsSource="{Binding NetworkList}" ItemTemplate="{StaticResource ResultsListViewTemplate}">
-
-            </ListView>
-        </StackPanel>
+        <RelativePanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
+            <TextBlock 
+                x:Name="StatusText"
+                Text="{Binding StatusText}" />
+            <Button 
+                x:Name="ScanButton"
+                RelativePanel.Below="StatusText"
+                Content="Scan Available Wifi Networks" 
+                Click="ScanWifiOnClick" 
+                Visibility="{Binding AnyNetworkAdapterFound, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            <ListView 
+                RelativePanel.Below="ScanButton"
+                ItemsSource="{Binding NetworkList}" 
+                ItemTemplate="{StaticResource ResultsListViewTemplate}" />
+        </RelativePanel>
     </Grid>
 </local:PageBase>
