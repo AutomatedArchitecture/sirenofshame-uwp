@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Windows.Devices.WiFi;
+using Windows.Networking.Connectivity;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Ui.ViewModels;
@@ -58,6 +60,45 @@ namespace SirenOfShame.Uwp.Ui.Views
                 .Select(network => new WiFiNetworkDisplay(network, _firstAdapter))
                 .ToList();
             ViewModel.NetworkList = networks;
+        }
+
+        private void NetworkSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedNetwork = ResultsListView.SelectedItem as WiFiNetworkDisplay;
+            if (selectedNetwork == null)
+            {
+                return;
+            }
+
+            // Show the connection bar
+            ShowNetworkInfoSection(true);
+
+            // Only show the password box if needed
+            if (selectedNetwork.AvailableNetwork.SecuritySettings.NetworkAuthenticationType == NetworkAuthenticationType.Open80211 &&
+                    selectedNetwork.AvailableNetwork.SecuritySettings.NetworkEncryptionType == NetworkEncryptionType.None)
+            {
+                NetworkKeyInfo.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NetworkKeyInfo.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SetVisible(FrameworkElement control, bool visible)
+        {
+            control.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        private void ShowNetworkInfoSection(bool showNetworkInfoSection)
+        {
+            SetVisible(ConnectionBar, showNetworkInfoSection);
+            SetVisible(NetworkListPanel, !showNetworkInfoSection);
+        }
+
+        private void ConnectButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }
