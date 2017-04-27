@@ -52,6 +52,7 @@
     <Grid Background="#36547C">
         <Grid.RowDefinitions>
             <RowDefinition Height="140" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -66,20 +67,37 @@
             Style="{StaticResource PageHeaderTextStyle}" 
             />
 
-        <RelativePanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-            <TextBlock 
-                x:Name="StatusText"
-                Text="{Binding StatusText}" />
+        <TextBlock 
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="{Binding StatusText}" />
+
+        <RelativePanel Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" x:Name="NetworkListPanel">
             <Button 
                 x:Name="ScanButton"
-                RelativePanel.Below="StatusText"
                 Content="Scan Available Wifi Networks" 
                 Click="ScanWifiOnClick" 
                 Visibility="{Binding AnyNetworkAdapterFound, Mode=OneWay, Converter={StaticResource BooleanToVisibilityConverter}}" />
             <ListView 
+                x:Name="ResultsListView"
                 RelativePanel.Below="ScanButton"
                 ItemsSource="{Binding NetworkList}" 
-                ItemTemplate="{StaticResource ResultsListViewTemplate}" />
+                ItemTemplate="{StaticResource ResultsListViewTemplate}"
+                SelectionChanged="NetworkSelectionChanged"/>
         </RelativePanel>
+        
+        <ScrollViewer x:Name="ConnectionBar" Grid.Row="2" Grid.Column="1" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto"
+                    Margin="0,15,10,10" Visibility="Collapsed">
+            <StackPanel Orientation="Vertical" x:Name="ConnectButtons">
+                <StackPanel x:Name="NetworkKeyInfo" Orientation="Horizontal" >
+                    <TextBlock Text="Security Key:" Margin="5,0,5,0" VerticalAlignment="Bottom"/>
+                    <PasswordBox x:Name="NetworkKey" Width="124" Margin="5,0,10,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
+                    <CheckBox x:Name="IsAutomaticReconnection" IsChecked="False">Auto reconnect?</CheckBox>
+                    <Button Click="ConnectButtonOnClick" Margin="5,0,0,0">Connect</Button>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </local:PageBase>
