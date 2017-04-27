@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using System.Buffers;
+using System;
 
 namespace SirenOfShame.Uwp.Web
 {
@@ -40,10 +43,9 @@ namespace SirenOfShame.Uwp.Web
 
             services.AddMvc(options =>
             {
-                var formatter = new JsonOutputFormatter
-                {
-                    SerializerSettings = { ContractResolver = new CamelCasePropertyNamesContractResolver() }
-                };
+                var serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings();
+                serializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                var formatter = new JsonOutputFormatter(serializerSettings, ArrayPool<Char>.Shared);
                 options.OutputFormatters.Insert(0, formatter);
             });
         }

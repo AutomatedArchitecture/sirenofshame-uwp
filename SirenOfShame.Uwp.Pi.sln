@@ -1,11 +1,16 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADD77C91-0B56-41C3-9438-C45A61117EC6}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Background", "SirenOfShame.Uwp.Background\SirenOfShame.Uwp.Background.csproj", "{5D1E671D-7542-4CCD-99EE-1BA040DD48A8}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SirenOfShame.Uwp.Web", "SirenOfShame.Uwp.Web\SirenOfShame.Uwp.Web.xproj", "{2F008915-BB19-4C96-B2CB-22ECAFC4F27D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SirenOfShame.Uwp.Web", "SirenOfShame.Uwp.Web\SirenOfShame.Uwp.Web.csproj", "{2F008915-BB19-4C96-B2CB-22ECAFC4F27D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Watcher", "SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj", "{36C7FC2F-C4D9-4FC3-9F47-981704D74B8C}"
 EndProject
@@ -18,11 +23,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.TestServer", "SirenOfShame.Uwp.TestServer\SirenOfShame.Uwp.TestServer.csproj", "{8F1A39B5-108C-4C5B-ABBE-8885DC314AA1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Server", "SirenOfShame.Uwp.Server\SirenOfShame.Uwp.Server.csproj", "{E58A4FFB-DB5F-4989-AE8C-E8EBA394F0FD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADD77C91-0B56-41C3-9438-C45A61117EC6}"
-	ProjectSection(SolutionItems) = preProject
-		readme.md = readme.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Ui", "SirenOfShame.Uwp.Ui\SirenOfShame.Uwp.Ui.csproj", "{A6303547-22A0-4CD1-902D-5AC054D33C54}"
 EndProject

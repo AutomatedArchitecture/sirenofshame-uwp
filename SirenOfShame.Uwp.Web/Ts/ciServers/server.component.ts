@@ -5,7 +5,7 @@ import { GetBuildDefinitionsCommand } from "../commands/get-builddefinitions.com
 import { GetCiEntryPointSettingCommand } from "../commands/get-cientrypointsetting.command";
 import { AddCiEntryPointSettingCommand } from "../commands/add-cientrypointsetting.command";
 import { ServerService } from "../services/server.service";
-import { CiEntryPoint } from "../models/ciEntryPoint.ts";
+import { CiEntryPoint } from "../models/ciEntryPoint";
 import { GetCiEntryPointsCommand } from "../commands/get-cientrypoints.command";
 import { DeleteServerCommand } from "../commands/delete-server.command";
 import { ModalComponent } from "../common/modal-component";
