@@ -6,6 +6,7 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
 using SirenOfShame.Uwp.Ui.Models;
@@ -60,6 +61,12 @@ namespace SirenOfShame.Uwp.Ui
             {
                 await EnsureConnected();
                 await _messageDistributorService.SendLatest();
+            }
+            catch (Exception ex)
+            {
+                _log.Error("Error on startup", ex);
+                var dialog = new MessageDialog("Error on startup: " + ex.Message);
+                await dialog.ShowAsync();
             }
         }
 
