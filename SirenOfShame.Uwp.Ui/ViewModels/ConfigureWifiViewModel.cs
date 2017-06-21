@@ -91,7 +91,7 @@ namespace SirenOfShame.Uwp.Ui.ViewModels
 
         private async void UpdateConnectivityLevel()
         {
-            string connectivityLevel = "Not Connected";
+            string connectivityLevel = "";
             string connectedSsid = null;
 
             var connectedProfile = await _adapter.NetworkAdapter.GetConnectedProfileAsync();
@@ -106,7 +106,7 @@ namespace SirenOfShame.Uwp.Ui.ViewModels
             {
                 if (connectedSsid.Equals(AvailableNetwork.Ssid))
                 {
-                    connectivityLevel = connectedProfile.GetNetworkConnectivityLevel().ToString();
+                    connectivityLevel = "Connected";
                 }
             }
 
@@ -117,7 +117,7 @@ namespace SirenOfShame.Uwp.Ui.ViewModels
 
         public string Ssid => AvailableNetwork.Ssid;
 
-        public string SecuritySettings => string.Format("Authentication: {0}; Encryption: {1}", AvailableNetwork.SecuritySettings.NetworkAuthenticationType, AvailableNetwork.SecuritySettings.NetworkEncryptionType);
+        public string SecuritySettings => AvailableNetwork.SecuritySettings.NetworkAuthenticationType == NetworkAuthenticationType.None ? "Not Secured" : "Secured";
 
         public string ConnectivityLevel
         {
