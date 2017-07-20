@@ -83,9 +83,10 @@
                     <TextBlock Text="Security Key:" Margin="5,0,5,0" VerticalAlignment="Bottom"/>
                     <PasswordBox x:Name="NetworkKey" Width="124" Margin="5,0,10,0"/>
                 </StackPanel>
+                <CheckBox x:Name="IsAutomaticReconnection" IsChecked="False">Auto reconnect?</CheckBox>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">
-                    <CheckBox x:Name="IsAutomaticReconnection" IsChecked="False">Auto reconnect?</CheckBox>
-                    <Button Click="ConnectButtonOnClick" Margin="5,0,0,0">Connect</Button>
+                    <Button Click="ConnectButtonOnClick" Margin="0,0,5,0">Connect</Button>
+                    <Button Click="CancelButtonOnClick">Cancel</Button>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
