@@ -100,5 +100,10 @@ namespace SirenOfShame.Uwp.Ui.Views
         {
             
         }
+
+        private void CancelButtonOnClick(object sender, RoutedEventArgs e)
+        {
+            ShowNetworkInfoSection(false);
+        }
     }
 }
