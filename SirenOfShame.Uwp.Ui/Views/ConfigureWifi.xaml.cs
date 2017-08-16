@@ -2,6 +2,7 @@
 using System.Linq;
 using Windows.Devices.WiFi;
 using Windows.Networking.Connectivity;
+using Windows.Security.Credentials;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -96,9 +97,55 @@ namespace SirenOfShame.Uwp.Ui.Views
             SetVisible(NetworkListPanel, !showNetworkInfoSection);
         }
 
-        private void ConnectButtonOnClick(object sender, RoutedEventArgs e)
+        private async void ConnectButtonOnClick(object sender, RoutedEventArgs e)
         {
-            
+            var selectedNetwork = ResultsListView.SelectedItem as WiFiNetworkDisplay;
+            if (selectedNetwork == null || _firstAdapter == null)
+            {
+                _log.Warn("Network not selcted");
+                return;
+            }
+            WiFiReconnectionKind reconnectionKind = WiFiReconnectionKind.Manual;
+            if (IsAutomaticReconnection.IsChecked.HasValue && IsAutomaticReconnection.IsChecked == true)
+            {
+                reconnectionKind = WiFiReconnectionKind.Automatic;
+            }
+
+            WiFiConnectionResult result;
+            if (selectedNetwork.AvailableNetwork.SecuritySettings.NetworkAuthenticationType == Windows.Networking.Connectivity.NetworkAuthenticationType.Open80211)
+            {
+                result = await _firstAdapter.ConnectAsync(selectedNetwork.AvailableNetwork, reconnectionKind);
+            }
+            else
+            {
+                // Only the password potion of the credential need to be supplied
+                var credential = new PasswordCredential();
+                credential.Password = NetworkKey.Password;
+
+                result = await _firstAdapter.ConnectAsync(selectedNetwork.AvailableNetwork, reconnectionKind, credential);
+            }
+
+            if (result.ConnectionStatus == WiFiConnectionStatus.Success)
+            {
+                _log.Info(string.Format("Successfully connected to {0}.", selectedNetwork.Ssid));
+
+                // todo: navigate to the home page perhaps?
+                //// refresh the webpage
+                //webViewGrid.Visibility = Visibility.Visible;
+                //toggleBrowserButton.Content = "Hide Browser Control";
+                //refreshBrowserButton.Visibility = Visibility.Visible;
+
+            }
+            else
+            {
+                _log.Warn(string.Format("Could not connect to {0}. Error: {1}", selectedNetwork.Ssid, result.ConnectionStatus));
+            }
+
+            // Since a connection attempt was made, update the connectivity level displayed for each
+            foreach (var network in ViewModel.NetworkList)
+            {
+                network.UpdateConnectivityLevel();
+            }
         }
 
         private void CancelButtonOnClick(object sender, RoutedEventArgs e)
