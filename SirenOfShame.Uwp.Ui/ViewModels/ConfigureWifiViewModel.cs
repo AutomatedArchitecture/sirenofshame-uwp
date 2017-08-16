@@ -89,7 +89,7 @@ namespace SirenOfShame.Uwp.Ui.ViewModels
 
         }
 
-        private async void UpdateConnectivityLevel()
+        public async void UpdateConnectivityLevel()
         {
             string connectivityLevel = "";
             string connectedSsid = null;
