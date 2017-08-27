@@ -100,7 +100,9 @@ namespace SirenOfShame.Uwp.Ui
                 {
                     // When the navigation stack isn't restored, navigate to the first page
                     // suppressing the initial entrance animation.
-                    shell.AppFrame.Navigate(typeof(MainUiPage), e.Arguments, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+                    var navigationService = ServiceContainer.Resolve<NavigationService>();
+                    var transitionInfo = new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo();
+                    navigationService.NavigateTo(typeof(MainUiPage), e.Arguments, transitionInfo);
                 }
 
                 // Ensure the current window is active
