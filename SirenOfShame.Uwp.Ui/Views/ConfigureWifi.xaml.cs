@@ -116,12 +116,14 @@ namespace SirenOfShame.Uwp.Ui.Views
             {
                 _log.Info(string.Format("Successfully connected to {0}.", selectedNetwork.Ssid));
 
-                // todo: navigate to the home page perhaps?
-                //// refresh the webpage
+                var navigationService = ServiceContainer.Resolve<NavigationService>();
+
+                // todo: show a webpage so people can enter hotel passwords or whatever
                 //webViewGrid.Visibility = Visibility.Visible;
                 //toggleBrowserButton.Content = "Hide Browser Control";
                 //refreshBrowserButton.Visibility = Visibility.Visible;
 
+                navigationService.NavigateTo<MainUiPage>();
             }
             else
             {
