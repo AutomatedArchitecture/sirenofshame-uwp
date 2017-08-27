@@ -9,7 +9,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Controls;
 using SirenOfShame.Uwp.Ui.Models;
+using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Ui.Views;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui
 {
@@ -18,6 +20,8 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     public sealed partial class AppShell
     {
+        private static readonly NavigationService _navigationService = ServiceContainer.Resolve<NavigationService>();
+
         // All Icons: https://docs.microsoft.com/en-us/windows/uwp/style/segoe-ui-symbol-font
         // Symbols: https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.Symbol
         private readonly List<NavMenuItem> _navlist = new List<NavMenuItem>(
@@ -44,8 +48,13 @@ namespace SirenOfShame.Uwp.Ui
                 },
             });
 
-        public static AppShell Current = null;
         public Frame AppFrame => frame;
+
+        public bool IsPaneOpen
+        {
+            get { return RootSplitView.IsPaneOpen; }
+            set { RootSplitView.IsPaneOpen = value; }
+        }
 
         public AppShell()
         {
@@ -69,14 +78,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private static void ShowBackButton()
         {
-            var visible = Current?.AppFrame?.CanGoBack ?? false;
-            ShowBackButton(visible);
-        }
-
-        private static void ShowBackButton(bool visible)
-        {
-            var visibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visibility;
+            _navigationService.ShowBackButton();
         }
 
         private void SystemNavigationManager_BackRequested(object sender, BackRequestedEventArgs e)
@@ -105,9 +107,8 @@ namespace SirenOfShame.Uwp.Ui
 
         private void AppShell_Loaded(object sender, RoutedEventArgs e)
         {
-            Current = this;
             CheckTogglePaneButtonSizeChanged();
-            RootSplitView.IsPaneOpen = false;
+            IsPaneOpen = false;
 
             var item = _navlist[0];
             var container = (ListViewItem)NavMenuList.ContainerFromItem(item);
@@ -172,20 +173,9 @@ namespace SirenOfShame.Uwp.Ui
                 if (item.DestPage != null &&
                     item.DestPage != AppFrame.CurrentSourcePageType)
                 {
-                    NavigateTo(item.DestPage, item.Arguments);
+                    _navigationService.NavigateTo(item.DestPage, item.Arguments);
                 }
             }
-        }
-
-        private void NavigateTo(Type sourcePageType, object arguments)
-        {
-            AppFrame.Navigate(sourcePageType, arguments);
-            if (sourcePageType == typeof(MainUiPage))
-            {
-                AppFrame.BackStack.Clear();
-            }
-            ShowBackButton();
-            RootSplitView.IsPaneOpen = false;
         }
 
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
@@ -239,7 +229,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private void SettingsOnClick(object sender, RoutedEventArgs e)
         {
-            NavigateTo(typeof(ConfigureWifi), null);
+            _navigationService.NavigateTo(typeof(ConfigureWifi), null);
         }
     }
 }
