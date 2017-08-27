@@ -12,7 +12,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private Frame AppFrame => AppShell?.AppFrame;
 
-        public void NavigateTo<TDestination>(object arguments)
+        public void NavigateTo<TDestination>(object arguments = null)
         {
             var destination = typeof(TDestination);
             NavigateTo(destination, arguments);
