@@ -102,7 +102,7 @@ namespace SirenOfShame.Uwp.Ui
                     // suppressing the initial entrance animation.
                     var navigationService = ServiceContainer.Resolve<NavigationService>();
                     var transitionInfo = new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo();
-                    navigationService.NavigateTo(typeof(MainUiPage), e.Arguments, transitionInfo);
+                    navigationService.NavigateTo<MainUiPage>(e.Arguments, transitionInfo);
                 }
 
                 // Ensure the current window is active
