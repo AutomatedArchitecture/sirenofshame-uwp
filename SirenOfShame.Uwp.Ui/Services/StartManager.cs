@@ -13,6 +13,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             ServiceContainer.Register(() => new MessageDistributorService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
             ServiceContainer.Register(() => new NavigationService());
+            ServiceContainer.Register(() => new NetworkService());
         }
     }
 }
