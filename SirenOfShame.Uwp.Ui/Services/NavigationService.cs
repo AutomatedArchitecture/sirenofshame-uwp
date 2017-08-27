@@ -2,19 +2,31 @@
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
     public class NavigationService
     {
-        public AppShell AppShell => Window.Current.Content as AppShell;
+        private AppShell AppShell => Window.Current.Content as AppShell;
 
-        public Frame AppFrame => AppShell?.AppFrame;
+        private Frame AppFrame => AppShell?.AppFrame;
 
-        public void NavigateTo(Type sourcePageType, object arguments)
+        public void NavigateTo(Type destination, object arguments)
         {
-            AppFrame.Navigate(sourcePageType, arguments);
-            if (sourcePageType == typeof(MainUiPage))
+            AppFrame.Navigate(destination, arguments);
+            PostNavigate(destination);
+        }
+
+        public void NavigateTo(Type type, string arguments, NavigationTransitionInfo navigationTransitionInfo)
+        {
+            AppFrame.Navigate(type, arguments, navigationTransitionInfo);
+            PostNavigate(type);
+        }
+
+        private void PostNavigate(Type destination)
+        {
+            if (destination == typeof(MainUiPage))
             {
                 AppFrame.BackStack.Clear();
             }
@@ -33,6 +45,5 @@ namespace SirenOfShame.Uwp.Ui.Services
             var visibility = visible ? AppViewBackButtonVisibility.Visible : AppViewBackButtonVisibility.Collapsed;
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = visibility;
         }
-
     }
 }
