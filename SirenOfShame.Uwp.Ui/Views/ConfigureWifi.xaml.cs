@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Devices.WiFi;
 using Windows.Networking.Connectivity;
 using Windows.Security.Credentials;
@@ -8,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Ui.ViewModels;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Views
 {
@@ -18,6 +20,7 @@ namespace SirenOfShame.Uwp.Ui.Views
     {
         private readonly ILog _log = MyLogManager.GetLog(typeof(ConfigureWifi));
         private WiFiAdapter _firstAdapter;
+        private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
 
         public ConfigureWifi()
         {
@@ -31,24 +34,8 @@ namespace SirenOfShame.Uwp.Ui.Views
         {
             base.OnNavigatedTo(e);
 
-            ViewModel.AnyNetworkAdapterFound = false;
-            var access = await WiFiAdapter.RequestAccessAsync();
-            if (access != WiFiAccessStatus.Allowed)
-            {
-                _log.Info("Wifi access denied");
-                return;
-            }
-
-            var result = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector());
-            if (result.Count >= 1)
-            {
-                _firstAdapter = await WiFiAdapter.FromIdAsync(result[0].Id);
-                ViewModel.AnyNetworkAdapterFound = true;
-            }
-            else
-            {
-                _log.Warn("No WiFi Adapters detected on this machine.");
-            }
+            _firstAdapter = await _networkService.GetAdapter();
+            ViewModel.AnyNetworkAdapterFound = _firstAdapter != null;
         }
 
         private async void ScanWifiOnClick(object sender, RoutedEventArgs e)

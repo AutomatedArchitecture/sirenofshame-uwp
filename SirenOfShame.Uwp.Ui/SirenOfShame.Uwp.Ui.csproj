@@ -123,6 +123,7 @@
     <Compile Include="Converters\ToLocalTimeConverter.cs" />
     <Compile Include="Converters\TrayIconToImageConverter.cs" />
     <Compile Include="Services\NavigationService.cs" />
+    <Compile Include="Services\NetworkService.cs" />
     <Compile Include="ViewModels\ConfigureWifiViewModel.cs" />
     <Compile Include="ViewModels\LeadersViewModel.cs" />
     <Compile Include="Models\NavMenuItem.cs" />

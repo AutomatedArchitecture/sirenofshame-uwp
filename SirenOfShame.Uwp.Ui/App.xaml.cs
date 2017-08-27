@@ -106,11 +106,10 @@ namespace SirenOfShame.Uwp.Ui
                     var navigationService = ServiceContainer.Resolve<NavigationService>();
                     var transitionInfo = new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo();
 
-                    var adapter = await GetAdapter();
-                    var connectedProfile = await adapter?.NetworkAdapter?.GetConnectedProfileAsync();
+                    var networkService = ServiceContainer.Resolve<NetworkService>();
+                    var isConnected = await networkService.IsConnected();
 
-
-                    if (connectedProfile == null)
+                    if (!isConnected)
                     {
                         navigationService.NavigateTo<ConfigureWifi>(e.Arguments, transitionInfo);
                     }
@@ -123,16 +122,6 @@ namespace SirenOfShame.Uwp.Ui
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
-        }
-
-        private static async Task<WiFiAdapter> GetAdapter()
-        {
-            var result = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector());
-            if (result.Count >= 1)
-            {
-                return await WiFiAdapter.FromIdAsync(result[0].Id);
-            }
-            return null;
         }
 
         /// <summary>
