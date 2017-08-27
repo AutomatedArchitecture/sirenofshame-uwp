@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Devices.WiFi;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
+using SirenOfShame.Uwp.Ui.Views;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui
@@ -66,7 +69,7 @@ namespace SirenOfShame.Uwp.Ui
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (Debugger.IsAttached)
@@ -102,12 +105,34 @@ namespace SirenOfShame.Uwp.Ui
                     // suppressing the initial entrance animation.
                     var navigationService = ServiceContainer.Resolve<NavigationService>();
                     var transitionInfo = new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo();
-                    navigationService.NavigateTo<MainUiPage>(e.Arguments, transitionInfo);
+
+                    var adapter = await GetAdapter();
+                    var connectedProfile = await adapter?.NetworkAdapter?.GetConnectedProfileAsync();
+
+
+                    if (connectedProfile == null)
+                    {
+                        navigationService.NavigateTo<ConfigureWifi>(e.Arguments, transitionInfo);
+                    }
+                    else
+                    {
+                        navigationService.NavigateTo<MainUiPage>(e.Arguments, transitionInfo);
+                    }
                 }
 
                 // Ensure the current window is active
                 Window.Current.Activate();
             }
+        }
+
+        private static async Task<WiFiAdapter> GetAdapter()
+        {
+            var result = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector());
+            if (result.Count >= 1)
+            {
+                return await WiFiAdapter.FromIdAsync(result[0].Id);
+            }
+            return null;
         }
 
         /// <summary>
