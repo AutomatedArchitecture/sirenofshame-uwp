@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.WiFi;
+using Windows.Networking;
+using Windows.Networking.Connectivity;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
@@ -35,5 +38,25 @@ namespace SirenOfShame.Uwp.Ui.Services
             return null;
         }
 
+        public string GetPossibleAdminPortals()
+        {
+            var myIps = GetMyIps();
+            return string.Join("; ", myIps);
+        }
+
+        private string GetAdminPortalAddress(string ipAddress)
+        {
+            return $"http://{ipAddress}/";
+        }
+
+        private string[] GetMyIps()
+        {
+            return NetworkInformation.GetHostNames()
+                .Where(i => i.IPInformation != null && 
+                    (i.Type == HostNameType.Ipv4) || (i.Type == HostNameType.DomainName))
+                .Select(i => i.ToString())
+                .Select(GetAdminPortalAddress)
+                .ToArray();
+        }
     }
 }

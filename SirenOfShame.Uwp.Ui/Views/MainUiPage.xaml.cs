@@ -27,6 +27,7 @@ namespace SirenOfShame.Uwp.Ui
     {
         private readonly MessageDistributorService _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
         private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+        private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
         private RootViewModel ViewModel { get; set; }
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainUiPage));
         private List<BuildStatusDto> _lastBuildStatusDtos;
@@ -135,8 +136,15 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void MessageDistributorServiceOnRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
+                if (!args.BuildStatusDtos.Any())
+                {
+                    var myUrl = _networkService.GetPossibleAdminPortals();
+                    await new MessageDialog("No builds detected.  To start watching a CI server go to the admin portal in a web browser.  Admin portal should be available at: " + myUrl).ShowAsync();
+                    return;
+                }
+
                 _lastBuildStatusDtos = args.BuildStatusDtos
                     .OrderByDescending(i => i.LocalStartTime)
                     .Take(50)
