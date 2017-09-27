@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.Devices.WiFi;
 using Windows.Networking.Connectivity;
 using Windows.Security.Credentials;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -105,6 +106,14 @@ namespace SirenOfShame.Uwp.Ui.Views
             }
             else
             {
+                if (string.IsNullOrWhiteSpace(NetworkKey.Password))
+                {
+                    var message = "Empty password";
+                    var messageDialog = new MessageDialog(message);
+                    _log.Warn(message);
+                    await messageDialog.ShowAsync();
+                    return;
+                }
                 // Only the password potion of the credential need to be supplied
                 var credential = new PasswordCredential();
                 credential.Password = NetworkKey.Password;
