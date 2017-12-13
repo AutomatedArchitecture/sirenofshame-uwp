@@ -1,4 +1,5 @@
-﻿using Windows.Networking;
+﻿using System;
+using Windows.Networking;
 using Windows.Networking.Connectivity;
 using Windows.UI.Xaml.Controls;
 
@@ -14,7 +15,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             InitializeComponent();
 
             var url = GetIpAddress();
-            var content = $"Configuring servers is currently only available via the web admin portal.  Please open a url to http://{url}/";
+            var content = $"Configuring servers is currently only available via the web admin portal.{Environment.NewLine}Please open a url to http://{url}/";
             Title.Text = content;
         }
 
