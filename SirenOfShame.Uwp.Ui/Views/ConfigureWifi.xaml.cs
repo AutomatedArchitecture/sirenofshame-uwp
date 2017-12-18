@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Devices.WiFi;
 using Windows.Networking.Connectivity;
 using Windows.Security.Credentials;
@@ -53,8 +52,7 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private void NetworkSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var selectedNetwork = ResultsListView.SelectedItem as WiFiNetworkDisplay;
-            if (selectedNetwork == null)
+            if (!(ResultsListView.SelectedItem is WiFiNetworkDisplay selectedNetwork))
             {
                 return;
             }
@@ -87,8 +85,7 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async void ConnectButtonOnClick(object sender, RoutedEventArgs e)
         {
-            var selectedNetwork = ResultsListView.SelectedItem as WiFiNetworkDisplay;
-            if (selectedNetwork == null || _firstAdapter == null)
+            if (!(ResultsListView.SelectedItem is WiFiNetworkDisplay selectedNetwork) || _firstAdapter == null)
             {
                 _log.Warn("Network not selcted");
                 return;
@@ -100,7 +97,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             }
 
             WiFiConnectionResult result;
-            if (selectedNetwork.AvailableNetwork.SecuritySettings.NetworkAuthenticationType == Windows.Networking.Connectivity.NetworkAuthenticationType.Open80211)
+            if (selectedNetwork.AvailableNetwork.SecuritySettings.NetworkAuthenticationType == NetworkAuthenticationType.Open80211)
             {
                 result = await _firstAdapter.ConnectAsync(selectedNetwork.AvailableNetwork, reconnectionKind);
             }
@@ -115,8 +112,10 @@ namespace SirenOfShame.Uwp.Ui.Views
                     return;
                 }
                 // Only the password potion of the credential need to be supplied
-                var credential = new PasswordCredential();
-                credential.Password = NetworkKey.Password;
+                var credential = new PasswordCredential
+                {
+                    Password = NetworkKey.Password
+                };
 
                 result = await _firstAdapter.ConnectAsync(selectedNetwork.AvailableNetwork, reconnectionKind, credential);
             }
