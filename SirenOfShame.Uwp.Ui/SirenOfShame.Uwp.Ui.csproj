@@ -21,6 +21,7 @@
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxPackageDir>I:\SosUwpPi\</AppxPackageDir>
     <AppxBundle>Never</AppxBundle>
+    <PackageCertificateThumbprint>5C294402547B4270BAF79F9E86AE3D8659EDD777</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -133,11 +134,11 @@
     <Compile Include="Triggers\IsTenFootTrigger.cs" />
     <Compile Include="Helpers\SystemInformationHelpers.cs" />
     <Compile Include="ViewModels\ViewUserViewModel.cs" />
-    <Compile Include="Views\ConfigureServer.xaml.cs">
-      <DependentUpon>ConfigureServer.xaml</DependentUpon>
+    <Compile Include="Views\ConfigureServerPage.xaml.cs">
+      <DependentUpon>ConfigureServerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ConfigureWifi.xaml.cs">
-      <DependentUpon>ConfigureWifi.xaml</DependentUpon>
+    <Compile Include="Views\ConfigureWifiPage.xaml.cs">
+      <DependentUpon>ConfigureWifiPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainUiPage.xaml.cs">
       <DependentUpon>MainUiPage.xaml</DependentUpon>
@@ -153,11 +154,11 @@
     <Compile Include="Services\MyLogManager.cs" />
     <Compile Include="Services\StartManager.cs" />
     <Compile Include="Views\PageBase.cs" />
-    <Compile Include="Views\ViewLogs.xaml.cs">
-      <DependentUpon>ViewLogs.xaml</DependentUpon>
+    <Compile Include="Views\ViewLogsPage.xaml.cs">
+      <DependentUpon>ViewLogsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ViewUser.xaml.cs">
-      <DependentUpon>ViewUser.xaml</DependentUpon>
+    <Compile Include="Views\ViewUserPage.xaml.cs">
+      <DependentUpon>ViewUserPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -264,11 +265,11 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="Views\ConfigureServer.xaml">
+    <Page Include="Views\ConfigureServerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ConfigureWifi.xaml">
+    <Page Include="Views\ConfigureWifiPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -276,11 +277,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ViewLogs.xaml">
+    <Page Include="Views\ViewLogsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ViewUser.xaml">
+    <Page Include="Views\ViewUserPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

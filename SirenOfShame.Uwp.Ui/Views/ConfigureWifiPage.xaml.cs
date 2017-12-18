@@ -17,13 +17,13 @@ namespace SirenOfShame.Uwp.Ui.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ConfigureWifi
+    public sealed partial class ConfigureWifiPage
     {
-        private readonly ILog _log = MyLogManager.GetLog(typeof(ConfigureWifi));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(ConfigureWifiPage));
         private WiFiAdapter _firstAdapter;
         private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
 
-        public ConfigureWifi()
+        public ConfigureWifiPage()
         {
             InitializeComponent();
             DataContext = new ConfigureWifiViewModel();
