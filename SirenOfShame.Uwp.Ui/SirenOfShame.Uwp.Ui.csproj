@@ -122,6 +122,8 @@
     <Compile Include="Converters\SosColors.cs" />
     <Compile Include="Converters\ToLocalTimeConverter.cs" />
     <Compile Include="Converters\TrayIconToImageConverter.cs" />
+    <Compile Include="Services\AppSettingsService.cs" />
+    <Compile Include="Services\GettingStartedService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="ViewModels\ConfigureWifiViewModel.cs" />
