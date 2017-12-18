@@ -147,7 +147,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             {
                 if (!args.BuildStatusDtos.Any())
                 {
-                    var myUrl = _networkService.GetPossibleAdminPortals();
+                    var myUrl = _networkService.GetPossibleAdminPortals("; ");
                     await new MessageDialog("No builds detected.  To start watching a CI server go to the admin portal in a web browser.  Admin portal should be available at: " + myUrl).ShowAsync();
                     return;
                 }

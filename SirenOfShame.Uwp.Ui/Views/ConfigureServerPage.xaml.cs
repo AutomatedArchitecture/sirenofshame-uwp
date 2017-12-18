@@ -15,9 +15,9 @@ namespace SirenOfShame.Uwp.Ui.Views
         {
             InitializeComponent();
 
-            var myUrl = _networkService.GetPossibleAdminPortals();
+            var myUrl = _networkService.GetPossibleAdminPortals(Environment.NewLine);
 
-            var content = $"Configuring servers is currently only available via the web admin portal.{Environment.NewLine}Please open a url to: {myUrl}";
+            var content = $"Configuring servers is currently only available via the web admin portal.  Please open a url to one of the following URL's: {Environment.NewLine}{Environment.NewLine}{myUrl}";
             Title.Text = content;
         }
     }
