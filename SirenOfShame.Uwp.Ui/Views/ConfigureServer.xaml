@@ -8,6 +8,6 @@
     mc:Ignorable="d">
 
     <Grid Style="{StaticResource DefaultPageStyle}">
-        <TextBlock x:Name="Title" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <TextBlock x:Name="Title" TextWrapping="WrapWholeWords" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
     </Grid>
 </local:PageBase>
