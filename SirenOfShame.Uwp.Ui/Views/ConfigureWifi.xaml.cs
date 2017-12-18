@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Devices.WiFi;
 using Windows.Networking.Connectivity;
 using Windows.Security.Credentials;
@@ -36,9 +37,18 @@ namespace SirenOfShame.Uwp.Ui.Views
 
             _firstAdapter = await _networkService.GetAdapter();
             ViewModel.AnyNetworkAdapterFound = _firstAdapter != null;
+            if (ViewModel.AnyNetworkAdapterFound)
+            {
+                await ScanWifiNetwork();
+            }
         }
 
         private async void ScanWifiOnClick(object sender, RoutedEventArgs e)
+        {
+            await ScanWifiNetwork();
+        }
+
+        private async Task ScanWifiNetwork()
         {
             ViewModel.UpdateStatus("Scanning for WiFi Networks");
             await _firstAdapter.ScanAsync();
