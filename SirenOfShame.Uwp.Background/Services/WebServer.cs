@@ -17,10 +17,12 @@ namespace SirenOfShame.Uwp.Background.Services
                 "/sockets/",
                 new WebSocketHandler()
                 );
-            _httpServer.AddHttpRequestHandler(
-                "/",
-                new HttpResourceHandler(typeof(StartupTask).GetTypeInfo().Assembly,
-                    "wwwroot", "index.html"));
+            var backgroundAssembly = typeof(StartupTask).GetTypeInfo().Assembly;
+            var indexHtmlResourceHandler = new HttpResourceHandler(backgroundAssembly, "wwwroot", "index.html");
+            _httpServer.AddHttpRequestHandler("/", indexHtmlResourceHandler);
+            _httpServer.AddHttpRequestHandler("/settings", indexHtmlResourceHandler);
+            _httpServer.AddHttpRequestHandler("/home", indexHtmlResourceHandler);
+            _httpServer.AddHttpRequestHandler("/mockServer", indexHtmlResourceHandler);
             _httpServer.Start();
         }
     }
