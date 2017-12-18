@@ -8,7 +8,21 @@
     mc:Ignorable="d">
 
     <Grid Style="{StaticResource DefaultPageStyle}">
-        <TextBlock x:Name="Title" TextWrapping="WrapWholeWords" Padding="20" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock 
+            Grid.Column="1" 
+            Style="{StaticResource PageHeaderTextStyle}" 
+            Text="Configure" />
+
+        <TextBlock Grid.Column="1" Grid.Row="1" x:Name="Title" TextWrapping="WrapWholeWords" Padding="5" Text="Configuring servers is currently only available via the web admin portal.\r\nPlease open a url to: {myUrl}"></TextBlock>
     </Grid>
 </local:PageBase>
 

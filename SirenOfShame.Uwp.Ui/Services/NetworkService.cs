@@ -38,10 +38,10 @@ namespace SirenOfShame.Uwp.Ui.Services
             return null;
         }
 
-        public string GetPossibleAdminPortals()
+        public string GetPossibleAdminPortals(string separator)
         {
             var myIps = GetMyIps();
-            return string.Join("; ", myIps);
+            return string.Join(separator, myIps);
         }
 
         private string GetAdminPortalAddress(string ipAddress)

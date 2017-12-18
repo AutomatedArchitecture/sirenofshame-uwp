@@ -17,19 +17,26 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <RelativePanel Grid.Row="0">
-            <TextBlock 
-                RelativePanel.AlignLeftWithPanel="True"
-                FontSize="20">Logs</TextBlock>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <RelativePanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
             <ToggleButton 
                 IsChecked="{Binding ShowAll, Mode=TwoWay}"
                 RelativePanel.AlignRightWithPanel="True"
                 Click="ToggleButton_OnChecked">Show All Logs</ToggleButton>
         </RelativePanel>
-        
+
+        <TextBlock 
+            Grid.Column="1"
+            Grid.Row="0"
+            RelativePanel.AlignLeftWithPanel="True"
+            Style="{StaticResource PageHeaderTextStyle}">Logs</TextBlock>
+
         <ListView
+            Grid.Column="1"
             Grid.Row="1"
             ItemsSource="{Binding Events}">
             
