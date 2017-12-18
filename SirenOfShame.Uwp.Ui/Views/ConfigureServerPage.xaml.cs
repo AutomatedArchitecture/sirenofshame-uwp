@@ -10,6 +10,7 @@ namespace SirenOfShame.Uwp.Ui.Views
     public sealed partial class ConfigureServerPage
     {
         private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
+        private readonly NavigationService _navigationService = ServiceContainer.Resolve<NavigationService>();
 
         public ConfigureServerPage()
         {
@@ -19,6 +20,12 @@ namespace SirenOfShame.Uwp.Ui.Views
 
             var content = $"Configuring servers is currently only available via the web admin portal.  Please open a url to one of the following URL's: {Environment.NewLine}{Environment.NewLine}{myUrl}";
             Title.Text = content;
+            DoneButton.Click += DoneButton_Click;
+        }
+
+        private void DoneButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            _navigationService.NavigateTo<MainUiPage>();
         }
     }
 }
