@@ -31,20 +31,20 @@ namespace SirenOfShame.Uwp.Ui
                 {
                     Symbol = Symbol.Home,
                     Label = "Home",
-                    DestPage = typeof(MainUiPage),
+                    DestPage = typeof(Views.MainUiPage),
                     IsSelected = true
                 },
                 new NavMenuItem()
                 {
                     SymbolChar = (char) 0xE211,
                     Label = "Configure Server",
-                    DestPage = typeof(ConfigureServer)
+                    DestPage = typeof(ConfigureServerPage)
                 },
                 new NavMenuItem()
                 {
                     SymbolChar = (char) 0xE15E,
                     Label = "View Logs",
-                    DestPage = typeof(ViewLogs)
+                    DestPage = typeof(ViewLogsPage)
                 },
             });
 
@@ -229,7 +229,7 @@ namespace SirenOfShame.Uwp.Ui
 
         private void SettingsOnClick(object sender, RoutedEventArgs e)
         {
-            _navigationService.NavigateTo(typeof(ConfigureWifi), null);
+            _navigationService.NavigateTo(typeof(ConfigureWifiPage), null);
         }
     }
 }

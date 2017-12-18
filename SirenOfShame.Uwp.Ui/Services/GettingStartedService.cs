@@ -21,11 +21,11 @@ namespace SirenOfShame.Uwp.Ui.Services
 
             if (!isConnected)
             {
-                _navigationService.NavigateTo<ConfigureWifi>(arguments, transitionInfo);
+                _navigationService.NavigateTo<ConfigureWifiPage>(arguments, transitionInfo);
             }
             else
             {
-                _navigationService.NavigateTo<MainUiPage>(arguments, transitionInfo);
+                _navigationService.NavigateTo<Views.MainUiPage>(arguments, transitionInfo);
             }
         }
 
@@ -39,7 +39,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             if (IsVeryFirstLoad)
             {
                 IsVeryFirstLoad = false;
-                _navigationService.NavigateTo<ConfigureServer>();
+                _navigationService.NavigateTo<ConfigureServerPage>();
             }
         }
     }

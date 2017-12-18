@@ -33,7 +33,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private void PostNavigate(Type destination)
         {
-            if (destination == typeof(MainUiPage))
+            if (destination == typeof(Views.MainUiPage))
             {
                 AppFrame.BackStack.Clear();
             }
