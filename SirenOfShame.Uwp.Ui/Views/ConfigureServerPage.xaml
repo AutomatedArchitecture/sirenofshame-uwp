@@ -22,7 +22,11 @@
             Style="{StaticResource PageHeaderTextStyle}" 
             Text="Configure" />
 
-        <TextBlock Grid.Column="1" Grid.Row="1" x:Name="Title" TextWrapping="WrapWholeWords" Padding="5" Text="Configuring servers is currently only available via the web admin portal.\r\nPlease open a url to: {myUrl}"></TextBlock>
+        <StackPanel Grid.Column="1" Grid.Row="1">
+        <TextBlock x:Name="Title" TextWrapping="WrapWholeWords" Padding="5" Text="Configuring servers is currently only available via the web admin portal.\r\nPlease open a url to: {myUrl}"></TextBlock>
+        
+        <Button x:Name="DoneButton" Margin="0,20,0,0">Done</Button>
+        </StackPanel>
     </Grid>
 </local:PageBase>
 
