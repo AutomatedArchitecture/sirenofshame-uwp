@@ -120,6 +120,12 @@ The second option is trickier to set up, but has the fastest dev feedback cycle.
 
 ## 'Production' Environment Setup
 
+#### Prerequisites:
+
+* Install a standard Windows IoT image onto a Raspberry Pi using [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
+
+#### Steps:
+
 For first time setup follow these instructions.  You can skip various steps
 for subsequent deploys.
 
@@ -153,6 +159,14 @@ for subsequent deploys.
     3. Set Project Properties -> `Debug` -> `Remote Machine` to you're PI's IP address or WINS name
     4. Start With Debugging (F5)
 
+#### Debugging Tips
+
+If you get an error when doing an F5 deploy of the UI app to a Raspberry Pi like:
+
+"Unable to activate windows store app the application appears to already be running"
+
+Then try setting some other app as the startup app (e.g. IoTUAPOOBEForeground, it doesn't seem to do anything).
+
 ## Mock Environment Setup
 
 For first time setup follow these instructions to get Mock mode working.
@@ -171,3 +185,7 @@ UWP-based servers can not be hit via localhost, so:
 5. Set SirenOfShame.Uwp.MessageRelay as startup project and right click + deploy
 6. Set SirenOfShame.Uwp.Ui as startup project and Start it
 7. Click 'Mock Server' from the web page to throw mock CI info into the UWP UI
+
+# Production Deploy
+
+The siren of shame apps get published onto an .ffu image that can be burned to an SD card via the IoT core dashboard.  The .ffu image lives in \deploy\output.  The ffu gets generated 
