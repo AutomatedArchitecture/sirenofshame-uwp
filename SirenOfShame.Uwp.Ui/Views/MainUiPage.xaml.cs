@@ -28,6 +28,7 @@ namespace SirenOfShame.Uwp.Ui
         private readonly MessageDistributorService _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
         private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
         private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
+        private readonly GettingStartedService _gettingStartedService = ServiceContainer.Resolve<GettingStartedService>();
         private RootViewModel ViewModel { get; set; }
         private readonly ILog _log = MyLogManager.GetLog(typeof(MainUiPage));
         private List<BuildStatusDto> _lastBuildStatusDtos;
@@ -48,6 +49,12 @@ namespace SirenOfShame.Uwp.Ui
 
         private async void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            if (_gettingStartedService.IsVeryFirstLoad)
+            {
+                _gettingStartedService.CompleteVeryFirstLoadAction();
+                return;
+            }
+
             // OnLoaded gets called on subsequent navigations despite NavigationCacheMode="Required"
             if (ViewModel.Initialized) return;
 

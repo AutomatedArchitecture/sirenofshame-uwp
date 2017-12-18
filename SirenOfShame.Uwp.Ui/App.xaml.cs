@@ -101,22 +101,8 @@ namespace SirenOfShame.Uwp.Ui
             {
                 if (shell.AppFrame.Content == null)
                 {
-                    // When the navigation stack isn't restored, navigate to the first page
-                    // suppressing the initial entrance animation.
-                    var navigationService = ServiceContainer.Resolve<NavigationService>();
-                    var transitionInfo = new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo();
-
-                    var networkService = ServiceContainer.Resolve<NetworkService>();
-                    var isConnected = await networkService.IsConnected();
-
-                    if (!isConnected)
-                    {
-                        navigationService.NavigateTo<ConfigureWifi>(e.Arguments, transitionInfo);
-                    }
-                    else
-                    {
-                        navigationService.NavigateTo<MainUiPage>(e.Arguments, transitionInfo);
-                    }
+                    var gettingStartedService = ServiceContainer.Resolve<GettingStartedService>();
+                    await gettingStartedService.InitialAppStartup(e.Arguments);
                 }
 
                 // Ensure the current window is active

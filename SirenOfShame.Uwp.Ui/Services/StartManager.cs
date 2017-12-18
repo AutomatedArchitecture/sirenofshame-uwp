@@ -14,6 +14,8 @@ namespace SirenOfShame.Uwp.Ui.Services
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
             ServiceContainer.Register(() => new NavigationService());
             ServiceContainer.Register(() => new NetworkService());
+            ServiceContainer.Register(() => new GettingStartedService());
+            ServiceContainer.Register(() => new AppSettingsService());
         }
     }
 }
