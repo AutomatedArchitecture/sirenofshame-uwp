@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
@@ -76,13 +78,27 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 ValueSet valueSet = args.Request.Message;
-                _log.Debug("Received message from MessageRelay: " + valueSet);
+                _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
                 OnMessageReceived?.Invoke(valueSet);
             }
             finally
             {
                 appServiceDeferral.Complete();
             }
+        }
+
+        private string ValueSetToString(ValueSet valueSet)
+        {
+            if (valueSet.Count > 1)
+                return "Multiple ValueSets: " + string.Join(", ", valueSet.Select(i => i.Key));
+            var value = valueSet.First();
+            if (IsChatty(value.Key)) return value.Key;
+            return value.Key + " - " + value.Value;
+        }
+
+        private bool IsChatty(string valueKey)
+        {
+            return valueKey == RefreshStatusEventArgs.COMMAND_NAME;
         }
 
         public async Task Send(string key, string message)
