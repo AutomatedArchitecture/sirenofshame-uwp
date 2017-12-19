@@ -199,13 +199,23 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
 
 ## To Generate FFU
 
-1. First generate the appx from *SirenOfShame.Uwp.Ui* and *SirenOfShame.Uwp.Background* via right click -> Store -> Create App Packages (maybe send it to an USB Drive)
-1. Copy the appx and cer files from the USB Drive to `\Source-arm\Packages\Appx.SosUi\` and `\Source-arm\Packages\Appx.SosBackground\`
-1. Clean: Delete everything in the output directory `\Build\SirenOfShame`
+1. Generate appx files via right click -> Store -> Create App Packages.  Send to a USB Drive. Do for any/all of the following:
+	* SirenOfShame.Uwp.Ui
+    * SirenOfShame.Uwp.Background
+    * SirenOfShame.Uwp.MessageRelay
+1. Copy the appx and cer files from the USB Drive to appropriate places:
+    * `\Source-arm\Packages\Appx.SosUi\` 
+    * `\Source-arm\Packages\Appx.SosBackground\`
+    * `\Source-arm\Packages\Appx.SosRelay\`
 1. Run `IoTCoreShell.cmd`, select ARM
+1. Run `clean.bat` (removes assets from the output directory `\Build\arm\SirenOfShame`)
 1. One time only: 
    1. `installoemcerts`
    1. Build the Raspberry Pi Board Support Packages (e.g. `c:\BSP\build.cmd`) see Build a Raspberry Pi BSP in [Lab 1a](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/create-a-basic-image)
+1. Rebuild all appx files like `buildpkg All` or individually for subsequent installs like:
+	* `buildpkg Appx.SosUi`
+	* `buildpkg Appx.SosBackground`
+	* `buildpkg Appx.SosUi`
 1. Remember to remove external drives, in particular the SD Card you intend to burn to
 1. `buildimage SirenOfShame test`
 1. Veriy output file at Build\arm\SirenOfShame\test\Flash.ffu
