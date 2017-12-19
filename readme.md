@@ -215,7 +215,7 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
 1. Rebuild all appx files like `buildpkg All` or individually for subsequent installs like:
 	* `buildpkg Appx.SosUi`
 	* `buildpkg Appx.SosBackground`
-	* `buildpkg Appx.SosUi`
+	* `buildpkg Appx.SosRelay`
 1. Remember to remove external drives, in particular the SD Card you intend to burn to
 1. `buildimage SirenOfShame test`
 1. Veriy output file at Build\arm\SirenOfShame\test\Flash.ffu
@@ -225,3 +225,7 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
 1. Insert an SD Card
 1. Either burn the resulting ffu to the SD Card via GUI with the [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
 1. Or better `flashsd SirenOfShame test 1` where 1 is the drive number as determined by `diskmgmt.msc` (i.e. if it says **Disk 1**  for drive E, F, G, H, then use the value **1**)
+
+## Notes
+
+* To customize the windows image modify \Source-arm\Products\SirenOfShame\TestOEMInput.xml see [OEMInput file contents](https://msdn.microsoft.com/library/windows/hardware/dn756778)

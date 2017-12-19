@@ -21,9 +21,10 @@
     <PackageCertificateKeyFile>SirenOfShame.Uwp.MessageRelay_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackage>true</AppxPackage>
     <ContainsStartupTask>true</ContainsStartupTask>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>I:\SosUwpPi\</AppxPackageDir>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <AppxPackageDir>D:\SosUwpPi\</AppxPackageDir>
     <AppxBundle>Never</AppxBundle>
+    <PackageCertificateThumbprint>F6BC3ADFADEF9B541133594F4516039E573E1429</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
