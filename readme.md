@@ -188,4 +188,30 @@ UWP-based servers can not be hit via localhost, so:
 
 # Production Deploy
 
-The siren of shame apps get published onto an .ffu image that can be burned to an SD card via the IoT core dashboard.  The .ffu image lives in \deploy\output.  The ffu gets generated 
+The siren of shame PI app gets published onto an .ffu image that can be burned to an 
+SD card.  Generating an ffu image requires a separate machine and is somewhat involved.
+Burning an ffu image is pretty straightfoward, but requires a PC.
+
+## Prerequisites
+
+* Install the Windows Assessment and Deployment Kit (ADK) and everything else listed here: [Get the tools needed to customize Windows IoT Core](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/set-up-your-pc-to-customize-iot-core)
+* Clone the [sos-uwp-pi branch](https://github.com/AutomatedArchitecture/iot-adk-addonkit/tree/sos-uwp-pi) of AutomatedArchitecture/iot-adk-addonkit
+
+## To Generate FFU
+
+1. First generate the appx from *SirenOfShame.Uwp.Ui* and *SirenOfShame.Uwp.Background* via right click -> Store -> Create App Packages (maybe send it to an USB Drive)
+1. Copy the appx and cer files from the USB Drive to `\Source-arm\Packages\Appx.SosUi\` and `\Source-arm\Packages\Appx.SosBackground\`
+1. Clean: Delete everything in the output directory `\Build\SirenOfShame`
+1. Run `IoTCoreShell.cmd`, select ARM
+1. One time only: 
+   1. `installoemcerts`
+   1. Build the Raspberry Pi Board Support Packages (e.g. `c:\BSP\build.cmd`) see Build a Raspberry Pi BSP in [Lab 1a](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/create-a-basic-image)
+1. Remember to remove external drives, in particular the SD Card you intend to burn to
+1. `buildimage SirenOfShame test`
+1. Veriy output file at Build\arm\SirenOfShame\test\Flash.ffu
+
+## Burn the FFU
+
+1. Insert an SD Card
+1. Either burn the resulting ffu to the SD Card via GUI with the [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
+1. Or better `flashsd SirenOfShame test 1` where 1 is the drive number as determined by `diskmgmt.msc` (i.e. if it says **Disk 1**  for drive E, F, G, H, then use the value **1**)
