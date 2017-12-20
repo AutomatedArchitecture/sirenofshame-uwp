@@ -194,10 +194,11 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
 
 ## Prerequisites
 
-* Install the Windows Assessment and Deployment Kit (ADK) and everything else listed here: [Get the tools needed to customize Windows IoT Core](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/set-up-your-pc-to-customize-iot-core)
-* Clone the [sos-uwp-pi branch](https://github.com/AutomatedArchitecture/iot-adk-addonkit/tree/sos-uwp-pi) of AutomatedArchitecture/iot-adk-addonkit
+* On a 2nd Machine:
+	* Install the Windows Assessment and Deployment Kit (ADK) and everything else listed here: [Get the tools needed to customize Windows IoT Core](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/set-up-your-pc-to-customize-iot-core)
+	* Clone the [sos-uwp-pi branch](https://github.com/AutomatedArchitecture/iot-adk-addonkit/tree/sos-uwp-pi) of AutomatedArchitecture/iot-adk-addonkit
 
-## To Generate FFU
+## Export APPX
 
 1. Generate appx files via right click -> Store -> Create App Packages.  Send to a USB Drive. Do for any/all of the following:
 	* SirenOfShame.Uwp.Ui
@@ -207,6 +208,9 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
     * `\Source-arm\Packages\Appx.SosUi\` 
     * `\Source-arm\Packages\Appx.SosBackground\`
     * `\Source-arm\Packages\Appx.SosRelay\`
+
+## Generate FFU
+
 1. Run `IoTCoreShell.cmd`, select ARM
 1. Run `clean.bat` (removes assets from the output directory `\Build\arm\SirenOfShame`)
 1. One time only: 
@@ -216,7 +220,8 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
 	* `buildpkg Appx.SosUi`
 	* `buildpkg Appx.SosBackground`
 	* `buildpkg Appx.SosRelay`
-1. Remember to remove external drives, in particular the SD Card you intend to burn to
+1. `buildfm oem` to generate updated files in the MergedFMs folder.
+1. REMOVE EXTERNAL DRIVES
 1. `buildimage SirenOfShame test`
 1. Veriy output file at Build\arm\SirenOfShame\test\Flash.ffu
 
