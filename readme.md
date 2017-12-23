@@ -188,4 +188,45 @@ UWP-based servers can not be hit via localhost, so:
 
 # Production Deploy
 
-The siren of shame apps get published onto an .ffu image that can be burned to an SD card via the IoT core dashboard.  The .ffu image lives in \deploy\output.  The ffu gets generated 
+The siren of shame PI app gets published onto an .ffu image that can be burned to an 
+SD card.  Generating an ffu image involves some setup.  Burning an ffu 
+image is pretty straightfoward, but requires a PC (at present).
+
+## Prerequisites
+
+* Install the Windows Assessment and Deployment Kit (ADK), Windows Driver Kit (WDK), and everything else listed here: [Get the tools needed to customize Windows IoT Core](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/set-up-your-pc-to-customize-iot-core)
+* Clone the [sos-uwp-pi branch](https://github.com/AutomatedArchitecture/iot-adk-addonkit/tree/sos-uwp-pi) of AutomatedArchitecture/iot-adk-addonkit
+
+## Export APPX
+
+1. For each UWP app generate appx files via right click -> Store -> Create App Packages.  Send to `\iot-adk-addonkit\Source-arm\Packages\[package]\` for each of the following:
+	* SirenOfShame.Uwp.Ui -> `\Source-arm\Packages\Appx.SosUi\`
+    * SirenOfShame.Uwp.Background -> `\Source-arm\Packages\Appx.SosBackground\`
+    * SirenOfShame.Uwp.MessageRelay -> `\Source-arm\Packages\Appx.SosRelay\`
+2. Move output files up a directory as necessary
+
+## Generate FFU
+
+1. Run `IoTCoreShell.cmd`, select ARM
+1. Run `clean.bat` (removes assets from the output directory `\Build\arm\SirenOfShame`)
+1. One time only: 
+   1. `installoemcerts`
+   1. Build the Raspberry Pi Board Support Packages (e.g. `c:\BSP\build.cmd`) see Build a Raspberry Pi BSP in [Lab 1a](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/create-a-basic-image)
+1. Rebuild all appx files like `buildpkg All` or individually for subsequent installs like:
+	* `buildpkg Appx.SosUi`
+	* `buildpkg Appx.SosBackground`
+	* `buildpkg Appx.SosRelay`
+1. `buildfm oem` to generate updated files in the MergedFMs folder.
+1. REMOVE EXTERNAL DRIVES
+1. `buildimage SirenOfShame test`
+1. Veriy output file at Build\arm\SirenOfShame\test\Flash.ffu
+
+## Burn the FFU
+
+1. Insert an SD Card
+1. Either burn the resulting ffu to the SD Card via GUI with the [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
+1. Or from command line `flashsd SirenOfShame test 1` where 1 is the drive number as determined by `diskmgmt.msc` (i.e. if it says **Disk 1**  for drive E, F, G, H, then use the value **1**)
+
+## Notes
+
+* To customize the windows image modify \Source-arm\Products\SirenOfShame\TestOEMInput.xml see [OEMInput file contents](https://msdn.microsoft.com/library/windows/hardware/dn756778)
