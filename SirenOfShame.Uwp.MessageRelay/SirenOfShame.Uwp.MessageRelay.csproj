@@ -22,7 +22,7 @@
     <AppxPackage>true</AppxPackage>
     <ContainsStartupTask>true</ContainsStartupTask>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>D:\SosUwpPi\</AppxPackageDir>
+    <AppxPackageDir>C:\dev\iot-adk-addonkit\Source-arm\Packages\Appx.SosRelay</AppxPackageDir>
     <AppxBundle>Never</AppxBundle>
     <PackageCertificateThumbprint>F6BC3ADFADEF9B541133594F4516039E573E1429</PackageCertificateThumbprint>
   </PropertyGroup>

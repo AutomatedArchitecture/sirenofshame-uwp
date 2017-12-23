@@ -189,25 +189,21 @@ UWP-based servers can not be hit via localhost, so:
 # Production Deploy
 
 The siren of shame PI app gets published onto an .ffu image that can be burned to an 
-SD card.  Generating an ffu image requires a separate machine and is somewhat involved.
-Burning an ffu image is pretty straightfoward, but requires a PC.
+SD card.  Generating an ffu image involves some setup.  Burning an ffu 
+image is pretty straightfoward, but requires a PC (at present).
 
 ## Prerequisites
 
-* On a 2nd Machine:
-	* Install the Windows Assessment and Deployment Kit (ADK) and everything else listed here: [Get the tools needed to customize Windows IoT Core](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/set-up-your-pc-to-customize-iot-core)
-	* Clone the [sos-uwp-pi branch](https://github.com/AutomatedArchitecture/iot-adk-addonkit/tree/sos-uwp-pi) of AutomatedArchitecture/iot-adk-addonkit
+* Install the Windows Assessment and Deployment Kit (ADK), Windows Driver Kit (WDK), and everything else listed here: [Get the tools needed to customize Windows IoT Core](https://docs.microsoft.com/en-us/windows-hardware/manufacture/iot/set-up-your-pc-to-customize-iot-core)
+* Clone the [sos-uwp-pi branch](https://github.com/AutomatedArchitecture/iot-adk-addonkit/tree/sos-uwp-pi) of AutomatedArchitecture/iot-adk-addonkit
 
 ## Export APPX
 
-1. Generate appx files via right click -> Store -> Create App Packages.  Send to a USB Drive. Do for any/all of the following:
-	* SirenOfShame.Uwp.Ui
-    * SirenOfShame.Uwp.Background
-    * SirenOfShame.Uwp.MessageRelay
-1. Copy the appx and cer files from the USB Drive to appropriate places:
-    * `\Source-arm\Packages\Appx.SosUi\` 
-    * `\Source-arm\Packages\Appx.SosBackground\`
-    * `\Source-arm\Packages\Appx.SosRelay\`
+1. For each UWP app generate appx files via right click -> Store -> Create App Packages.  Send to `\iot-adk-addonkit\Source-arm\Packages\[package]\` for each of the following:
+	* SirenOfShame.Uwp.Ui -> `\Source-arm\Packages\Appx.SosUi\`
+    * SirenOfShame.Uwp.Background -> `\Source-arm\Packages\Appx.SosBackground\`
+    * SirenOfShame.Uwp.MessageRelay -> `\Source-arm\Packages\Appx.SosRelay\`
+2. Move output files up a directory as necessary
 
 ## Generate FFU
 
@@ -229,7 +225,7 @@ Burning an ffu image is pretty straightfoward, but requires a PC.
 
 1. Insert an SD Card
 1. Either burn the resulting ffu to the SD Card via GUI with the [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
-1. Or better `flashsd SirenOfShame test 1` where 1 is the drive number as determined by `diskmgmt.msc` (i.e. if it says **Disk 1**  for drive E, F, G, H, then use the value **1**)
+1. Or from command line `flashsd SirenOfShame test 1` where 1 is the drive number as determined by `diskmgmt.msc` (i.e. if it says **Disk 1**  for drive E, F, G, H, then use the value **1**)
 
 ## Notes
 
