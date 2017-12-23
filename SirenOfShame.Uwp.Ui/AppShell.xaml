@@ -166,6 +166,16 @@
                             AutomationProperties.Name="Feedback"
                             ToolTipService.ToolTip="Feedback"
                             Visibility="Collapsed"/>
+                    <TextBlock 
+                        x:Name="VersionTextBlock"
+                        Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Text="v1.1.0.0"
+                        Foreground="DarkGray"
+                        VerticalAlignment="Center"
+                        Margin="16,0"
+                        />
                     <Button x:Name="SettingsNavPaneButton"
                             Grid.Row="2"
                             Grid.Column="2"
