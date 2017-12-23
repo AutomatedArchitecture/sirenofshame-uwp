@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -116,6 +117,9 @@ namespace SirenOfShame.Uwp.Ui
 
             // remove the thick border caused by FocusState.Keyboard
             TogglePaneButton.Focus(FocusState.Pointer);
+
+            var packageVersion = Package.Current.Id.Version;
+            VersionTextBlock.Text = $"v{packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}.{packageVersion.Revision}";
         }
 
         private void TitleBar_IsVisibleChanged(CoreApplicationViewTitleBar sender, object args)
@@ -130,7 +134,8 @@ namespace SirenOfShame.Uwp.Ui
 
         private void TogglePaneButton_Checked(object sender, RoutedEventArgs e)
         {
-            //NavPaneDivider.Visibility = Visibility.Visible;
+            NavPaneDivider.Visibility = Visibility.Visible;
+            VersionTextBlock.Visibility = Visibility.Visible;
             CheckTogglePaneButtonSizeChanged();
             SettingsNavPaneButton.IsTabStop = true;
         }
@@ -138,6 +143,7 @@ namespace SirenOfShame.Uwp.Ui
         private void RootSplitView_PaneClosed(SplitView sender, object args)
         {
             NavPaneDivider.Visibility = Visibility.Collapsed;
+            VersionTextBlock.Visibility = Visibility.Collapsed;
 
             SettingsNavPaneButton.IsTabStop = false;
         }
