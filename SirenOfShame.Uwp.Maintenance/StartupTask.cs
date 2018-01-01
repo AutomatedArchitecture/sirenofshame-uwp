@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using SirenOfShame.Uwp.Maintenance.Log;
+using SirenOfShame.Uwp.Maintenance.Services;
 
 // The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
 
@@ -28,7 +26,10 @@ namespace SirenOfShame.Uwp.Maintenance
                 await Task.Delay(new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 20));
 
                 _log.Info("Checking for software updates");
-                // todo: check for software updates
+
+                var bundleService = new BundleService(_log);
+                var manifest = await bundleService.GetManifest();
+                await bundleService.TryUpdate(manifest, "c187913a-00d0-450c-ace6-c66581bdaf08");
             }
         }
     }
