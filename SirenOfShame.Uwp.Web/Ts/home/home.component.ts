@@ -1,34 +1,43 @@
-﻿import {Component, OnInit } from '@angular/core';
-import { EchoCommand } from '../commands/echo.command'
+﻿import {Component, OnInit } from "@angular/core";
+import { GetCiEntryPointSettingsCommand } from "../commands/get-cientrypointsettings.command";
+import { CiEntryPointSetting } from "../models/ciEntryPointSetting";
+import { Router } from "@angular/router";
 
 @Component({
-    template: `
-    <h1>Siren of Shame</h1>
-    <h2>Messages</h2>
-    <div>{{messages}}</div>
-    <h2>Send</h2>
-    <input type="text" [(ngModel)]="message" />
-    <button type="submit" (click)="onButtonClick()">Send</button>
+  template: `
+    <div *ngIf="!watchingAnyCiServers">
+      <h1>Welcome to Siren of Shame!</h1>
+      <p>To get started you'll need to add a server to start watching:</p>
+      <button type="submit" (click)="onAddServerClick()">Add Server</button>
+    </div>
+    <div *ngIf="watchingAnyCiServers">
+      <h1>Siren of Shame</h1>    
+      <p>You are watching {{ciEntryPointSettings.length}} servers</p>
+    </div>
 `
 })
 export class Home implements OnInit {
-    public message: string;
-    public messages: string;
-    public errors: string;
+    public ciEntryPointSettings: CiEntryPointSetting[] = [];
+    public watchingAnyCiServers: boolean;
 
-    constructor(private echoCommand: EchoCommand) {
+    constructor(
+      private getCiEntryPointSettingsCommand: GetCiEntryPointSettingsCommand,
+      private router: Router
+    ) {
+
+      this.getCiEntryPointSettingsCommand.execute()
+        .then(ciEntryPoints => {
+          this.watchingAnyCiServers = ciEntryPoints.length > 0;
+          this.ciEntryPointSettings = ciEntryPoints;
+        });
     }
 
     public connectionStatus: string;
 
-    public onButtonClick() {
-        this.echoCommand
-            .echo(this.message)
-            .then(message => this.messages += message, err => alert(err));
+    public onAddServerClick() {
+      this.router.navigate(["server"]);
     }
 
     public ngOnInit() {
-        this.messages = '';
-
     }
 }
