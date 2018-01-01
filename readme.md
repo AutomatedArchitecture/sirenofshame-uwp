@@ -122,7 +122,7 @@ The second option is trickier to set up, but has the fastest dev feedback cycle.
 
 #### Prerequisites:
 
-* Install a standard Windows IoT image onto a Raspberry Pi using [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
+* Install either a standard Windows IoT image or better a Siren of Shame image (see Production Deploy below) onto a Raspberry Pi using [IoT Core Dashboard](https://developer.microsoft.com/en-us/windows/iot/getstarted/prototype/setupdevice)
 
 #### Steps:
 
