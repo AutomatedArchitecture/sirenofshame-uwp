@@ -184,44 +184,51 @@ namespace SirenOfShame.Uwp.Ui
             }
         }
 
+        public void SetSelectedItem(Type destinationPage)
+        {
+            OnNavigatingToPage(destinationPage);
+        }
+
         private void OnNavigatingToPage(object sender, NavigatingCancelEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
             {
-                var item = _navlist.SingleOrDefault(p => p.DestPage == e.SourcePageType);
-                if (item == null && AppFrame.BackStackDepth > 0)
-                {
-                    // In cases where a page drills into sub-pages then we'll highlight the most recent
-                    // navigation menu item that appears in the BackStack
-                    foreach (var entry in AppFrame.BackStack.Reverse())
-                    {
-                        item = (from p in _navlist where p.DestPage == entry.SourcePageType select p).SingleOrDefault();
-                        if (item != null)
-                            break;
-                    }
-                }
+                OnNavigatingToPage(e.SourcePageType);
+            }
+        }
 
-                foreach (var i in _navlist)
+        private void OnNavigatingToPage(Type sourcePageType)
+        {
+            var item = _navlist.SingleOrDefault(p => p.DestPage == sourcePageType);
+            if (item == null && AppFrame.BackStackDepth > 0)
+            {
+                // In cases where a page drills into sub-pages then we'll highlight the most recent
+                // navigation menu item that appears in the BackStack
+                foreach (var entry in AppFrame.BackStack.Reverse())
                 {
-                    i.IsSelected = false;
+                    item = (from p in _navlist where p.DestPage == entry.SourcePageType select p).SingleOrDefault();
+                    if (item != null)
+                        break;
                 }
-                if (item != null)
-                {
-                    item.IsSelected = true;
-                }
-
-                var container = (ListViewItem)NavMenuList.ContainerFromItem(item);
-
-                // While updating the selection state of the item prevent it from taking keyboard focus.  If a
-                // user is invoking the back button via the keyboard causing the selected nav menu item to change
-                // then focus will remain on the back button.
-                if (container != null) container.IsTabStop = false;
-                NavMenuList.SetSelectedItem(container);
-                if (container != null) container.IsTabStop = true;
             }
 
+            foreach (var i in _navlist)
+            {
+                i.IsSelected = false;
+            }
+            if (item != null)
+            {
+                item.IsSelected = true;
+            }
 
+            var container = (ListViewItem) NavMenuList.ContainerFromItem(item);
 
+            // While updating the selection state of the item prevent it from taking keyboard focus.  If a
+            // user is invoking the back button via the keyboard causing the selected nav menu item to change
+            // then focus will remain on the back button.
+            if (container != null) container.IsTabStop = false;
+            NavMenuList.SetSelectedItem(container);
+            if (container != null) container.IsTabStop = true;
         }
 
         /// <summary>
