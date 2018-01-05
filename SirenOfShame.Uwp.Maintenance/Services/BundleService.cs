@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
@@ -15,11 +15,13 @@ namespace SirenOfShame.Uwp.Maintenance.Services
     internal class BundleService
     {
         private readonly ILog _log;
-        private static string _baseUrl = "https://sirenofshame.com/DeployMe/";
+        private readonly CertificatePinningHttpClientFactory _httpClientFactory;
+        private const string BASE_URL = "https://sirenofshame.com/DeployMe/";
 
-        public BundleService(ILog log)
+        public BundleService(ILog log, CertificatePinningHttpClientFactory httpClientFactory)
         {
             _log = log;
+            _httpClientFactory = httpClientFactory;
         }
 
         public async Task TryUpdate(Bundle bundle)
@@ -88,24 +90,29 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             //var storageFile = await StorageFile.CreateStreamedFileFromUriAsync("App1_1.0.0.0_arm_Debug.appxbundle", localUri, null);
             //var stuff = downloader.CreateDownload(uri, storageFile);
 
-            Uri remoteUri = new Uri(_baseUrl + appxbundle);
+            Uri remoteUri = new Uri(BASE_URL + appxbundle);
             var storageFile = await DownloadsFolder.CreateFileAsync(appxbundle, CreationCollisionOption.GenerateUniqueName);
-            var httpClient = new HttpClient();
-            var buffer = await httpClient.GetByteArrayAsync(remoteUri);
-            using (Stream stream = await storageFile.OpenStreamForWriteAsync())
+            return await _httpClientFactory.WithHttpClient(async httpClient =>
             {
-                stream.Write(buffer, 0, buffer.Length);
-            }
-            return storageFile;
+                var buffer1 = await httpClient.GetBufferAsync(remoteUri);
+                var buffer = buffer1.ToArray();
+                using (Stream stream = await storageFile.OpenStreamForWriteAsync())
+                {
+                    stream.Write(buffer, 0, buffer.Length);
+                }
+                return storageFile;
+            });
         }
 
         public async Task<List<Bundle>> GetManifest()
         {
             _log.Debug("Retrieving manifest");
-            var httpClient = new HttpClient();
-            var manifestStr = await httpClient.GetStringAsync(_baseUrl + "manifest.json");
-            var manifest = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Bundle>>(manifestStr);
-            return manifest;
+            return await _httpClientFactory.WithHttpClient(async httpClient =>
+            {
+                var manifestStr = await httpClient.GetStringAsync(new Uri(BASE_URL + "manifest.json"));
+                var manifest = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Bundle>>(manifestStr);
+                return manifest;
+            });
         }
 
         internal async Task TryUpdate(List<Bundle> manifest, string appId)

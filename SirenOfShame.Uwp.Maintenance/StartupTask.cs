@@ -1,18 +1,22 @@
 ﻿using System;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 using SirenOfShame.Uwp.Maintenance.Log;
 using SirenOfShame.Uwp.Maintenance.Services;
 
-// The Background Application template is documented at http://go.microsoft.com/fwlink/?LinkID=533884&clcid=0x409
-
 namespace SirenOfShame.Uwp.Maintenance
 {
     public sealed class StartupTask : IBackgroundTask
     {
+        private const string SOS_UI = "c187913a-00d0-450c-ace6-c66581bdaf08";
+        private const string SOS_BACKGROUND = "SirenOfShame.Uwp.Background-uwp";
+
+        private const string CERTIFICATE_PUBLIC_KEY = "MIIBCgKCAQEAwmHdD6jOo0UVxFSuo4g8m5p8EFP/fNPklEIeZRHu2MduByA7FZCsMVjo5P0opRg5dYWrmtcpXDkGIp0WJqxcDok6Uh3M1JMF6txSgDeVI9LTk2uWncVKZFFPfRecTGv9KGztjM9QhOyB6wcWvvUQllEenjBP5tXpGAcTX32g250RSPyLOJoPq96qWwi041ahE+GbF5q8izSf6OEoRicowBr9Hu8hgIPIRi8AwmaLsshKMZ4l4S+XW1dM1qTxrOGl4pyioOjiUkZGCvcJnupl5moHgmCuIwzBHE7dEFV35zr5tyZ9rUNQ0HrFNU48nU0cFLN23AgIc5oNFIUTEQ/Z9QIDAQAB";
+        private const string CERTIFICATE_COMMON_NAME = "sirenofshame.com";
+        private const string CERTIFICATE_PINNING_BASE_URL = "https://sirenofshame.com";
+
         private BackgroundTaskDeferral _backgroundTaskDeferral;
-        private ILog _log = MyLogManager.GetLog(typeof(StartupTask));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(StartupTask));
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
@@ -21,15 +25,27 @@ namespace SirenOfShame.Uwp.Maintenance
             // continue forever
             _backgroundTaskDeferral = taskInstance.GetDeferral();
 
+            // wait a short amount of time from initial install 
+            await Task.Delay(new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 0));
+
             while (true)
             {
-                await Task.Delay(new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 0));
+                try
+                {
+                    _log.Debug("Checking for software updates");
 
-                _log.Info("Checking for software updates");
+                    var httpClientFactory = new CertificatePinningHttpClientFactory(CERTIFICATE_PINNING_BASE_URL, CERTIFICATE_COMMON_NAME, CERTIFICATE_PUBLIC_KEY);
+                    var bundleService = new BundleService(_log, httpClientFactory);
+                    var manifest = await bundleService.GetManifest();
+                    await bundleService.TryUpdate(manifest, SOS_BACKGROUND);
+                    await bundleService.TryUpdate(manifest, SOS_UI);
+                }
+                catch (Exception ex)
+                {
+                    _log.Error("Unexpected error checking for updates", ex);
+                }
 
-                var bundleService = new BundleService(_log);
-                var manifest = await bundleService.GetManifest();
-                await bundleService.TryUpdate(manifest, "c187913a-00d0-450c-ace6-c66581bdaf08");
+                await Task.Delay(new TimeSpan(days: 0, hours: 6, minutes: 0, seconds: 0));
             }
         }
     }

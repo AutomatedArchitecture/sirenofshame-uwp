@@ -99,6 +99,7 @@
     <Compile Include="Log\MyLogManager.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Services\BundleService.cs" />
+    <Compile Include="Services\CertificatePinningHttpClientFactory.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
