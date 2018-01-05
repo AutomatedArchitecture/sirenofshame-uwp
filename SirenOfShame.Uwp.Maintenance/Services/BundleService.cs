@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
@@ -43,7 +44,7 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             _log.Debug("Starting download for " + bundle.FileName);
             var storageFile = await DownloadAppx(bundle.FileName);
             _log.Debug("Download complete.  Installing update.");
-            var result = await UpdatePackage(storageFile);
+            var result = await UpdatePackage(installedPackage, storageFile);
             _log.Debug("Result: " + result);
         }
 
@@ -59,17 +60,27 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             return packages.FirstOrDefault(i => i.Id.Name == bundleId);
         }
 
-        private static async Task<string> UpdatePackage(StorageFile storageFile)
+        private static async Task<string> UpdatePackage(Package installedPackage, StorageFile storageFile)
         {
             var localUri = new Uri(storageFile.Path);
             var packageManager = new PackageManager();
-            var packageResult = await packageManager.UpdatePackageAsync(localUri, new List<Uri>(),
-                DeploymentOptions.ForceApplicationShutdown);
+            DeploymentResult packageResult;
+            try
+            {
+                packageResult = await packageManager.UpdatePackageAsync(localUri, new List<Uri>(),
+                    DeploymentOptions.ForceApplicationShutdown);
+            }
+            catch (COMException)
+            {
+                await packageManager.RemovePackageAsync(installedPackage.Id.FullName, RemovalOptions.PreserveApplicationData);
+                packageResult = await packageManager.AddPackageAsync(localUri, null, DeploymentOptions.None);
+            }
+
             var result = string.IsNullOrEmpty(packageResult.ErrorText) ? "Success" : packageResult.ErrorText;
             return result;
         }
 
-        private static async Task<StorageFile> DownloadAppx(string appxbundle)
+        private async Task<StorageFile> DownloadAppx(string appxbundle)
         {
             //BackgroundDownloader downloader = new BackgroundDownloader();
             //var destinationFile = System.IO.Path.GetTempPath();

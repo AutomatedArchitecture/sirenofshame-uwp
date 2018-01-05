@@ -23,7 +23,7 @@ namespace SirenOfShame.Uwp.Maintenance
 
             while (true)
             {
-                await Task.Delay(new TimeSpan(days: 0, hours: 0, minutes: 0, seconds: 20));
+                await Task.Delay(new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 0));
 
                 _log.Info("Checking for software updates");
 
