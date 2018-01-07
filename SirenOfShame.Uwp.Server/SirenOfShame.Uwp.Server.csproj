@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\CiEntryPointSettings\GetLogs.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\LogCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CiEntryPointSettings\DeleteCiEntryPointSettingCommand.cs" />
     <Compile Include="Commands\Settings\DeleteSettingsCommand.cs" />
@@ -169,6 +170,7 @@
       <HintPath>..\lib\MetroLog\MetroLog.NetCore.SQLite.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

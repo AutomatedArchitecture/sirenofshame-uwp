@@ -30,6 +30,11 @@ Portable (PCL) project for IotWeb dependency that provides a web sockets based w
 
 UWP project for IotWeb dependency that provides a web sockets based web server for Windows IoT.
 
+#### SirenOfShame.Uwp.Shared
+
+A shared project that's used by nearly every other project for 
+interfaces, models, constants, and misc shared code.
+
 #### SirenOfShame.Uwp.Background
 
 A UWP Background Project that runs _headless_ on

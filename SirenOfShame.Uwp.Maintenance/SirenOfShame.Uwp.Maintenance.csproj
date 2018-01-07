@@ -96,10 +96,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ILog.cs" />
-    <Compile Include="Log\MyLogManager.cs" />
+    <Compile Include="Log\MessageRelayLogger.cs" />
     <Compile Include="Models\Bundle.cs" />
     <Compile Include="Services\BundleService.cs" />
     <Compile Include="Services\CertificatePinningHttpClientFactory.cs" />
+    <Compile Include="Services\MessageRelayService.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -141,6 +142,7 @@
       <Version>10.0.3</Version>
     </PackageReference>
   </ItemGroup>
+  <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>

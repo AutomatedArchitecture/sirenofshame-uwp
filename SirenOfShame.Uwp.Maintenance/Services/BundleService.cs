@@ -26,12 +26,12 @@ namespace SirenOfShame.Uwp.Maintenance.Services
 
         public async Task TryUpdate(Bundle bundle)
         {
-            _log.Debug("Checking for new version of " + bundle.Id);
+            await _log.Debug("Checking for new version of " + bundle.Id);
 
             var installedPackage = FindPackageById(bundle.Id);
             if (installedPackage == null)
             {
-                _log.Debug("No package found with id " + bundle.Id);
+                await _log.Debug("No package found with id " + bundle.Id);
                 return;
             }
 
@@ -39,15 +39,15 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             var serverVersion = bundle.Version;
             if (serverVersion <= installedVersion)
             {
-                _log.Debug("No work to do here, " + bundle.Id + " has the same version: " + installedVersion);
+                await _log.Debug("No work to do here, " + bundle.Id + " has the same version: " + installedVersion);
                 return;
             }
 
-            _log.Info($"Starting download to upgrade {bundle.FileName} from {installedVersion} to {serverVersion}");
+            await _log.Info($"Starting download to upgrade {bundle.FileName} from {installedVersion} to {serverVersion}");
             var storageFile = await DownloadAppx(bundle.FileName);
-            _log.Debug("Download complete.  Installing update.");
+            await _log.Debug("Download complete.  Installing update.");
             var result = await UpdatePackage(installedPackage, storageFile);
-            _log.Info($"Upgrade of {bundle.Id} result: {result}");
+            await _log.Info($"Upgrade of {bundle.Id} result: {result}");
         }
 
         private Version ToVersion(PackageVersion installedVersion)
@@ -74,7 +74,7 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             }
             catch (COMException)
             {
-                _log.Warn("Unable to update package " + installedPackage.Id.FullName + " normally, trying to uninstall and install it");
+                await _log.Warn("Unable to update package " + installedPackage.Id.FullName + " normally, trying to uninstall and install it");
                 await packageManager.RemovePackageAsync(installedPackage.Id.FullName, RemovalOptions.PreserveApplicationData);
                 packageResult = await packageManager.AddPackageAsync(localUri, null, DeploymentOptions.None);
             }
@@ -107,7 +107,7 @@ namespace SirenOfShame.Uwp.Maintenance.Services
 
         public async Task<List<Bundle>> GetManifest()
         {
-            _log.Debug("Retrieving manifest");
+            await _log.Debug("Retrieving manifest");
             return await _httpClientFactory.WithHttpClient(async httpClient =>
             {
                 var manifestStr = await httpClient.GetStringAsync(new Uri(BASE_URL + "manifest.json"));
@@ -122,7 +122,7 @@ namespace SirenOfShame.Uwp.Maintenance.Services
 
             if (appToUpdate == null)
             {
-                _log.Debug("No bundle found with Id of " + appId);
+                await _log.Debug("No bundle found with Id of " + appId);
                 return;
             }
 

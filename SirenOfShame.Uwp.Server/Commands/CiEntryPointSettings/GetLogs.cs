@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MetroLog;
 using MetroLog.Targets;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
-    class GetLogs : CommandBase
+    internal class GetLogs : CommandBase
     {
         public override string CommandName => "get-logs";
 

@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 namespace SirenOfShame.Uwp.Maintenance
 {
-    public interface ILog
+    internal interface ILog
     {
-        void Error(string message);
-        void Error(string message, Exception exception);
-        void Warn(string message);
-        void Info(string message);
-        void Debug(string message);
+        Task Error(string message);
+        Task Error(string message, Exception exception);
+        Task Warn(string message);
+        Task Info(string message);
+        Task Debug(string message);
     }
 }

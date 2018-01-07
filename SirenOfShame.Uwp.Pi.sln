@@ -31,7 +31,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Ui", "Sire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Maintenance", "SirenOfShame.Uwp.Maintenance\SirenOfShame.Uwp.Maintenance.csproj", "{24AD6B91-85ED-433F-99BB-C54DF9C8B6CD}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SirenOfShame.Uwp.Shared", "SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.shproj", "{F9914B31-5BC4-48B0-9360-0BCCA5A20104}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{24ad6b91-85ed-433f-99bb-c54df9c8b6cd}*SharedItemsImports = 4
+		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{e58a4ffb-db5f-4989-ae8c-e8eba394f0fd}*SharedItemsImports = 4
+		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{f9914b31-5bc4-48b0-9360-0bcca5a20104}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM

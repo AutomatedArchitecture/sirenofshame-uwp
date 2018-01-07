@@ -16,14 +16,25 @@ namespace SirenOfShame.Uwp.Maintenance
         private const string CERTIFICATE_PINNING_BASE_URL = "https://sirenofshame.com";
 
         private BackgroundTaskDeferral _backgroundTaskDeferral;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(StartupTask));
 
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
-            _log.Info("Starting Maintenance");
+            ILog log;
+            try
+            {
+                // continue forever, this is needed before any await calls
+                _backgroundTaskDeferral = taskInstance.GetDeferral();
 
-            // continue forever
-            _backgroundTaskDeferral = taskInstance.GetDeferral();
+                var messageRelayService = new MessageRelayService();
+                await messageRelayService.Open();
+                log = new MessageRelayLogger(messageRelayService);
+                await log.Info("Starting Maintenance");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Log initializeation failed :( " + ex);
+                return;
+            }
 
             // wait a short amount of time from initial install 
             await Task.Delay(new TimeSpan(days: 0, hours: 0, minutes: 1, seconds: 0));
@@ -32,17 +43,17 @@ namespace SirenOfShame.Uwp.Maintenance
             {
                 try
                 {
-                    _log.Debug("Checking for software updates");
+                    await log.Debug("Checking for software updates");
 
                     var httpClientFactory = new CertificatePinningHttpClientFactory(CERTIFICATE_PINNING_BASE_URL, CERTIFICATE_COMMON_NAME, CERTIFICATE_PUBLIC_KEY);
-                    var bundleService = new BundleService(_log, httpClientFactory);
+                    var bundleService = new BundleService(log, httpClientFactory);
                     var manifest = await bundleService.GetManifest();
                     await bundleService.TryUpdate(manifest, SOS_BACKGROUND);
                     await bundleService.TryUpdate(manifest, SOS_UI);
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("Unexpected error checking for updates", ex);
+                    await log.Error("Unexpected error checking for updates", ex);
                 }
 
                 await Task.Delay(new TimeSpan(days: 0, hours: 6, minutes: 0, seconds: 0));
