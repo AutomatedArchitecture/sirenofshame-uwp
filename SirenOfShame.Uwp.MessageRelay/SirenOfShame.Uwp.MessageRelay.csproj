@@ -21,10 +21,11 @@
     <PackageCertificateKeyFile>SirenOfShame.Uwp.MessageRelay_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackage>true</AppxPackage>
     <ContainsStartupTask>true</ContainsStartupTask>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>C:\dev\iot-adk-addonkit\Source-arm\Packages\Appx.SosRelay</AppxPackageDir>
-    <AppxBundle>Never</AppxBundle>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxPackageDir>C:\dev\SirenOfShame.Uwp.Pi\SirenOfShame.Uwp.MessageRelay\AppPackages</AppxPackageDir>
+    <AppxBundle>Always</AppxBundle>
     <PackageCertificateThumbprint>F6BC3ADFADEF9B541133594F4516039E573E1429</PackageCertificateThumbprint>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>

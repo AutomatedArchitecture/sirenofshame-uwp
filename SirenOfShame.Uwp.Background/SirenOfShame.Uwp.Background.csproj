@@ -21,10 +21,11 @@
     <PackageCertificateKeyFile>SirenOfShame.Uwp.Background_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackage>true</AppxPackage>
     <ContainsStartupTask>true</ContainsStartupTask>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>D:\SosUwpPi\</AppxPackageDir>
-    <AppxBundle>Never</AppxBundle>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxPackageDir>C:\dev\SirenOfShame.Uwp.Pi\SirenOfShame.Uwp.Background\AppPackages</AppxPackageDir>
+    <AppxBundle>Always</AppxBundle>
     <PackageCertificateThumbprint>8EAD64666AFBCDE9F121F77DE5D332B92410BACF</PackageCertificateThumbprint>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
