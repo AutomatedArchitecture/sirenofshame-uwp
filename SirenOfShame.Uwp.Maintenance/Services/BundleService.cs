@@ -43,11 +43,11 @@ namespace SirenOfShame.Uwp.Maintenance.Services
                 return;
             }
 
-            _log.Debug("Starting download for " + bundle.FileName);
+            _log.Info($"Starting download to upgrade {bundle.FileName} from {installedVersion} to {serverVersion}");
             var storageFile = await DownloadAppx(bundle.FileName);
             _log.Debug("Download complete.  Installing update.");
             var result = await UpdatePackage(installedPackage, storageFile);
-            _log.Debug("Result: " + result);
+            _log.Info($"Upgrade of {bundle.Id} result: {result}");
         }
 
         private Version ToVersion(PackageVersion installedVersion)
@@ -62,7 +62,7 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             return packages.FirstOrDefault(i => i.Id.Name == bundleId);
         }
 
-        private static async Task<string> UpdatePackage(Package installedPackage, StorageFile storageFile)
+        private async Task<string> UpdatePackage(Package installedPackage, StorageFile storageFile)
         {
             var localUri = new Uri(storageFile.Path);
             var packageManager = new PackageManager();
@@ -74,6 +74,7 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             }
             catch (COMException)
             {
+                _log.Warn("Unable to update package " + installedPackage.Id.FullName + " normally, trying to uninstall and install it");
                 await packageManager.RemovePackageAsync(installedPackage.Id.FullName, RemovalOptions.PreserveApplicationData);
                 packageResult = await packageManager.AddPackageAsync(localUri, null, DeploymentOptions.None);
             }
@@ -117,15 +118,15 @@ namespace SirenOfShame.Uwp.Maintenance.Services
 
         internal async Task TryUpdate(List<Bundle> manifest, string appId)
         {
-            var app1 = manifest.FirstOrDefault(i => i.Id == appId);
+            var appToUpdate = manifest.FirstOrDefault(i => i.Id == appId);
 
-            if (app1 == null)
+            if (appToUpdate == null)
             {
                 _log.Debug("No bundle found with Id of " + appId);
                 return;
             }
 
-            await TryUpdate(app1);
+            await TryUpdate(appToUpdate);
         }
     }
 }
