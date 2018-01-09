@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using MetroLog;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
@@ -18,7 +17,7 @@ namespace SirenOfShame.Uwp.Server.Services
         private MessageRelayService _messageRelayService;
         private MessageCommandProcessor _messageCommandProcessor;
         private SirenDeviceService _sirenDeviceService;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(ServerStartManager));
+        private ILog _log;
         private IWebServer _webServer;
 
         public override async Task Start()
@@ -26,6 +25,7 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 await base.Start();
+                InitializeLogging();
                 await RegisterSirenOfShameSettings();
                 SetDependencies();
                 _webServer.Start();
@@ -35,8 +35,15 @@ namespace SirenOfShame.Uwp.Server.Services
             }
             catch (Exception ex)
             {
-                _log.Error("Error during startup", ex);
+                _log?.Error("Error during startup", ex);
             }
+        }
+
+        private void InitializeLogging()
+        {
+            MyLogManager.Initialize();
+            _log = MyLogManager.GetLog(typeof(ServerStartManager));
+            _log.Info("Initializing Logging");
         }
 
         private void SetDependencies()

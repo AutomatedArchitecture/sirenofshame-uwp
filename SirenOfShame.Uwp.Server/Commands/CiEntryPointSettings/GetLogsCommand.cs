@@ -14,7 +14,7 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 
         public override async Task<SocketResult> Invoke(string frame)
         {
-            var readLogEntriesResult = await MetroLogger.ReadLogEntriesAsync(true);
+            var readLogEntriesResult = await MyLogManager.ReadLogEntriesAsync(true);
             var result = readLogEntriesResult.Events
                 .Select(LogToString)
                 .ToList();

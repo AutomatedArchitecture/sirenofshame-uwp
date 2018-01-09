@@ -8,23 +8,16 @@ namespace SirenOfShame.Uwp.Watcher
     public static class MyLogManager
     {
         public static Func<Type, ILog> GetLog = (type) => new MetroLogger(type);
-    }
 
-    public class MetroLogger : ILog
-    {
-        private readonly ILogger _log;
-        private static readonly SQLiteTarget _sqLiteTarget;
-
-        static MetroLogger()
+        public static void Initialize()
         {
-            // set more verbose logging to the file system (default is only warn and above)
+            if (_sqLiteTarget != null) return;
+            // todo: set more verbose logging to the file system (default is only warn and above)
             var minLogLevel = LogLevel.Debug;
             _sqLiteTarget = new SQLiteTarget();
             LogManagerFactory.DefaultConfiguration.AddTarget(minLogLevel, LogLevel.Fatal, _sqLiteTarget);
-
-            var log = LogManagerFactory.DefaultLogManager.GetLogger(typeof(MetroLogger));
-            log.Info("Initializing MetroLogger");
         }
+        private static SQLiteTarget _sqLiteTarget;
 
         public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
@@ -35,6 +28,11 @@ namespace SirenOfShame.Uwp.Watcher
             var result = await _sqLiteTarget.ReadLogEntriesAsync(logReadQuery);
             return result;
         }
+    }
+
+    public class MetroLogger : ILog
+    {
+        private readonly ILogger _log;
 
         public MetroLogger(Type type)
         {
