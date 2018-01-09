@@ -21,6 +21,9 @@ namespace SirenOfShame.Uwp.Watcher
             var minLogLevel = LogLevel.Debug;
             _sqLiteTarget = new SQLiteTarget();
             LogManagerFactory.DefaultConfiguration.AddTarget(minLogLevel, LogLevel.Fatal, _sqLiteTarget);
+
+            var log = LogManagerFactory.DefaultLogManager.GetLogger(typeof(MetroLogger));
+            log.Info("Initializing MetroLogger");
         }
 
         public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)

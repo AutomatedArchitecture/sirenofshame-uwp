@@ -5,8 +5,10 @@ using IotWeb.Common.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Server.Commands;
+using SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server
@@ -17,6 +19,7 @@ namespace SirenOfShame.Uwp.Server
     public class WebSocketHandler : IWebSocketRequestHandler
     {
         private readonly SirenDeviceService _sirenDeviceService;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(WebSocketHandler));
 
         public WebSocketHandler()
         {
@@ -81,6 +84,7 @@ namespace SirenOfShame.Uwp.Server
                 {
                     return new ErrorResult(404, "No controller associated with type: " + requestType);
                 }
+                _log.Debug("Invoking Command: " + controller.CommandName);
                 var result = await controller.Invoke(frame);
                 return result;
             }
