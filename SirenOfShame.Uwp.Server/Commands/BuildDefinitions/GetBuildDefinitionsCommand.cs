@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Settings;
 
@@ -22,7 +23,7 @@ namespace SirenOfShame.Uwp.Server.Commands.BuildDefinitions
 
     internal class GetBuildDefinitionsCommand : CommandBase<GetProjectsRequest>
     {
-        public override string CommandName => "getBuildDefinitions";
+        public override string CommandName => CommandNames.GET_BUILD_DEFINITIONS;
 
         protected override async Task<SocketResult> Invoke(GetProjectsRequest getProjectsRequest)
         {

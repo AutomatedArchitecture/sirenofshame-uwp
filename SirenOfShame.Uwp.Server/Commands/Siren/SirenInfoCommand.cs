@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Commands.Siren
 {
     internal class SirenInfoCommand : CommandBase
     {
-        public override string CommandName => "getSirenInfo";
+        public override string CommandName => CommandNames.SIREN_INFO;
         private readonly SirenDeviceService _sirenDeviceService;
 
         public SirenInfoCommand()

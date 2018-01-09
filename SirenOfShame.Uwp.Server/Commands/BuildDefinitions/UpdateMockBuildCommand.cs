@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher.Watcher;
 using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
 
@@ -8,7 +9,7 @@ namespace SirenOfShame.Uwp.Server.Commands.BuildDefinitions
 {
     internal class UpdateMockBuildCommand : CommandBase<Request<BuildStatus>>
     {
-        public override string CommandName => "updateMockBuild";
+        public override string CommandName => CommandNames.UPDATE_MOCK_BUILD;
 
         protected override async Task<SocketResult> Invoke(Request<BuildStatus> request)
         {

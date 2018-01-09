@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
@@ -17,7 +18,7 @@ namespace SirenOfShame.Uwp.Server.Commands.Settings
             _rulesEngine = ServiceContainer.Resolve<RulesEngine>();
         }
 
-        public override string CommandName => "delete-settings";
+        public override string CommandName => CommandNames.GET_SETTINGS;
         public override async Task<SocketResult> Invoke(string frame)
         {
             await _settingsService.DeleteSettings();

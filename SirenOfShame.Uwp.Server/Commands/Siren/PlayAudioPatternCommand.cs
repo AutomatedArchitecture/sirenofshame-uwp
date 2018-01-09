@@ -4,13 +4,14 @@ using Newtonsoft.Json;
 using SirenOfShame.Device;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Commands.Siren
 {
     internal class PlayAudioPatternCommand : CommandBase
     {
-        public override string CommandName => "playAudioPattern";
+        public override string CommandName => CommandNames.PLAY_AUDIO;
         private readonly SirenDeviceService _sirenDeviceService;
 
         public PlayAudioPatternCommand()

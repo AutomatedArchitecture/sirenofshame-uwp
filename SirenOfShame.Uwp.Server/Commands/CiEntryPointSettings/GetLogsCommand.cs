@@ -4,13 +4,14 @@ using System.Threading.Tasks;
 using MetroLog;
 using MetroLog.Targets;
 using SirenOfShame.Uwp.Server.Models;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
     internal class GetLogsCommand : CommandBase
     {
-        public override string CommandName => "get-logs";
+        public override string CommandName => CommandNames.GET_LOGS;
 
         public override async Task<SocketResult> Invoke(string frame)
         {
