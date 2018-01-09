@@ -8,7 +8,7 @@ using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 {
-    internal class GetLogs : CommandBase
+    internal class GetLogsCommand : CommandBase
     {
         public override string CommandName => "get-logs";
 
