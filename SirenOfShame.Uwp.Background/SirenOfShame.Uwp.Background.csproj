@@ -165,6 +165,10 @@
       <Project>{e58a4ffb-db5f-4989-ae8c-e8eba394f0fd}</Project>
       <Name>SirenOfShame.Uwp.Server</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj">
+      <Project>{760cd96b-ad69-499c-a9c9-5cda6dae6b9f}</Project>
+      <Name>SirenOfShame.Uwp.Watcher</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.VCLibs, Version=14.0">

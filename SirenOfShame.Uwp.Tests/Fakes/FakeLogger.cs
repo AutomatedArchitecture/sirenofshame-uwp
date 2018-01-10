@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Tests.Fakes
@@ -7,24 +8,29 @@ namespace SirenOfShame.Uwp.Tests.Fakes
     {
         public FakeLogger(Type type) { }
 
-        public void Error(string message)
+        public Task Error(string message)
         {
+            return Task.FromResult(true);
         }
 
-        public void Error(string message, Exception ex)
+        public Task Error(string message, Exception ex)
         {
+            return Task.FromResult(true);
         }
 
-        public void Warn(string message)
+        public Task Warn(string message)
         {
+            return Task.FromResult(true);
         }
 
-        public void Info(string message)
+        public Task Info(string message)
         {
+            return Task.FromResult(true);
         }
 
-        public void Debug(string message)
+        public Task Debug(string message)
         {
+            return Task.FromResult(true);
         }
     }
 }

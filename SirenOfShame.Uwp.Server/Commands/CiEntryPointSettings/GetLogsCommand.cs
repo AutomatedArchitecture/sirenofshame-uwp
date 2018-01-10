@@ -22,7 +22,7 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
             return new OkSocketResult<IList<string>>(result);
         }
 
-        private static string LogToString(LogEventInfoItem log)
+        private static string LogToString(LogEntry log)
         {
             return log.DateTimeUtc.ToLocalTime() + " | " + log.Level + " | " + log.Message;
         }

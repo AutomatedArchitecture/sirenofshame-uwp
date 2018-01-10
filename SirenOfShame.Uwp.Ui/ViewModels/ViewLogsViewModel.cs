@@ -1,17 +1,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SirenOfShame.Uwp.Shared.Dtos;
 using SirenOfShame.Uwp.Ui.Annotations;
+using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Models
 {
     public sealed class ViewLogsViewModel : INotifyPropertyChanged
     {
-        private List<LogEventInfoItem> _events;
+        private List<LogEntry> _events;
         private bool _showAll;
 
-        public List<LogEventInfoItem> Events
+        public List<LogEntry> Events
         {
             get { return _events; }
             set

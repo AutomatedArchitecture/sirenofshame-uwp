@@ -2,65 +2,119 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Shared.Dtos;
+using SQLite;
 
 namespace SirenOfShame.Uwp.Watcher
 {
+    public class ReadLogEntriesResult
+    {
+        public List<LogEntry> Events { get; set; }
+    }
+
+    public class LogEntry
+    {
+        [PrimaryKey, AutoIncrement]
+        public int ItemId { get; set; }
+        public DateTime DateTimeUtc { get; set; }
+        public LogLevel Level { get; set; }
+        public string CallerType { get; set; }
+        public string Message { get; set; }
+
+        public bool HasException { get; set; }
+        public string Exception { get; set; }
+        public string ExceptionTypeName { get; set; }
+        public int? ExceptionHresult { get; set; }
+    }
+
     public static class MyLogManager
     {
-        public static Func<Type, ILog> GetLog = (type) => new SqlLogger(type);
+        private static SQLiteAsyncConnection _conn;
+        public static Func<Type, ILog> GetLog = (type) => new SqlLogger(type, _conn);
 
         public static async Task Initialize()
         {
-            //// Get an absolute path to the database file
-            //fileAdapter.
-            //var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MyData.db");
-            
-            //var conn = new SQLite.SQLiteAsyncConnection(databasePath);
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SirenOfShameLogs.db");
 
-            //await conn.CreateTableAsync<Stock>();
+            _conn = new SQLiteAsyncConnection(databasePath);
+            await _conn.CreateTableAsync<LogEntry>();
         }
 
-        public static Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
+        public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
-            return Task.FromResult(new ReadLogEntriesResult {Events = new List<LogEventInfoItem>()});
+            var allRows = await _conn.Table<LogEntry>().ToListAsync();
+            return new ReadLogEntriesResult
+            {
+                Events = allRows
+            };
         }
     }
 
     public class SqlLogger : ILog
     {
-        public SqlLogger(Type type)
+        private readonly Type _type;
+        private readonly SQLiteAsyncConnection _conn;
+
+        public SqlLogger(Type type, SQLiteAsyncConnection conn)
         {
+            _type = type;
+            _conn = conn;
         }
 
-        public void Error(string message)
+        private async Task Write(string message, LogLevel level, Exception ex = null)
         {
+            var logEntry = new LogEntry
+            {
+                Message = message,
+                CallerType = _type.ToString(),
+                Level = level,
+                HasException = ex != null,
+                Exception = ex?.ToString(),
+                DateTimeUtc = DateTime.UtcNow,
+                ExceptionHresult = ex?.HResult,
+                ExceptionTypeName = ex?.GetType().Name,
+                
+            };
+            await Write(logEntry);
         }
 
-        public void Error(string message, Exception ex)
+        private async Task Write(LogEntry logEntry)
         {
+            await _conn.InsertAsync(logEntry);
         }
 
-        public void Warn(string message)
+        public async Task Error(string message)
         {
+            await Write(message, LogLevel.Error);
         }
 
-        public void Info(string message)
+        public async Task Error(string message, Exception ex)
         {
+            await Write(message, LogLevel.Error, ex);
         }
 
-        public void Debug(string message)
+        public async Task Warn(string message)
         {
+            await Write(message, LogLevel.Warn);
+        }
+
+        public async Task Info(string message)
+        {
+            await Write(message, LogLevel.Info);
+        }
+
+        public async Task Debug(string message)
+        {
+            await Write(message, LogLevel.Debug);
         }
     }
 
     public interface ILog
     {
-        void Error(string message);
-        void Error(string message, Exception webException);
-        void Warn(string message);
-        void Info(string message);
-        void Debug(string message);
+        Task Error(string message);
+        Task Error(string message, Exception webException);
+        Task Warn(string message);
+        Task Info(string message);
+        Task Debug(string message);
     }
 }
