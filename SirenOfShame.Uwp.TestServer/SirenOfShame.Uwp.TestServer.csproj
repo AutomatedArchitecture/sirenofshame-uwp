@@ -12,7 +12,7 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -140,7 +140,7 @@
       <Name>SirenOfShame.Uwp.Server</Name>
     </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj">
-      <Project>{36C7FC2F-C4D9-4FC3-9F47-981704D74B8C}</Project>
+      <Project>{760cd96b-ad69-499c-a9c9-5cda6dae6b9f}</Project>
       <Name>SirenOfShame.Uwp.Watcher</Name>
     </ProjectReference>
   </ItemGroup>

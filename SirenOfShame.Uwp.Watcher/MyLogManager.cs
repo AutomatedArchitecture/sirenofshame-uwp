@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Shared.Dtos;
 
 namespace SirenOfShame.Uwp.Watcher
@@ -9,9 +11,15 @@ namespace SirenOfShame.Uwp.Watcher
     {
         public static Func<Type, ILog> GetLog = (type) => new SqlLogger(type);
 
-        public static void Initialize()
+        public static async Task Initialize()
         {
+            //// Get an absolute path to the database file
+            //fileAdapter.
+            //var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "MyData.db");
+            
+            //var conn = new SQLite.SQLiteAsyncConnection(databasePath);
 
+            //await conn.CreateTableAsync<Stock>();
         }
 
         public static Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)

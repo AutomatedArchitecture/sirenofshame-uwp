@@ -1,178 +1,24 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{36C7FC2F-C4D9-4FC3-9F47-981704D74B8C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SirenOfShame.Uwp.Watcher</RootNamespace>
-    <AssemblyName>SirenOfShame.Uwp.Watcher</AssemblyName>
-    <DefaultLanguage>en-US</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile44</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <None Include="project.json" />
-    <!-- A reference to the entire .NET Framework is automatically included -->
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Achievements\AchievementBase.cs" />
-    <Compile Include="Achievements\AndGotAwayWithIt.cs" />
-    <Compile Include="Achievements\Apprentice.cs" />
-    <Compile Include="Achievements\ArribaArribaAndaleAndale.cs" />
-    <Compile Include="Achievements\Assassin.cs" />
-    <Compile Include="Achievements\ChronGrandMaster.cs" />
-    <Compile Include="Achievements\ChronMaster.cs" />
-    <Compile Include="Achievements\CiNinja.cs" />
-    <Compile Include="Achievements\Critical.cs" />
-    <Compile Include="Achievements\GrandMaster.cs" />
-    <Compile Include="Achievements\InTheZone.cs" />
-    <Compile Include="Achievements\JonSkeet.cs" />
-    <Compile Include="Achievements\Legend.cs" />
-    <Compile Include="Achievements\LikeLightning.cs" />
-    <Compile Include="Achievements\Macgyver.cs" />
-    <Compile Include="Achievements\Master.cs" />
-    <Compile Include="Achievements\Napoleon.cs" />
-    <Compile Include="Achievements\Neophyte.cs" />
-    <Compile Include="Achievements\Perfectionist.cs" />
-    <Compile Include="Achievements\ReputationRebound.cs" />
-    <Compile Include="Achievements\ShamePusher.cs" />
-    <Compile Include="Achievements\SpeedDaemon.cs" />
-    <Compile Include="Achievements\Terminator.cs" />
-    <Compile Include="Achievements\TimeWarrior.cs" />
-    <Compile Include="Calculator.cs" />
-    <Compile Include="Device\AudioPattern.cs" />
-    <Compile Include="Device\LedPattern.cs" />
-    <Compile Include="Dto\InstanceUserDto.cs" />
-    <Compile Include="Dto\OfflineUserAchievementDto.cs" />
-    <Compile Include="Exceptions\BuildDefinitionNotFoundException.cs" />
-    <Compile Include="Exceptions\ExceptionMessageBox.cs" />
-    <Compile Include="Exceptions\ServerUnavailableException.cs" />
-    <Compile Include="Exceptions\SosException.cs" />
-    <Compile Include="Helpers\ListHelpers.cs" />
-    <Compile Include="Helpers\PrettyDateHelper.cs" />
-    <Compile Include="Helpers\StringHelpers.cs" />
-    <Compile Include="Helpers\XElementHelpers.cs" />
-    <Compile Include="Services\CiEntryPointSettingService.cs" />
-    <Compile Include="Services\ServiceContainer.cs" />
-    <Compile Include="Services\StartManagerBase.cs" />
-    <Compile Include="Settings\SettingsIoService.cs" />
-    <Compile Include="Util\TaskUtil.cs" />
-    <Compile Include="Watchers\HudsonServices\HudsonBuildDefinition.cs" />
-    <Compile Include="Watchers\HudsonServices\HudsonBuildStatus.cs" />
-    <Compile Include="Watchers\HudsonServices\HudsonCIEntryPoint.cs" />
-    <Compile Include="Watchers\HudsonServices\HudsonService.cs" />
-    <Compile Include="Watchers\HudsonServices\HudsonWatcher.cs" />
-    <Compile Include="ICiEntryPoint.cs" />
-    <Compile Include="MyLogManager.cs" />
-    <Compile Include="Network\SosWebClient.cs" />
-    <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\ApiResultBase.cs" />
-    <Compile Include="Services\NewSosOnlineNotification.cs" />
-    <Compile Include="Services\NewSosOnlineNotificationArgs.cs" />
-    <Compile Include="Services\SosOnlineService.cs" />
-    <Compile Include="Services\SosOnlineStatusChangeArgs.cs" />
-    <Compile Include="Services\SoundService.cs" />
-    <Compile Include="Services\ToolTipIcon.cs" />
-    <Compile Include="Settings\AchievementLookup.cs" />
-    <Compile Include="Settings\AchievementSetting.cs" />
-    <Compile Include="Settings\BuildDefinitionSetting.cs" />
-    <Compile Include="Settings\CiEntryPointSetting.cs" />
-    <Compile Include="Settings\MyBuildDefinition.cs" />
-    <Compile Include="Settings\PersonSetting.cs" />
-    <Compile Include="Settings\Rule.cs" />
-    <Compile Include="Settings\SirenOfShameSettings.cs" />
-    <Compile Include="Settings\CryptographyServiceBase.cs" />
-    <Compile Include="Settings\UpdateLocation.cs" />
-    <Compile Include="Settings\UserMapping.cs" />
-    <Compile Include="Settings\WhatToSyncEnum.cs" />
-    <Compile Include="StatCalculators\BackToBackBuilds.cs" />
-    <Compile Include="StatCalculators\BuildRatio.cs" />
-    <Compile Include="StatCalculators\FixedSomeoneElsesBuild.cs" />
-    <Compile Include="StatCalculators\MaxBuildsInOneDay.cs" />
-    <Compile Include="StatCalculators\StatCalculatorBase.cs" />
-    <Compile Include="StatCalculators\SuccessInARow.cs" />
-    <Compile Include="Util\BuildStatusUtil.cs" />
-    <Compile Include="Util\ObservableCollectionUtil.cs" />
-    <Compile Include="Watchers\MockCiServerServices\MockBuildDefinition.cs" />
-    <Compile Include="Watchers\MockCiServerServices\MockCiEntryPoint.cs" />
-    <Compile Include="Watchers\MockCiServerServices\MockWatcher.cs" />
-    <Compile Include="Watcher\BuildStatus.cs" />
-    <Compile Include="Watcher\BuildStatusDto.cs" />
-    <Compile Include="Watcher\BuildStatusEnum.cs" />
-    <Compile Include="Watcher\IFileAdapter.cs" />
-    <Compile Include="Watcher\ModalDialogEvent.cs" />
-    <Compile Include="Watcher\ModalDialogEventArgs.cs" />
-    <Compile Include="Watcher\NewAchievementEvent.cs" />
-    <Compile Include="Watcher\NewAchievementEventArgs.cs" />
-    <Compile Include="Watcher\NewAlertEvent.cs" />
-    <Compile Include="Watcher\NewAlertEventArgs.cs" />
-    <Compile Include="Watcher\NewNewsItemEvent.cs" />
-    <Compile Include="Watcher\NewNewsItemEventArgs.cs" />
-    <Compile Include="Watcher\NewUserEvent.cs" />
-    <Compile Include="Watcher\NewUserEventArgs.cs" />
-    <Compile Include="Watcher\PersonBase.cs" />
-    <Compile Include="Watcher\PlayWindowsAudioEvent.cs" />
-    <Compile Include="Watcher\PlayWindowsAudioEventArgs.cs" />
-    <Compile Include="Watcher\RefreshStatusEventArgs.cs" />
-    <Compile Include="Watcher\RulesEngine.cs" />
-    <Compile Include="Watcher\ServiceBase.cs" />
-    <Compile Include="Watcher\SetAudioEvent.cs" />
-    <Compile Include="Watcher\SetAudioEventArgs.cs" />
-    <Compile Include="Watcher\SetLightsEvent.cs" />
-    <Compile Include="Watcher\SetLightsEventArgs.cs" />
-    <Compile Include="Watcher\SetTrayIconEvent.cs" />
-    <Compile Include="Watcher\SetTrayIconEventArgs.cs" />
-    <Compile Include="Watcher\SosDb.cs" />
-    <Compile Include="Watcher\SosOnlinePerson.cs" />
-    <Compile Include="Watcher\StatsChangedEvent.cs" />
-    <Compile Include="Watcher\StatsChangedEventArgs.cs" />
-    <Compile Include="Watcher\StatusChangedEvent.cs" />
-    <Compile Include="Watcher\StatusCheckedEvent.cs" />
-    <Compile Include="Watcher\StatusCheckedEventArgsArgs.cs" />
-    <Compile Include="Watcher\TrayNotifyEvent.cs" />
-    <Compile Include="Watcher\TrayNotifyEventArgs.cs" />
-    <Compile Include="Watcher\UpdateStatusBarEvent.cs" />
-    <Compile Include="Watcher\UpdateStatusBarEventArgs.cs" />
-    <Compile Include="Watcher\WatcherBase.cs" />
-    <Compile Include="Watcher\WebClientXml.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\iotweb\IotWeb Portable\IotWeb Portable.csproj">
-      <Project>{e788ca1a-9838-48a1-a961-1137e74eaf70}</Project>
-      <Name>IotWeb Portable</Name>
-    </ProjectReference>
-  </ItemGroup>
+
   <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
+  <ItemGroup>
+    <Compile Remove="Services\ActiveDirectoryService.cs" />
+    <Compile Remove="Services\AudioFileService.cs" />
+    <Compile Remove="Services\GravatarService.cs" />
+    <Compile Remove="Services\ImageService.cs" />
+    <Compile Remove="Services\LedFileService.cs" />
+    <Compile Remove="Services\ReputationResetService.cs" />
+    <Compile Remove="Settings\Sound.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
+
 </Project>

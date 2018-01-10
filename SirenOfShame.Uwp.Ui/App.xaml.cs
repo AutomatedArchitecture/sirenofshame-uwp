@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Ui.Views;
 using SirenOfShame.Uwp.Watcher.Services;
+using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
 namespace SirenOfShame.Uwp.Ui
 {
