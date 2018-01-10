@@ -1,6 +1,6 @@
 ﻿namespace SirenOfShame.Uwp.Shared.Commands
 {
-    internal static class CommandNames
+    public static class CommandNames
     {
         public const string UPDATE_MOCK_BUILD = "updateMockBuild";
         public const string GET_CI_ENTRY_POINT_SETTING = "getCiEntryPointSetting";

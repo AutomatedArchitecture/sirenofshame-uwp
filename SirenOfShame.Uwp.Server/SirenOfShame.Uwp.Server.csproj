@@ -165,12 +165,6 @@
   <ItemGroup>
     <EmbeddedResource Include="wwwroot\index.html" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MetroLog.NetCore.SQLite">
-      <HintPath>..\lib\MetroLog\MetroLog.NetCore.SQLite.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

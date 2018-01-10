@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MetroLog;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;

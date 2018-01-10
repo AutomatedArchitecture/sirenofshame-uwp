@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MetroLog;
-using MetroLog.Targets;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Shared.Commands;
+using SirenOfShame.Uwp.Shared.Dtos;
 using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings

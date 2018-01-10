@@ -36,7 +36,7 @@ EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{24ad6b91-85ed-433f-99bb-c54df9c8b6cd}*SharedItemsImports = 4
-		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{e58a4ffb-db5f-4989-ae8c-e8eba394f0fd}*SharedItemsImports = 4
+		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{36c7fc2f-c4d9-4fc3-9f47-981704d74b8c}*SharedItemsImports = 4
 		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{f9914b31-5bc4-48b0-9360-0bcca5a20104}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

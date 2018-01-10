@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using MetroLog.Targets;
+using SirenOfShame.Uwp.Shared.Dtos;
 using SirenOfShame.Uwp.Ui.Annotations;
 
 namespace SirenOfShame.Uwp.Ui.Models

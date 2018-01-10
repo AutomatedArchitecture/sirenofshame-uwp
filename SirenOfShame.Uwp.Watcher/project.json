@@ -1,7 +1,6 @@
 ﻿{
   "supports": {},
   "dependencies": {
-    "MetroLog": "1.0.1",
     "Newtonsoft.Json": "8.0.3"
   },
   "frameworks": {

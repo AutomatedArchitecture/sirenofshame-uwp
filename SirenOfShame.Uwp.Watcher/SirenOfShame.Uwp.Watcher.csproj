@@ -166,11 +166,7 @@
       <Name>IotWeb Portable</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MetroLog.NetCore.SQLite">
-      <HintPath>..\lib\MetroLog\MetroLog.NetCore.SQLite.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
