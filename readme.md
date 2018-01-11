@@ -35,6 +35,10 @@ UWP project for IotWeb dependency that provides a web sockets based web server f
 A shared project that's used by nearly every other project for 
 interfaces, models, constants, and misc shared code.
 
+#### SirenOfShame.Uwp.BackgroundShim
+
+A blank app to fix the bug https://github.com/ms-iot/ntvsiot/issues/62
+
 #### SirenOfShame.Uwp.Background
 
 A UWP Background Project that runs _headless_ on

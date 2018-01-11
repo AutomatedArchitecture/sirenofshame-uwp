@@ -161,6 +161,10 @@
       <Project>{ee7a0ed2-5249-4d5a-a030-e4d15a72e24e}</Project>
       <Name>IotWeb UWP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Uwp.BackgroundShim\SirenOfShame.Uwp.BackgroundShim.csproj">
+      <Project>{23d10745-dd9f-4581-94da-ca1453a69319}</Project>
+      <Name>SirenOfShame.Uwp.BackgroundShim</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Uwp.Server\SirenOfShame.Uwp.Server.csproj">
       <Project>{e58a4ffb-db5f-4989-ae8c-e8eba394f0fd}</Project>
       <Name>SirenOfShame.Uwp.Server</Name>

@@ -11,17 +11,17 @@ namespace SirenOfShame.Uwp.Server.Services
     {
         private async Task<StorageFile> GetFileAsync(string location)
         {
-            return await ApplicationData.Current.LocalFolder.GetFileAsync(location);
+            return await KnownFolders.DocumentsLibrary.GetFileAsync(location);
         }
 
         private async Task CreateFileAsync(string location)
         {
-            await ApplicationData.Current.LocalFolder.CreateFileAsync(location);
+            await KnownFolders.DocumentsLibrary.CreateFileAsync(location);
         }
 
         private async Task<IEnumerable<StorageFile>> GetFilesAsync()
         {
-            return await ApplicationData.Current.LocalFolder.GetFilesAsync();
+            return await KnownFolders.DocumentsLibrary.GetFilesAsync();
         }
 
         private async Task AppendTextAsync(string contents, StorageFile storageFile)

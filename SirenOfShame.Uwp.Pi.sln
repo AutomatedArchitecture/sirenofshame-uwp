@@ -31,7 +31,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Maintenanc
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SirenOfShame.Uwp.Shared", "SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.shproj", "{F9914B31-5BC4-48B0-9360-0BCCA5A20104}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Watcher", "SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj", "{760CD96B-AD69-499C-A9C9-5CDA6DAE6B9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SirenOfShame.Uwp.Watcher", "SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj", "{760CD96B-AD69-499C-A9C9-5CDA6DAE6B9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.BackgroundShim", "SirenOfShame.Uwp.BackgroundShim\SirenOfShame.Uwp.BackgroundShim.csproj", "{23D10745-DD9F-4581-94DA-CA1453A69319}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
@@ -249,6 +251,26 @@ Global
 		{760CD96B-AD69-499C-A9C9-5CDA6DAE6B9F}.Release|x64.Build.0 = Release|Any CPU
 		{760CD96B-AD69-499C-A9C9-5CDA6DAE6B9F}.Release|x86.ActiveCfg = Release|Any CPU
 		{760CD96B-AD69-499C-A9C9-5CDA6DAE6B9F}.Release|x86.Build.0 = Release|Any CPU
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|ARM.ActiveCfg = Debug|ARM
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|ARM.Build.0 = Debug|ARM
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|ARM.Deploy.0 = Debug|ARM
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|x64.ActiveCfg = Debug|x64
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|x64.Build.0 = Debug|x64
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|x64.Deploy.0 = Debug|x64
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|x86.ActiveCfg = Debug|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|x86.Build.0 = Debug|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Debug|x86.Deploy.0 = Debug|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|Any CPU.ActiveCfg = Release|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|ARM.ActiveCfg = Release|ARM
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|ARM.Build.0 = Release|ARM
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|ARM.Deploy.0 = Release|ARM
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x64.ActiveCfg = Release|x64
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x64.Build.0 = Release|x64
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x64.Deploy.0 = Release|x64
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x86.ActiveCfg = Release|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x86.Build.0 = Release|x86
+		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
