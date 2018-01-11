@@ -24,7 +24,7 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 await base.Start();
-                InitializeLogging();
+                await InitializeLogging();
                 await RegisterSirenOfShameSettings();
                 SetDependencies();
                 _webServer.Start();
@@ -38,11 +38,12 @@ namespace SirenOfShame.Uwp.Server.Services
             }
         }
 
-        private void InitializeLogging()
+        private async Task InitializeLogging()
         {
-            MyLogManager.Initialize();
+            var fileAdapter = new FileAdapter();
+            await MyLogManager.Initialize(fileAdapter);
             _log = MyLogManager.GetLog(typeof(ServerStartManager));
-            _log.Info("Initializing Logging");
+            await _log.Info("Initializing Logging");
         }
 
         private void SetDependencies()
