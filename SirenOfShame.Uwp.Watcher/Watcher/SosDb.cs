@@ -82,19 +82,19 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
 
         private string GetEventsLocation()
         {
-            return "SirenOfShameEvents.txt";
+            return "SirenOfShameEvents.sosdb";
         }
 
         private string GetBuildLocation(string buildDefinitionId)
         {
-            return RemoveIllegalCharacters(buildDefinitionId) + ".txt";
+            return RemoveIllegalCharacters(buildDefinitionId) + ".sosdb";
         }
 
         public async Task<IList<BuildStatus>> ReadAll()
         {
-            var allTxtFiles = await _fileAdapter.GetFiles("*.txt");
+            var allTxtFiles = await _fileAdapter.GetFiles("*.sosdb");
             var allBuildFiles = allTxtFiles
-                .Where(fileName => fileName != ".txt" && fileName != "SirenOfShameEvents.txt");
+                .Where(fileName => fileName != ".sosdb" && fileName != "SirenOfShameEvents.sosdb");
             var tasks = allBuildFiles.Select(ReadAllFromLocation).ToList();
             await Task.WhenAll(tasks);
             var enumerable = tasks.SelectMany(i => i.Result).ToList();

@@ -495,7 +495,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //public void Backup()
         //{
         //    string fileName = GetConfigFileName();
-        //    string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.config.bak", DateTime.Now);
+        //    string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.sosdb.bak", DateTime.Now);
         //    string path = GetSosAppDataFolder();
         //    var backupFileNameAndPath = Path.Combine(path, backupFileName);
         //    File.Copy(fileName, backupFileNameAndPath, true);

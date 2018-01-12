@@ -22,10 +22,10 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.fileTypeAssociation">
-          <uap:FileTypeAssociation Name="db">
-            <uap:DisplayName>SQLite Database</uap:DisplayName>
+          <uap:FileTypeAssociation Name="sosdb">
+            <uap:DisplayName>Siren of Shame Database</uap:DisplayName>
             <uap:SupportedFileTypes>
-              <uap:FileType>.db</uap:FileType>
+              <uap:FileType>.sosdb</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>

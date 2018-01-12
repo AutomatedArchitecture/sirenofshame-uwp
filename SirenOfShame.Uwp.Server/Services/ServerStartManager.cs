@@ -40,8 +40,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private async Task InitializeLogging()
         {
-            var fileAdapter = new FileAdapter();
-            await MyLogManager.Initialize(fileAdapter);
+            await MyLogManager.Initialize();
             _log = MyLogManager.GetLog(typeof(ServerStartManager));
             await _log.Info("Initializing Logging");
         }
@@ -69,7 +68,7 @@ namespace SirenOfShame.Uwp.Server.Services
             }
             catch (Exception ex)
             {
-                _log.Error("Unable to start message rleay service", ex);
+                await _log.Error("Unable to start message rleay service", ex);
             }
         }
 

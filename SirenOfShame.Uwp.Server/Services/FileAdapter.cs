@@ -9,19 +9,28 @@ namespace SirenOfShame.Uwp.Server.Services
 {
     public class FileAdapter : IFileAdapter
     {
+        private StorageFolder GetLocationForFile(string location)
+        {
+            return location.EndsWith("sosdb") ? 
+                KnownFolders.DocumentsLibrary : ApplicationData.Current.LocalFolder;
+        }
+
         private async Task<StorageFile> GetFileAsync(string location)
         {
-            return await KnownFolders.DocumentsLibrary.GetFileAsync(location);
+            var storageFolder = GetLocationForFile(location);
+            return await storageFolder.GetFileAsync(location);
         }
 
         private async Task CreateFileAsync(string location)
         {
-            await KnownFolders.DocumentsLibrary.CreateFileAsync(location);
+            var storageFolder = GetLocationForFile(location);
+            await storageFolder.CreateFileAsync(location);
         }
 
-        private async Task<IEnumerable<StorageFile>> GetFilesAsync()
+        private async Task<IEnumerable<StorageFile>> GetFilesAsync(string location)
         {
-            return await KnownFolders.DocumentsLibrary.GetFilesAsync();
+            var storageFolder = GetLocationForFile(location);
+            return await storageFolder.GetFilesAsync();
         }
 
         private async Task AppendTextAsync(string contents, StorageFile storageFile)
@@ -66,7 +75,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         public async Task<bool> Exists(string location)
         {
-            var files = await GetFilesAsync();
+            var files = await GetFilesAsync(location);
             return files.Any(i => i.Name == location);
         }
 
@@ -84,7 +93,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         public async Task<IEnumerable<string>> GetFiles(string fileExtension)
         {
-            var readOnlyList = await GetFilesAsync();
+            var readOnlyList = await GetFilesAsync(fileExtension);
             return readOnlyList
                 .Where(i => i.Name.Split('.').LastOrDefault() == fileExtension)
                 .Select(i => i.Name);

@@ -9,7 +9,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
 {
     public class SettingsIoService
     {
-        private const string SIRENOFSHAME_CONFIG = @"SirenOfShame.config";
+        private const string SIRENOFSHAME_CONFIG = @"SirenOfShame.sosdb";
 
         private static readonly List<Rule> _defaultRules = new List<Rule>{
             new Rule { TriggerType = TriggerType.BuildTriggered, AlertType = AlertType.TrayAlert, BuildDefinitionId = null, TriggerPerson = null, InheritAudioSettings = true, InheritLedSettings = true, WindowsAudioLocation = SoundService.NEW_RESOURCE_PREFIX + "Plunk.wav" },
