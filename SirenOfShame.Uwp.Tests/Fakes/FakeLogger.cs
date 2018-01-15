@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Watcher;
 
 namespace SirenOfShame.Uwp.Tests.Fakes

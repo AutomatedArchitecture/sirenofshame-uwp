@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 

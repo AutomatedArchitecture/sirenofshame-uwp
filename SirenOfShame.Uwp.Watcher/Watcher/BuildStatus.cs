@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Helpers;

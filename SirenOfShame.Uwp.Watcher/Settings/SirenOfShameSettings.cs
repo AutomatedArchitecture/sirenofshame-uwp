@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Dto;

@@ -153,7 +153,7 @@
     <Compile Include="Services\MessageDistributorService.cs" />
     <Compile Include="Services\MessageRelayService.cs" />
     <Compile Include="Services\MyLogManager.cs" />
-    <Compile Include="Services\StartManager.cs" />
+    <Compile Include="Services\UiStartManager.cs" />
     <Compile Include="Views\PageBase.cs" />
     <Compile Include="Views\ViewLogsPage.xaml.cs">
       <DependentUpon>ViewLogsPage.xaml</DependentUpon>
@@ -293,6 +293,9 @@
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.4.118</Version>
     </PackageReference>
     <PackageReference Include="System.Net.Http">
       <Version>4.3.3</Version>

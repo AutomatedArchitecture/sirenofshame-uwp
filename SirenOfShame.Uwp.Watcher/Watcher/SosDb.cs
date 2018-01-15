@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;

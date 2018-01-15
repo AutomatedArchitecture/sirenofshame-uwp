@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Uwp.Core.Interfaces;
 
 namespace SirenOfShame.Uwp.Watcher.Watcher
 {

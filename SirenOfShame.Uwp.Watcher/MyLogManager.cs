@@ -107,13 +107,4 @@ namespace SirenOfShame.Uwp.Watcher
             await Write(message, LogLevel.Debug);
         }
     }
-
-    public interface ILog
-    {
-        Task Error(string message);
-        Task Error(string message, Exception webException);
-        Task Warn(string message);
-        Task Info(string message);
-        Task Debug(string message);
-    }
 }

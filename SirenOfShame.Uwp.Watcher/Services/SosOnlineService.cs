@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.Network;
 using SirenOfShame.Uwp.Watcher.Settings;

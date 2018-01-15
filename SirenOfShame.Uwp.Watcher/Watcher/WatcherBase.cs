@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Settings;
 
