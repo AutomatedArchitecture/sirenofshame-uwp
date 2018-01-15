@@ -7,20 +7,19 @@ using Windows.Foundation.Collections;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Watcher;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
-    public class MessageRelayService
+    public class ServerMessageRelayService
     {
         private AppServiceConnection _connection;
         public event Action<ValueSet> OnMessageReceived;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(ServerMessageRelayService));
 
         private async Task<AppServiceConnection> CachedConnection()
         {
             if (_connection != null) return _connection;
-            _log.Debug("Opening connection to MessageRelay");
+            await _log.Debug("Opening connection to MessageRelay");
             _connection = await MakeConnection();
             _connection.RequestReceived += ConnectionOnRequestReceived;
             _connection.ServiceClosed += ConnectionOnServiceClosed;
@@ -83,6 +82,11 @@ namespace SirenOfShame.Uwp.Server.Services
                 _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
                 OnMessageReceived?.Invoke(valueSet);
             }
+            catch (Exception ex)
+            {
+                _log.Error("Error processing ConnectionRequestReceived " + ValueSetToString(args.Request.Message), ex);
+                // continue, since throwing exceptions here is liable to crash the MessageRelay
+            }
             finally
             {
                 appServiceDeferral.Complete();
@@ -108,19 +112,16 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 var connection = await CachedConnection();
-                var result = await connection.SendMessageAsync(
-                    new ValueSet
-                    {
-                        new KeyValuePair<string, object>(key, message)
-                    });
+                var keyValuePair = new KeyValuePair<string, object>(key, message);
+                var result = await connection.SendMessageAsync(new ValueSet { keyValuePair });
                 if (result.Status != AppServiceResponseStatus.Success)
                 {
-                    _log.Error("Error sending message " + message + " because " + result.Status);
+                    await _log.Error("Error sending message " + message + " because " + result.Status);
                 }
             }
             catch (Exception ex)
             {
-                _log.Error("Error sending message " + message, ex);
+                await _log.Error("Error sending message " + message, ex);
             }
         }
     }

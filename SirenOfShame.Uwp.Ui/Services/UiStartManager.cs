@@ -28,7 +28,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private async Task OpenMessageRelayConnection()
         {
-            var connection = ServiceContainer.Resolve<MessageRelayService>();
+            var connection = ServiceContainer.Resolve<UiMessageRelayService>();
             try
             {
                 await connection.Open();
@@ -59,7 +59,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         protected override void RegisterServices()
         {
-            ServiceContainer.Register(() => new MessageRelayService());
+            ServiceContainer.Register(() => new UiMessageRelayService());
             ServiceContainer.Register(() => new MessageDistributorService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
             ServiceContainer.Register(() => new NavigationService());

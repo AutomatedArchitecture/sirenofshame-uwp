@@ -151,7 +151,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileAdapter.cs" />
     <Compile Include="Services\MessageDistributorService.cs" />
-    <Compile Include="Services\MessageRelayService.cs" />
+    <Compile Include="Services\UiMessageRelayService.cs" />
     <Compile Include="Services\MyLogManager.cs" />
     <Compile Include="Services\UiStartManager.cs" />
     <Compile Include="Views\PageBase.cs" />

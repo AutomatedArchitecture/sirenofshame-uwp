@@ -27,7 +27,7 @@ namespace SirenOfShame.Uwp.Ui.Views
     public sealed partial class MainUiPage
     {
         private readonly MessageDistributorService _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
-        private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+        private readonly UiMessageRelayService _messageRelayService = ServiceContainer.Resolve<UiMessageRelayService>();
         private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
         private readonly GettingStartedService _gettingStartedService = ServiceContainer.Resolve<GettingStartedService>();
         private RootViewModel ViewModel { get; set; }

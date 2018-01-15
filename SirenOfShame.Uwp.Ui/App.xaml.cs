@@ -19,7 +19,7 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     sealed partial class App
     {
-        private readonly MessageRelayService _connection;
+        private readonly UiMessageRelayService _connection;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

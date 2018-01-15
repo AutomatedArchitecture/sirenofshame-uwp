@@ -10,11 +10,11 @@ namespace SirenOfShame.Uwp.Server.Commands
     internal class EchoCommand : CommandBase
     {
         public override string CommandName => CommandNames.ECHO;
-        private readonly MessageRelayService _messageRelayService;
+        private readonly ServerMessageRelayService _messageRelayService;
 
         public EchoCommand()
         {
-            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
         }
 
         public override async Task<SocketResult> Invoke(string frame)

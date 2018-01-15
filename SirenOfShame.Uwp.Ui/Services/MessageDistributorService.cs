@@ -16,7 +16,7 @@ namespace SirenOfShame.Uwp.Ui.Services
     /// </summary>
     public class MessageDistributorService
     {
-        private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+        private readonly UiMessageRelayService _messageRelayService = ServiceContainer.Resolve<UiMessageRelayService>();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageDistributorService));
 
         public event EventHandler<NewNewsItemEventArgs> NewNewsItem;

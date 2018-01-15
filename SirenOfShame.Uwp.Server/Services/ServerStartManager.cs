@@ -14,7 +14,7 @@ namespace SirenOfShame.Uwp.Server.Services
     /// </summary>
     public abstract class ServerStartManager : WatcherStartManager
     {
-        private MessageRelayService _messageRelayService;
+        private ServerMessageRelayService _messageRelayService;
         private MessageCommandProcessor _messageCommandProcessor;
         private SirenDeviceService _sirenDeviceService;
         private ILog _log;
@@ -48,7 +48,7 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private void SetDependencies()
         {
-            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
             _messageCommandProcessor = ServiceContainer.Resolve<MessageCommandProcessor>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
             _webServer = ServiceContainer.Resolve<IWebServer>();
@@ -76,7 +76,7 @@ namespace SirenOfShame.Uwp.Server.Services
         protected override void RegisterServices()
         {
             base.RegisterServices();
-            ServiceContainer.Register(() => new MessageRelayService());
+            ServiceContainer.Register(() => new ServerMessageRelayService());
             ServiceContainer.Register(() => new SirenDeviceService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
             ServiceContainer.Register(() => new MessageCommandProcessor());

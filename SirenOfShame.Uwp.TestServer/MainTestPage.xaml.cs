@@ -13,7 +13,7 @@ namespace SirenOfShame.Uwp.TestServer
     public sealed partial class MainTestPage
     {
         private readonly ServerStartManager _startManager = new TestServerStartManager();
-        private MessageRelayService _messageRelayService;
+        private ServerMessageRelayService _messageRelayService;
 
         public MainTestPage()
         {
@@ -25,7 +25,7 @@ namespace SirenOfShame.Uwp.TestServer
         {
             await _startManager.Start();
 
-            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
         }
 
         private async void SendOnClick(object sender, RoutedEventArgs e)

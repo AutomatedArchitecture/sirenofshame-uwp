@@ -7,22 +7,21 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
-    public class MessageRelayService
+    public class UiMessageRelayService
     {
         private AppServiceConnection _connection;
         public event Action<ValueSet> OnMessageReceived;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayService));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(UiMessageRelayService));
 
         public bool IsConnected => _connection != null;
 
         private async Task<AppServiceConnection> CachedConnection()
         {
             if (_connection != null) return _connection;
-            _log.Debug("Opening connection to MessageRelay");
+            await _log.Debug("Opening connection to MessageRelay");
             _connection = await MakeConnection();
             _connection.RequestReceived += ConnectionOnRequestReceived;
             _connection.ServiceClosed += ConnectionOnServiceClosed;
@@ -85,6 +84,11 @@ namespace SirenOfShame.Uwp.Ui.Services
                 _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
                 OnMessageReceived?.Invoke(valueSet);
             }
+            catch (Exception ex)
+            {
+                _log.Error("Error processing ConnectionRequestReceived " + ValueSetToString(args.Request.Message), ex);
+                // continue, since throwing exceptions here is liable to crash the MessageRelay
+            }
             finally
             {
                 appServiceDeferral.Complete();
@@ -115,11 +119,11 @@ namespace SirenOfShame.Uwp.Ui.Services
         {
             var connection = await CachedConnection();
             var result = await connection.SendMessageAsync(new ValueSet {keyValuePair});
-            if (result.Status == AppServiceResponseStatus.Success)
+            if (result.Status != AppServiceResponseStatus.Success)
             {
-                return;
+                await _log.Error("Error sending message " + keyValuePair.Key + " because " + result.Status);
+                throw new EndpointNotFoundException("Error sending " + result.Status);
             }
-            throw new EndpointNotFoundException("Error sending " + result.Status);
         }
 
         public async Task SendMessageAsync(string key, string value)

@@ -15,7 +15,7 @@ namespace SirenOfShame.Uwp.Server.Services
     /// </summary>
     public class MessageCommandProcessor
     {
-        private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+        private readonly ServerMessageRelayService _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageCommandProcessor));
 
         public void StartWatching()

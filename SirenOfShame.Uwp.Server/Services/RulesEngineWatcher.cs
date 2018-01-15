@@ -16,7 +16,7 @@ namespace SirenOfShame.Uwp.Server.Services
     public class RulesEngineWatcher
     {
         private readonly ILog _log = MyLogManager.GetLog(typeof(RulesEngineWatcher));
-        private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+        private readonly ServerMessageRelayService _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
         private readonly SirenDeviceService _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
 
         public async Task StartCiWatcher()
