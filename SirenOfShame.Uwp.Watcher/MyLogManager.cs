@@ -31,7 +31,7 @@ namespace SirenOfShame.Uwp.Watcher
 
         public static async Task Initialize()
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SirenOfShameLogs.db");
+            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SirenOfShameLogs.sosdb");
 
             _conn = new SQLiteAsyncConnection(databasePath);
             await _conn.CreateTableAsync<LogEntry>();
