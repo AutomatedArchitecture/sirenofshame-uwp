@@ -33,7 +33,7 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async Task RefreshData()
         {
-            var logs = await MetroLogger.ReadLogEntriesAsync(DataContext.ShowAll);
+            var logs = await MyLogManager.ReadLogEntriesAsync(DataContext.ShowAll);
             DataContext.Events = logs.Events;
         }
 

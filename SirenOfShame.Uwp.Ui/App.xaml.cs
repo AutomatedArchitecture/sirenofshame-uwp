@@ -20,7 +20,6 @@ namespace SirenOfShame.Uwp.Ui
     sealed partial class App
     {
         private readonly MessageRelayService _connection;
-        private readonly MessageDistributorService _messageDistributorService;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -31,13 +30,8 @@ namespace SirenOfShame.Uwp.Ui
             InitializeComponent();
 
             UnhandledException += OnUnhandledException;
-
-            var startManager = new StartManager();
-            startManager.Start();
-            _connection = ServiceContainer.Resolve<MessageRelayService>();
-            _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
-
             LeavingBackground += OnLeavingBackground;
+            EnteredBackground += OnEnteredBackground;
             Suspending += OnSuspending;
         }
 
@@ -47,22 +41,13 @@ namespace SirenOfShame.Uwp.Ui
             log.Error("Global unhandeled exception in UI", unhandledExceptionEventArgs.Exception);
         }
 
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
-            var log = MyLogManager.GetLog(typeof(App));
-            log.Info("Starting App");
-            _messageDistributorService.StartWatching();
-            try
-            {
-                await _connection.Open();
-            }
-            catch (Exception ex)
-            {
-                // failing quietly is probably ok for now since the connection will
-                //  attempt to re-open itself again on next send.  It just means
-                //  we won't be able to receive messages
-                log.Error("Error opening connection on startup", ex);
-            }
+        }
+
+        private void OnEnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            
         }
 
         /// <summary>
@@ -78,6 +63,10 @@ namespace SirenOfShame.Uwp.Ui
                 DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
+
+            var startManager = new UiStartManager();
+            await startManager.Start();
+
             AppShell shell = Window.Current.Content as AppShell;
 
             // Do not repeat app initialization when the Window already has content,
