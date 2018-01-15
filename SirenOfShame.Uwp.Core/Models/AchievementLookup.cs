@@ -1,7 +1,6 @@
 using System;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
-namespace SirenOfShame.Uwp.Watcher.Settings
+namespace SirenOfShame.Uwp.Core.Models
 {
     public class AchievementLookup
     {
@@ -9,7 +8,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public string Name { get; set; }
         public string Description { get; set; }
 
-        public NewsItemEvent AsNewNewsItem(PersonSetting person)
+        public NewsItemEvent AsNewNewsItem(PersonSettingBase person)
         {
             return new NewsItemEvent
             {

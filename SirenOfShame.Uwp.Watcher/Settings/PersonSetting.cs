@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Watcher.Achievements;
 using SirenOfShame.Uwp.Watcher.StatCalculators;
 using SirenOfShame.Uwp.Watcher.Watcher;
@@ -9,26 +10,9 @@ using SirenOfShame.Uwp.Watcher.Watcher;
 namespace SirenOfShame.Uwp.Watcher.Settings
 {
     //[Serializable]
-    public class PersonSetting : PersonBase
+    public class PersonSetting : PersonSettingBase
     {
-        public override string RawName { get; set; }
-        public override string DisplayName { get; set; }
-        public int TotalBuilds { get; set; }
-        public int FailedBuilds { get; set; }
-        public bool Hidden { get; set; }
-        public List<AchievementSetting> Achievements { get; set; }
-        public long? CumulativeBuildTime { get; set; }
         private readonly SosDb _sosDb = new SosDb();
-        public int? AvatarId { get; set; }
-        public int NumberOfTimesFixedSomeoneElsesBuild { get; set; }
-        public int NumberOfTimesPerformedBackToBackBuilds { get; set; }
-        public int MaxBuildsInOneDay { get; set; }
-        public double CurrentBuildRatio { get; set; }
-        public double? LowestBuildRatioAfter50Builds { get; set; }
-        public int CurrentSuccessInARow { get; set; }
-        public string Email { get; set; }
-        public string AvatarImageName { get; set; }
-        public bool AvatarImageUploaded { get; set; }
 
         // this either needs to stay private or find the attribute to not persist
         private TimeSpan? MyCumulativeBuildTime
@@ -45,16 +29,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public PersonSetting()
         {
             Achievements = new List<AchievementSetting>();
-        }
-
-        public static int GetReputation(int totalBuilds, int failedBuilds)
-        {
-            return totalBuilds - (failedBuilds * 5);
-        }
-        
-        public int GetReputation()
-        {
-            return GetReputation(TotalBuilds, FailedBuilds);
         }
 
         //public override int GetAvatarId(ImageList avatarImageList)

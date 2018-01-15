@@ -13,7 +13,7 @@ namespace SirenOfShame.Uwp.Shared.Dtos
         Fatal,
     }
 
-    public class LogMessage
+    public sealed class LogMessage
     {
         public LogLevel LogLevel { get; set; }
         public string Message { get; set; }

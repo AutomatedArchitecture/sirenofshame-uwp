@@ -1,11 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using SirenOfShame.Uwp.Watcher.Annotations;
-using SirenOfShame.Uwp.Watcher.Helpers;
-using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Core.Helpers;
+using SirenOfShame.Uwp.Watcher.Watcher;
 
-namespace SirenOfShame.Uwp.Watcher.Watcher
+namespace SirenOfShame.Uwp.Core.Models
 {
     public class BuildStatusDto : INotifyPropertyChanged
     {
@@ -125,10 +124,11 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         public string BuildDefinitionId { get; set; }
         public string BuildId { get; set; }
 
-        public void SetDisplayName(SirenOfShameSettings settings)
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            var person = settings.FindAddPerson(RequestedByRawName);
-            RequestedByDisplayName = person == null ? RequestedByRawName : person.DisplayName;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public void Update(BuildStatusDto newBd)
@@ -150,12 +150,5 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             PrettyStartTime = LocalStartTime.PrettyDate();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 }

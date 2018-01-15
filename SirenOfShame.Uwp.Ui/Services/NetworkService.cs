@@ -9,7 +9,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 {
     public class NetworkService
     {
-        private readonly Lazy<Watcher.ILog> _log = new Lazy<Watcher.ILog, bool>(() => Watcher.MyLogManager.GetLog(typeof(NetworkService)), true);
+        private readonly Lazy<ILog> _log = new Lazy<ILog, bool>(() => MyLogManager.GetLog(typeof(NetworkService)), true);
 
         public async Task<bool> IsConnected()
         {

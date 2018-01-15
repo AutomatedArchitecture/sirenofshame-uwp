@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Ui.Models;
-using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Ui.ViewModels
 {

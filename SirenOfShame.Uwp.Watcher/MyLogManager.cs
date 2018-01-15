@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Shared.Dtos;
 using SQLite;
 
 namespace SirenOfShame.Uwp.Watcher
 {
-    public class ReadLogEntriesResult
-    {
-        public List<LogEntry> Events { get; set; }
-    }
-
-    public class LogEntry
+    public class LogEntry : ILogEntry
     {
         [PrimaryKey, AutoIncrement]
         public int ItemId { get; set; }
@@ -43,9 +40,11 @@ namespace SirenOfShame.Uwp.Watcher
         public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
             var allRows = await _conn.Table<LogEntry>().ToListAsync();
+            var logEntries = allRows.Cast<ILogEntry>().ToList();
+            
             return new ReadLogEntriesResult
             {
-                Events = allRows
+                Events = logEntries
             };
         }
     }

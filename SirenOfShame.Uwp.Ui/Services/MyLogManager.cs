@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using SirenOfShame.Uwp.Shared.Dtos;
-using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Models;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
@@ -18,7 +18,7 @@ namespace SirenOfShame.Uwp.Ui.Services
     {
         public static Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
-            return Task.FromResult(new ReadLogEntriesResult { Events = new List<LogEntry>() });
+            return Task.FromResult(new ReadLogEntriesResult { Events = new List<ILogEntry>() });
         }
 
         public MetroLogger(Type type)

@@ -1,38 +1,13 @@
 using System;
 using System.Collections.Generic;
 
-namespace SirenOfShame.Uwp.Watcher.Settings
+namespace SirenOfShame.Uwp.Core.Models
 {
-    public enum AchievementEnum
-    {
-        Apprentice = 1,
-        Neophyte = 2,
-        Master = 3,
-        GrandMaster = 4,
-        Legend = 5,
-        CiNinja = 6,
-        Assassin = 7,
-        TimeWarrior = 8,
-        ChronMaster = 9,
-        ChronGrandMaster = 10,
-        ReputationRebound = 11,
-        LikeLightning = 12,
-        ArribaArribaAndaleAndale = 13,
-        SpeedDaemon = 14,
-        InTheZone = 15,
-        Terminator = 16,
-        AndGotAwayWithIt = 17,
-        Critical = 19,
-        Perfectionist = 20,
-        JonSkeet = 21,
-        Macgyver = 22,
-        Napoleon = 23,
-        ShamePusher = 24,
-    }
-
-    //[Serializable]
     public class AchievementSetting
     {
+        public DateTime DateAchieved { get; set; }
+        public int AchievementId { get; set; }
+        
         public static List<AchievementLookup> AchievementLookups = new List<AchievementLookup>
         {
             new AchievementLookup { Id = AchievementEnum.Apprentice, Name = "Apprentice", Description = "Achieved 25 reputation" },
@@ -60,9 +35,6 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             new AchievementLookup { Id = AchievementEnum.ShamePusher, Name = "Shame Pusher", Description = "Own a siren of shame device" },
         };
         
-        public DateTime DateAchieved { get; set; }
-        public int AchievementId { get; set; }
-
         public string AsSosOnlineExport()
         {
             return string.Format("{0},{1}", AchievementId, DateAchieved.Ticks);

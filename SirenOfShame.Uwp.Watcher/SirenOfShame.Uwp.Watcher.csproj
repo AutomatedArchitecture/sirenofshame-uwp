@@ -5,8 +5,6 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
-  <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
-
   <ItemGroup>
     <Compile Remove="Services\ActiveDirectoryService.cs" />
     <Compile Remove="Services\AudioFileService.cs" />
@@ -20,6 +18,10 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Core\SirenOfShame.Uwp.Core.csproj" />
   </ItemGroup>
 
 </Project>

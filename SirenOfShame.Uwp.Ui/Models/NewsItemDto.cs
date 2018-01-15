@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.CompilerServices;
+using SirenOfShame.Uwp.Core.Helpers;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Ui.Annotations;
-using SirenOfShame.Uwp.Watcher.Helpers;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Models
 {

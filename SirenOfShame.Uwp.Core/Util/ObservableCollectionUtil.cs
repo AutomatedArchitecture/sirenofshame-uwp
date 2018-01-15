@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using SirenOfShame.Uwp.Watcher.Watcher;
+using SirenOfShame.Uwp.Core.Models;
 
-namespace SirenOfShame.Uwp.Watcher.Util
+namespace SirenOfShame.Uwp.Core.Util
 {
     public static class ObservableCollectionUtil
     {

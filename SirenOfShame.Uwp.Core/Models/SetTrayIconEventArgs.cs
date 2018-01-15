@@ -1,12 +1,5 @@
-﻿namespace SirenOfShame.Uwp.Watcher.Watcher
+﻿namespace SirenOfShame.Uwp.Core.Models
 {
-    public enum TrayIcon
-    {
-        Red,
-        Green,
-        Question
-    }
-    
     public class SetTrayIconEventArgs
     {
         public const string COMMAND_NAME = "SetTrayIcon";

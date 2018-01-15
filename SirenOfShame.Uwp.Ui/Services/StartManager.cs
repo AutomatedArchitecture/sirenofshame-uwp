@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using SirenOfShame.Lib.Watcher;
+﻿using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services
@@ -8,7 +7,6 @@ namespace SirenOfShame.Uwp.Ui.Services
     {
         protected override void RegisterServices()
         {
-            base.RegisterServices();
             ServiceContainer.Register(() => new MessageRelayService());
             ServiceContainer.Register(() => new MessageDistributorService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());

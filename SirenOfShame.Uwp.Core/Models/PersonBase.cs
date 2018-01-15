@@ -1,4 +1,4 @@
-namespace SirenOfShame.Uwp.Watcher.Watcher
+namespace SirenOfShame.Uwp.Core.Models
 {
     public abstract class PersonBase
     {

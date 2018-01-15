@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SirenOfShame.Uwp.Watcher.Helpers
+namespace SirenOfShame.Uwp.Core.Helpers
 {
     public static class PrettyDateHelper
     {

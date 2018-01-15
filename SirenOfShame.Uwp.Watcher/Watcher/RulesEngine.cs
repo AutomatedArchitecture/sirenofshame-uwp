@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Models;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Helpers;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -64,7 +66,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         {
             NewUser?.Invoke(this, new NewUserEventArgs
             {
-                NewPeople = newPeople
+                NewPeople = newPeople.Cast<PersonSettingBase>().ToList()
             });
         }
 
@@ -386,11 +388,17 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             var changedPeople = from changedBuildStatus in changedBuildStatuses
                 join person in _settings.VisiblePeople on changedBuildStatus.RequestedBy equals person.RawName
                 select person;
-            var uniqueChangedPeople = changedPeople.GroupBy(p => p.RawName).Select(i => i.First()).ToList();
+            var uniqueChangedPeople = changedPeople
+                .GroupBy(p => p.RawName)
+                .Select(i => i.First())
+                .Cast<PersonSettingBase>()
+                .ToList();
+
+            var buildStatusBases = changedBuildStatuses.Cast<BuildStatusBase>().ToList();
 
             statsChanged(this, new StatsChangedEventArgs
             {
-                ChangedBuildStatuses = changedBuildStatuses,
+                ChangedBuildStatuses = buildStatusBases,
                 ChangedPeople = uniqueChangedPeople
             });
         }

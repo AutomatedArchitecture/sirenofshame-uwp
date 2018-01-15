@@ -11,7 +11,7 @@ namespace SirenOfShame.Uwp.Server.Services
     /// Responsible for starting all services who must be started when the parent process
     /// starts and stopping them gracefully when the parent process ends.
     /// </summary>
-    public abstract class ServerStartManager : StartManagerBase
+    public abstract class ServerStartManager : WatcherStartManager
     {
         private MessageRelayService _messageRelayService;
         private MessageCommandProcessor _messageCommandProcessor;

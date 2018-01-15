@@ -1,5 +1,5 @@
 ﻿using System;
-using SirenOfShame.Uwp.Watcher.Settings;
+using SirenOfShame.Uwp.Core.Models;
 
 namespace SirenOfShame.Uwp.Watcher.Dto
 {

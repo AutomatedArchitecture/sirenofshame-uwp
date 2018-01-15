@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;

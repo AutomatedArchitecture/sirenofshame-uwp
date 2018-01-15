@@ -4,15 +4,9 @@ using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Watcher.Services
 {
-    public class StartManagerBase
+    public class WatcherStartManager : StartManagerBase
     {
         private SirenOfShameSettings _sirenOfShameSettings;
-
-        public virtual async Task Start()
-        {
-            RegisterServices();
-            await Task.Yield();
-        }
 
         public async Task RegisterSirenOfShameSettings()
         {
@@ -21,14 +15,14 @@ namespace SirenOfShame.Uwp.Watcher.Services
             ServiceContainer.Register(() => _sirenOfShameSettings);
         }
 
-        protected virtual void RegisterServices()
+        protected override void RegisterServices()
         {
             ServiceContainer.Register(() => new RulesEngine());
             ServiceContainer.Register(() => new SettingsIoService());
             ServiceContainer.Register(() => new SosDb());
         }
 
-        public virtual void Stop()
+        public override void Stop()
         {
         }
     }

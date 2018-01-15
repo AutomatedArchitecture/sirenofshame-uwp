@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Ui.Annotations;
-using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Ui.Models
 {
@@ -19,12 +19,12 @@ namespace SirenOfShame.Uwp.Ui.Models
         private string _rawName;
         private int? _avatarId;
 
-        public PersonDto(PersonSetting person)
+        public PersonDto(PersonSettingBase person)
         {
             Update(person);
         }
 
-        public void Update(PersonSetting person)
+        public void Update(PersonSettingBase person)
         {
             RawName = person.RawName;
             DisplayName = person.DisplayName;

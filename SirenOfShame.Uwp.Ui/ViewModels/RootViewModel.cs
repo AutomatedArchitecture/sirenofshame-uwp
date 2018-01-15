@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Ui.Annotations;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Watcher.Watcher;

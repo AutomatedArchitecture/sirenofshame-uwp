@@ -145,7 +145,12 @@
       <Version>10.0.3</Version>
     </PackageReference>
   </ItemGroup>
-  <Import Project="..\SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems" Label="Shared" />
+  <ItemGroup>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Core\SirenOfShame.Uwp.Core.csproj">
+      <Project>{7668e982-ca88-4fa0-8332-a1a2867cad0b}</Project>
+      <Name>SirenOfShame.Uwp.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '15.0' ">
     <VisualStudioVersion>15.0</VisualStudioVersion>
   </PropertyGroup>

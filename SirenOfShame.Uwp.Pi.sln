@@ -29,17 +29,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Ui", "Sire
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Maintenance", "SirenOfShame.Uwp.Maintenance\SirenOfShame.Uwp.Maintenance.csproj", "{24AD6B91-85ED-433F-99BB-C54DF9C8B6CD}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SirenOfShame.Uwp.Shared", "SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.shproj", "{F9914B31-5BC4-48B0-9360-0BCCA5A20104}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SirenOfShame.Uwp.Watcher", "SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj", "{760CD96B-AD69-499C-A9C9-5CDA6DAE6B9F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.BackgroundShim", "SirenOfShame.Uwp.BackgroundShim\SirenOfShame.Uwp.BackgroundShim.csproj", "{23D10745-DD9F-4581-94DA-CA1453A69319}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SirenOfShame.Uwp.Core", "SirenOfShame.Uwp.Core\SirenOfShame.Uwp.Core.csproj", "{7668E982-CA88-4FA0-8332-A1A2867CAD0B}"
+EndProject
 Global
-	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{24ad6b91-85ed-433f-99bb-c54df9c8b6cd}*SharedItemsImports = 4
-		SirenOfShame.Uwp.Shared\SirenOfShame.Uwp.Shared.projitems*{f9914b31-5bc4-48b0-9360-0bcca5a20104}*SharedItemsImports = 13
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -271,6 +267,22 @@ Global
 		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x86.ActiveCfg = Release|x86
 		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x86.Build.0 = Release|x86
 		{23D10745-DD9F-4581-94DA-CA1453A69319}.Release|x86.Deploy.0 = Release|x86
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|x64.Build.0 = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Debug|x86.Build.0 = Debug|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|ARM.Build.0 = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|x64.ActiveCfg = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|x64.Build.0 = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{7668E982-CA88-4FA0-8332-A1A2867CAD0B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

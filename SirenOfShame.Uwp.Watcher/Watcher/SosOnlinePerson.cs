@@ -1,3 +1,5 @@
+using SirenOfShame.Uwp.Core.Models;
+
 namespace SirenOfShame.Uwp.Watcher.Watcher
 {
     public class SosOnlinePerson : PersonBase

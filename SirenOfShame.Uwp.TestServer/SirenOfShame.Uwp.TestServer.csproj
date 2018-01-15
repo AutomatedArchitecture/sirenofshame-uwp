@@ -135,6 +135,10 @@
       <Project>{ee7a0ed2-5249-4d5a-a030-e4d15a72e24e}</Project>
       <Name>IotWeb UWP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Core\SirenOfShame.Uwp.Core.csproj">
+      <Project>{7668e982-ca88-4fa0-8332-a1a2867cad0b}</Project>
+      <Name>SirenOfShame.Uwp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Uwp.Server\SirenOfShame.Uwp.Server.csproj">
       <Project>{e58a4ffb-db5f-4989-ae8c-e8eba394f0fd}</Project>
       <Name>SirenOfShame.Uwp.Server</Name>
