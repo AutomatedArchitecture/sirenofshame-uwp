@@ -128,6 +128,7 @@
     <Compile Include="Services\GettingStartedService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Services\UiLogManager.cs" />
     <Compile Include="ViewModels\ConfigureWifiViewModel.cs" />
     <Compile Include="ViewModels\LeadersViewModel.cs" />
     <Compile Include="Models\NavMenuItem.cs" />
@@ -152,7 +153,6 @@
     <Compile Include="Services\FileAdapter.cs" />
     <Compile Include="Services\MessageDistributorService.cs" />
     <Compile Include="Services\UiMessageRelayService.cs" />
-    <Compile Include="Services\MyLogManager.cs" />
     <Compile Include="Services\UiStartManager.cs" />
     <Compile Include="Views\PageBase.cs" />
     <Compile Include="Views\ViewLogsPage.xaml.cs">

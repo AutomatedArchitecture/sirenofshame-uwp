@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
+using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Views
 {
@@ -33,7 +34,8 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async Task RefreshData()
         {
-            var logs = await UiLogManager.ReadLogEntriesAsync(DataContext.ShowAll);
+            var watcherLogManager = ServiceContainer.Resolve<UiLogManager>();
+            var logs = await watcherLogManager.ReadLogEntriesAsync(DataContext.ShowAll);
             DataContext.Events = logs.Events;
         }
 

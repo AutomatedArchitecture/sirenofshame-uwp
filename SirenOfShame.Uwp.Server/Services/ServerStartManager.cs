@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
-using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 
@@ -26,7 +25,7 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 await base.Start();
-                await InitializeLogging();
+                _log = MyLogManager.GetLog(typeof(ServerStartManager));
                 await RegisterSirenOfShameSettings();
                 SetDependencies();
                 _webServer.Start();
@@ -38,13 +37,6 @@ namespace SirenOfShame.Uwp.Server.Services
             {
                 _log?.Error("Error during startup", ex);
             }
-        }
-
-        private async Task InitializeLogging()
-        {
-            await WatcherLogManager.Initialize();
-            _log = MyLogManager.GetLog(typeof(ServerStartManager));
-            await _log.Info("Initializing Server Logging");
         }
 
         private void SetDependencies()
@@ -61,7 +53,7 @@ namespace SirenOfShame.Uwp.Server.Services
             await rulesEngineService.StartCiWatcher();
         }
 
-        public async Task StartMessageRelayService()
+        private async Task StartMessageRelayService()
         {
             _messageCommandProcessor.StartWatching();
             try

@@ -53,13 +53,15 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private async Task InitializeLogging()
         {
-            await UiLogManager.Initialize();
+            var uiLogManager = ServiceContainer.Resolve<UiLogManager>();
+            await uiLogManager.Initialize();
             _log = MyLogManager.GetLog(typeof(UiStartManager));
             await _log.Info("UI Logging Initialized");
         }
 
         protected override void RegisterServices()
         {
+            ServiceContainer.Register(() => new UiLogManager());
             ServiceContainer.Register(() => new UiMessageRelayService());
             ServiceContainer.Register(() => new MessageDistributorService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());

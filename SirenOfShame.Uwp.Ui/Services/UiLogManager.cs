@@ -8,7 +8,7 @@ using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Shared.Dtos;
 using SQLite;
 
-namespace SirenOfShame.Uwp.Watcher
+namespace SirenOfShame.Uwp.Ui.Services
 {
     public class LogEntry : ILogEntry
     {
@@ -25,21 +25,21 @@ namespace SirenOfShame.Uwp.Watcher
         public int? ExceptionHresult { get; set; }
     }
 
-    public static class WatcherLogManager
+    public class UiLogManager : MyLogManager
     {
-        private static SQLiteAsyncConnection _conn;
+        private SQLiteAsyncConnection _conn;
 
-        public static async Task Initialize()
+        public async Task Initialize()
         {
             var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SirenOfShameLogs.sosdb");
 
             _conn = new SQLiteAsyncConnection(databasePath);
             await _conn.CreateTableAsync<LogEntry>();
-            
-            MyLogManager.GetLog = (type) => new SqlLogger(type, _conn);
+
+            GetLog = (type) => new SqlLogger(type, _conn);
         }
 
-        public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
+        public async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
             var allRows = await _conn.Table<LogEntry>()
                 .Where(i => showAll || (i.Level != LogLevel.Debug))
@@ -71,7 +71,7 @@ namespace SirenOfShame.Uwp.Watcher
 #if DEBUG
             System.Diagnostics.Debug.WriteLine($"{level.ToString().ToUpper()}: {message} {ex}");
 #endif
-
+            
             var logEntry = new LogEntry
             {
                 Message = message,
