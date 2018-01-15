@@ -62,6 +62,10 @@ namespace SirenOfShame.Uwp.Watcher
 
         private async Task Write(string message, LogLevel level, Exception ex = null)
         {
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine($"{level.ToString().ToUpper()}: {message} {ex}");
+#endif
+
             var logEntry = new LogEntry
             {
                 Message = message,
