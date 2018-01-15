@@ -11,7 +11,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./src/Example/bin") + Directory(configuration);
+var buildDir = Directory("./SirenOfShame.Uwp.Ui/bin") + Directory(configuration);
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -27,25 +27,17 @@ Task("Restore-NuGet-Packages")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    NuGetRestore("./src/Example.sln");
+    NuGetRestore("./SirenOfShame.Uwp.Ui/SirenOfShame.Uwp.Ui.csproj");
 });
 
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
     .Does(() =>
 {
-    if(IsRunningOnWindows())
-    {
-      // Use MSBuild
-      MSBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
-    else
-    {
-      // Use XBuild
-      XBuild("./src/Example.sln", settings =>
-        settings.SetConfiguration(configuration));
-    }
+    // Use MSBuild
+    MSBuild("./SirenOfShame.Uwp.Ui/SirenOfShame.Uwp.Ui.csproj", settings =>
+        settings.SetConfiguration(configuration)
+    );
 });
 
 Task("Run-Unit-Tests")
