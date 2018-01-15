@@ -39,7 +39,11 @@ namespace SirenOfShame.Uwp.Watcher
 
         public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)
         {
-            var allRows = await _conn.Table<LogEntry>().ToListAsync();
+            var allRows = await _conn.Table<LogEntry>()
+                .Where(i => showAll || (i.Level != LogLevel.Debug))
+                .OrderByDescending(i => i.DateTimeUtc)
+                .Take(50)
+                .ToListAsync();
             var logEntries = allRows.Cast<ILogEntry>().ToList();
             
             return new ReadLogEntriesResult
