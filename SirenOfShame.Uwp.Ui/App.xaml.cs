@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Devices.WiFi;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Ui.Services;
-using SirenOfShame.Uwp.Ui.Views;
 using SirenOfShame.Uwp.Watcher.Services;
 using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
@@ -19,8 +15,6 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     sealed partial class App
     {
-        private readonly UiMessageRelayService _connection;
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -43,11 +37,12 @@ namespace SirenOfShame.Uwp.Ui
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
+            // todo: UiMessageRelayService.SubscribeEvents(); ?
         }
 
         private void OnEnteredBackground(object sender, EnteredBackgroundEventArgs e)
         {
-            
+            // todo: UiMessageRelayService.UnSubscribeEvents(); ?
         }
 
         /// <summary>
@@ -67,11 +62,9 @@ namespace SirenOfShame.Uwp.Ui
             var startManager = new UiStartManager();
             await startManager.Start();
 
-            AppShell shell = Window.Current.Content as AppShell;
-
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (shell == null)
+            if (!(Window.Current.Content is AppShell shell))
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 shell = new AppShell();
@@ -122,7 +115,6 @@ namespace SirenOfShame.Uwp.Ui
             var deferral = e.SuspendingOperation.GetDeferral();
 
             //TODO: Save application state and stop any background activity
-            _connection.CloseConnection();
 
             deferral.Complete();
         }
