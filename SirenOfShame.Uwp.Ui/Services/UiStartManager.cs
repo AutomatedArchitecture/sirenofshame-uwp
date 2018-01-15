@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services
@@ -52,7 +53,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private async Task InitializeLogging()
         {
-            await MyLogManager.Initialize();
+            await UiLogManager.Initialize();
             _log = MyLogManager.GetLog(typeof(UiStartManager));
             await _log.Info("UI Logging Initialized");
         }

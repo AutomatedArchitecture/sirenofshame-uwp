@@ -5,6 +5,7 @@ using IotWeb.Common.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Commands;
 using SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings;
 using SirenOfShame.Uwp.Server.Models;

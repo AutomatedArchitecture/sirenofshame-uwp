@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using SirenOfShame.Device;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;

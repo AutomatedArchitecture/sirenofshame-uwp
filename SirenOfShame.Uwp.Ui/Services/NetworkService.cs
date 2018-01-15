@@ -5,6 +5,7 @@ using Windows.Devices.WiFi;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {

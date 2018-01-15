@@ -6,11 +6,11 @@ using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
-using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Core.Services;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
-    public class ServerMessageRelayService
+    public class ServerMessageRelayService : MessageRelayServiceBase
     {
         private AppServiceConnection _connection;
         public event Action<ValueSet> OnMessageReceived;
@@ -33,16 +33,14 @@ namespace SirenOfShame.Uwp.Server.Services
 
         private async Task<AppServiceConnection> MakeConnection()
         {
-            var appServiceName = "SirenOfShameMessageRelay";
-            var listing = await AppServiceCatalog.FindAppServiceProvidersAsync(appServiceName);
-            if (listing.Count == 0)
+            var packageName = await TryFindMessageRelayAppPackageFamilyNameWithRetry();
+            if (packageName == null)
             {
-                throw new Exception("Unable to find app service '" + appServiceName + "'");
+                throw new Exception("Unable to find app service '" + APP_SERVICE_NAME + "'");
             }
-            var packageName = listing[0].PackageFamilyName;
             var connection = new AppServiceConnection
             {
-                AppServiceName = appServiceName,
+                AppServiceName = APP_SERVICE_NAME,
                 PackageFamilyName = packageName
             };
             var status = await connection.OpenAsync();
@@ -51,6 +49,12 @@ namespace SirenOfShame.Uwp.Server.Services
                 throw new Exception("Could not connect to app service, error: " + status);
             }
             return connection;
+        }
+
+        protected override async Task<string> TryFindMessageRelayAppPackageFamilyName()
+        {
+            var listing = await AppServiceCatalog.FindAppServiceProvidersAsync(APP_SERVICE_NAME);
+            return listing.FirstOrDefault()?.PackageFamilyName;
         }
 
         private void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)

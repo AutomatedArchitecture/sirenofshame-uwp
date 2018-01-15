@@ -2,6 +2,7 @@
 using IotWeb.Common.Http;
 using IotWeb.Server;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.Watcher;

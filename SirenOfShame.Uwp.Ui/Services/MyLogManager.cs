@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Shared.Dtos;
+using SirenOfShame.Uwp.Ui.Services;
 using SQLite;
 
 namespace SirenOfShame.Uwp.Ui.Services
@@ -24,10 +26,9 @@ namespace SirenOfShame.Uwp.Ui.Services
         public int? ExceptionHresult { get; set; }
     }
 
-    public static class MyLogManager
+    public static class UiLogManager
     {
         private static SQLiteAsyncConnection _conn;
-        public static Func<Type, ILog> GetLog = (type) => new SqlLogger(type, _conn);
 
         public static async Task Initialize()
         {
@@ -35,6 +36,8 @@ namespace SirenOfShame.Uwp.Ui.Services
 
             _conn = new SQLiteAsyncConnection(databasePath);
             await _conn.CreateTableAsync<LogEntry>();
+
+            MyLogManager.GetLog = (type) => new SqlLogger(type, _conn);
         }
 
         public static async Task<ReadLogEntriesResult> ReadLogEntriesAsync(bool showAll)

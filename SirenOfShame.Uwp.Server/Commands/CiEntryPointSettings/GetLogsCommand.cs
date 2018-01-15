@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Shared.Dtos;
@@ -15,7 +16,7 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
 
         public override async Task<SocketResult> Invoke(string frame)
         {
-            var readLogEntriesResult = await MyLogManager.ReadLogEntriesAsync(true);
+            var readLogEntriesResult = await WatcherLogManager.ReadLogEntriesAsync(true);
             var result = readLogEntriesResult.Events
                 .Select(LogToString)
                 .ToList();
