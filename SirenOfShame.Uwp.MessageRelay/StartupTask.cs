@@ -129,6 +129,10 @@ namespace SirenOfShame.Uwp.MessageRelay
                     await SendMessage(connection, args.Request.Message);
                 }
             }
+            catch (Exception ex)
+            {
+                await Error("Error in ConnectionRequestReceived, probably in SendMessage()", ex);
+            }
             finally
             {
                 appServiceDeferral.Complete();
