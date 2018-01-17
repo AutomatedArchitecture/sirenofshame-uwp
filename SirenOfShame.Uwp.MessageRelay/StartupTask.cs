@@ -91,7 +91,7 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         /// <summary>
         /// Writes logs to the LocalFolder.  On Windows IoT on a Pi this would be like:
-        /// '\User Folders\LocalAppData\SirenOfShame.Uwp.MessageRelay-uwp_1.0.0.0_arm__n7wdzm614gaee\LocalState\MessageRelayLogs'
+        /// '[Data]:\Users\DefaultAccount\User Folders\LocalAppData\SirenOfShame.Uwp.MessageRelay-uwp_1.0.0.0_arm__n7wdzm614gaee\LocalState\MessageRelayLogs'
         /// On an x86 Windows machine it would be something like:
         /// C:\Users\[user]\AppData\Local\Packages\SirenOfShame.Uwp.MessageRelay-uwp_n7wdzm614gaee\LocalState\MessageRelayLogs
         /// </summary>
