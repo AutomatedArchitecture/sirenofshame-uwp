@@ -7,10 +7,8 @@ using Newtonsoft.Json.Serialization;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Commands;
-using SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
-using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server
@@ -86,7 +84,7 @@ namespace SirenOfShame.Uwp.Server
                 {
                     return new ErrorResult(404, "No controller associated with type: " + requestType);
                 }
-                _log.Debug("Invoking Command: " + controller.CommandName);
+                await _log.Debug("Invoking Command: " + controller.CommandName);
                 var result = await controller.Invoke(frame);
                 return result;
             }
@@ -98,12 +96,20 @@ namespace SirenOfShame.Uwp.Server
 
         private static void SendObject(WebSocket socket, object echoResult)
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
+            try
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var result = JsonConvert.SerializeObject(echoResult, jsonSerializerSettings);
-            socket.Send(result);
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+                var result = JsonConvert.SerializeObject(echoResult, jsonSerializerSettings);
+                socket.Send(result);
+            }
+            catch (Exception ex)
+            {
+                var log = MyLogManager.GetLog(typeof(WebSocketHandler));
+                log.Error("Error sending object: " + echoResult, ex);
+            }
         }
     }
 }
