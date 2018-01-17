@@ -21,6 +21,7 @@ namespace SirenOfShame.Uwp.Server.Services
             if (_connection != null) return _connection;
             await _log.Debug("Opening connection to MessageRelay");
             _connection = await MakeConnection();
+            await _log.Debug("Successfully opened connection to MessageRelay");
             _connection.RequestReceived += ConnectionOnRequestReceived;
             _connection.ServiceClosed += ConnectionOnServiceClosed;
             return _connection;
