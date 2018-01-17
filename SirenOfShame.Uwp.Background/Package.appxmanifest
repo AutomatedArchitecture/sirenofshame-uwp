@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:iot="http://schemas.microsoft.com/appx/manifest/iot/windows10" IgnorableNamespaces="uap mp iot">
-  <Identity Name="SirenOfShame.Uwp.Background-uwp" Publisher="CN=Lee" Version="1.0.7.0" />
+  <Identity Name="SirenOfShame.Uwp.Background-uwp" Publisher="CN=Lee" Version="1.0.8.0" />
   <mp:PhoneIdentity PhoneProductId="d9686822-9b28-4dc2-b3f8-95f4fad2c454" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>SirenOfShame.Uwp.Background</DisplayName>
@@ -21,11 +21,6 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <Extension Category="windows.backgroundTasks" EntryPoint="SirenOfShame.Uwp.Background.StartupTask">
-          <BackgroundTasks>
-            <iot:Task Type="startup" />
-          </BackgroundTasks>
-        </Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="sosdb">
             <uap:DisplayName>Siren of Shame Database</uap:DisplayName>
@@ -34,6 +29,11 @@
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="SirenOfShame.Uwp.Background.StartupTask">
+          <BackgroundTasks>
+            <iot:Task Type="startup" />
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
