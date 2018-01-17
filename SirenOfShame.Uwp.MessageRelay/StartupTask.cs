@@ -169,9 +169,11 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         private void RemoveConnection(Guid key)
         {
-            var connection = _connections[key];
-            connection.Dispose();
-            _connections.Remove(key);
+            if (_connections.TryGetValue(key, out var connection))
+            {
+                connection.Dispose();
+                _connections.Remove(key);
+            }
         }
     }
 }
