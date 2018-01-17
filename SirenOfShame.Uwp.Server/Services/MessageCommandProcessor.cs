@@ -5,7 +5,6 @@ using Windows.Foundation.Collections;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Commands;
-using SirenOfShame.Uwp.Watcher;
 using SirenOfShame.Uwp.Watcher.Services;
 
 namespace SirenOfShame.Uwp.Server.Services
@@ -42,10 +41,11 @@ namespace SirenOfShame.Uwp.Server.Services
                 {
                     if (command.CommandName == keyValuePair.Key)
                     {
+                        await _log.Debug("Invoking command " + command.CommandName);
                         var result = await command.Invoke(messageBody);
                         if (result.ResponseCode != 200)
                         {
-                            _log.Error("Error for " + command.CommandName + " code: " + result.ResponseCode);
+                            await _log.Error("Error for " + command.CommandName + " code: " + result.ResponseCode);
                         }
                         return;
                     }
@@ -53,7 +53,7 @@ namespace SirenOfShame.Uwp.Server.Services
             }
             catch (Exception ex)
             {
-                _log.Error("Error when receiving " + keyValuePair.Key + ": " + keyValuePair.Value, ex);
+                await _log.Error("Error when receiving " + keyValuePair.Key + ": " + keyValuePair.Value, ex);
             }
         }
     }

@@ -1,10 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Shared.Dtos;
-using SirenOfShame.Uwp.Watcher;
 using LogLevel = SirenOfShame.Uwp.Shared.Dtos.LogLevel;
 
 namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
@@ -20,19 +20,19 @@ namespace SirenOfShame.Uwp.Server.Commands.CiEntryPointSettings
             switch (frame.LogLevel)
             {
                 case LogLevel.Debug:
-                    _log.Debug(frame.Message);
+                    await _log.Debug(frame.Message);
                     break;
                 case LogLevel.Info:
-                    _log.Info(frame.Message);
+                    await _log.Info(frame.Message);
                     break;
                 case LogLevel.Warn:
-                    _log.Warn(frame.Message);
+                    await _log.Warn(frame.Message);
                     break;
                 case LogLevel.Error:
                     if (frame.Exception == null)
-                        _log.Error(frame.Message);
+                        await _log.Error(frame.Message);
                     else
-                        _log.Error(frame.Message, frame.Exception);
+                        await _log.Error(frame.Message + Environment.NewLine + Environment.NewLine + frame.Exception);
                     break;
             }
 

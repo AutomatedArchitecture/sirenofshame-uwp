@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SirenOfShame.Uwp.Shared.Dtos
+﻿namespace SirenOfShame.Uwp.Shared.Dtos
 {
     public enum LogLevel
     {
@@ -13,10 +10,10 @@ namespace SirenOfShame.Uwp.Shared.Dtos
         Fatal,
     }
 
-    public sealed class LogMessage
+    public class LogMessage
     {
         public LogLevel LogLevel { get; set; }
         public string Message { get; set; }
-        public Exception Exception { get; set; }
+        public string Exception { get; set; }
     }
 }

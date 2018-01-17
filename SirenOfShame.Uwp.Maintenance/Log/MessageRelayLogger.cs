@@ -34,7 +34,7 @@ namespace SirenOfShame.Uwp.Maintenance.Log
 
         public async Task Error(string message, Exception exception)
         {
-            await Send(new LogMessage { LogLevel = LogLevel.Error, Message = message, Exception = exception });
+            await Send(new LogMessage { LogLevel = LogLevel.Error, Message = message, Exception = exception.ToString() });
         }
 
         public async Task Warn(string message)
