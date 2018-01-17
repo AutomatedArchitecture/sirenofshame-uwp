@@ -8,7 +8,7 @@ namespace SirenOfShame.Uwp.Maintenance
 {
     public sealed class StartupTask : IBackgroundTask
     {
-        private const string SOS_UI = "c187913a-00d0-450c-ace6-c66581bdaf08";
+        private const string SOS_UI = "SirenOfShame.Uwp.Ui-uwp";
         private const string SOS_BACKGROUND = "SirenOfShame.Uwp.Background-uwp";
 
         private const string CERTIFICATE_PUBLIC_KEY = "MIIBCgKCAQEAwmHdD6jOo0UVxFSuo4g8m5p8EFP/fNPklEIeZRHu2MduByA7FZCsMVjo5P0opRg5dYWrmtcpXDkGIp0WJqxcDok6Uh3M1JMF6txSgDeVI9LTk2uWncVKZFFPfRecTGv9KGztjM9QhOyB6wcWvvUQllEenjBP5tXpGAcTX32g250RSPyLOJoPq96qWwi041ahE+GbF5q8izSf6OEoRicowBr9Hu8hgIPIRi8AwmaLsshKMZ4l4S+XW1dM1qTxrOGl4pyioOjiUkZGCvcJnupl5moHgmCuIwzBHE7dEFV35zr5tyZ9rUNQ0HrFNU48nU0cFLN23AgIc5oNFIUTEQ/Z9QIDAQAB";
