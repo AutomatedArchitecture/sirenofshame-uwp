@@ -46,12 +46,26 @@ namespace SirenOfShame.Uwp.Ui.Services
                 .OrderByDescending(i => i.DateTimeUtc)
                 .Take(50)
                 .ToListAsync();
-            var logEntries = allRows.Cast<ILogEntry>().ToList();
+            var logEntries = allRows
+                .Select(i => (ILogEntry)new LogEntry
+                {
+                    ItemId = i.ItemId,
+                    Level = i.Level,
+                    Message = MakeFullMessage(i),
+                    DateTimeUtc = i.DateTimeUtc
+                })
+                .ToList();
             
             return new ReadLogEntriesResult
             {
                 Events = logEntries
             };
+        }
+
+        private static string MakeFullMessage(LogEntry i)
+        {
+            if (i.Exception == null) return i.Message;
+            return $"{i.CallerType}{Environment.NewLine}{i.Message}{Environment.NewLine}{Environment.NewLine}{i.ExceptionTypeName} ({i.ExceptionHresult}): {i.Exception}";
         }
     }
 
