@@ -25,14 +25,14 @@ namespace SirenOfShame.Uwp.Server.Services
             _device.Disconnected += DeviceOnDisconnected;
         }
 
-        private void DeviceOnDisconnected(object sender, EventArgs eventArgs)
+        private async void DeviceOnDisconnected(object sender, EventArgs eventArgs)
         {
-            _log.Debug("Device Disconnected");
+            await _log.Debug("Device Disconnected");
         }
 
         private async void DeviceOnConnected(object sender, EventArgs eventArgs)
         {
-            _log.Debug("Device Connected");
+            await _log.Debug("Device Connected");
 
             var settings = ServiceContainer.Resolve<SirenOfShameSettings>();
             bool firstTimeSirenHasEverBeenConnected = !settings.SirenEverConnected;

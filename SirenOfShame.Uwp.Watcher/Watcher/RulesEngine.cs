@@ -8,7 +8,6 @@ using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Device;
-using SirenOfShame.Uwp.Watcher.Helpers;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Util;
@@ -218,7 +217,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             catch (Exception ex)
             {
                 // log and continue?
-                _log.Error("Error in Watcher", ex);
+                await _log.Error("Error in Watcher", ex);
             }
             finally
             {
@@ -460,10 +459,10 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             var noBuildsToExport = exportedBuilds == null;
             if (noBuildsToExport)
             {
-                _log.Error("No builds were found to export from sosDb to sos online even though one was changed");
+                await _log.Error("No builds were found to export from sosDb to sos online even though one was changed");
                 return;
             }
-            _log.Debug("Uploading the following builds to sos online: " + exportedBuilds);
+            await _log.Debug("Uploading the following builds to sos online: " + exportedBuilds);
             string exportedAchievements = _settings.ExportNewAchievements();
             SosOnlineService.Synchronize(_settings, exportedBuilds, exportedAchievements, OnAddBuildsSuccess, OnAddBuildsFail);
         }
@@ -719,7 +718,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
             catch (Exception ex)
             {
-                _log.Error("Error occurred while paused, resuming watching", ex);
+                await _log.Error("Error occurred while paused, resuming watching", ex);
             }
             await Start(initialStart: false);
         }

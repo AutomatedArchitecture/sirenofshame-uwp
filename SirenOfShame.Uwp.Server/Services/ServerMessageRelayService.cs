@@ -78,18 +78,18 @@ namespace SirenOfShame.Uwp.Server.Services
             DisposeConnection();
         }
 
-        private void ConnectionOnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        private async void ConnectionOnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
             var appServiceDeferral = args.GetDeferral();
             try
             {
                 ValueSet valueSet = args.Request.Message;
-                _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
+                await _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
                 OnMessageReceived?.Invoke(valueSet);
             }
             catch (Exception ex)
             {
-                _log.Error("Error processing ConnectionRequestReceived " + ValueSetToString(args.Request.Message), ex);
+                await _log.Error("Error processing ConnectionRequestReceived " + ValueSetToString(args.Request.Message), ex);
                 // continue, since throwing exceptions here is liable to crash the MessageRelay
             }
             finally

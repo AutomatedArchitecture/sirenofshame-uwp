@@ -158,13 +158,13 @@ namespace SirenOfShame.Uwp.Ui.Views
                     .OrderByDescending(i => i.LocalStartTime)
                     .Take(50)
                     .ToList();
-                RefreshBuildStatuses(_lastBuildStatusDtos);
+                await RefreshBuildStatuses(_lastBuildStatusDtos);
             });
         }
 
-        private void RefreshBuildStatuses(List<BuildStatusDto> lastBuildStatusDtos)
+        private async Task RefreshBuildStatuses(List<BuildStatusDto> lastBuildStatusDtos)
         {
-            RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(lastBuildStatusDtos);
+            await RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(lastBuildStatusDtos);
             if (ViewModel.BuildDefinitions.Count == 0)
             {
                 ViewModel.BuildDefinitions = new ObservableCollection<BuildStatusDto>(_lastBuildStatusDtos);
@@ -198,14 +198,14 @@ namespace SirenOfShame.Uwp.Ui.Views
             ViewModel.BuildDefinitions.Sort();
         }
 
-        private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
+        private async Task RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
         {
             bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count;
             bool anyNewBuildDefIds = buildStatusDtos
                 .Any(newBd => ViewModel.BuildDefinitions.All(oldBd => newBd.BuildDefinitionId != oldBd.BuildDefinitionId));
             if (numberOfBuildsChanged || anyNewBuildDefIds)
             {
-                _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
+                await _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
                 ViewModel.BuildDefinitions.Clear();
             }
         }
