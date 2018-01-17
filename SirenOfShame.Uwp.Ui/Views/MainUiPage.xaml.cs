@@ -75,7 +75,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             }
             catch (Exception ex)
             {
-                _log.Error("Error on startup", ex);
+                await _log.Error("Error on startup", ex);
                 var dialog = new MessageDialog("Error on startup: " + ex.Message);
                 await dialog.ShowAsync();
             }
@@ -102,7 +102,7 @@ namespace SirenOfShame.Uwp.Ui.Views
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("Unable to connect, retrying", ex);
+                    await _log.Error("Unable to connect, retrying", ex);
                     SetStatus($"Unable to connect to siren of shame engine. Retrying in {(retryDelay / 1000)} seconds...");
                     await Task.Delay(retryDelay);
                 }
@@ -266,9 +266,18 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async void RefreshOnTapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.Clear();
-            await EnsureConnected();
-            await _messageDistributorService.SendLatest();
+            try
+            {
+                ViewModel.Clear();
+                await EnsureConnected();
+                await _messageDistributorService.SendLatest();
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                await _log.Error("Endpoint not found after tapping refresh", ex);
+                var dialog = new MessageDialog("Error refreshing status, can't find server.  Maybe try again shortly.");
+                await dialog.ShowAsync();
+            }
         }
     }
 }
