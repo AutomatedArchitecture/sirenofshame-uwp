@@ -44,8 +44,8 @@ namespace SirenOfShame.Uwp.Ui
                 new NavMenuItem()
                 {
                     SymbolChar = (char) 0xE15E,
-                    Label = "View Logs",
-                    DestPage = typeof(ViewLogsPage)
+                    Label = "Configure App",
+                    DestPage = typeof(ConfigureAppPage)
                 },
             });
 

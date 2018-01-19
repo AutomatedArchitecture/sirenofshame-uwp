@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
@@ -10,9 +11,6 @@ namespace SirenOfShame.Uwp.Maintenance
 {
     public sealed class StartupTask : IBackgroundTask
     {
-        private const string SOS_UI = "SirenOfShame.Uwp.Ui-uwp";
-        private const string SOS_BACKGROUND = "SirenOfShame.Uwp.Background-uwp";
-
         private const string CERTIFICATE_PUBLIC_KEY = "MIIBCgKCAQEAwmHdD6jOo0UVxFSuo4g8m5p8EFP/fNPklEIeZRHu2MduByA7FZCsMVjo5P0opRg5dYWrmtcpXDkGIp0WJqxcDok6Uh3M1JMF6txSgDeVI9LTk2uWncVKZFFPfRecTGv9KGztjM9QhOyB6wcWvvUQllEenjBP5tXpGAcTX32g250RSPyLOJoPq96qWwi041ahE+GbF5q8izSf6OEoRicowBr9Hu8hgIPIRi8AwmaLsshKMZ4l4S+XW1dM1qTxrOGl4pyioOjiUkZGCvcJnupl5moHgmCuIwzBHE7dEFV35zr5tyZ9rUNQ0HrFNU48nU0cFLN23AgIc5oNFIUTEQ/Z9QIDAQAB";
         private const string CERTIFICATE_COMMON_NAME = "sirenofshame.com";
         private const string CERTIFICATE_PINNING_BASE_URL = "https://sirenofshame.com";
@@ -52,8 +50,8 @@ namespace SirenOfShame.Uwp.Maintenance
                     var bundleService = new BundleService(log, httpClientFactory);
                     var updateManifestService = new UpdateManifestService();
                     var manifest = await updateManifestService.GetManifest();
-                    await bundleService.TryUpdate(manifest, SOS_BACKGROUND);
-                    await bundleService.TryUpdate(manifest, SOS_UI);
+                    await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_BACKGROUND);
+                    await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_UI);
                 }
                 catch (Exception ex)
                 {

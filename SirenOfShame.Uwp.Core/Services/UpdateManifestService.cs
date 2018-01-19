@@ -11,6 +11,8 @@ namespace SirenOfShame.Uwp.Core.Services
     {
         private readonly ILog _log = MyLogManager.GetLog(typeof(UpdateManifestService));
         private const string BASE_URL = "https://sirenofshame.com/DeployMe/";
+        public const string SOS_UI = "SirenOfShame.Uwp.Ui-uwp";
+        public const string SOS_BACKGROUND = "SirenOfShame.Uwp.Background-uwp";
 
         public async Task<List<Bundle>> GetManifest()
         {
