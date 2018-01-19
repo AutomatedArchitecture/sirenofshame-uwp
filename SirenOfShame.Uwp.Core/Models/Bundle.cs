@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace SirenOfShame.Uwp.Maintenance.Models
+namespace SirenOfShame.Uwp.Core.Models
 {
-    internal class Bundle
+    public class Bundle
     {
         public string Id { get; set; }
         public string FileName { get; set; }

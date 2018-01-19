@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
-using SirenOfShame.Uwp.Maintenance.Models;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Models;
 
 namespace SirenOfShame.Uwp.Maintenance.Services
 {
@@ -102,17 +103,6 @@ namespace SirenOfShame.Uwp.Maintenance.Services
                     stream.Write(buffer, 0, buffer.Length);
                 }
                 return storageFile;
-            });
-        }
-
-        public async Task<List<Bundle>> GetManifest()
-        {
-            await _log.Debug("Retrieving manifest");
-            return await _httpClientFactory.WithHttpClient(async httpClient =>
-            {
-                var manifestStr = await httpClient.GetStringAsync(new Uri(BASE_URL + "manifest.json"));
-                var manifest = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Bundle>>(manifestStr);
-                return manifest;
             });
         }
 

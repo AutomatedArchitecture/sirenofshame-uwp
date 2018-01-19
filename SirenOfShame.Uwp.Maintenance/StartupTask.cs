@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Maintenance.Log;
 using SirenOfShame.Uwp.Maintenance.Services;
 
@@ -28,6 +30,7 @@ namespace SirenOfShame.Uwp.Maintenance
                 var messageRelayService = new MessageRelayService();
                 await messageRelayService.Open();
                 log = new MessageRelayLogger(messageRelayService);
+                MyLogManager.GetLog = type => log;
                 await log.Info("Starting Maintenance");
             }
             catch (Exception ex)
@@ -47,7 +50,8 @@ namespace SirenOfShame.Uwp.Maintenance
 
                     var httpClientFactory = new CertificatePinningHttpClientFactory(CERTIFICATE_PINNING_BASE_URL, CERTIFICATE_COMMON_NAME, CERTIFICATE_PUBLIC_KEY);
                     var bundleService = new BundleService(log, httpClientFactory);
-                    var manifest = await bundleService.GetManifest();
+                    var updateManifestService = new UpdateManifestService();
+                    var manifest = await updateManifestService.GetManifest();
                     await bundleService.TryUpdate(manifest, SOS_BACKGROUND);
                     await bundleService.TryUpdate(manifest, SOS_UI);
                 }

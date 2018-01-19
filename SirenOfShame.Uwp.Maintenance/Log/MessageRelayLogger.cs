@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Maintenance.Services;
 using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Shared.Dtos;
