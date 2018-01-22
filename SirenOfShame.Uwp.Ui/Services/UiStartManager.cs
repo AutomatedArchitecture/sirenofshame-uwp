@@ -46,7 +46,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         private void StartMessageDistributor()
         {
-            var messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
+            var messageDistributorService = ServiceContainer.Resolve<UiCommandProcessor>();
             messageDistributorService.StartWatching();
         }
 
@@ -63,7 +63,7 @@ namespace SirenOfShame.Uwp.Ui.Services
         {
             ServiceContainer.Register(() => new UiLogManager());
             ServiceContainer.Register(() => new UiMessageRelayService());
-            ServiceContainer.Register(() => new MessageDistributorService());
+            ServiceContainer.Register(() => new UiCommandProcessor());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
             ServiceContainer.Register(() => new NavigationService());
             ServiceContainer.Register(() => new NetworkService());

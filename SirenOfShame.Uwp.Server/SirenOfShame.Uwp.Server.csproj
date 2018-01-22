@@ -137,7 +137,7 @@
     <Compile Include="Services\CryptographyService.cs" />
     <Compile Include="Services\FileAdapter.cs" />
     <Compile Include="Services\IWebServer.cs" />
-    <Compile Include="Services\MessageCommandProcessor.cs" />
+    <Compile Include="Services\ServerCommandProcessor.cs" />
     <Compile Include="Services\ServerMessageRelayService.cs" />
     <Compile Include="Services\RulesEngineWatcher.cs" />
     <Compile Include="Services\SirenDeviceService.cs" />

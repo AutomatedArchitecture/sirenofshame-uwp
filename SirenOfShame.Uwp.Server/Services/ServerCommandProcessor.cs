@@ -13,10 +13,10 @@ namespace SirenOfShame.Uwp.Server.Services
     /// Parses incomming requests from the UI (via MesageRelay) then finds and invokes 
     /// the appropriate command.
     /// </summary>
-    public class MessageCommandProcessor : MessageCommandProcessorBase
+    public class ServerCommandProcessor : MessageCommandProcessorBase
     {
         private readonly ServerMessageRelayService _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageCommandProcessor));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(ServerCommandProcessor));
 
         public void StartWatching()
         {

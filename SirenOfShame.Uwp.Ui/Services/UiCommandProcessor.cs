@@ -14,10 +14,10 @@ namespace SirenOfShame.Uwp.Ui.Services
     /// Receives all messages sent from RulesEngineWatcher, breaks them into message types, then
     /// distributes them as events that any interested parties can subscribe to (usually MainUiPage).
     /// </summary>
-    public class MessageDistributorService : MessageCommandProcessorBase
+    public class UiCommandProcessor : MessageCommandProcessorBase
     {
         private readonly UiMessageRelayService _messageRelayService = ServiceContainer.Resolve<UiMessageRelayService>();
-        private readonly ILog _log = MyLogManager.GetLog(typeof(MessageDistributorService));
+        private readonly ILog _log = MyLogManager.GetLog(typeof(UiCommandProcessor));
 
         public event EventHandler<NewNewsItemEventArgs> NewNewsItem;
         public event EventHandler<NewUserEventArgs> NewPerson;
@@ -96,19 +96,19 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         abstract class MessageOutletBase
         {
-            public abstract void Invoke(string messageBody, MessageDistributorService mds);
+            public abstract void Invoke(string messageBody, UiCommandProcessor mds);
         }
 
         class MessageOutlet<T> : MessageOutletBase
         {
-            private Action<T, MessageDistributorService> Action { get; }
+            private Action<T, UiCommandProcessor> Action { get; }
 
-            public MessageOutlet(Action<T, MessageDistributorService> action)
+            public MessageOutlet(Action<T, UiCommandProcessor> action)
             {
                 Action = action;
             }
 
-            public override void Invoke(string messageBody, MessageDistributorService mds)
+            public override void Invoke(string messageBody, UiCommandProcessor mds)
             {
                 var result = JsonConvert.DeserializeObject<T>(messageBody);
                 Action(result, mds);
