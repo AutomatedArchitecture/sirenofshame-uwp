@@ -2,6 +2,7 @@
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Watcher.Services;
+using SirenOfShame.Uwp.Watcher.Util;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Commands
@@ -13,7 +14,7 @@ namespace SirenOfShame.Uwp.Server.Commands
         public override async Task<SocketResult> Invoke(string frame)
         {
             var rulesEngine = ServiceContainer.Resolve<RulesEngine>();
-            await rulesEngine.SendLatest();
+            rulesEngine.SendLatest().FireAndForget();
             return new OkSocketResult();
         }
     }
