@@ -52,6 +52,7 @@ namespace SirenOfShame.Uwp.Maintenance
                     var manifest = await updateManifestService.GetManifest();
                     await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_BACKGROUND);
                     await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_UI);
+                    await bundleService.DeleteDownloads();
                 }
                 catch (Exception ex)
                 {

@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Management.Deployment;
 using Windows.Storage;
+using Windows.Storage.Search;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 
@@ -93,7 +94,9 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             //var stuff = downloader.CreateDownload(uri, storageFile);
 
             Uri remoteUri = new Uri(BASE_URL + appxbundle);
-            var storageFile = await DownloadsFolder.CreateFileAsync(appxbundle, CreationCollisionOption.GenerateUniqueName);
+
+            var storageFolder = await GetAppDataStorageFolder();
+            var storageFile = await storageFolder.CreateFileAsync(appxbundle, CreationCollisionOption.GenerateUniqueName);
             return await _httpClientFactory.WithHttpClient(async httpClient =>
             {
                 var buffer1 = await httpClient.GetBufferAsync(remoteUri);
@@ -104,6 +107,14 @@ namespace SirenOfShame.Uwp.Maintenance.Services
                 }
                 return storageFile;
             });
+        }
+
+        private static async Task<StorageFolder> GetAppDataStorageFolder()
+        {
+            var localAppData = Environment.SpecialFolder.LocalApplicationData;
+            var appData = Environment.GetFolderPath(localAppData);
+            var storageFolder = await StorageFolder.GetFolderFromPathAsync(appData);
+            return storageFolder;
         }
 
         internal async Task TryUpdate(List<Bundle> manifest, string appId)
@@ -117,6 +128,19 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             }
 
             await TryUpdate(appToUpdate);
+        }
+
+        public async Task DeleteDownloads()
+        {
+            var storageFolder = await GetAppDataStorageFolder();
+            var files = await storageFolder.GetFilesAsync();
+            foreach (var file in files)
+            {
+                if (file.Name.EndsWith(".appxbundle"))
+                {
+                    await file.DeleteAsync();
+                }
+            }
         }
     }
 }
