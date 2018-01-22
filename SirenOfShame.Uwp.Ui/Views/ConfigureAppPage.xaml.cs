@@ -5,6 +5,7 @@ using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
+using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 
@@ -20,6 +21,7 @@ namespace SirenOfShame.Uwp.Ui.Views
         private readonly UpdateManifestService _updateManifestService;
         private readonly ILog _log = MyLogManager.GetLog(typeof(ConfigureAppPage));
         private readonly NavigationService _navigationService;
+        private readonly UiMessageRelayService _uiMessageRelayService = ServiceContainer.Resolve<UiMessageRelayService>();
 
         public ConfigureAppPage()
         {
@@ -49,7 +51,9 @@ namespace SirenOfShame.Uwp.Ui.Views
             }
 
             var installedVersion = ToVersion(packageVersion);
-            if (uiBundle.Version > installedVersion)
+            var uiUpdatesAvailable = uiBundle.Version > installedVersion;
+            UpgradeNowButton.Visibility = uiUpdatesAvailable ? Visibility.Visible : Visibility.Collapsed;
+            if (uiUpdatesAvailable)
             {
                 UpdatesTextBlock.Text = "Updates available.  Server is at " + uiBundle.Version;
             }
@@ -67,6 +71,11 @@ namespace SirenOfShame.Uwp.Ui.Views
         private void ViewLogsOnClick(object sender, RoutedEventArgs e)
         {
             _navigationService.NavigateTo<ViewLogsPage>();
+        }
+
+        private async void UpgradeNowOnClick(object sender, RoutedEventArgs e)
+        {
+            await _uiMessageRelayService.SendMessageAsync(MessageDestination.Maintenance, CommandNames.TRY_UPGRADE, null);
         }
     }
 }
