@@ -1,45 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 
 namespace SirenOfShame.Uwp.Maintenance.Services
 {
-    internal class MaintenanceMessageRelayService
+    internal class MaintenanceMessageRelayService : MessageRelayServiceBase
     {
         private AppServiceConnection _connection;
+        public event Action<ValueSet> OnMessageReceived;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(MaintenanceMessageRelayService));
 
         public bool IsConnected => _connection != null;
 
         private async Task<AppServiceConnection> CachedConnection()
         {
             if (_connection != null) return _connection;
+            await _log.Debug("Opening connection to MessageRelay");
             _connection = await MakeConnection();
+            await _log.Debug("Successfully opened connection to MessageRelay");
+            _connection.RequestReceived += ConnectionOnRequestReceived;
             _connection.ServiceClosed += ConnectionOnServiceClosed;
             return _connection;
         }
 
-        public async Task Open()
+        public override async Task Open()
         {
             await CachedConnection();
         }
 
         private async Task<AppServiceConnection> MakeConnection()
         {
-            var appServiceName = "SirenOfShameMessageRelay";
-            var listing = await AppServiceCatalog.FindAppServiceProvidersAsync(appServiceName);
-
-            if (listing.Count == 0)
+            var packageName = await TryFindMessageRelayAppPackageFamilyNameWithRetry();
+            if (packageName == null)
             {
-                throw new Exception("Unable to find app service '" + appServiceName + "'");
+                throw new Exception("Unable to find app service '" + APP_SERVICE_NAME + "'");
             }
-            var packageName = listing[0].PackageFamilyName;
 
             var connection = new AppServiceConnection
             {
-                AppServiceName = appServiceName,
+                AppServiceName = APP_SERVICE_NAME,
                 PackageFamilyName = packageName
             };
 
@@ -53,26 +58,42 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             return connection;
         }
 
+        protected override async Task<string> TryFindMessageRelayAppPackageFamilyName()
+        {
+            var listing = await AppServiceCatalog.FindAppServiceProvidersAsync(APP_SERVICE_NAME);
+            return listing.FirstOrDefault()?.PackageFamilyName;
+        }
+
         private void ConnectionOnServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
             DisposeConnection();
         }
 
-        private void DisposeConnection()
+        protected override void DisposeConnection()
         {
             if (_connection == null) return;
 
+            _connection.RequestReceived -= ConnectionOnRequestReceived;
             _connection.ServiceClosed -= ConnectionOnServiceClosed;
             _connection.Dispose();
             _connection = null;
         }
 
-        public void CloseConnection()
+        private void ConnectionOnRequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            DisposeConnection();
+            var appServiceDeferral = args.GetDeferral();
+            try
+            {
+                ValueSet valueSet = args.Request.Message;
+                OnMessageReceived?.Invoke(valueSet);
+            }
+            finally
+            {
+                appServiceDeferral.Complete();
+            }
         }
 
-        private async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
+        protected override async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
         {
             var connection = await CachedConnection();
             var result = await connection.SendMessageAsync(new ValueSet { keyValuePair });
@@ -85,7 +106,8 @@ namespace SirenOfShame.Uwp.Maintenance.Services
 
         public async Task SendMessageAsync(string key, string value)
         {
-            await SendMessageAsync(new KeyValuePair<string, object>(key, value));
+            var keyValuePair = new KeyValuePair<string, object>(key, value);
+            await TrySendWithTimeout(keyValuePair);
         }
     }
 }
