@@ -26,14 +26,19 @@ namespace SirenOfShame.Uwp.Core.Services
             await Open();
         }
 
+        /// <summary>
+        /// On send do pecimistic timeouts and if they happen close the connection and reopen it and retry
+        /// </summary>
         protected async Task TrySendWithTimeout(KeyValuePair<string, object> keyValuePair, int seconds = 20)
         {
-            await Policy.Handle<Exception>()
-                .RetryAsync((exception, count, context) => OnSendTimeout())
-                .ExecuteAsync(() => SendMessageAsync(keyValuePair));
+            var timeoutPolicy = Policy.TimeoutAsync(seconds, 
+                TimeoutStrategy.Pessimistic);
 
-            //await Policy.TimeoutAsync(seconds, TimeoutStrategy.Pessimistic, (context, span, arg3) => OnSendTimeout())
-            //    .ExecuteAndCaptureAsync(() => SendMessageAsync(keyValuePair));
+            var retryPolicy = Policy.Handle<Exception>()
+                .RetryAsync((exception, retryCount, context) => OnSendTimeout());
+
+            await retryPolicy.WrapAsync(timeoutPolicy)
+                .ExecuteAsync(() => SendMessageAsync(keyValuePair));
         }
 
         protected async Task<string> TryFindMessageRelayAppPackageFamilyNameWithRetry()
