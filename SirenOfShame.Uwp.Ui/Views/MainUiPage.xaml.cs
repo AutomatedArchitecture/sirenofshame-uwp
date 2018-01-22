@@ -269,7 +269,6 @@ namespace SirenOfShame.Uwp.Ui.Views
             try
             {
                 ViewModel.Clear();
-                await EnsureConnected();
                 await _messageDistributorService.SendLatest();
             }
             catch (EndpointNotFoundException ex)
