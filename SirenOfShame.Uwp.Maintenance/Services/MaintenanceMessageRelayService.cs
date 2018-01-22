@@ -7,7 +7,7 @@ using Windows.Foundation.Collections;
 
 namespace SirenOfShame.Uwp.Maintenance.Services
 {
-    internal class MessageRelayService
+    internal class MaintenanceMessageRelayService
     {
         private AppServiceConnection _connection;
 

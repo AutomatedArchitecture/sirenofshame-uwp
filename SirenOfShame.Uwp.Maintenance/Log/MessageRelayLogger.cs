@@ -13,9 +13,9 @@ namespace SirenOfShame.Uwp.Maintenance.Log
     /// </summary>
     internal sealed class MessageRelayLogger : ILog
     {
-        private readonly MessageRelayService _messageRelayService;
+        private readonly MaintenanceMessageRelayService _messageRelayService;
 
-        public MessageRelayLogger(MessageRelayService messageRelayService)
+        public MessageRelayLogger(MaintenanceMessageRelayService messageRelayService)
         {
             _messageRelayService = messageRelayService;
         }

@@ -25,7 +25,7 @@ namespace SirenOfShame.Uwp.Maintenance
                 // continue forever, this is needed before any await calls
                 _backgroundTaskDeferral = taskInstance.GetDeferral();
 
-                var messageRelayService = new MessageRelayService();
+                var messageRelayService = new MaintenanceMessageRelayService();
                 await messageRelayService.Open();
                 log = new MessageRelayLogger(messageRelayService);
                 MyLogManager.GetLog = type => log;

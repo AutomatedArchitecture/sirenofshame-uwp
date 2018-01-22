@@ -101,7 +101,7 @@
     <Compile Include="Log\MessageRelayLogger.cs" />
     <Compile Include="Services\BundleService.cs" />
     <Compile Include="Services\CertificatePinningHttpClientFactory.cs" />
-    <Compile Include="Services\MessageRelayService.cs" />
+    <Compile Include="Services\MaintenanceMessageRelayService.cs" />
     <Compile Include="StartupTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
