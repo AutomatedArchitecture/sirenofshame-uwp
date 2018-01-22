@@ -2,6 +2,7 @@
 {
     public static class CommandNames
     {
+        public const string TRY_UPGRADE = "TryUpgrade";
         public const string UPDATE_MOCK_BUILD = "updateMockBuild";
         public const string GET_CI_ENTRY_POINT_SETTING = "getCiEntryPointSetting";
         public const string GET_BUILD_DEFINITIONS = "getBuildDefinitions";

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Background;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
@@ -26,8 +25,11 @@ namespace SirenOfShame.Uwp.Maintenance
                 _backgroundTaskDeferral = taskInstance.GetDeferral();
 
                 var messageRelayService = new MaintenanceMessageRelayService();
+                var maintenanceCommandProcessor = new MaintenanceCommandProcessor(messageRelayService);
+                maintenanceCommandProcessor.StartWatching();
                 await messageRelayService.Open();
                 log = new MessageRelayLogger(messageRelayService);
+                maintenanceCommandProcessor.TryUpgrade += async (sender, args) => await TryUpgrade(log);
                 MyLogManager.GetLog = type => log;
                 await log.Info("Starting Maintenance");
             }
@@ -42,24 +44,29 @@ namespace SirenOfShame.Uwp.Maintenance
 
             while (true)
             {
-                try
-                {
-                    await log.Debug("Checking for software updates");
-
-                    var httpClientFactory = new CertificatePinningHttpClientFactory(CERTIFICATE_PINNING_BASE_URL, CERTIFICATE_COMMON_NAME, CERTIFICATE_PUBLIC_KEY);
-                    var bundleService = new BundleService(log, httpClientFactory);
-                    var updateManifestService = new UpdateManifestService();
-                    var manifest = await updateManifestService.GetManifest();
-                    await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_BACKGROUND);
-                    await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_UI);
-                    await bundleService.DeleteDownloads();
-                }
-                catch (Exception ex)
-                {
-                    await log.Error("Unexpected error checking for updates", ex);
-                }
-
+                await TryUpgrade(log);
                 await Task.Delay(new TimeSpan(days: 0, hours: 6, minutes: 0, seconds: 0));
+            }
+        }
+
+        private static async Task TryUpgrade(ILog log)
+        {
+            try
+            {
+                await log.Debug("Checking for software updates");
+
+                var httpClientFactory = new CertificatePinningHttpClientFactory(CERTIFICATE_PINNING_BASE_URL,
+                    CERTIFICATE_COMMON_NAME, CERTIFICATE_PUBLIC_KEY);
+                var bundleService = new BundleService(log, httpClientFactory);
+                var updateManifestService = new UpdateManifestService();
+                var manifest = await updateManifestService.GetManifest();
+                await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_BACKGROUND);
+                await bundleService.TryUpdate(manifest, UpdateManifestService.SOS_UI);
+                await bundleService.DeleteDownloads();
+            }
+            catch (Exception ex)
+            {
+                await log.Error("Unexpected error checking for updates", ex);
             }
         }
     }
