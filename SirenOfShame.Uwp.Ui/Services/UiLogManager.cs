@@ -31,7 +31,8 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         public async Task Initialize()
         {
-            var databasePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "SirenOfShameLogs.sosdb");
+            var localAppData = Environment.SpecialFolder.LocalApplicationData;
+            var databasePath = Path.Combine(Environment.GetFolderPath(localAppData), "SirenOfShameLogs.sosdb");
 
             _conn = new SQLiteAsyncConnection(databasePath);
             await _conn.CreateTableAsync<LogEntry>();
@@ -52,7 +53,7 @@ namespace SirenOfShame.Uwp.Ui.Services
                     ItemId = i.ItemId,
                     Level = i.Level,
                     Message = MakeFullMessage(i),
-                    DateTimeUtc = i.DateTimeUtc
+                    DateTimeUtc = i.DateTimeUtc.ToLocalTime()
                 })
                 .ToList();
             
