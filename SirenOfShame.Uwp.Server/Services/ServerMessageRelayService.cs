@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
@@ -27,7 +28,7 @@ namespace SirenOfShame.Uwp.Server.Services
             return _connection;
         }
 
-        public async Task Open()
+        public override async Task Open()
         {
             await CachedConnection();
         }
@@ -63,7 +64,7 @@ namespace SirenOfShame.Uwp.Server.Services
             DisposeConnection();
         }
 
-        private void DisposeConnection()
+        protected override void DisposeConnection()
         {
             if (_connection == null) return;
 
@@ -112,21 +113,25 @@ namespace SirenOfShame.Uwp.Server.Services
             return valueKey == RefreshStatusEventArgs.COMMAND_NAME;
         }
 
+        private async Task SendMessageAsync(string key, string value)
+        {
+            var keyValuePair = new KeyValuePair<string, object>(key, value);
+            await TrySendWithTimeout(keyValuePair);
+        }
+
         public async Task Send(string key, string message)
         {
-            try
+            await SendMessageAsync(key, message);
+        }
+
+        protected override async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
+        {
+            var connection = await CachedConnection();
+            var result = await connection.SendMessageAsync(new ValueSet {keyValuePair});
+            if (result.Status != AppServiceResponseStatus.Success)
             {
-                var connection = await CachedConnection();
-                var keyValuePair = new KeyValuePair<string, object>(key, message);
-                var result = await connection.SendMessageAsync(new ValueSet { keyValuePair });
-                if (result.Status != AppServiceResponseStatus.Success)
-                {
-                    await _log.Error("Error sending message " + message + " because " + result.Status);
-                }
-            }
-            catch (Exception ex)
-            {
-                await _log.Error("Error sending message " + message, ex);
+                await _log.Error("Error sending message " + keyValuePair.Key + " because " + result.Status);
+                throw new EndpointNotFoundException("Error sending " + result.Status);
             }
         }
     }

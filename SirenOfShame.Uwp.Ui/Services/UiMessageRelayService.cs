@@ -30,7 +30,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             return _connection;
         }
 
-        public async Task Open()
+        public override async Task Open()
         {
             await CachedConnection();
         }
@@ -70,7 +70,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             DisposeConnection();
         }
 
-        private void DisposeConnection()
+        protected override void DisposeConnection()
         {
             if (_connection == null) return;
 
@@ -114,13 +114,7 @@ namespace SirenOfShame.Uwp.Ui.Services
             return valueKey == RefreshStatusEventArgs.COMMAND_NAME;
         }
 
-        public async void CloseConnection()
-        {
-            await _log.Debug("Closing connection");
-            DisposeConnection();
-        }
-
-        private async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
+        protected override async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
         {
             var connection = await CachedConnection();
             var result = await connection.SendMessageAsync(new ValueSet {keyValuePair});
@@ -133,7 +127,8 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         public async Task SendMessageAsync(string key, string value)
         {
-            await SendMessageAsync(new KeyValuePair<string, object>(key, value));
+            var keyValuePair = new KeyValuePair<string, object>(key, value);
+            await TrySendWithTimeout(keyValuePair);
         }
     }
 }

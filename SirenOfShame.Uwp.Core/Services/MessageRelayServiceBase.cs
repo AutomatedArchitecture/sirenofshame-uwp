@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Polly;
+using Polly.Timeout;
 using SirenOfShame.Uwp.Core.Interfaces;
 
 namespace SirenOfShame.Uwp.Core.Services
@@ -9,6 +11,30 @@ namespace SirenOfShame.Uwp.Core.Services
     {
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayServiceBase));
         protected const string APP_SERVICE_NAME = "SirenOfShameMessageRelay";
+
+        protected abstract void DisposeConnection();
+
+        protected abstract Task SendMessageAsync(KeyValuePair<string, object> keyValuePair);
+
+        public abstract Task Open();
+
+        private async Task OnSendTimeout()
+        {
+            await _log.Warn("Timeout occurred, closing connection");
+            DisposeConnection();
+            await _log.Debug("Reopening connection");
+            await Open();
+        }
+
+        protected async Task TrySendWithTimeout(KeyValuePair<string, object> keyValuePair, int seconds = 20)
+        {
+            await Policy.Handle<Exception>()
+                .RetryAsync((exception, count, context) => OnSendTimeout())
+                .ExecuteAsync(() => SendMessageAsync(keyValuePair));
+
+            //await Policy.TimeoutAsync(seconds, TimeoutStrategy.Pessimistic, (context, span, arg3) => OnSendTimeout())
+            //    .ExecuteAndCaptureAsync(() => SendMessageAsync(keyValuePair));
+        }
 
         protected async Task<string> TryFindMessageRelayAppPackageFamilyNameWithRetry()
         {
