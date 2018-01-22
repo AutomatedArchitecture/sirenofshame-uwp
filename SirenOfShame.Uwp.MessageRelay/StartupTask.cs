@@ -118,7 +118,7 @@ namespace SirenOfShame.Uwp.MessageRelay
             var appServiceDeferral = args.GetDeferral();
             try
             {
-                await Debug("Request initiated by " + _thisConnectionGuid);
+                await Debug("Request initiated by " + _thisConnectionGuid + " with " + args.Request?.Message?.Keys?.FirstOrDefault());
 
                 // .ToList() required since connections may get removed during SendMessage()
                 var otherConnections = _connections
@@ -126,7 +126,7 @@ namespace SirenOfShame.Uwp.MessageRelay
                     .ToList();
                 foreach (var connection in otherConnections)
                 {
-                    await SendMessage(connection, args.Request.Message);
+                    await SendMessage(connection, args.Request?.Message);
                 }
             }
             catch (Exception ex)
@@ -169,11 +169,12 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         private void RemoveConnection(Guid key)
         {
-            if (_connections.TryGetValue(key, out var connection))
-            {
-                connection.Dispose();
-                _connections.Remove(key);
-            }
+            if (!_connections.TryGetValue(key, out var connection)) return;
+            
+            connection.RequestReceived -= ConnectionRequestReceived;
+            connection.ServiceClosed -= ConnectionOnServiceClosed;
+            connection.Dispose();
+            _connections.Remove(key);
         }
     }
 }
