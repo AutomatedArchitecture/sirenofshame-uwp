@@ -23,7 +23,10 @@ namespace SirenOfShame.Uwp.Maintenance.Log
         private async Task Send(LogMessage logMessage)
         {
             Console.WriteLine($"{logMessage.LogLevel}: {logMessage.Message} {logMessage.Exception}");
-            // this is async void, i.e. fire and forget on purpose
+            
+            // todo: runtime customizable log levels
+            if (logMessage.LogLevel == LogLevel.Debug) return;
+
             var str = JsonConvert.SerializeObject(logMessage);
             await _messageRelayService.SendMessageAsync(CommandNames.LOG, str);
         }
