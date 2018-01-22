@@ -103,11 +103,5 @@ namespace SirenOfShame.Uwp.Maintenance.Services
             }
             throw new EndpointNotFoundException("Error sending " + result.Status);
         }
-
-        public async Task SendMessageAsync(string key, string value)
-        {
-            var keyValuePair = new KeyValuePair<string, object>(key, value);
-            await TrySendWithTimeout(keyValuePair);
-        }
     }
 }

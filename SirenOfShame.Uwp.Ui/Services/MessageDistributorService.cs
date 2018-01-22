@@ -7,7 +7,6 @@ using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Services;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
@@ -15,7 +14,7 @@ namespace SirenOfShame.Uwp.Ui.Services
     /// Receives all messages sent from RulesEngineWatcher, breaks them into message types, then
     /// distributes them as events that any interested parties can subscribe to (usually MainUiPage).
     /// </summary>
-    public class MessageDistributorService
+    public class MessageDistributorService : MessageCommandProcessorBase
     {
         private readonly UiMessageRelayService _messageRelayService = ServiceContainer.Resolve<UiMessageRelayService>();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageDistributorService));
@@ -72,11 +71,12 @@ namespace SirenOfShame.Uwp.Ui.Services
         {
             try
             {
-                var messageBody = keyValuePair.Value as string;
-
+                ParseMessage(keyValuePair.Key, keyValuePair.Value, out var messageDestination, out var key, out var messageBody);
+                if (messageDestination != MessageDestination.AppUi && messageDestination != MessageDestination.All) return;
+               
                 foreach (var messageOutlet in _messageOutlets)
                 {
-                    if (messageOutlet.Key == keyValuePair.Key)
+                    if (messageOutlet.Key == key)
                     {
                         messageOutlet.Value.Invoke(messageBody, this);
                         return;
@@ -91,7 +91,7 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         public async Task SendLatest()
         {
-            await _messageRelayService.SendMessageAsync("SendLatest", null);
+            await _messageRelayService.SendMessageAsync(MessageDestination.Server, "SendLatest", null);
         }
 
         abstract class MessageOutletBase

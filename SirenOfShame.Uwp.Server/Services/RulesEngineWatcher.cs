@@ -44,37 +44,37 @@ namespace SirenOfShame.Uwp.Server.Services
         private async void RulesEngineOnStatsChanged(object sender, StatsChangedEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send(StatsChangedEventArgs.COMMAND_NAME, argsAsJson);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, StatsChangedEventArgs.COMMAND_NAME, argsAsJson);
         }
 
         private async void RulesEngineOnNewUser(object sender, NewUserEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send(NewUserEventArgs.COMMAND_NAME, argsAsJson);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, NewUserEventArgs.COMMAND_NAME, argsAsJson);
         }
 
         private async void RulesEngineOnNewNewsItem(object sender, NewNewsItemEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send(NewNewsItemEventArgs.COMMAND_NAME, argsAsJson);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, NewNewsItemEventArgs.COMMAND_NAME, argsAsJson);
         }
 
         private async void RulesEngineOnRefreshStatus(object sender, RefreshStatusEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send(RefreshStatusEventArgs.COMMAND_NAME, argsAsJson);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, RefreshStatusEventArgs.COMMAND_NAME, argsAsJson);
         }
 
         private async void SetTrayIcon(object sender, SetTrayIconEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send(SetTrayIconEventArgs.COMMAND_NAME, argsAsJson);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, SetTrayIconEventArgs.COMMAND_NAME, argsAsJson);
         }
 
         private async void UpdateStatusBar(object sender, UpdateStatusBarEventArgs args)
         {
             var argsAsJson = JsonConvert.SerializeObject(args);
-            await _messageRelayService.Send(UpdateStatusBarEventArgs.COMMAND_NAME, argsAsJson);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, UpdateStatusBarEventArgs.COMMAND_NAME, argsAsJson);
         }
 
         private async void RulesEngineOnSetAudio(object sender, SetAudioEventArgs args)

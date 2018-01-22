@@ -86,7 +86,6 @@ namespace SirenOfShame.Uwp.Ui.Services
             try
             {
                 ValueSet valueSet = args.Request.Message;
-                await _log.Debug("Received message from MessageRelay: " + ValueSetToString(valueSet));
                 OnMessageReceived?.Invoke(valueSet);
             }
             catch (Exception ex)
@@ -123,12 +122,6 @@ namespace SirenOfShame.Uwp.Ui.Services
                 await _log.Error("Error sending message " + keyValuePair.Key + " because " + result.Status);
                 throw new EndpointNotFoundException("Error sending " + result.Status);
             }
-        }
-
-        public async Task SendMessageAsync(string key, string value)
-        {
-            var keyValuePair = new KeyValuePair<string, object>(key, value);
-            await TrySendWithTimeout(keyValuePair);
         }
     }
 }

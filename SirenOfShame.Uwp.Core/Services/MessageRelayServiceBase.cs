@@ -7,6 +7,15 @@ using SirenOfShame.Uwp.Core.Interfaces;
 
 namespace SirenOfShame.Uwp.Core.Services
 {
+    public enum MessageDestination
+    {
+        All = 0,
+        AppUi = 1,
+        Server = 2,
+        Maintenance = 3,
+        WebUi = 4
+    }
+    
     public abstract class MessageRelayServiceBase
     {
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageRelayServiceBase));
@@ -69,5 +78,12 @@ namespace SirenOfShame.Uwp.Core.Services
         }
 
         protected abstract Task<string> TryFindMessageRelayAppPackageFamilyName();
+
+        public async Task SendMessageAsync(MessageDestination destination, string key, string value)
+        {
+            var dkey = destination + "," + key;
+            var keyValuePair = new KeyValuePair<string, object>(dkey, value);
+            await TrySendWithTimeout(keyValuePair);
+        }
     }
 }

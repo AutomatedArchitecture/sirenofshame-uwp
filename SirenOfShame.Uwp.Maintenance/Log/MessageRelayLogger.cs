@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Maintenance.Services;
 using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Shared.Dtos;
@@ -28,7 +29,7 @@ namespace SirenOfShame.Uwp.Maintenance.Log
             if (logMessage.LogLevel == LogLevel.Debug) return;
 
             var str = JsonConvert.SerializeObject(logMessage);
-            await _messageRelayService.SendMessageAsync(CommandNames.LOG, str);
+            await _messageRelayService.SendMessageAsync(MessageDestination.Server, CommandNames.LOG, str);
         }
 
         public async Task Error(string message)

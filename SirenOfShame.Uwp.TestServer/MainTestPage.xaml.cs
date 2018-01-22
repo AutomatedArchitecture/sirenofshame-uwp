@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.TestServer.Services;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -30,7 +31,7 @@ namespace SirenOfShame.Uwp.TestServer
 
         private async void SendOnClick(object sender, RoutedEventArgs e)
         {
-            await _messageRelayService.Send(Title.Text, Body.Text);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, Title.Text, Body.Text);
         }
 
         private void NewNewsOnClick(object sender, RoutedEventArgs e)

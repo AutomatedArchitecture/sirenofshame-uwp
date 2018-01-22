@@ -113,17 +113,6 @@ namespace SirenOfShame.Uwp.Server.Services
             return valueKey == RefreshStatusEventArgs.COMMAND_NAME;
         }
 
-        private async Task SendMessageAsync(string key, string value)
-        {
-            var keyValuePair = new KeyValuePair<string, object>(key, value);
-            await TrySendWithTimeout(keyValuePair);
-        }
-
-        public async Task Send(string key, string message)
-        {
-            await SendMessageAsync(key, message);
-        }
-
         protected override async Task SendMessageAsync(KeyValuePair<string, object> keyValuePair)
         {
             var connection = await CachedConnection();

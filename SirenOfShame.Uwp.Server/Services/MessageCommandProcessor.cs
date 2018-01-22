@@ -13,7 +13,7 @@ namespace SirenOfShame.Uwp.Server.Services
     /// Parses incomming requests from the UI (via MesageRelay) then finds and invokes 
     /// the appropriate command.
     /// </summary>
-    public class MessageCommandProcessor
+    public class MessageCommandProcessor : MessageCommandProcessorBase
     {
         private readonly ServerMessageRelayService _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
         private readonly ILog _log = MyLogManager.GetLog(typeof(MessageCommandProcessor));
@@ -35,11 +35,13 @@ namespace SirenOfShame.Uwp.Server.Services
         {
             try
             {
-                var messageBody = keyValuePair.Value as string;
+                ParseMessage(keyValuePair.Key, keyValuePair.Value, out var messageDestination, out var key, out var messageBody);
+                
+                if (messageDestination != MessageDestination.Server && messageDestination != MessageDestination.All) return;
 
                 foreach (var command in CommandBase.Commands)
                 {
-                    if (command.CommandName == keyValuePair.Key)
+                    if (command.CommandName == key)
                     {
                         await _log.Debug("Invoking command " + command.CommandName);
                         var result = await command.Invoke(messageBody);
@@ -47,6 +49,7 @@ namespace SirenOfShame.Uwp.Server.Services
                         {
                             await _log.Error("Error for " + command.CommandName + " code: " + result.ResponseCode);
                         }
+
                         return;
                     }
                 }
