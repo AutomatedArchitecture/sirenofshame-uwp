@@ -24,6 +24,11 @@ namespace SirenOfShame.Uwp.Tests.Fakes
             return Task.FromResult(true);
         }
 
+        public Task Warn(string message, Exception ex)
+        {
+            return Task.FromResult(true);
+        }
+
         public Task Info(string message)
         {
             return Task.FromResult(true);

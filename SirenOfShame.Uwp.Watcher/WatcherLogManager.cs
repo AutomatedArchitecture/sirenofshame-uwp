@@ -107,6 +107,11 @@ namespace SirenOfShame.Uwp.Watcher
             await Write(message, LogLevel.Warn);
         }
 
+        public async Task Warn(string message, Exception ex)
+        {
+            await Write(message, LogLevel.Warn, ex);
+        }
+
         public async Task Info(string message)
         {
             await Write(message, LogLevel.Info);

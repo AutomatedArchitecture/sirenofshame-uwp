@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Shared.Commands;
 using SirenOfShame.Uwp.Ui.Services;
@@ -42,17 +44,17 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async Task CheckForUpdates(PackageVersion packageVersion)
         {
-            var bundles = await _updateManifestService.GetManifest();
-            var uiBundle = bundles.FirstOrDefault(i => i.Id == UpdateManifestService.SOS_UI);
+            var uiBundle = await GetUiBundle();
             if (uiBundle == null)
             {
-                await _log.Error("No log found in manifest matching " + UpdateManifestService.SOS_UI);
+                UpdatesTextBlock.Text = "Error checking for updates";
                 return;
             }
 
             var installedVersion = ToVersion(packageVersion);
             var uiUpdatesAvailable = uiBundle.Version > installedVersion;
-            UpgradeNowButton.Visibility = uiUpdatesAvailable ? Visibility.Visible : Visibility.Collapsed;
+            UpgradeNowButton.Visibility = Visibility.Visible;
+            UpgradeNowButton.Content = uiUpdatesAvailable ? "Upgrade Now" : "Try To Upgrade Anyway";
             if (uiUpdatesAvailable)
             {
                 UpdatesTextBlock.Text = "Updates available.  Server is at " + uiBundle.Version;
@@ -60,6 +62,23 @@ namespace SirenOfShame.Uwp.Ui.Views
             else
             {
                 UpdatesTextBlock.Text = "No updates are available for the UI project.";
+            }
+        }
+
+        private async Task<Bundle> GetUiBundle()
+        {
+            try
+            {
+                var bundles = await _updateManifestService.GetManifest();
+                var uiBundle = bundles.FirstOrDefault(i => i.Id == UpdateManifestService.SOS_UI);
+                if (uiBundle == null)
+                    await _log.Error("No log found in manifest matching " + UpdateManifestService.SOS_UI);
+                return uiBundle;
+            }
+            catch (HttpRequestException ex)
+            {
+                await _log.Warn("Error retrieving manifest", ex);
+                return null;
             }
         }
 

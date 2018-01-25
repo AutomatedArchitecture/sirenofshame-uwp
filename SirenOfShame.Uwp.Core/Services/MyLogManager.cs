@@ -42,6 +42,12 @@ namespace SirenOfShame.Uwp.Core.Services
             return Task.FromResult(true);
         }
 
+        public Task Warn(string message, Exception ex)
+        {
+            Write(LogLevel.Warn, message, ex);
+            return Task.FromResult(true);
+        }
+
         public Task Info(string message)
         {
             Write(LogLevel.Info, message);

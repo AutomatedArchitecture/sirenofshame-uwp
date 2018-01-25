@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SirenOfShame.Uwp.Core.Interfaces;
@@ -42,9 +43,9 @@ namespace SirenOfShame.Uwp.Maintenance.Log
             await Send(new LogMessage { LogLevel = LogLevel.Error, Message = message, Exception = exception.ToString() });
         }
 
-        public async Task Warn(string message)
+        public async Task Warn(string message, Exception ex)
         {
-            await Send(new LogMessage { LogLevel = LogLevel.Warn, Message = message });
+            await Send(new LogMessage { LogLevel = LogLevel.Warn, Message = message, Exception = ex.ToString() });
         }
 
         public async Task Info(string message)

@@ -28,7 +28,7 @@
             <TextBlock Text="0.0.0" x:Name="VersionTextBlock" />
             <TextBlock Text="Updates" Style="{StaticResource SubheaderTextStyle}" />
             <TextBlock Text="Checking for updates ..." x:Name="UpdatesTextBlock" />
-            <Button x:Name="UpgradeNowButton" Visibility="Collapsed" Click="UpgradeNowOnClick">Upgrade Now</Button>
+            <Button x:Name="UpgradeNowButton" Visibility="Collapsed" Click="UpgradeNowOnClick">Try to Upgrade Now</Button>
             <TextBlock Text="Logs" Style="{StaticResource SubheaderTextStyle}" />
             <Button Click="ViewLogsOnClick">View Logs</Button>
         </StackPanel>
