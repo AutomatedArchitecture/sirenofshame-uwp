@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using SirenOfShame.Uwp.Core.Helpers;
 using SirenOfShame.Uwp.Watcher.Helpers;
 
 namespace SirenOfShame.Test.Unit.Helpers

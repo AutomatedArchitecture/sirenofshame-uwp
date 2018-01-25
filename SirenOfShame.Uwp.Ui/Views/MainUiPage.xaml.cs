@@ -9,12 +9,14 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Models;
+using SirenOfShame.Uwp.Core.Services;
+using SirenOfShame.Uwp.Core.Util;
 using SirenOfShame.Uwp.Ui.Models;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Ui.ViewModels;
 using SirenOfShame.Uwp.Watcher.Services;
-using SirenOfShame.Uwp.Watcher.Util;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -25,8 +27,8 @@ namespace SirenOfShame.Uwp.Ui.Views
     /// </summary>
     public sealed partial class MainUiPage
     {
-        private readonly MessageDistributorService _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
-        private readonly MessageRelayService _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+        private readonly UiCommandProcessor _messageDistributorService = ServiceContainer.Resolve<UiCommandProcessor>();
+        private readonly UiMessageRelayService _messageRelayService = ServiceContainer.Resolve<UiMessageRelayService>();
         private readonly NetworkService _networkService = ServiceContainer.Resolve<NetworkService>();
         private readonly GettingStartedService _gettingStartedService = ServiceContainer.Resolve<GettingStartedService>();
         private RootViewModel ViewModel { get; set; }
@@ -73,7 +75,7 @@ namespace SirenOfShame.Uwp.Ui.Views
             }
             catch (Exception ex)
             {
-                _log.Error("Error on startup", ex);
+                await _log.Error("Error on startup", ex);
                 var dialog = new MessageDialog("Error on startup: " + ex.Message);
                 await dialog.ShowAsync();
             }
@@ -100,7 +102,7 @@ namespace SirenOfShame.Uwp.Ui.Views
                 }
                 catch (Exception ex)
                 {
-                    _log.Error("Unable to connect, retrying", ex);
+                    await _log.Error("Unable to connect, retrying", ex);
                     SetStatus($"Unable to connect to siren of shame engine. Retrying in {(retryDelay / 1000)} seconds...");
                     await Task.Delay(retryDelay);
                 }
@@ -156,13 +158,13 @@ namespace SirenOfShame.Uwp.Ui.Views
                     .OrderByDescending(i => i.LocalStartTime)
                     .Take(50)
                     .ToList();
-                RefreshBuildStatuses(_lastBuildStatusDtos);
+                await RefreshBuildStatuses(_lastBuildStatusDtos);
             });
         }
 
-        private void RefreshBuildStatuses(List<BuildStatusDto> lastBuildStatusDtos)
+        private async Task RefreshBuildStatuses(List<BuildStatusDto> lastBuildStatusDtos)
         {
-            RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(lastBuildStatusDtos);
+            await RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(lastBuildStatusDtos);
             if (ViewModel.BuildDefinitions.Count == 0)
             {
                 ViewModel.BuildDefinitions = new ObservableCollection<BuildStatusDto>(_lastBuildStatusDtos);
@@ -196,14 +198,14 @@ namespace SirenOfShame.Uwp.Ui.Views
             ViewModel.BuildDefinitions.Sort();
         }
 
-        private void RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
+        private async Task RemoveAllChildControlsIfBuildCountOrBuildNamesChanged(ICollection<BuildStatusDto> buildStatusDtos)
         {
             bool numberOfBuildsChanged = ViewModel.BuildDefinitions.Count != buildStatusDtos.Count;
             bool anyNewBuildDefIds = buildStatusDtos
                 .Any(newBd => ViewModel.BuildDefinitions.All(oldBd => newBd.BuildDefinitionId != oldBd.BuildDefinitionId));
             if (numberOfBuildsChanged || anyNewBuildDefIds)
             {
-                _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
+                await _log.Debug("Removing child controls because: numberOfBuildsChanged: " + numberOfBuildsChanged);
                 ViewModel.BuildDefinitions.Clear();
             }
         }
@@ -264,9 +266,17 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async void RefreshOnTapped(object sender, TappedRoutedEventArgs e)
         {
-            ViewModel.Clear();
-            await EnsureConnected();
-            await _messageDistributorService.SendLatest();
+            try
+            {
+                ViewModel.Clear();
+                await _messageDistributorService.SendLatest();
+            }
+            catch (EndpointNotFoundException ex)
+            {
+                await _log.Error("Endpoint not found after tapping refresh", ex);
+                var dialog = new MessageDialog("Error refreshing status, can't find server.  Maybe try again shortly.");
+                await dialog.ShowAsync();
+            }
         }
     }
 }

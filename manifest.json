@@ -1,0 +1,42 @@
+[
+    {
+        "id": "SirenOfShame.Uwp.Ui-uwp",
+        "fileName": "SirenOfShame.Uwp.Ui_1.0.11.0_arm_Debug.appxbundle",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "build": 11,
+            "revision": 0
+        }
+    },
+    {
+        "id": "878ce98d-f41c-448e-9f20-69648dd3b28e",
+        "fileName": "App1_1.1.3.0_arm_Debug.appxbundle",
+        "version": {
+            "major": 1,
+            "minor": 1,
+            "build": 3,
+            "revision": 0
+        }
+    },
+    {
+        "id": "SirenOfShame.Uwp.MessageRelay-uwp",
+        "fileName": "SirenOfShame.Uwp.MessageRelay_1.0.1.0_arm_Debug.appxbundle",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "build": 1,
+            "revision": 0
+        }
+    },
+    {
+        "id": "SirenOfShame.Uwp.Background-uwp",
+        "fileName": "SirenOfShame.Uwp.Background_1.0.9.0_arm_Debug.appxbundle",
+        "version": {
+            "major": 1,
+            "minor": 0,
+            "build": 9,
+            "revision": 0
+        }
+    }
+]

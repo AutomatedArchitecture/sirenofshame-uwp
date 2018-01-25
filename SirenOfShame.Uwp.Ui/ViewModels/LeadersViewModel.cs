@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using SirenOfShame.Uwp.Watcher.Settings;
-using SirenOfShame.Uwp.Watcher.Util;
+using SirenOfShame.Uwp.Core.Models;
+using SirenOfShame.Uwp.Core.Util;
 
 namespace SirenOfShame.Uwp.Ui.Models
 {
@@ -10,7 +10,7 @@ namespace SirenOfShame.Uwp.Ui.Models
     {
         public ObservableCollection<PersonDto> Leaders { get; set; }
 
-        public void StatsChanged(IList<PersonSetting> changedPeople)
+        public void StatsChanged(IList<PersonSettingBase> changedPeople)
         {
             var leaderPairs = from oldLeader in Leaders
                 join newLeader in changedPeople on oldLeader.RawName equals newLeader.RawName
@@ -27,7 +27,7 @@ namespace SirenOfShame.Uwp.Ui.Models
             Leaders.SortDescending(i => i.Reputation);
         }
 
-        public void AddPerson(List<PersonSetting> newPeople)
+        public void AddPerson(List<PersonSettingBase> newPeople)
         {
             foreach (var personSetting in newPeople)
             {

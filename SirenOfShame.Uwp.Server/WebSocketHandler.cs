@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using IotWeb.Common.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Commands;
 using SirenOfShame.Uwp.Server.Models;
 using SirenOfShame.Uwp.Server.Services;
@@ -17,6 +19,7 @@ namespace SirenOfShame.Uwp.Server
     public class WebSocketHandler : IWebSocketRequestHandler
     {
         private readonly SirenDeviceService _sirenDeviceService;
+        private readonly ILog _log = MyLogManager.GetLog(typeof(WebSocketHandler));
 
         public WebSocketHandler()
         {
@@ -81,6 +84,7 @@ namespace SirenOfShame.Uwp.Server
                 {
                     return new ErrorResult(404, "No controller associated with type: " + requestType);
                 }
+                await _log.Debug("Invoking Command: " + controller.CommandName);
                 var result = await controller.Invoke(frame);
                 return result;
             }
@@ -92,12 +96,20 @@ namespace SirenOfShame.Uwp.Server
 
         private static void SendObject(WebSocket socket, object echoResult)
         {
-            var jsonSerializerSettings = new JsonSerializerSettings
+            try
             {
-                ContractResolver = new CamelCasePropertyNamesContractResolver()
-            };
-            var result = JsonConvert.SerializeObject(echoResult, jsonSerializerSettings);
-            socket.Send(result);
+                var jsonSerializerSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                };
+                var result = JsonConvert.SerializeObject(echoResult, jsonSerializerSettings);
+                socket.Send(result);
+            }
+            catch (Exception ex)
+            {
+                var log = MyLogManager.GetLog(typeof(WebSocketHandler));
+                log.Error("Error sending object: " + echoResult, ex);
+            }
         }
     }
 }

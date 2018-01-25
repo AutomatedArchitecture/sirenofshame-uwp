@@ -1,4 +1,5 @@
 ﻿using Windows.UI.Xaml;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Server.Services;
 using SirenOfShame.Uwp.TestServer.Services;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -13,7 +14,7 @@ namespace SirenOfShame.Uwp.TestServer
     public sealed partial class MainTestPage
     {
         private readonly ServerStartManager _startManager = new TestServerStartManager();
-        private MessageRelayService _messageRelayService;
+        private ServerMessageRelayService _messageRelayService;
 
         public MainTestPage()
         {
@@ -25,12 +26,12 @@ namespace SirenOfShame.Uwp.TestServer
         {
             await _startManager.Start();
 
-            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
+            _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
         }
 
         private async void SendOnClick(object sender, RoutedEventArgs e)
         {
-            await _messageRelayService.Send(Title.Text, Body.Text);
+            await _messageRelayService.SendMessageAsync(MessageDestination.AppUi, Title.Text, Body.Text);
         }
 
         private void NewNewsOnClick(object sender, RoutedEventArgs e)

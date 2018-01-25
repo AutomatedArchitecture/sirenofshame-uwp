@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
 using SirenOfShame.Uwp.Watcher.Watcher;
 
@@ -96,11 +98,11 @@ namespace SirenOfShame.Uwp.Watcher.Services
             await PauseSaveResume(async () =>
             {
                 await Task.Yield();
-                _log.Debug("Attempting to delete CiEntryPointSetting #" + id);
+                await _log.Debug("Attempting to delete CiEntryPointSetting #" + id);
                 var ciEntryPointSetting = GetById(id);
                 if (ciEntryPointSetting == null)
                 {
-                    _log.Warn("Tried to delete CiEntryPointSetting #" + id + " but it didn't exist");
+                    await _log.Warn("Tried to delete CiEntryPointSetting #" + id + " but it didn't exist");
                     return;
                 }
                 _appSettings.CiEntryPointSettings.Remove(ciEntryPointSetting);

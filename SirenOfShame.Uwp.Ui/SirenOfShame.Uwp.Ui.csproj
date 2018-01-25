@@ -11,17 +11,18 @@
     <AssemblyName>SirenOfShame.Uwp.Ui</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>SirenOfShame.Uwp.Ui_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>D:\SosUwpPi\</AppxPackageDir>
-    <AppxBundle>Never</AppxBundle>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxPackageDir>C:\dev\SirenOfShame.Uwp.Pi\SirenOfShame.Uwp.Ui\AppPackages\</AppxPackageDir>
+    <AppxBundle>Always</AppxBundle>
     <PackageCertificateThumbprint>5C294402547B4270BAF79F9E86AE3D8659EDD777</PackageCertificateThumbprint>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -127,6 +128,7 @@
     <Compile Include="Services\GettingStartedService.cs" />
     <Compile Include="Services\NavigationService.cs" />
     <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Services\UiLogManager.cs" />
     <Compile Include="ViewModels\ConfigureWifiViewModel.cs" />
     <Compile Include="ViewModels\LeadersViewModel.cs" />
     <Compile Include="Models\NavMenuItem.cs" />
@@ -136,6 +138,9 @@
     <Compile Include="ViewModels\ViewUserViewModel.cs" />
     <Compile Include="Views\ConfigureServerPage.xaml.cs">
       <DependentUpon>ConfigureServerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfigureAppPage.xaml.cs">
+      <DependentUpon>ConfigureAppPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ConfigureWifiPage.xaml.cs">
       <DependentUpon>ConfigureWifiPage.xaml</DependentUpon>
@@ -149,10 +154,9 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\FileAdapter.cs" />
-    <Compile Include="Services\MessageDistributorService.cs" />
-    <Compile Include="Services\MessageRelayService.cs" />
-    <Compile Include="Services\MyLogManager.cs" />
-    <Compile Include="Services\StartManager.cs" />
+    <Compile Include="Services\UiCommandProcessor.cs" />
+    <Compile Include="Services\UiMessageRelayService.cs" />
+    <Compile Include="Services\UiStartManager.cs" />
     <Compile Include="Views\PageBase.cs" />
     <Compile Include="Views\ViewLogsPage.xaml.cs">
       <DependentUpon>ViewLogsPage.xaml</DependentUpon>
@@ -269,6 +273,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ConfigureAppPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ConfigureWifiPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -287,24 +295,30 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj">
-      <Project>{36c7fc2f-c4d9-4fc3-9f47-981704d74b8c}</Project>
-      <Name>SirenOfShame.Uwp.Watcher</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Reference Include="MetroLog.NetCore.SQLite">
-      <HintPath>..\lib\MetroLog\MetroLog.NetCore.SQLite.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.3.3</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
-    <PackageReference Include="SQLitePCL.raw">
-      <Version>0.8.5</Version>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
     </PackageReference>
+    <PackageReference Include="Polly">
+      <Version>5.7.0</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.4.118</Version>
+    </PackageReference>
+    <PackageReference Include="System.Net.Http">
+      <Version>4.3.3</Version>
+    </PackageReference>
+    <PackageReference Include="System.Security.Cryptography.X509Certificates">
+      <Version>4.3.2</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Core\SirenOfShame.Uwp.Core.csproj">
+      <Project>{7668e982-ca88-4fa0-8332-a1a2867cad0b}</Project>
+      <Name>SirenOfShame.Uwp.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

@@ -50,7 +50,8 @@ namespace SirenOfShame.Uwp.Server.Commands
             new UpdateMockBuildCommand(),
             new SendLatestCommand(),
             new DeleteCiEntryPointSettingCommand(),
-            new GetLogs(),
+            new GetLogsCommand(),
+            new LogCommand()
         };
     }
 }

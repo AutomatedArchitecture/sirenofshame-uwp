@@ -4,12 +4,14 @@ using System.Threading.Tasks;
 using Windows.Devices.WiFi;
 using Windows.Networking;
 using Windows.Networking.Connectivity;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 
 namespace SirenOfShame.Uwp.Ui.Services
 {
     public class NetworkService
     {
-        private readonly Lazy<Watcher.ILog> _log = new Lazy<Watcher.ILog, bool>(() => Watcher.MyLogManager.GetLog(typeof(NetworkService)), true);
+        private readonly Lazy<ILog> _log = new Lazy<ILog, bool>(() => MyLogManager.GetLog(typeof(NetworkService)), true);
 
         public async Task<bool> IsConnected()
         {

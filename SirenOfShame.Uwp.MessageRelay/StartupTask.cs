@@ -91,7 +91,7 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         /// <summary>
         /// Writes logs to the LocalFolder.  On Windows IoT on a Pi this would be like:
-        /// '\User Folders\LocalAppData\SirenOfShame.Uwp.MessageRelay-uwp_1.0.0.0_arm__n7wdzm614gaee\LocalState\MessageRelayLogs'
+        /// '[Data]:\Users\DefaultAccount\User Folders\LocalAppData\SirenOfShame.Uwp.MessageRelay-uwp_1.0.0.0_arm__n7wdzm614gaee\LocalState\MessageRelayLogs'
         /// On an x86 Windows machine it would be something like:
         /// C:\Users\[user]\AppData\Local\Packages\SirenOfShame.Uwp.MessageRelay-uwp_n7wdzm614gaee\LocalState\MessageRelayLogs
         /// </summary>
@@ -118,7 +118,7 @@ namespace SirenOfShame.Uwp.MessageRelay
             var appServiceDeferral = args.GetDeferral();
             try
             {
-                await Debug("Request initiated by " + _thisConnectionGuid);
+                await Debug("Request initiated by " + _thisConnectionGuid + " with " + args.Request?.Message?.Keys?.FirstOrDefault());
 
                 // .ToList() required since connections may get removed during SendMessage()
                 var otherConnections = _connections
@@ -126,8 +126,12 @@ namespace SirenOfShame.Uwp.MessageRelay
                     .ToList();
                 foreach (var connection in otherConnections)
                 {
-                    await SendMessage(connection, args.Request.Message);
+                    await SendMessage(connection, args.Request?.Message);
                 }
+            }
+            catch (Exception ex)
+            {
+                await Error("Error in ConnectionRequestReceived, probably in SendMessage()", ex);
             }
             finally
             {
@@ -165,7 +169,10 @@ namespace SirenOfShame.Uwp.MessageRelay
 
         private void RemoveConnection(Guid key)
         {
-            var connection = _connections[key];
+            if (!_connections.TryGetValue(key, out var connection)) return;
+            
+            connection.RequestReceived -= ConnectionRequestReceived;
+            connection.ServiceClosed -= ConnectionOnServiceClosed;
             connection.Dispose();
             _connections.Remove(key);
         }

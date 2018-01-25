@@ -8,6 +8,8 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Ui.ViewModels;
 using SirenOfShame.Uwp.Watcher.Services;

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Settings;
 
@@ -60,7 +62,7 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         {
             try
             {
-                _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds",
+                await _log.Debug(string.Format("Started watching build status, poling interval: {0} seconds",
                     Settings.PollInterval));
                 while (true)
                 {
@@ -69,17 +71,17 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
                     if (token.IsCancellationRequested) break;
                     await Task.Delay(Settings.PollInterval * 1000, token);
                 }
-                _log.Debug("Stopped watching build status");
+                await _log.Debug("Stopped watching build status");
                 OnStoppedWatching();
             }
             catch (TaskCanceledException)
             {
-                _log.Debug("Cancelled watching");
+                await _log.Debug("Cancelled watching");
                 OnStoppedWatching();
             }
             catch (Exception ex)
             {
-                _log.Error("uncaught exception in watcher", ex);
+                await _log.Error("uncaught exception in watcher", ex);
                 ExceptionMessageBox.Show(null, "Drat", "Error connecting to server", ex);
             }
             finally

@@ -11,11 +11,12 @@
     <AssemblyName>SirenOfShame.Uwp.Server</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <RuntimeIdentifiers>win10-arm;win10-arm-aot;win10-x86;win10-x86-aot;win10-x64;win10-x64-aot</RuntimeIdentifiers>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -103,11 +104,8 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <None Include="project.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Commands\CiEntryPointSettings\GetLogs.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\GetLogsCommand.cs" />
+    <Compile Include="Commands\CiEntryPointSettings\LogCommand.cs" />
     <Compile Include="Commands\CommandBase.cs" />
     <Compile Include="Commands\CiEntryPointSettings\DeleteCiEntryPointSettingCommand.cs" />
     <Compile Include="Commands\Settings\DeleteSettingsCommand.cs" />
@@ -139,8 +137,8 @@
     <Compile Include="Services\CryptographyService.cs" />
     <Compile Include="Services\FileAdapter.cs" />
     <Compile Include="Services\IWebServer.cs" />
-    <Compile Include="Services\MessageCommandProcessor.cs" />
-    <Compile Include="Services\MessageRelayService.cs" />
+    <Compile Include="Services\ServerCommandProcessor.cs" />
+    <Compile Include="Services\ServerMessageRelayService.cs" />
     <Compile Include="Services\RulesEngineWatcher.cs" />
     <Compile Include="Services\SirenDeviceService.cs" />
     <Compile Include="Services\ServerStartManager.cs" />
@@ -156,8 +154,12 @@
       <Project>{ee7a0ed2-5249-4d5a-a030-e4d15a72e24e}</Project>
       <Name>IotWeb UWP</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SirenOfShame.Uwp.Core\SirenOfShame.Uwp.Core.csproj">
+      <Project>{7668e982-ca88-4fa0-8332-a1a2867cad0b}</Project>
+      <Name>SirenOfShame.Uwp.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SirenOfShame.Uwp.Watcher\SirenOfShame.Uwp.Watcher.csproj">
-      <Project>{36c7fc2f-c4d9-4fc3-9f47-981704d74b8c}</Project>
+      <Project>{760cd96b-ad69-499c-a9c9-5cda6dae6b9f}</Project>
       <Name>SirenOfShame.Uwp.Watcher</Name>
     </ProjectReference>
   </ItemGroup>
@@ -165,9 +167,15 @@
     <EmbeddedResource Include="wwwroot\index.html" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MetroLog.NetCore.SQLite">
-      <HintPath>..\lib\MetroLog\MetroLog.NetCore.SQLite.dll</HintPath>
-    </Reference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="SirenOfShame.Device">
+      <Version>1.0.1</Version>
+    </PackageReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

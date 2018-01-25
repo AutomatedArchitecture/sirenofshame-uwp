@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Models;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Dto;
 using SirenOfShame.Uwp.Watcher.HudsonServices;
@@ -312,7 +315,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public PersonSetting FindPersonByRawName(string rawName)
         {
             if (People == null) People = new List<PersonSetting>();
-            var person = People.FirstOrDefault(i => NewsItemEvent.MakeCsvSafe(i.RawName) == NewsItemEvent.MakeCsvSafe(rawName));
+            var person = People.FirstOrDefault(i => SosDb.MakeCsvSafe(i.RawName) == SosDb.MakeCsvSafe(rawName));
             return person;
         }
 
@@ -387,7 +390,8 @@ namespace SirenOfShame.Uwp.Watcher.Settings
             if (currentUser == null) return null;
             var currentUsersAchievements = currentUser.Achievements;
             var achievementsAfterHighWaterMark = initialExport ? currentUsersAchievements : currentUsersAchievements.Where(i => i.DateAchieved > highWaterMark);
-            var buildsAsExport = achievementsAfterHighWaterMark.Select(i => i.AsSosOnlineExport());
+            var buildsAsExport = achievementsAfterHighWaterMark
+                .Select(i => i.AsSosOnlineExport());
             var result = string.Join("\r\n", buildsAsExport);
             return string.IsNullOrEmpty(result) ? null : result;
         }
@@ -495,7 +499,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         //public void Backup()
         //{
         //    string fileName = GetConfigFileName();
-        //    string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.config.bak", DateTime.Now);
+        //    string backupFileName = string.Format("{0:yyyy-MM-dd-HH-mm-ss}-SirenOfShame.sosdb.bak", DateTime.Now);
         //    string path = GetSosAppDataFolder();
         //    var backupFileNameAndPath = Path.Combine(path, backupFileName);
         //    File.Copy(fileName, backupFileNameAndPath, true);

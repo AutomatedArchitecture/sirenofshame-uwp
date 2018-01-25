@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Watcher.Settings;
 
 namespace SirenOfShame.Uwp.Watcher.Watcher

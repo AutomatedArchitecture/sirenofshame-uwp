@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Test.Unit.Watcher;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Tests.Fakes;
 using SirenOfShame.Uwp.Tests.Services;
 using SirenOfShame.Uwp.Watcher;

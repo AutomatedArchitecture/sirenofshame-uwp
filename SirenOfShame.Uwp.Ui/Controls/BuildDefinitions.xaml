@@ -7,6 +7,7 @@
     xmlns:converters="using:SirenOfShame.Uwp.Ui.Converters"
     xmlns:watcher="using:SirenOfShame.Uwp.Watcher.Watcher"
     xmlns:controls="using:SirenOfShame.Uwp.Ui.Controls"
+    xmlns:models="using:SirenOfShame.Uwp.Core.Models"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -14,7 +15,7 @@
     <UserControl.Resources>
         <converters:BuildStatusToImageConverter x:Key="BuildStatusToImageConverter" />
         <converters:BuildStatusToColorConverter x:Key="BuildStatusToColorConverter" />
-        <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="watcher:BuildStatusDto">
+        <DataTemplate x:Name="BuildDefinitionsTemplate" x:DataType="models:BuildStatusDto">
             <RelativePanel Style="{StaticResource SosCard}">
                 <StackPanel x:Name="TitleBar" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignLeftWithPanel="True">
                 <Grid Background="{x:Bind BuildStatusEnum, Converter={StaticResource BuildStatusToColorConverter}, Mode=OneWay}" Padding="10 2">

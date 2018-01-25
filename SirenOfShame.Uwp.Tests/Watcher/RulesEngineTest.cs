@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using SirenOfShame.Lib.Watcher;
+using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Tests;
 using SirenOfShame.Uwp.Watcher.Device;
 using SirenOfShame.Uwp.Watcher.Exceptions;
@@ -198,7 +199,7 @@ namespace SirenOfShame.Test.Unit.Watcher
             });
             RefreshStatusEventArgs lastRefreshStatusEvent = rulesEngine.RefreshStatusEvents.Last();
             Assert.AreEqual(1, lastRefreshStatusEvent.BuildStatusDtos.Count);
-            BuildStatusDto buildStatusDto = lastRefreshStatusEvent.BuildStatusDtos[0];
+            var buildStatusDto = lastRefreshStatusEvent.BuildStatusDtos[0];
             Assert.AreEqual("User1", buildStatusDto.RequestedByRawName);
         }
         
@@ -646,7 +647,7 @@ namespace SirenOfShame.Test.Unit.Watcher
 
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents.Count);
             Assert.AreEqual(1, rulesEngine.RefreshStatusEvents[0].BuildStatusDtos.Count());
-            BuildStatusDto buildStatus = rulesEngine.RefreshStatusEvents[0].BuildStatusDtos.First();
+            var buildStatus = rulesEngine.RefreshStatusEvents[0].BuildStatusDtos.First();
             Assert.AreEqual((int)BallsEnum.Green, buildStatus.ImageIndex);
             Assert.AreEqual("Build Def 1", buildStatus.BuildDefinitionDisplayName);
             Assert.AreEqual("User1", buildStatus.RequestedByRawName);

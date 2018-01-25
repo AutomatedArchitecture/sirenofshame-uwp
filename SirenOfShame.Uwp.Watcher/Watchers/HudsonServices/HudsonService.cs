@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 using SirenOfShame.Uwp.Watcher.Helpers;
 using SirenOfShame.Uwp.Watcher.Settings;

@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Devices.WiFi;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Ui.Services;
-using SirenOfShame.Uwp.Ui.Views;
 using SirenOfShame.Uwp.Watcher.Services;
+using UnhandledExceptionEventArgs = Windows.UI.Xaml.UnhandledExceptionEventArgs;
 
 namespace SirenOfShame.Uwp.Ui
 {
@@ -18,9 +16,6 @@ namespace SirenOfShame.Uwp.Ui
     /// </summary>
     sealed partial class App
     {
-        private readonly MessageRelayService _connection;
-        private readonly MessageDistributorService _messageDistributorService;
-
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -30,13 +25,8 @@ namespace SirenOfShame.Uwp.Ui
             InitializeComponent();
 
             UnhandledException += OnUnhandledException;
-
-            var startManager = new StartManager();
-            startManager.Start();
-            _connection = ServiceContainer.Resolve<MessageRelayService>();
-            _messageDistributorService = ServiceContainer.Resolve<MessageDistributorService>();
-
             LeavingBackground += OnLeavingBackground;
+            EnteredBackground += OnEnteredBackground;
             Suspending += OnSuspending;
         }
 
@@ -46,22 +36,14 @@ namespace SirenOfShame.Uwp.Ui
             log.Error("Global unhandeled exception in UI", unhandledExceptionEventArgs.Exception);
         }
 
-        private async void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs leavingBackgroundEventArgs)
         {
-            var log = MyLogManager.GetLog(typeof(App));
-            log.Info("Starting App");
-            _messageDistributorService.StartWatching();
-            try
-            {
-                await _connection.Open();
-            }
-            catch (Exception ex)
-            {
-                // failing quietly is probably ok for now since the connection will
-                //  attempt to re-open itself again on next send.  It just means
-                //  we won't be able to receive messages
-                log.Error("Error opening connection on startup", ex);
-            }
+            // todo: UiMessageRelayService.SubscribeEvents(); ?
+        }
+
+        private void OnEnteredBackground(object sender, EnteredBackgroundEventArgs e)
+        {
+            // todo: UiMessageRelayService.UnSubscribeEvents(); ?
         }
 
         /// <summary>
@@ -77,11 +59,13 @@ namespace SirenOfShame.Uwp.Ui
                 DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
-            AppShell shell = Window.Current.Content as AppShell;
+
+            var startManager = new UiStartManager();
+            await startManager.Start();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (shell == null)
+            if (!(Window.Current.Content is AppShell shell))
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 shell = new AppShell();
@@ -132,7 +116,6 @@ namespace SirenOfShame.Uwp.Ui
             var deferral = e.SuspendingOperation.GetDeferral();
 
             //TODO: Save application state and stop any background activity
-            _connection.CloseConnection();
 
             deferral.Complete();
         }

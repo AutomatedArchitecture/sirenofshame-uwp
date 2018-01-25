@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Exceptions;
 
 namespace SirenOfShame.Uwp.Watcher.Watcher

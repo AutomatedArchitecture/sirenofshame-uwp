@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using SirenOfShame.Lib.Watcher;
-using SirenOfShame.Uwp.Watcher;
+using SirenOfShame.Uwp.Core.Interfaces;
+using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Settings;
-using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Server.Services
 {
@@ -13,12 +12,12 @@ namespace SirenOfShame.Uwp.Server.Services
     /// Responsible for starting all services who must be started when the parent process
     /// starts and stopping them gracefully when the parent process ends.
     /// </summary>
-    public abstract class ServerStartManager : StartManagerBase
+    public abstract class ServerStartManager : WatcherStartManager
     {
-        private MessageRelayService _messageRelayService;
-        private MessageCommandProcessor _messageCommandProcessor;
+        private ServerMessageRelayService _messageRelayService;
+        private ServerCommandProcessor _messageCommandProcessor;
         private SirenDeviceService _sirenDeviceService;
-        private readonly ILog _log = MyLogManager.GetLog(typeof(ServerStartManager));
+        private ILog _log;
         private IWebServer _webServer;
 
         public override async Task Start()
@@ -26,6 +25,7 @@ namespace SirenOfShame.Uwp.Server.Services
             try
             {
                 await base.Start();
+                _log = MyLogManager.GetLog(typeof(ServerStartManager));
                 await RegisterSirenOfShameSettings();
                 SetDependencies();
                 _webServer.Start();
@@ -35,14 +35,14 @@ namespace SirenOfShame.Uwp.Server.Services
             }
             catch (Exception ex)
             {
-                _log.Error("Error during startup", ex);
+                _log?.Error("Error during startup", ex);
             }
         }
 
         private void SetDependencies()
         {
-            _messageRelayService = ServiceContainer.Resolve<MessageRelayService>();
-            _messageCommandProcessor = ServiceContainer.Resolve<MessageCommandProcessor>();
+            _messageRelayService = ServiceContainer.Resolve<ServerMessageRelayService>();
+            _messageCommandProcessor = ServiceContainer.Resolve<ServerCommandProcessor>();
             _sirenDeviceService = ServiceContainer.Resolve<SirenDeviceService>();
             _webServer = ServiceContainer.Resolve<IWebServer>();
         }
@@ -53,7 +53,7 @@ namespace SirenOfShame.Uwp.Server.Services
             await rulesEngineService.StartCiWatcher();
         }
 
-        public async Task StartMessageRelayService()
+        private async Task StartMessageRelayService()
         {
             _messageCommandProcessor.StartWatching();
             try
@@ -62,17 +62,17 @@ namespace SirenOfShame.Uwp.Server.Services
             }
             catch (Exception ex)
             {
-                _log.Error("Unable to start message rleay service", ex);
+                await _log.Error("Unable to start message rleay service", ex);
             }
         }
 
         protected override void RegisterServices()
         {
             base.RegisterServices();
-            ServiceContainer.Register(() => new MessageRelayService());
+            ServiceContainer.Register(() => new ServerMessageRelayService());
             ServiceContainer.Register(() => new SirenDeviceService());
             ServiceContainer.Register<IFileAdapter>(() => new FileAdapter());
-            ServiceContainer.Register(() => new MessageCommandProcessor());
+            ServiceContainer.Register(() => new ServerCommandProcessor());
 
             // Services
             ServiceContainer.Register(() => new CiEntryPointSettingService());

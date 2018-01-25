@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using NUnit.Framework;
+using SirenOfShame.Uwp.Core.Models;
+using SirenOfShame.Uwp.Core.Util;
 using SirenOfShame.Uwp.Watcher.Watcher;
 using SirenOfShame.Uwp.Watcher.Util;
 

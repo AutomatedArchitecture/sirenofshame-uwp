@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -31,14 +32,22 @@ namespace SirenOfShame.Uwp.Ui.Services
             PostNavigate(destination);
         }
 
+        // todo: probably add the others too, although we get a back button as-is which is kinda nice
+        private static readonly Type[] _topLevelPages = {
+            typeof(Views.MainUiPage),
+            typeof(Views.ConfigureWifiPage)
+        };
+
         private void PostNavigate(Type destination)
         {
-            if (destination == typeof(Views.MainUiPage))
+            var isTopLevelPage = _topLevelPages.Contains(destination);
+            if (isTopLevelPage)
             {
                 AppFrame.BackStack.Clear();
             }
             ShowBackButton();
             AppShell.IsPaneOpen = false;
+            AppShell.SetSelectedItem(destination);
         }
 
         public void ShowBackButton()

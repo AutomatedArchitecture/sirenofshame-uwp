@@ -30,6 +30,15 @@ Portable (PCL) project for IotWeb dependency that provides a web sockets based w
 
 UWP project for IotWeb dependency that provides a web sockets based web server for Windows IoT.
 
+#### SirenOfShame.Uwp.Core
+
+A .Net Standard library that contains the Models, Interfaces, Constants, and Services that are used by all apps.  
+Eventually this will have ViewModels in it too.
+
+#### SirenOfShame.Uwp.BackgroundShim
+
+A blank app to fix the bug https://github.com/ms-iot/ntvsiot/issues/62
+
 #### SirenOfShame.Uwp.Background
 
 A UWP Background Project that runs _headless_ on

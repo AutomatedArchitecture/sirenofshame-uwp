@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-using SirenOfShame.Uwp.Watcher.Watcher;
+using SirenOfShame.Uwp.Core.Models;
 
 namespace SirenOfShame.Uwp.Ui.Converters
 {

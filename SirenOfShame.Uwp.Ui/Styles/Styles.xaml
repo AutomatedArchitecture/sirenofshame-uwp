@@ -34,6 +34,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style x:Key="SubheaderTextStyle" TargetType="TextBlock" BasedOn="{StaticResource HeaderTextStyle}">
+        <Setter Property="FontSize" Value="36"/>
+        <Setter Property="Margin" Value="0,0,0,15"></Setter>
+    </Style>
 
     <Style x:Key="BasicTextStyle" TargetType="TextBlock">
         <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
