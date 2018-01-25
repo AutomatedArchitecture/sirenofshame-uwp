@@ -1,11 +1,11 @@
 [
     {
         "id": "SirenOfShame.Uwp.Ui-uwp",
-        "fileName": "SirenOfShame.Uwp.Ui_1.0.10.0_arm_Debug.appxbundle",
+        "fileName": "SirenOfShame.Uwp.Ui_1.0.11.0_arm_Debug.appxbundle",
         "version": {
             "major": 1,
             "minor": 0,
-            "build": 10,
+            "build": 11,
             "revision": 0
         }
     },
