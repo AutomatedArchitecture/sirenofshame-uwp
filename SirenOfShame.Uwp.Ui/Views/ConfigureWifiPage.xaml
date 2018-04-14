@@ -81,7 +81,7 @@
             <StackPanel Orientation="Vertical" x:Name="ConnectButtons">
                 <StackPanel x:Name="NetworkKeyInfo" Orientation="Horizontal" >
                     <TextBlock Text="Security Key:" Margin="5,0,5,0" VerticalAlignment="Bottom"/>
-                    <PasswordBox x:Name="NetworkKey" Width="124" Margin="5,0,10,0"/>
+                    <PasswordBox x:Name="NetworkKey" Width="124" Margin="5,0,10,0" KeyDown="NetworkKey_OnKeyDown" />
                 </StackPanel>
                 <CheckBox x:Name="IsAutomaticReconnection" IsChecked="True">Auto reconnect?</CheckBox>
                 <StackPanel Orientation="Horizontal" Margin="0,5,0,0">

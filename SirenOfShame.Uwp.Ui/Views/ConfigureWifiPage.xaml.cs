@@ -7,6 +7,7 @@ using Windows.Security.Credentials;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
@@ -160,6 +161,14 @@ namespace SirenOfShame.Uwp.Ui.Views
         private void CancelButtonOnClick(object sender, RoutedEventArgs e)
         {
             ShowNetworkInfoSection(false);
+        }
+
+        private void NetworkKey_OnKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                ConnectButtonOnClick(sender, e);
+            }
         }
     }
 }
