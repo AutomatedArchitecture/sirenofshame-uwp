@@ -12,6 +12,7 @@
 
     <local:PageBase.Resources>
         <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" Inverted="True" />
 
         <DataTemplate x:Key="ResultsListViewTemplate">
             <Grid Margin="2">
@@ -55,6 +56,13 @@
             Grid.Column="1"
             Text="Getting Started" 
             Style="{StaticResource PageHeaderTextStyle}" 
+            />
+
+        <TextBlock
+            Grid.Row="1"
+            Grid.Column="1"
+            Text="No network adapter found?!" 
+            Visibility="{Binding AnyNetworkAdapterFound, Mode=OneWay, Converter={StaticResource InvertedBooleanToVisibilityConverter}}"
             />
 
         <TextBlock 
