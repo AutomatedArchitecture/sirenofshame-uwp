@@ -53,14 +53,21 @@ namespace SirenOfShame.Uwp.Ui.Views
 
         private async Task ScanWifiNetwork()
         {
-            ViewModel.UpdateStatus("Scanning for WiFi Networks");
-            await _firstAdapter.ScanAsync();
-            ViewModel.UpdateStatus(null);
-            var networkReport = _firstAdapter.NetworkReport;
-            var networks = networkReport.AvailableNetworks
-                .Select(network => new WiFiNetworkDisplay(network, _firstAdapter))
-                .ToList();
-            ViewModel.NetworkList = networks;
+            try
+            {
+                ViewModel.UpdateStatus("Scanning for WiFi Networks");
+                await _firstAdapter.ScanAsync();
+                ViewModel.UpdateStatus(null);
+                var networkReport = _firstAdapter.NetworkReport;
+                var networks = networkReport.AvailableNetworks
+                    .Select(network => new WiFiNetworkDisplay(network, _firstAdapter))
+                    .ToList();
+                ViewModel.NetworkList = networks;
+            }
+            catch (Exception ex)
+            {
+                await _log.Error("Error scanning for networks", ex);
+            }
         }
 
         private void NetworkSelectionChanged(object sender, SelectionChangedEventArgs e)
