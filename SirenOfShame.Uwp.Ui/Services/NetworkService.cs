@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Devices.WiFi;
@@ -15,28 +16,35 @@ namespace SirenOfShame.Uwp.Ui.Services
 
         public async Task<bool> IsConnected()
         {
-            var adapter = await GetAdapter();
-            if (adapter == null) return false;
-            var connectedProfile = await adapter.NetworkAdapter.GetConnectedProfileAsync();
-            var isConnected = connectedProfile != null;
-            return isConnected;
+            var adapters = await GetAdapters();
+            if (adapters == null) return false;
+            foreach (var adapter in adapters)
+            {
+                var connectedProfile = await adapter.NetworkAdapter.GetConnectedProfileAsync();
+                var isConnected = connectedProfile != null;
+                if (isConnected) return true;
+            }
+
+            return false;
         }
 
-        public async Task<WiFiAdapter> GetAdapter()
+        public async Task<IEnumerable<WiFiAdapter>> GetAdapters()
         {
             var access = await WiFiAdapter.RequestAccessAsync();
             if (access != WiFiAccessStatus.Allowed)
             {
-                _log.Value.Info("Wifi access denied");
+                await _log.Value.Info("Wifi access denied");
                 return null;
             }
 
-            var result = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector());
-            if (result.Count >= 1)
+            var deviceInformationCollection = await Windows.Devices.Enumeration.DeviceInformation.FindAllAsync(WiFiAdapter.GetDeviceSelector());
+            if (deviceInformationCollection.Count >= 1)
             {
-                return await WiFiAdapter.FromIdAsync(result[0].Id);
+                var tasks = deviceInformationCollection.Select(async i => await WiFiAdapter.FromIdAsync(i.Id)).ToList();
+                var wiFiAdapters = await Task.WhenAll(tasks);
+                return wiFiAdapters;
             }
-            _log.Value.Warn("No WiFi Adapters detected on this machine.");
+            await _log.Value.Warn("No WiFi Adapters detected on this machine.");
             return null;
         }
 

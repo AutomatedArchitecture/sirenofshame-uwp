@@ -38,7 +38,8 @@ namespace SirenOfShame.Uwp.Ui.Views
         {
             base.OnNavigatedTo(e);
 
-            _firstAdapter = await _networkService.GetAdapter();
+            var adapters = await _networkService.GetAdapters();
+            _firstAdapter = adapters.FirstOrDefault();
             ViewModel.AnyNetworkAdapterFound = _firstAdapter != null;
             if (ViewModel.AnyNetworkAdapterFound)
             {
