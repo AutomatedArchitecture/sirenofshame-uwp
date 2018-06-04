@@ -1,4 +1,6 @@
 ﻿using Windows.ApplicationModel.Background;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using SirenOfShame.Uwp.Background.Services;
 using SirenOfShame.Uwp.Server.Services;
 
@@ -15,6 +17,7 @@ namespace SirenOfShame.Uwp.Background
             _backgroundTaskDeferral = taskInstance.GetDeferral();
 
             taskInstance.Canceled += TaskInstanceOnCanceled;
+            AppCenter.Start("320f225d-336b-4493-a838-2a3f71dd5caa", typeof(Analytics));
             await _startManager.Start();
         }
 

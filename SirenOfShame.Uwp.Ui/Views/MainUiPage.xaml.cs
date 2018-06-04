@@ -9,6 +9,7 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using Microsoft.AppCenter.Analytics;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Models;
 using SirenOfShame.Uwp.Core.Services;
@@ -59,6 +60,8 @@ namespace SirenOfShame.Uwp.Ui.Views
 
             // OnLoaded gets called on subsequent navigations despite NavigationCacheMode="Required"
             if (ViewModel.Initialized) return;
+
+            Analytics.TrackEvent("MainUiPage.OnLoaded");
 
             try
             {

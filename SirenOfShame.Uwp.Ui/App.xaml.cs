@@ -4,6 +4,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Ui.Services;
 using SirenOfShame.Uwp.Watcher.Services;
@@ -22,6 +24,8 @@ namespace SirenOfShame.Uwp.Ui
         /// </summary>
         public App()
         {
+            AppCenter.Start("6d253342-6f6e-4239-bca8-094195db2f8b", typeof(Analytics));
+
             InitializeComponent();
 
             UnhandledException += OnUnhandledException;
