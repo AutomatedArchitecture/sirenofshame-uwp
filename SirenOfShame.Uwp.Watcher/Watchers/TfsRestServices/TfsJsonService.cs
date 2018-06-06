@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Security.Authentication;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
@@ -52,9 +53,23 @@ namespace TfsRestServices
                     httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
                     var queryParamsAsString = string.Concat(queryParams.Select(i => "&" + i.Key + "=" + i.Value));
-                    var buildDefinitionsStr = await httpClient.GetStringAsync(api + "?api-version=2.0" + queryParamsAsString);
-                    var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<T>>(buildDefinitionsStr);
-                    return jsonWrapper.Value;
+                    var response = await httpClient.GetAsync(api + "?api-version=2.0" + queryParamsAsString);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var buildDefinitionsStr = await response.Content.ReadAsStringAsync();
+                        // this is embarrasingly fragile, need to find a better way to determine if invalid credentials
+                        var invalidCredentials = !buildDefinitionsStr.StartsWith("{") && buildDefinitionsStr.Contains("Sign In");
+                        if (invalidCredentials)
+                        {
+                            throw new InvalidCredentialException("The credentials entered appear to be incorrect");
+                        }
+                        var jsonWrapper = JsonConvert.DeserializeObject<TfsJsonWrapper<T>>(buildDefinitionsStr);
+                        return jsonWrapper.Value;
+                    }
+                    else
+                    {
+                        throw new HttpRequestException("Unexpected status code returned" + response.StatusCode);
+                    }
                 }
             }
         }
