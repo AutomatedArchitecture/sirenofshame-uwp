@@ -16,6 +16,7 @@ using SirenOfShame.Uwp.Watcher.HudsonServices;
 using SirenOfShame.Uwp.Watcher.Services;
 using SirenOfShame.Uwp.Watcher.Watcher;
 using SirenOfShame.Uwp.Watcher.Watchers.MockCiServerServices;
+using TfsRestServices;
 
 namespace SirenOfShame.Uwp.Watcher.Settings
 {
@@ -255,6 +256,7 @@ namespace SirenOfShame.Uwp.Watcher.Settings
         public static IEnumerable<ICiEntryPoint> CiEntryPoints => new[]
         {
             (ICiEntryPoint)new HudsonCIEntryPoint(),
+            new TfsRestCiEntryPoint(),
             new MockCiEntryPoint()
         };
 

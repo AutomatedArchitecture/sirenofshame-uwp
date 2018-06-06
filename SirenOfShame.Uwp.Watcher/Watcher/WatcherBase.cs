@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Exceptions;
@@ -28,6 +29,12 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
         {
             var e = BuildDefinitionNotFound;
             if (e != null) e(this, new BuildDefinitionNotFoundArgs(buildDefinitionSetting));
+        }
+
+        protected void InvokeInvalidCredentials()
+        {
+            // todo: InvokeInvalidCredentials not found and notify the UI
+            //InvalidCredentials?.Invoke(this, new EventArgs());
         }
 
         protected void InvokeStatusChecked(IList<BuildStatus> args)
@@ -77,6 +84,13 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             catch (TaskCanceledException)
             {
                 await _log.Debug("Cancelled watching");
+                OnStoppedWatching();
+            }
+            catch (InvalidCredentialsException)
+            {
+                await _log.Warn("Caught an InvalidCredentialsException, stopping watching so as not to lock out account");
+                InvokeInvalidCredentials();
+                StopWatching();
                 OnStoppedWatching();
             }
             catch (Exception ex)

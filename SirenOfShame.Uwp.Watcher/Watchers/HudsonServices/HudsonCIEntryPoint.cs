@@ -4,8 +4,6 @@ using SirenOfShame.Uwp.Watcher.Watcher;
 
 namespace SirenOfShame.Uwp.Watcher.HudsonServices
 {
-    // todo: figure out DI
-    //[Export(typeof(ICiEntryPoint))]
     public class HudsonCIEntryPoint : ICiEntryPoint
     {
         public Task<MyBuildDefinition[]> GetProjects(GetProjectsArgs getProjectsArgs)

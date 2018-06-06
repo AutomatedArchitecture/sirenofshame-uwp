@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using SirenOfShame.Lib.Exceptions;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
 using SirenOfShame.Uwp.Watcher.Exceptions;
@@ -121,9 +122,13 @@ namespace SirenOfShame.Uwp.Watcher.Watcher
             }
             catch (WebException webException)
             {
+                if (webException.Message.Contains("401"))
+                {
+                    throw new InvalidCredentialsException();
+                }
                 if (url.Contains("httpAuth/app/rest/builds/buildType:"))
                 {
-                    _log.Error(webException.Message, webException);
+                    await _log.Error(webException.Message, webException);
                     return null;
                 }
 

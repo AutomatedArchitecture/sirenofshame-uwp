@@ -8,6 +8,7 @@ namespace SirenOfShame.Uwp.Core.Services
     public class MyLogManager
     {
         public static Func<Type, ILog> GetLog = type => new ConsoleLogger(type);
+        public static readonly Func<Type, ILog> GetLogger = GetLog;
     }
 
     public class ConsoleLogger : ILog
