@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AppCenter.Analytics;
 using SirenOfShame.Lib.Watcher;
 using SirenOfShame.Uwp.Core.Interfaces;
 using SirenOfShame.Uwp.Core.Services;
@@ -32,10 +34,12 @@ namespace SirenOfShame.Uwp.Server.Services
                 _sirenDeviceService.StartWatching();
                 await StartMessageRelayService();
                 await StartCiWatcher();
+                Analytics.TrackEvent("Started Successfully");
             }
             catch (Exception ex)
             {
                 _log?.Error("Error during startup", ex);
+                Analytics.TrackEvent("Background App Startup Failed", new Dictionary<string, string> { { "Exception", ex.ToString() } });
             }
         }
 

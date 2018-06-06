@@ -167,11 +167,14 @@
     <EmbeddedResource Include="wwwroot\index.html" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter.Analytics">
+      <Version>1.6.1</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.5</Version>
+      <Version>6.1.5</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>10.0.3</Version>
+      <Version>11.0.2</Version>
     </PackageReference>
     <PackageReference Include="SirenOfShame.Device">
       <Version>1.0.1</Version>

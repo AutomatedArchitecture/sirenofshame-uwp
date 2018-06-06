@@ -34,11 +34,12 @@ namespace SirenOfShame.Uwp.Watcher.Services
 
         private void InvokeOnOnNewSosOnlineNotification(dynamic data)
         {
-            InvokeOnOnNewSosOnlineNotification(data.Message.Value,
-                                               data.DisplayName.Value,
-                                               data.ImageUrl.Value,
-                                               data.Username.Value
-                                               );
+            // todo: InvokeOnOnNewSosOnlineNotification
+            //InvokeOnOnNewSosOnlineNotification(data.Message.Value,
+            //                                   data.DisplayName.Value,
+            //                                   data.ImageUrl.Value,
+            //                                   data.Username.Value
+            //                                   );
         }
 
         private void InvokeOnOnNewSosOnlineNotification(string message, string displayName, string imageUrl, string userName)
