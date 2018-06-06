@@ -20,12 +20,23 @@
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
+        <Extensions>
+            <uap:Extension Category="windows.fileTypeAssociation">
+                <uap:FileTypeAssociation Name="sosdb">
+                    <uap:DisplayName>Siren of Shame Database</uap:DisplayName>
+                    <uap:SupportedFileTypes>
+                        <uap:FileType>.sosdb</uap:FileType>
+                    </uap:SupportedFileTypes>
+                </uap:FileTypeAssociation>
+            </uap:Extension>
+        </Extensions>
     </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
     <Capability Name="internetClientServer" />
     <Capability Name="privateNetworkClientServer" />
+    <uap:Capability Name="documentsLibrary" />
     <DeviceCapability Name="humaninterfacedevice">
       <Device Id="vidpid:16D0 0646">
         <Function Type="usage:FF9C 0001"/>
