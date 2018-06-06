@@ -15,7 +15,7 @@ namespace TfsRestServices
             var newlyChangedBuilds = projects.Where(i => _commentsCache.ContainsKey(i.Definition.Id) && _commentsCache[i.Definition.Id].Item1 != i.Id);
 
             var allInvalidCaches = unCachedDefinitions.Concat(newlyChangedBuilds);
-            var commentRetrievalTasks = allInvalidCaches.Select(tfsJsonBuild => FetchAndSaveComment(getCommentFunc, tfsJsonBuild));
+            var commentRetrievalTasks = allInvalidCaches.Select(tfsJsonBuild => FetchAndSaveComment(getCommentFunc, tfsJsonBuild)).ToList();
             // perform all comment retrievals in parallel
             await Task.WhenAll(commentRetrievalTasks);
         }
@@ -25,7 +25,16 @@ namespace TfsRestServices
             var buildDefinitionId = tfsJsonBuild.Definition.Id;
             var buildId = tfsJsonBuild.Id;
             var comment = await getCommentFunc(tfsJsonBuild);
-            _commentsCache[buildDefinitionId] = new Tuple<int, string>(buildId, comment);
+
+            var tuple = new Tuple<int, string>(buildId, comment);
+            if (_commentsCache.ContainsKey(buildDefinitionId))
+            {
+                _commentsCache[buildDefinitionId] = tuple;
+            }
+            else
+            {
+                _commentsCache.Add(buildDefinitionId, tuple);
+            }
         }
 
         public string GetCachedCommentForBuild(TfsJsonBuild build)
