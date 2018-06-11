@@ -5,31 +5,40 @@ import { CiEntryPointSetting } from "../models/ciEntryPointSetting";
 
 @Injectable()
 export class GetCiEntryPointSettingsCommand extends BaseCommand {
-    constructor(protected serverService: ServerService) {
-        super(serverService);
+  constructor(protected serverService: ServerService) {
+    super(serverService);
 
-        serverService.registerCommand(this);
+    serverService.registerCommand(this);
+  }
+
+  get type() {
+    return "getCiEntryPointSettings";
+  }
+
+  private activePromises: ActivePromise[] = [];
+
+  public response(data) {
+    var promise = this.activePromises.pop();
+    if (data.responseCode === 200) {
+      promise.resolve(data.result);
+    } else {
+      promise.err(data.result);
     }
+  }
 
-    get type() {
-        return "getCiEntryPointSettings";
-    }
+  public execute(): Promise<CiEntryPointSetting[]> {
+    var promise = new Promise<CiEntryPointSetting[]>((resolve, err) => {
+      this.activePromises.push({ resolve: resolve, err: err });
+      var sendRequest = {
+        type: this.type
+      };
+      this.serverService.send(sendRequest, err);
+    });
+    return promise;
+  }
+}
 
-    public response(data) { }
-
-    public execute(): Promise<CiEntryPointSetting[]> {
-        return new Promise<CiEntryPointSetting[]>((resolve, err) => {
-            this.response = (result) => {
-                if (result.responseCode === 200) {
-                    resolve(result.result);
-                } else {
-                    err(result.result);
-                }
-            };
-            var sendRequest = {
-                type: this.type
-            };
-            this.serverService.send(sendRequest, err);
-        });
-    }
+interface ActivePromise {
+  resolve;
+  err;
 }

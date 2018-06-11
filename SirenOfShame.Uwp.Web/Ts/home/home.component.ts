@@ -25,11 +25,6 @@ export class Home implements OnInit {
       private router: Router
     ) {
 
-      this.getCiEntryPointSettingsCommand.execute()
-        .then(ciEntryPoints => {
-          this.watchingAnyCiServers = ciEntryPoints.length > 0;
-          this.ciEntryPointSettings = ciEntryPoints;
-        });
     }
 
     public connectionStatus: string;
@@ -38,6 +33,11 @@ export class Home implements OnInit {
       this.router.navigate(["server"]);
     }
 
-    public ngOnInit() {
+  public ngOnInit() {
+    this.getCiEntryPointSettingsCommand.execute()
+        .then(ciEntryPoints => {
+          this.watchingAnyCiServers = ciEntryPoints.length > 0;
+          this.ciEntryPointSettings = ciEntryPoints;
+        });
     }
 }
